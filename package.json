@@ -1,0 +1,28 @@
+{
+  "name": "react-split-pane",
+  "version": "0.1.0",
+  "scripts": {
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomkp/react-split-pane"
+  },
+  "author": "tomkp <tom@tomkp.com>",
+  "keywords": [
+    "react",
+    "react-component",
+    "split-pane"
+  ],
+  "main": "lib/react-split-pane.js",
+  "dependencies": {
+    "core-js": "^0.6.0"
+  },
+  "devDependencies": {
+    "babel": "^4.6.6",
+    "babel-jest": "^4.0.0",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^4.0.0"
+  }
+}
