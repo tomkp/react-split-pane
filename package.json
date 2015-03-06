@@ -15,7 +15,7 @@
     "react-component",
     "split-pane"
   ],
-  "main": "lib/react-split-pane.js",
+  "main": "lib/SplitPane.js",
   "dependencies": {
     "core-js": "^0.6.0"
   },
