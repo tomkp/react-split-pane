@@ -1,4 +1,6 @@
 import React from 'react';
+import Pane from './Pane';
+import Resizer from './Resizer';
 
 
 let SplitPane = React.createClass({
