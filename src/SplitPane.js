@@ -71,9 +71,9 @@ let SplitPane = React.createClass({
         elements.push(<Resizer ref="resizer" key="resizer" down={this.down} />);
         elements.push(<Pane ref="pane2" key="pane2">{child1}</Pane>);
 
-        let classes = ['SplitPane', this.props.orientation].join(' ');
+        let classes = ['SplitPane', this.props.orientation];
 
-        return <div className={classes} ref="splitPane">{elements}</div>
+        return <div className={classes.join(' ')} ref="splitPane">{elements}</div>
     }
 });
 
