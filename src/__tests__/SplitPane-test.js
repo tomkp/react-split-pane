@@ -37,11 +37,11 @@ describe('SplitPane', function () {
         console.info('inserts a Resizer');
         var component = TU.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
 
-        console.info('component.props', component.props);
+        //console.info('component.props', component.props);
         expect(component.props.children.length).toEqual(3);
 
         var resizer = TU.scryRenderedComponentsWithType(splitPane, Resizer);
-        console.info('resizer', resizer);
+        //console.info('resizer', resizer);
         expect(resizer.length).toBe(1);
     });
 
