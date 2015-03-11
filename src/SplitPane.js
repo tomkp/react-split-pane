@@ -3,7 +3,7 @@
 import React from 'react';
 import Pane from './Pane';
 import Resizer from './Resizer';
-import prefix from '../prefix/Prefix';
+import prefix from './Prefix';
 
 
 let SplitPane = React.createClass({

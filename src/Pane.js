@@ -1,5 +1,5 @@
 import React from 'react';
-import prefix from '../prefix/Prefix';
+import prefix from './Prefix';
 
 
 let Pane = React.createClass({

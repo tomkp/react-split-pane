@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css" rel="stylesheet">
+
+    <style>
+
+        *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        * {
+            position: relative;
+        }
+
+        html, body {
+            font-size: 16px;
+            line-height: 1.5rem;
+            height: 100%;
+            min-height: 100%;
+        }
+
+        .SplitPane .Resizer {
+            background: #000;
+            opacity: .2;
+            z-index: 1;
+        }
+
+        .SplitPane .Resizer:hover {
+            -webkit-transition: all 2s ease;
+            transition: all 2s ease;
+        }
+
+        .SplitPane.vertical > .Resizer {
+            height: 11px;
+            margin: -5px 0;
+            border-top: 5px solid rgba(255, 255, 255, 0);
+            border-bottom: 5px solid rgba(255, 255, 255, 0);
+            background-clip: padding-box;
+            cursor: row-resize;
+            width: 100%;
+        }
+
+        .SplitPane.vertical > .Resizer:hover {
+            border-top: 5px solid rgba(0, 0, 0, 0.5);
+            border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .SplitPane.horizontal > .Resizer {
+            width: 11px;
+            margin: 0 -5px;
+            border-left: 5px solid rgba(255, 255, 255, 0);
+            border-right: 5px solid rgba(255, 255, 255, 0);
+            background-clip: padding-box;
+            cursor: col-resize;
+            height: 100%;
+        }
+
+        .SplitPane.horizontal > .Resizer:hover {
+            border-left: 5px solid rgba(0, 0, 0, 0.5);
+            border-right: 5px solid rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+</body>
+
+<script src="bundle.js"></script>
+</html>
