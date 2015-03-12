@@ -18,26 +18,14 @@
     "babel-jest": "^4.0.0",
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
-    "gulp": "^3.8.11",
-    "gulp-babel": "^4.0.0",
-    "gulp-browserify": "^0.5.1",
-    "gulp-clean": "^0.3.1",
-    "gulp-sourcemaps": "^1.5.0",
-    "gulp-watch": "^4.1.1",
-    "jest-cli": "^0.4.0",
-    "react-tools": "^0.13.0-rc1",
-    "reactify": "^1.0.0",
-    "vinyl-source-stream": "^1.0.0"
+    "jest-cli": "^0.4.0"
   },
   "scripts": {
     "test": "jest",
-    "demo": "browserify demo/Example.js -t babelify --outfile demo/bundle.js",
-    "build": "browserify src/SplitPane.js -dt babelify --outfile dist/SplitPane.js"
+    "demo": "browserify demo/Demo.js -t babelify --outfile demo/SplitPane.js",
+    "build": "browserify src/SplitPane.js -t babelify --outfile dist/SplitPane.js"
   },
   "dependencies": {
-    "core-js": "^0.6.0",
-    "moment": "^2.9.0",
-    "normalize.css": "^3.0.2",
     "react": "^0.13.0-rc1"
   },
   "jest": {
