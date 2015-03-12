@@ -1,8 +1,8 @@
 # react-split-pane
 
-React Split-Pane Component
+Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
-[Try me out](http://zonked-knife.surge.sh/)
+Check out the [Demo](http://zonked-knife.surge.sh/)
 
 
 ```html
@@ -17,7 +17,7 @@ React Split-Pane Component
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
 
-Thanks to ```css background-clip: padding-box;``` for making transparent borders possible.
+Thanks to ```background-clip: padding-box;``` for making transparent borders possible.
 
 
 ```css
