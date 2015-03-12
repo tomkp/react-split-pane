@@ -31,7 +31,8 @@
   },
   "scripts": {
     "test": "jest",
-    "demo": "browserify demo/Example.js -t babelify --outfile demo/bundle.js"
+    "demo": "browserify demo/Example.js -t babelify --outfile demo/bundle.js",
+    "build": "browserify src/SplitPane.js -dt babelify --outfile dist/SplitPane.js"
   },
   "dependencies": {
     "core-js": "^0.6.0",
