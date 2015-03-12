@@ -8,7 +8,9 @@ let Resizer = React.createClass({
     },
 
     render() {
-        return <span className="Resizer" onMouseDown={this.handleDown} />
+        let orientation = this.props.orientation;
+        let classes = ['Resizer', orientation];
+        return <span className={classes.join(' ')} onMouseDown={this.handleDown} />
     }
 });
 

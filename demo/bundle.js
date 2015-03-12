@@ -19813,7 +19813,9 @@ var Resizer = React.createClass({
     },
 
     render: function render() {
-        return React.createElement("span", { className: "Resizer", onMouseDown: this.handleDown });
+        var orientation = this.props.orientation;
+        var classes = ["Resizer", orientation];
+        return React.createElement("span", { className: classes.join(" "), onMouseDown: this.handleDown });
     }
 });
 
@@ -19938,7 +19940,7 @@ var SplitPane = React.createClass({
             { ref: "pane1", key: "pane1", orientation: orientation },
             child0
         ));
-        elements.push(React.createElement(Resizer, { ref: "resizer", key: "resizer", down: this.down }));
+        elements.push(React.createElement(Resizer, { ref: "resizer", key: "resizer", down: this.down, orientation: orientation }));
         elements.push(React.createElement(
             Pane,
             { ref: "pane2", key: "pane2", orientation: orientation },
