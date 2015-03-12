@@ -2,7 +2,7 @@
 
 Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
-Check out the [Demo](http://zonked-knife.surge.sh/)
+Check out the [demo](http://zonked-knife.surge.sh/)
 
 
 ```html
