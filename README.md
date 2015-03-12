@@ -64,6 +64,6 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
     }
  ```html
 
-<hr />
+***
 
 [![Build Status](https://travis-ci.org/tomkp/react-split-pane.png)](https://travis-ci.org/tomkp/react-split-pane)
