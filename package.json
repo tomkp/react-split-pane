@@ -14,6 +14,7 @@
     "split-pane"
   ],
   "devDependencies": {
+    "babel": "^4.7.9",
     "babel-core": "^4.6.6",
     "babel-jest": "^4.0.0",
     "babelify": "^5.0.4",
@@ -23,7 +24,7 @@
   "scripts": {
     "test": "jest",
     "demo": "browserify demo/Demo.js -t babelify --outfile demo/SplitPane.js",
-    "build": "browserify src/SplitPane.js -t babelify --outfile dist/SplitPane.js"
+    "build": "babel src/SplitPane.js -o dist/SplitPane.js"
   },
   "dependencies": {
     "react": "^0.13.0-rc1"
