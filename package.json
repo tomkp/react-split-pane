@@ -1,7 +1,7 @@
 {
   "name": "react-split-pane",
   "description": "React split-pane component",
-  "main": "dist/SplitPane.js",
+  "main": "src/SplitPane.js",
   "version": "0.0.2",
   "repository": {
     "type": "git",
