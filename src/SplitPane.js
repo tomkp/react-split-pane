@@ -125,4 +125,4 @@ let SplitPane = React.createClass({
 });
 
 
-module.exports = SplitPane;
+export default SplitPane;

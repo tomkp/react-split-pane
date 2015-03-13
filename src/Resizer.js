@@ -15,4 +15,4 @@ let Resizer = React.createClass({
 });
 
 
-module.exports = Resizer;
+export default Resizer;

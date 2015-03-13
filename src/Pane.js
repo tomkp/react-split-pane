@@ -34,4 +34,4 @@ let Pane = React.createClass({
 });
 
 
-module.exports = Pane;
+export default Pane;
