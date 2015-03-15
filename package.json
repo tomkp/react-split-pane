@@ -11,7 +11,8 @@
   "keywords": [
     "react",
     "react-component",
-    "split-pane"
+    "split-pane",
+    "es6"
   ],
   "devDependencies": {
     "babel-core": "^4.6.6",
