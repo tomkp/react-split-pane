@@ -76,3 +76,4 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
 ***
 
 [![Build Status](https://travis-ci.org/tomkp/react-split-pane.png)](https://travis-ci.org/tomkp/react-split-pane)
+[![Coverage Status](https://coveralls.io/repos/tomkp/react-split-pane/badge.svg)](https://coveralls.io/r/tomkp/react-split-pane)
