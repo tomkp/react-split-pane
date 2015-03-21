@@ -19776,8 +19776,6 @@ var Pane = React.createClass({
                 styles.display = "flex";
             } else {
                 styles.width = this.state.size;
-                //styles['height'] = '100%';
-                //styles['display'] = 'flex';
             }
             styles.flex = "none";
         }
@@ -19862,6 +19860,12 @@ var SplitPane = React.createClass({
     getInitialState: function getInitialState() {
         return {
             active: false
+        };
+    },
+
+    getDefaultProps: function getDefaultProps() {
+        return {
+            minSize: 0
         };
     },
 
