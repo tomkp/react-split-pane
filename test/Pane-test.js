@@ -10,8 +10,7 @@ describe('Pane', function () {
         <Pane />
     );
 
-    it('renders the Pane', function () {
-        console.info('renders the Pane');
+    it('should render the Pane', function () {
         var component = TestUtils.findRenderedDOMComponentWithClass(pane, 'Pane');
     });
 

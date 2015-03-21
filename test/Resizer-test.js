@@ -9,8 +9,7 @@ describe('Resizer', function () {
         <Resizer />
     );
 
-    it('renders the Resizer', function () {
-        console.info('renders the Resizer');
+    it('should render the Resizer', function () {
         var component = TestUtils.findRenderedDOMComponentWithClass(resizer, 'Resizer');
         //expect(component.getDOMNode().textContent).to.equal('3');
     });

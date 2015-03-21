@@ -9,6 +9,11 @@ import prefix from './Prefix';
 let SplitPane = React.createClass({
 
 
+    propTypes: {
+        minSize: React.PropTypes.number,
+        orientation: React.PropTypes.string
+    },
+
     getInitialState() {
         return {
             active: false

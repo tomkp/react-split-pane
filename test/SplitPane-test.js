@@ -15,29 +15,22 @@ describe('SplitPane', function () {
     );
 
 
-    it('renders the SplitPane', function () {
-        console.info('renders the SplitPane');
+    it('should render the SplitPane', function () {
         var component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
         expect(component.getDOMNode().textContent).to.equal('onetwo');
     });
 
 
-    it('has className of orientation', function () {
-        console.info('has className of orientation');
+    it('should have className of orientation', function () {
         var component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
         expect(component.getDOMNode().className).to.contain('horizontal');
     });
 
 
-    it('contains a Resizer', function () {
-        console.info('inserts a Resizer');
+    it('should contain a Resizer', function () {
         var component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
-
-        //console.info('component.props', component.props);
         expect(component.props.children.length).to.equal(3);
-
         var resizer = TestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
-        //console.info('resizer', resizer);
         expect(resizer.length).to.be(1);
     });
 
