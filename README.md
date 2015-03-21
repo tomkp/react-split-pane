@@ -12,6 +12,15 @@ Check out the [demo](http://zonked-knife.surge.sh/)
    </SplitPane>
 ```
 
+```html
+    <SplitPane orientation="horizontal" minSize="50">
+        <div></div>
+        <SplitPane orientation="vertical">
+            <div></div>
+            <div></div>
+        </SplitPane>
+    </SplitPane>
+```
 
 ###Example styling
 
