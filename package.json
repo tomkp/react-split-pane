@@ -14,26 +14,33 @@
     "split-pane",
     "es6"
   ],
+  "dependencies": {
+    "react": "^0.13.1"
+  },
   "devDependencies": {
     "babel-core": "^4.6.6",
-    "babel-jest": "^4.0.0",
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
-    "jest-cli": "^0.4.0"
+    "react-tools": "^0.13.0-rc1",
+    "coveralls": "^2.11.2",
+    "expect.js": "^0.3.1",
+    "express": "^4.12.2",
+    "mochify": "^2.6.0",
+    "mochify-istanbul": "^2.1.1"
   },
   "scripts": {
-    "test": "jest",
-    "demo": "browserify demo/Demo.js -t babelify --outfile demo/SplitPane.js",
-    "build": "browserify src/SplitPane.js -t babelify --outfile dist/SplitPane.js"
+    "build": "browserify src/SplitPane.js -t -o dist/SplitPane.js",
+    "demo": "browserify demo/Example.js -t -o demo/bundle.js",
+    "test": "mochify -R spec",
+    "test-watch": "mochify --watch",
+    "cover": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
+    "publish-demo": "surge demo zonked-knife.surge.sh"
   },
-  "dependencies": {
-    "react": "^0.13.0-rc1"
-  },
-  "jest": {
-    "rootDir": "./src",
-    "scriptPreprocessor": "../preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "react"
+  "browserify": {
+    "transform": [
+      [
+        "babelify"
+      ]
     ]
   }
 }
