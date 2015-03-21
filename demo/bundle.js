@@ -15,7 +15,12 @@ var Example = React.createClass({
             SplitPane,
             { orientation: "horizontal", minSize: "50" },
             React.createElement("div", null),
-            React.createElement("div", null)
+            React.createElement(
+                SplitPane,
+                { orientation: "vertical" },
+                React.createElement("div", null),
+                React.createElement("div", null)
+            )
         );
     }
 
