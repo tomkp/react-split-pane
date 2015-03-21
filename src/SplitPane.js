@@ -15,6 +15,11 @@ let SplitPane = React.createClass({
         }
     },
 
+    getDefaultProps() {
+        return {
+            minSize: 0
+        }
+    },
 
     componentDidMount() {
         document.addEventListener('mouseup', this.up);
