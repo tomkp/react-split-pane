@@ -1,5 +1,5 @@
 import React from 'react';
-import prefix from './Prefix';
+import VendorPrefix from 'react-vendor-prefix';
 
 
 let Pane = React.createClass({
@@ -13,21 +13,22 @@ let Pane = React.createClass({
         let orientation = this.props.orientation;
         let classes = ['Pane', orientation];
 
-        let styles = {
+        let style = {
             flex: 1,
             outline: 'none',
             overflow: 'auto'
         };
         if (this.state.size) {
             if (orientation === 'vertical') {
-                styles['height'] = this.state.size;
-                styles['display'] = 'flex';
+                style['height'] = this.state.size;
+                style['display'] = 'flex';
             } else {
-                styles['width'] = this.state.size;
+                style['width'] = this.state.size;
             }
-            styles['flex'] = 'none';
+            style['flex'] = 'none';
         }
-        return <div className={classes.join(' ')} style={prefix(styles)}>{this.props.children}</div>;
+        let prefixed = VendorPrefix.prefix({styles: style});
+        return <div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>;
     }
 });
 

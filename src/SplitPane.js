@@ -3,7 +3,7 @@
 import React from 'react';
 import Pane from './Pane';
 import Resizer from './Resizer';
-import prefix from './Prefix';
+import VendorPrefix from 'react-vendor-prefix';
 
 
 let SplitPane = React.createClass({
@@ -91,7 +91,7 @@ let SplitPane = React.createClass({
     render() {
         let orientation = this.props.orientation;
 
-        let definition = {
+        let style = {
             display: 'flex',
             flex: 1,
             position: 'relative',
@@ -101,7 +101,7 @@ let SplitPane = React.createClass({
         };
 
         if (orientation === 'vertical') {
-            this.merge(definition, {
+            this.merge(style, {
                 flexDirection: 'column',
                 height: '100%',
                 minHeight: '100%',
@@ -111,7 +111,7 @@ let SplitPane = React.createClass({
                 width: '100%'
             });
         } else {
-            this.merge(definition, {
+            this.merge(style, {
                 flexDirection: 'row',
                 height: '100%',
                 position: 'absolute',
@@ -130,7 +130,10 @@ let SplitPane = React.createClass({
 
         let classes = ['SplitPane', orientation];
 
-        return <div className={classes.join(' ')} style={prefix(definition)} ref="splitPane">{elements}</div>
+        let prefixed = VendorPrefix.prefix({styles: style});
+
+
+        return <div className={classes.join(' ')} style={prefixed.styles} ref="splitPane">{elements}</div>
     }
 });
 

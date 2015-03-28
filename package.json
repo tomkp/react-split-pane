@@ -15,7 +15,8 @@
     "es6"
   ],
   "dependencies": {
-    "react": "^0.13.1"
+    "react": "^0.13.1",
+    "react-vendor-prefix": "0.0.1"
   },
   "devDependencies": {
     "babel-core": "^4.6.6",
