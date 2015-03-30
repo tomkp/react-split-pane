@@ -30,7 +30,6 @@
     "mochify-istanbul": "^2.1.1"
   },
   "scripts": {
-    "build": "browserify src/SplitPane.js -t -o dist/SplitPane.js",
     "test": "mochify -R spec",
     "test-watch": "mochify --watch",
     "cover": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
