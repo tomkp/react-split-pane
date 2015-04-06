@@ -1,6 +1,6 @@
 import expect from 'expect.js';
 import React from 'react/addons';
-let { TestUtils } = React.addons;
+const { TestUtils } = React.addons;
 import Resizer from '../src/Resizer';
 
 describe('Resizer', function () {
@@ -10,7 +10,7 @@ describe('Resizer', function () {
     );
 
     it('should render the Resizer', function () {
-        var component = TestUtils.findRenderedDOMComponentWithClass(resizer, 'Resizer');
+        const component = TestUtils.findRenderedDOMComponentWithClass(resizer, 'Resizer');
         //expect(component.getDOMNode().textContent).to.equal('3');
     });
 

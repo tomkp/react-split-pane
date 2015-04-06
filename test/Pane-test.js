@@ -1,6 +1,6 @@
 import expect from 'expect.js';
 import React from 'react/addons';
-let { TestUtils } = React.addons;
+const { TestUtils } = React.addons;
 var Pane = require('../src/Pane');
 
 
@@ -11,7 +11,7 @@ describe('Pane', function () {
     );
 
     it('should render the Pane', function () {
-        var component = TestUtils.findRenderedDOMComponentWithClass(pane, 'Pane');
+        const component = TestUtils.findRenderedDOMComponentWithClass(pane, 'Pane');
     });
 
 });
