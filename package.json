@@ -31,7 +31,7 @@
   },
   "scripts": {
     "test": "mochify -R spec",
-    "test:watch": "mochify --watch",
+    "test:watch": "mochify -R spec --watch",
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "demo": "browserify demo/Example.js -t -o demo/bundle.js",
     "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh"

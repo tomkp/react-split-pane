@@ -49,17 +49,17 @@ let SplitPane = React.createClass({
 
     move() {
         if (this.state.active) {
-            let ref = this.refs.pane1;
+            const ref = this.refs.pane1;
             if (ref) {
-                let node = ref.getDOMNode();
+                const node = ref.getDOMNode();
                 if (window.getComputedStyle) {
-                    let styles = window.getComputedStyle(node);
-                    let width = styles.width.replace('px', '');
-                    let height = styles.height.replace('px', '');
-                    let current = this.props.orientation === 'horizontal' ? event.clientX : event.clientY;
-                    let size = this.props.orientation === 'horizontal' ? width : height;
-                    let position = this.state.position;
-                    let newSize = size - (position - current);
+                    const styles = window.getComputedStyle(node);
+                    const width = styles.width.replace('px', '');
+                    const height = styles.height.replace('px', '');
+                    const current = this.props.orientation === 'horizontal' ? event.clientX : event.clientY;
+                    const size = this.props.orientation === 'horizontal' ? width : height;
+                    const position = this.state.position;
+                    const newSize = size - (position - current);
                     this.setState({
                         position: current
                     });
@@ -82,14 +82,14 @@ let SplitPane = React.createClass({
 
 
     merge: function (into, obj) {
-        for (var attr in obj) {
+        for (let attr in obj) {
             into[attr] = obj[attr];
         }
     },
 
 
     render() {
-        let orientation = this.props.orientation;
+        const orientation = this.props.orientation;
 
         let style = {
             display: 'flex',
@@ -122,15 +122,15 @@ let SplitPane = React.createClass({
         
         let elements = [];
         let children = this.props.children;
-        let child0 = children[0];
-        let child1 = children[1];
+        const child0 = children[0];
+        const child1 = children[1];
         elements.push(<Pane ref="pane1" key="pane1" orientation={orientation}>{child0}</Pane>);
         elements.push(<Resizer ref="resizer" key="resizer" down={this.down} orientation={orientation} />);
         elements.push(<Pane ref="pane2" key="pane2" orientation={orientation}>{child1}</Pane>);
 
-        let classes = ['SplitPane', orientation];
+        const classes = ['SplitPane', orientation];
 
-        let prefixed = VendorPrefix.prefix({styles: style});
+        const prefixed = VendorPrefix.prefix({styles: style});
 
 
         return <div className={classes.join(' ')} style={prefixed.styles} ref="splitPane">{elements}</div>

@@ -1,7 +1,7 @@
 import expect from 'expect.js';
 import React from 'react/addons';
 const { TestUtils } = React.addons;
-var Pane = require('../src/Pane');
+const Pane = require('../src/Pane');
 
 
 describe('Pane', function () {

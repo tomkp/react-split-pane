@@ -10,8 +10,8 @@ let Pane = React.createClass({
     },
 
     render() {
-        let orientation = this.props.orientation;
-        let classes = ['Pane', orientation];
+        const orientation = this.props.orientation;
+        const classes = ['Pane', orientation];
 
         let style = {
             flex: 1,
@@ -27,7 +27,7 @@ let Pane = React.createClass({
             }
             style['flex'] = 'none';
         }
-        let prefixed = VendorPrefix.prefix({styles: style});
+        const prefixed = VendorPrefix.prefix({styles: style});
         return <div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>;
     }
 });
