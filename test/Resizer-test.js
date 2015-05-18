@@ -5,7 +5,7 @@ import Resizer from '../src/Resizer';
 
 describe('Resizer', function () {
 
-    var resizer = TestUtils.renderIntoDocument(
+    const resizer = TestUtils.renderIntoDocument(
         <Resizer />
     );
 

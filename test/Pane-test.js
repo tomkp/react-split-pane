@@ -6,7 +6,7 @@ var Pane = require('../src/Pane');
 
 describe('Pane', function () {
 
-    var pane = TestUtils.renderIntoDocument(
+    const pane = TestUtils.renderIntoDocument(
         <Pane />
     );
 
