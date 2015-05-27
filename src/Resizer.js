@@ -3,8 +3,8 @@ import React from 'react';
 
 let Resizer = React.createClass({
 
-    handleDown() {
-        this.props.down();
+    handleDown(event) {
+        this.props.down(event);
     },
 
     render() {
