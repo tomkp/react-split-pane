@@ -38,7 +38,7 @@ let SplitPane = React.createClass({
     },
 
 
-    down() {
+    down(event) {
         let position = this.props.orientation === 'horizontal' ? event.clientX : event.clientY;
         this.setState({
             active: true,
@@ -47,7 +47,7 @@ let SplitPane = React.createClass({
     },
 
 
-    move() {
+    move(event) {
         if (this.state.active) {
             const ref = this.refs.pane1;
             if (ref) {
