@@ -6,7 +6,7 @@ var Example = React.createClass({
 
     render: function() {
         return (
-            <SplitPane  defaultSize="900">
+            <SplitPane defaultSize="900">
                 <div></div>
                 <SplitPane orientation="vertical">
                     <div></div>
