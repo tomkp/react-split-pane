@@ -21,8 +21,13 @@ Check out the [demo](http://zonked-knife.surge.sh/)
         </SplitPane>
     </SplitPane>
 ```
+##Sizing elements
 
-###Example styling
+### minSize property
+
+This property allows you to set the minimum size of a SplitPane. For example, if you set **minSize={30} it will not allow the first panel to get smaller than 30 pixels.
+
+##Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
 
