@@ -34,9 +34,9 @@ let SplitPane = React.createClass({
         document.addEventListener('mousemove', this.move);
         const ref = this.refs.pane1;
         if (ref){
-            if (this.props.bSize) {
+            if (this.props.defaultSize) {
                 ref.setState({
-                    size: this.props.bSize
+                    size: this.props.defaultSize
                 });
             }
         }
