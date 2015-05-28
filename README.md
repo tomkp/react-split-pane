@@ -60,7 +60,7 @@ This property allows you to set the initial size of SplitPane. For example, if y
    </SplitPane>
 ```
 
-####You can combine or use separetly each of those properties.
+#####You can combine or use separetly each of those properties.
 
 
 
