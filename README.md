@@ -25,7 +25,45 @@ Check out the [demo](http://zonked-knife.surge.sh/)
 
 ### minSize property
 
-This property allows you to set the minimum size of a SplitPane. For example, if you set **minSize={30} it will not allow the first panel to get smaller than 30 pixels.
+default = 11 (size of the resizer)
+
+This property allows you to set the minimum size of a SplitPane. For example, if you set minSize={30} it will not allow the first panel to get smaller than 30 pixels.
+
+```html
+   <SplitPane orientation="horizontal" minSize="50">
+       <div></div>
+       <div></div>
+   </SplitPane>
+```
+
+### maxSize property
+default = size of your screen 
+
+This property allows you to set the maximum size of a SplitPane. For example, if you set maxSize={300} it will not allow the second panel to get smaller than 300 pixels.
+
+```html
+   <SplitPane orientation="horizontal" maxSize="50">
+       <div></div>
+       <div></div>
+   </SplitPane>
+```
+
+
+### defaultSize property
+
+This property allows you to set the initial size of SplitPane. For example, if you set defaultSize={300} when your app will render your first panel will have 300px size.
+
+```html
+   <SplitPane orientation="horizontal" defaultSize="50">
+       <div></div>
+       <div></div>
+   </SplitPane>
+```
+
+####You can combine or use separetly each of those properties.
+
+
+
 
 ##Example styling
 
