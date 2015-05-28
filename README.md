@@ -25,7 +25,7 @@ Check out the [demo](http://zonked-knife.surge.sh/)
 
 ### minSize property
 
-default = 11 (size of the resizer)
+#####default = 11 (size of the resizer)
 
 This property allows you to set the minimum size of a SplitPane. For example, if you set minSize={30} it will not allow the first panel to get smaller than 30 pixels.
 
@@ -37,7 +37,8 @@ This property allows you to set the minimum size of a SplitPane. For example, if
 ```
 
 ### maxSize property
-default = size of your screen 
+
+#####default = size of your screen 
 
 This property allows you to set the maximum size of a SplitPane. For example, if you set maxSize={300} it will not allow the second panel to get smaller than 300 pixels.
 
@@ -49,7 +50,9 @@ This property allows you to set the maximum size of a SplitPane. For example, if
 ```
 
 
-### defaultSize property
+###defaultSize property
+
+#####default = split screen in the middle.
 
 This property allows you to set the initial size of SplitPane. For example, if you set defaultSize={300} when your app will render your first panel will have 300px size.
 
