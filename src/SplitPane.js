@@ -89,7 +89,7 @@ let SplitPane = React.createClass({
 
 
     render() {
-        const orientation = this.props.orientation;
+        const orientation = this.props.orientation || 'vertical';
 
         let style = {
             display: 'flex',
