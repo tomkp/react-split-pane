@@ -11,10 +11,13 @@ let SplitPane = React.createClass({
 
     propTypes: {
         minSize: React.PropTypes.number,
+        size: React.PropTypes.number,
+        maxSize: React.PropTypes.number,
         orientation: React.PropTypes.string
     },
 
     getInitialState() {
+
         return {
             active: false
         }
@@ -29,6 +32,14 @@ let SplitPane = React.createClass({
     componentDidMount() {
         document.addEventListener('mouseup', this.up);
         document.addEventListener('mousemove', this.move);
+        const ref = this.refs.pane1;
+        if (ref){
+            if (this.props.defaultSize) {
+                ref.setState({
+                    size: this.props.defaultSize
+                });
+            }
+        }
     },
 
 
@@ -60,14 +71,26 @@ let SplitPane = React.createClass({
                     const size = this.props.orientation === 'horizontal' ? width : height;
                     const position = this.state.position;
                     const newSize = size - (position - current);
+                    
+                    if(!this.props.maxSize){
+                        var maxSize = this.props.orientation === 'horizontal' ? window.innerWidth - 11 : window.innerHeight - 11;
+                    }else{
+                        var maxSize = this.props.maxSize;
+                    };
+                    if(!this.props.minSize){
+                        var minSize = 5;
+                    }else{
+                        var minSize = this.props.minSize;
+                    };
                     this.setState({
                         position: current
                     });
-                    if (newSize >= this.props.minSize) {
+                    if (newSize >= minSize && newSize <= maxSize) {
                         ref.setState({
                             size: newSize
                         });
                     }
+                    console.log(maxSize,this.props.minSize,newSize);
                 }
             }
         }
@@ -99,7 +122,6 @@ let SplitPane = React.createClass({
             overflow: 'hidden',
             userSelect: 'none'
         };
-
         if (orientation === 'vertical') {
             this.merge(style, {
                 flexDirection: 'column',
@@ -119,7 +141,6 @@ let SplitPane = React.createClass({
                 right: 0
             });
         }
-        
         let elements = [];
         let children = this.props.children;
         const child0 = children[0];
