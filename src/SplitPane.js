@@ -17,13 +17,13 @@ let SplitPane = React.createClass({
     getInitialState() {
         return {
             active: false
-        }
+        };
     },
 
     getDefaultProps() {
         return {
             minSize: 0
-        }
+        };
     },
 
     componentDidMount() {
@@ -119,7 +119,7 @@ let SplitPane = React.createClass({
                 right: 0
             });
         }
-        
+
         let elements = [];
         let children = this.props.children;
         const child0 = children[0];
