@@ -57,6 +57,12 @@ describe('Horizontal SplitPane', function () {
         new Asserter(splitPane).assertContainsResizer();
     });
 
+
+    it('should change size when resized', function () {
+        new Asserter(splitPane)
+            .selectResizer()
+        ;
+    });
 });
 
 
@@ -107,7 +113,7 @@ class Asserter {
 
 
     assertPaneContents(expectedContents) {
-        let panes = TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'Pane');
+        let panes = this.findPanes();
         var values = panes.map((pane) => {
             return pane.getDOMNode().textContent;
         });
@@ -118,8 +124,26 @@ class Asserter {
 
     assertContainsResizer(){
         expect(this.component.props.children.length).to.equal(3);
-        const resizer = TestUtils.scryRenderedComponentsWithType(this.splitPane, Resizer);
+        const resizer = this.findResizer();
         expect(resizer.length).to.be(1);
+        return this;
+    }
+
+
+    selectResizer() {
+        const resizer = this.findResizer();
+        TestUtils.Simulate.mouseDown(resizer);
+        return this;
+    }
+
+
+    findPanes() {
+        return TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'Pane');
+    }
+
+
+    findResizer() {
+        return TestUtils.scryRenderedComponentsWithType(this.splitPane, Resizer);
     }
 }
 
