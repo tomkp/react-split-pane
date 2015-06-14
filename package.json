@@ -7,6 +7,11 @@
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomkp/react-split-pane"
+  },
+  "homepage": "https://github.com/tomkp/react-split-pane",
   "author": "tomkp <tom@tomkp.com>",
   "keywords": [
     "react",
