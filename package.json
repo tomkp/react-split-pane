@@ -12,6 +12,7 @@
     "react",
     "react-component",
     "split-pane",
+    "react-split-pane",
     "es6"
   ],
   "dependencies": {
