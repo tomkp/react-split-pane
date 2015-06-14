@@ -1,7 +1,7 @@
 {
   "name": "react-split-pane",
   "description": "React split-pane component",
-  "main": "src/SplitPane.js",
+  "main": "index.js",
   "version": "0.0.3",
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
     "coveralls": "^2.11.2",
-    "eslint": "^0.21.2",
     "expect.js": "^0.3.1",
     "express": "^4.12.2",
     "mochify": "^2.6.0",
@@ -37,8 +36,7 @@
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "demo": "browserify demo/Example.js -t -o demo/bundle.js",
     "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh",
-    "dist": "browserify src/SplitPane.js -t --standalone SplitPane --no-bundle-external -o dist/react-split-pane.js",
-    "lint": "eslint src"
+    "dist": "browserify src/SplitPane.js -t --standalone SplitPane --no-bundle-external -o dist/react-split-pane.js"
   },
   "browserify": {
     "transform": [
