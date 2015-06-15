@@ -1,1 +1,3 @@
-module.exports = require('./src/SplitPane.js');
+import SplitPane from './src/SplitPane';
+
+module.exports = SplitPane;
