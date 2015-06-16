@@ -1,7 +1,7 @@
 {
   "name": "react-split-pane",
   "description": "React split-pane component",
-  "main": "index.js",
+  "main": "lib/SplitPane.js",
   "version": "0.0.4",
   "repository": {
     "type": "git",
@@ -21,28 +21,31 @@
     "es6"
   ],
   "dependencies": {
-    "react": "^0.13.1",
+    "core-js": "^0.9.17",
+    "react": "^0.13.3",
     "react-vendor-prefix": "0.0.1"
   },
   "devDependencies": {
-    "babel-core": "^4.6.6",
+    "babel": "^5.5.8",
+    "babel-core": "^5.5.8",
     "babel-eslint": "^3.1.9",
-    "babelify": "^5.0.4",
-    "browserify": "^9.0.3",
+    "babelify": "^5.0.5",
+    "browserify": "^9.0.8",
     "coveralls": "^2.11.2",
     "expect.js": "^0.3.1",
-    "express": "^4.12.2",
-    "mochify": "^2.6.0",
-    "mochify-istanbul": "^2.1.1",
-    "react-tools": "^0.13.0-rc1"
+    "express": "^4.12.4",
+    "mochify": "^2.9.0",
+    "mochify-istanbul": "^2.3.0",
+    "react-tools": "^0.13.3"
   },
   "scripts": {
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile",
     "test": "mochify -R spec",
     "test:watch": "mochify -R spec --watch",
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "demo": "browserify demo/Example.js -t -o demo/bundle.js",
-    "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh",
-    "dist": "browserify src/SplitPane.js -t --standalone SplitPane --no-bundle-external -o dist/react-split-pane.js"
+    "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh"
   },
   "browserify": {
     "transform": [
