@@ -21,22 +21,20 @@
     "es6"
   ],
   "dependencies": {
-    "core-js": "^0.9.17",
-    "react": "^0.13.3",
+    "react": "^0.13.1",
     "react-vendor-prefix": "0.0.1"
   },
   "devDependencies": {
     "babel": "^5.5.8",
-    "babel-core": "^5.5.8",
     "babel-eslint": "^3.1.9",
-    "babelify": "^5.0.5",
-    "browserify": "^9.0.8",
+    "babelify": "^5.0.4",
+    "browserify": "^9.0.3",
     "coveralls": "^2.11.2",
     "expect.js": "^0.3.1",
-    "express": "^4.12.4",
-    "mochify": "^2.9.0",
-    "mochify-istanbul": "^2.3.0",
-    "react-tools": "^0.13.3"
+    "express": "^4.12.2",
+    "mochify": "^2.6.0",
+    "mochify-istanbul": "^2.1.1",
+    "react-tools": "^0.13.0-rc1"
   },
   "scripts": {
     "compile": "babel -d lib/ src/",
