@@ -73,15 +73,6 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
     }
  ```
 
-### UMD-style build
-
-A standalone browserify build can be produced by running:
-
-   npm run-script dist
-
-This will produce a UMD-compatible module that assumes that your module system
-can satisfy calls to `require('react')` and `require('react-vendor-prefix')`.
-
 ***
 
 [![Build Status](https://travis-ci.org/tomkp/react-split-pane.png)](https://travis-ci.org/tomkp/react-split-pane)
