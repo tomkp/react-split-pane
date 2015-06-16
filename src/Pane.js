@@ -1,6 +1,5 @@
 'use strict';
 
-import 'core-js/shim';
 import React from 'react';
 import VendorPrefix from 'react-vendor-prefix';
 

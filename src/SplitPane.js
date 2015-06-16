@@ -1,6 +1,5 @@
 'use strict';
 
-import 'core-js/shim';
 import React from 'react';
 import Pane from './Pane';
 import Resizer from './Resizer';
