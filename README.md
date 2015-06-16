@@ -22,7 +22,7 @@ Check out the [demo](http://zonked-knife.surge.sh/)
     </SplitPane>
 ```
 
-###Example styling
+### Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
 
