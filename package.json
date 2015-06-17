@@ -43,7 +43,8 @@
     "test:watch": "mochify -R spec --watch",
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "demo": "browserify demo/Example.js -t -o demo/bundle.js",
-    "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh"
+    "demo:publish": "browserify demo/Example.js -t -o demo/bundle.js && surge demo zonked-knife.surge.sh",
+    "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish"
   },
   "browserify": {
     "transform": [
