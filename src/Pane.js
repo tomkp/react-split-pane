@@ -11,8 +11,8 @@ let Pane = React.createClass({
     },
 
     render() {
-        const orientation = this.props.orientation;
-        const classes = ['Pane', orientation];
+        const split = this.props.split;
+        const classes = ['Pane', split];
 
         let style = {
             flex: 1,
@@ -20,7 +20,7 @@ let Pane = React.createClass({
             overflow: 'auto'
         };
         if (this.state.size) {
-            if (orientation === 'vertical') {
+            if (split === 'horizontal') {
                 style.height = this.state.size;
                 style.display = 'flex';
             } else {

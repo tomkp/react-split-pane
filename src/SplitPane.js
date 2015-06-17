@@ -11,7 +11,7 @@ let SplitPane = React.createClass({
 
     propTypes: {
         minSize: React.PropTypes.number,
-        orientation: React.PropTypes.string
+        split: React.PropTypes.string
     },
 
     getInitialState() {
@@ -39,7 +39,7 @@ let SplitPane = React.createClass({
 
 
     down(event) {
-        let position = this.props.orientation === 'horizontal' ? event.clientX : event.clientY;
+        let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
         this.setState({
             active: true,
             position: position
@@ -56,8 +56,8 @@ let SplitPane = React.createClass({
                     const styles = window.getComputedStyle(node);
                     const width = styles.width.replace('px', '');
                     const height = styles.height.replace('px', '');
-                    const current = this.props.orientation === 'horizontal' ? event.clientX : event.clientY;
-                    const size = this.props.orientation === 'horizontal' ? width : height;
+                    const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
+                    const size = this.props.split === 'vertical' ? width : height;
                     const position = this.state.position;
                     const newSize = size - (position - current);
                     this.setState({
@@ -89,7 +89,7 @@ let SplitPane = React.createClass({
 
 
     render() {
-        const orientation = this.props.orientation || 'vertical';
+        const split = this.props.split || 'horizontal';
 
         let style = {
             display: 'flex',
@@ -100,7 +100,7 @@ let SplitPane = React.createClass({
             userSelect: 'none'
         };
 
-        if (orientation === 'vertical') {
+        if (split === 'horizontal') {
             this.merge(style, {
                 flexDirection: 'column',
                 height: '100%',
@@ -124,11 +124,11 @@ let SplitPane = React.createClass({
         let children = this.props.children;
         const child0 = children[0];
         const child1 = children[1];
-        elements.push(<Pane ref="pane1" key="pane1" orientation={orientation}>{child0}</Pane>);
-        elements.push(<Resizer ref="resizer" key="resizer" down={this.down} orientation={orientation} />);
-        elements.push(<Pane ref="pane2" key="pane2" orientation={orientation}>{child1}</Pane>);
+        elements.push(<Pane ref="pane1" key="pane1" split={split}>{child0}</Pane>);
+        elements.push(<Resizer ref="resizer" key="resizer" down={this.down} split={split} />);
+        elements.push(<Pane ref="pane2" key="pane2" split={split}>{child1}</Pane>);
 
-        const classes = ['SplitPane', orientation];
+        const classes = ['SplitPane', split];
 
         const prefixed = VendorPrefix.prefix({styles: style});
 

@@ -6,16 +6,16 @@ Check out the [demo](http://zonked-knife.surge.sh/)
 
 
 ```html
-   <SplitPane orientation="horizontal" minSize="50">
+   <SplitPane split="vertical" minSize="50">
        <div></div>
        <div></div>
    </SplitPane>
 ```
 
 ```html
-    <SplitPane orientation="horizontal" minSize="50">
+    <SplitPane split="vertical" minSize="50">
         <div></div>
-        <SplitPane orientation="vertical">
+        <SplitPane split="horizontal">
             <div></div>
             <div></div>
         </SplitPane>
@@ -44,7 +44,7 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         transition: all 2s ease;
     }
 
-     .Resizer.vertical {
+     .Resizer.horizontal {
         height: 11px;
         margin: -5px 0;
         border-top: 5px solid rgba(255, 255, 255, 0);
@@ -53,12 +53,12 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         width: 100%;
     }
 
-    .Resizer.vertical:hover {
+    .Resizer.horizontal:hover {
         border-top: 5px solid rgba(0, 0, 0, 0.5);
         border-bottom: 5px solid rgba(0, 0, 0, 0.5);
     }
 
-    .Resizer.horizontal {
+    .Resizer.vertical {
         width: 11px;
         margin: 0 -5px;
         border-left: 5px solid rgba(255, 255, 255, 0);
@@ -67,7 +67,7 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         height: 100%;
     }
 
-    .Resizer.horizontal:hover {
+    .Resizer.vertical:hover {
         border-left: 5px solid rgba(0, 0, 0, 0.5);
         border-right: 5px solid rgba(0, 0, 0, 0.5);
     }

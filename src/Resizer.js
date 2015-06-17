@@ -10,8 +10,8 @@ let Resizer = React.createClass({
     },
 
     render() {
-        const orientation = this.props.orientation;
-        const classes = ['Resizer', orientation];
+        const split = this.props.split;
+        const classes = ['Resizer', split];
         return <span className={classes.join(' ')} onMouseDown={this.handleDown} />
     }
 });

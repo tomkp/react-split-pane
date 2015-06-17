@@ -36,7 +36,7 @@ describe('Default SplitPane', function () {
 describe('Horizontal SplitPane', function () {
 
     const splitPane = TestUtils.renderIntoDocument(
-        <SplitPane orientation="horizontal">
+        <SplitPane split="horizontal">
             <div>one</div>
             <div>two</div>
         </SplitPane>
@@ -70,7 +70,7 @@ describe('Horizontal SplitPane', function () {
 describe('Vertical SplitPane', function () {
 
     const splitPane = TestUtils.renderIntoDocument(
-        <SplitPane orientation="vertical">
+        <SplitPane split="vertical">
             <div>one</div>
             <div>two</div>
         </SplitPane>
