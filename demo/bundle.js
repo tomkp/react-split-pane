@@ -60,6 +60,7 @@ var Pane = _react2["default"].createClass({
 
         var style = {
             flex: 1,
+            position: "relative",
             outline: "none",
             overflow: "auto"
         };
@@ -216,7 +217,7 @@ var SplitPane = _react2["default"].createClass({
     },
 
     render: function render() {
-        var split = this.props.split || "horizontal";
+        var split = this.props.split || "vertical";
 
         var style = {
             display: "flex",
