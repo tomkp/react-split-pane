@@ -2,6 +2,11 @@
 
 Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
+
+[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
+[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
+
+
 Check out the [demo](http://zonked-knife.surge.sh/)
 
 
@@ -77,7 +82,3 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
     }
  ```
 
-***
-
-[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
-[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-calendar-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
