@@ -16,6 +16,7 @@ let Pane = React.createClass({
 
         let style = {
             flex: 1,
+            position: 'relative',
             outline: 'none',
             overflow: 'auto'
         };
