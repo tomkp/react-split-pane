@@ -30,6 +30,13 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
 
 
 ```css
+
+    *, *:before, *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
     .Resizer {
         background: #000;
         opacity: .2;
