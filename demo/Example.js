@@ -1,5 +1,5 @@
 import React from 'react';
-import SplitPane from '../lib/SplitPane';
+import SplitPane from '../';
 
 
 var Example = React.createClass({
