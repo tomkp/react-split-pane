@@ -31,9 +31,7 @@ React.render(React.createElement(Example, null), document.body);
 },{"../":2,"react":162}],2:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-
-var SplitPane = _interopRequire(require("./lib/SplitPane"));
+var SplitPane = require("./lib/SplitPane");
 
 module.exports = SplitPane;
 
