@@ -1,61 +1,65 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var React = _interopRequire(require("react"));
+var _react = require('react');
 
-var SplitPane = _interopRequire(require("../"));
+var _react2 = _interopRequireDefault(_react);
 
-var Example = React.createClass({
-    displayName: "Example",
+var _ = require('../');
+
+var _2 = _interopRequireDefault(_);
+
+var Example = _react2['default'].createClass({
+    displayName: 'Example',
 
     render: function render() {
-        return React.createElement(
-            SplitPane,
-            { split: "vertical", minSize: "50" },
-            React.createElement("div", null),
-            React.createElement(
-                SplitPane,
-                { split: "horizontal" },
-                React.createElement("div", null),
-                React.createElement("div", null)
+        return _react2['default'].createElement(
+            _2['default'],
+            { split: 'vertical', minSize: '50' },
+            _react2['default'].createElement('div', null),
+            _react2['default'].createElement(
+                _2['default'],
+                { split: 'horizontal' },
+                _react2['default'].createElement('div', null),
+                _react2['default'].createElement('div', null)
             )
         );
     }
 
 });
 
-React.render(React.createElement(Example, null), document.body);
+_react2['default'].render(_react2['default'].createElement(Example, null), document.body);
 
 },{"../":2,"react":162}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var SplitPane = require("./lib/SplitPane");
+var SplitPane = require('./lib/SplitPane');
 
 module.exports = SplitPane;
 
 },{"./lib/SplitPane":5}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { "default": obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactVendorPrefix = require("react-vendor-prefix");
+var _reactVendorPrefix = require('react-vendor-prefix');
 
 var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
 
-var Pane = _react2["default"].createClass({
-    displayName: "Pane",
+var Pane = _react2['default'].createClass({
+    displayName: 'Pane',
 
     getInitialState: function getInitialState() {
         return {};
@@ -63,48 +67,48 @@ var Pane = _react2["default"].createClass({
 
     render: function render() {
         var split = this.props.split;
-        var classes = ["Pane", split];
+        var classes = ['Pane', split];
 
         var style = {
             flex: 1,
-            position: "relative",
-            outline: "none",
-            overflow: "auto"
+            position: 'relative',
+            outline: 'none',
+            overflow: 'auto'
         };
         if (this.state.size) {
-            if (split === "horizontal") {
+            if (split === 'horizontal') {
                 style.height = this.state.size;
-                style.display = "flex";
+                style.display = 'flex';
             } else {
                 style.width = this.state.size;
             }
-            style.flex = "none";
+            style.flex = 'none';
         }
-        var prefixed = _reactVendorPrefix2["default"].prefix({ styles: style });
-        return _react2["default"].createElement("div", { className: classes.join(" "), style: prefixed.styles }, this.props.children);
+        var prefixed = _reactVendorPrefix2['default'].prefix({ styles: style });
+        return _react2['default'].createElement('div', { className: classes.join(' '), style: prefixed.styles }, this.props.children);
     }
 });
 
-exports["default"] = Pane;
-module.exports = exports["default"];
+exports['default'] = Pane;
+module.exports = exports['default'];
 
 },{"react":162,"react-vendor-prefix":7}],4:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { "default": obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var Resizer = _react2["default"].createClass({
-    displayName: "Resizer",
+var Resizer = _react2['default'].createClass({
+    displayName: 'Resizer',
 
     handleDown: function handleDown(event) {
         this.props.down(event);
@@ -112,47 +116,47 @@ var Resizer = _react2["default"].createClass({
 
     render: function render() {
         var split = this.props.split;
-        var classes = ["Resizer", split];
-        return _react2["default"].createElement("span", { className: classes.join(" "), onMouseDown: this.handleDown });
+        var classes = ['Resizer', split];
+        return _react2['default'].createElement('span', { className: classes.join(' '), onMouseDown: this.handleDown });
     }
 });
 
-exports["default"] = Resizer;
-module.exports = exports["default"];
+exports['default'] = Resizer;
+module.exports = exports['default'];
 
 },{"react":162}],5:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { "default": obj };
+    return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Pane = require("./Pane");
+var _Pane = require('./Pane');
 
 var _Pane2 = _interopRequireDefault(_Pane);
 
-var _Resizer = require("./Resizer");
+var _Resizer = require('./Resizer');
 
 var _Resizer2 = _interopRequireDefault(_Resizer);
 
-var _reactVendorPrefix = require("react-vendor-prefix");
+var _reactVendorPrefix = require('react-vendor-prefix');
 
 var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
 
-var SplitPane = _react2["default"].createClass({
-    displayName: "SplitPane",
+var SplitPane = _react2['default'].createClass({
+    displayName: 'SplitPane',
 
     propTypes: {
-        minSize: _react2["default"].PropTypes.number,
-        split: _react2["default"].PropTypes.string
+        minSize: _react2['default'].PropTypes.number,
+        split: _react2['default'].PropTypes.string
     },
 
     getInitialState: function getInitialState() {
@@ -168,17 +172,17 @@ var SplitPane = _react2["default"].createClass({
     },
 
     componentDidMount: function componentDidMount() {
-        document.addEventListener("mouseup", this.up);
-        document.addEventListener("mousemove", this.move);
+        document.addEventListener('mouseup', this.up);
+        document.addEventListener('mousemove', this.move);
     },
 
     componentWillUnmount: function componentWillUnmount() {
-        document.removeEventListener("mouseup", this.up);
-        document.removeEventListener("mousemove", this.move);
+        document.removeEventListener('mouseup', this.up);
+        document.removeEventListener('mousemove', this.move);
     },
 
     down: function down(event) {
-        var position = this.props.split === "vertical" ? event.clientX : event.clientY;
+        var position = this.props.split === 'vertical' ? event.clientX : event.clientY;
         this.setState({
             active: true,
             position: position
@@ -192,10 +196,10 @@ var SplitPane = _react2["default"].createClass({
                 var node = ref.getDOMNode();
                 if (window.getComputedStyle) {
                     var styles = window.getComputedStyle(node);
-                    var width = styles.width.replace("px", "");
-                    var height = styles.height.replace("px", "");
-                    var current = this.props.split === "vertical" ? event.clientX : event.clientY;
-                    var size = this.props.split === "vertical" ? width : height;
+                    var width = styles.width.replace('px', '');
+                    var height = styles.height.replace('px', '');
+                    var current = this.props.split === 'vertical' ? event.clientX : event.clientY;
+                    var size = this.props.split === 'vertical' ? width : height;
                     var position = this.state.position;
                     var newSize = size - (position - current);
                     this.setState({
@@ -224,32 +228,32 @@ var SplitPane = _react2["default"].createClass({
     },
 
     render: function render() {
-        var split = this.props.split || "vertical";
+        var split = this.props.split || 'vertical';
 
         var style = {
-            display: "flex",
+            display: 'flex',
             flex: 1,
-            position: "relative",
-            outline: "none",
-            overflow: "hidden",
-            userSelect: "none"
+            position: 'relative',
+            outline: 'none',
+            overflow: 'hidden',
+            userSelect: 'none'
         };
 
-        if (split === "horizontal") {
+        if (split === 'horizontal') {
             this.merge(style, {
-                flexDirection: "column",
-                height: "100%",
-                minHeight: "100%",
-                position: "absolute",
+                flexDirection: 'column',
+                height: '100%',
+                minHeight: '100%',
+                position: 'absolute',
                 top: 0,
                 bottom: 0,
-                width: "100%"
+                width: '100%'
             });
         } else {
             this.merge(style, {
-                flexDirection: "row",
-                height: "100%",
-                position: "absolute",
+                flexDirection: 'row',
+                height: '100%',
+                position: 'absolute',
                 left: 0,
                 right: 0
             });
@@ -259,20 +263,20 @@ var SplitPane = _react2["default"].createClass({
         var children = this.props.children;
         var child0 = children[0];
         var child1 = children[1];
-        elements.push(_react2["default"].createElement(_Pane2["default"], { ref: "pane1", key: "pane1", split: split }, child0));
-        elements.push(_react2["default"].createElement(_Resizer2["default"], { ref: "resizer", key: "resizer", down: this.down, split: split }));
-        elements.push(_react2["default"].createElement(_Pane2["default"], { ref: "pane2", key: "pane2", split: split }, child1));
+        elements.push(_react2['default'].createElement(_Pane2['default'], { ref: 'pane1', key: 'pane1', split: split }, child0));
+        elements.push(_react2['default'].createElement(_Resizer2['default'], { ref: 'resizer', key: 'resizer', down: this.down, split: split }));
+        elements.push(_react2['default'].createElement(_Pane2['default'], { ref: 'pane2', key: 'pane2', split: split }, child1));
 
-        var classes = ["SplitPane", split];
+        var classes = ['SplitPane', split];
 
-        var prefixed = _reactVendorPrefix2["default"].prefix({ styles: style });
+        var prefixed = _reactVendorPrefix2['default'].prefix({ styles: style });
 
-        return _react2["default"].createElement("div", { className: classes.join(" "), style: prefixed.styles, ref: "splitPane" }, elements);
+        return _react2['default'].createElement('div', { className: classes.join(' '), style: prefixed.styles, ref: 'splitPane' }, elements);
     }
 });
 
-exports["default"] = SplitPane;
-module.exports = exports["default"];
+exports['default'] = SplitPane;
+module.exports = exports['default'];
 
 },{"./Pane":3,"./Resizer":4,"react":162,"react-vendor-prefix":7}],6:[function(require,module,exports){
 // shim for using process in browser
@@ -280,32 +284,64 @@ module.exports = exports["default"];
 var process = module.exports = {};
 var queue = [];
 var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
 
 function drainQueue() {
     if (draining) {
         return;
     }
+    var timeout = setTimeout(cleanUpNextTick);
     draining = true;
-    var currentQueue;
+
     var len = queue.length;
     while(len) {
         currentQueue = queue;
         queue = [];
-        var i = -1;
-        while (++i < len) {
-            currentQueue[i]();
+        while (++queueIndex < len) {
+            currentQueue[queueIndex].run();
         }
+        queueIndex = -1;
         len = queue.length;
     }
+    currentQueue = null;
     draining = false;
+    clearTimeout(timeout);
 }
+
 process.nextTick = function (fun) {
-    queue.push(fun);
-    if (!draining) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
         setTimeout(drainQueue, 0);
     }
 };
 
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
 process.title = 'browser';
 process.browser = true;
 process.env = {};
