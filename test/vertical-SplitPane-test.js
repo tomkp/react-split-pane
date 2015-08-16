@@ -68,7 +68,6 @@ describe('Vertical SplitPane', function () {
         it('should contain a Resizer', function () {
             new Asserter(splitPane).assertContainsResizer();
         });
-
     });
 
 
@@ -139,14 +138,6 @@ describe('Vertical SplitPane', function () {
         it('should contain a Resizer', function () {
             new Asserter(splitPane).assertContainsResizer();
         });
-
-
-        it('should change size when resized', function () {
-            new Asserter(splitPane)
-                .selectResizer()
-            ;
-        });
-
     });
 
 });

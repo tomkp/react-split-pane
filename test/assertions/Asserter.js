@@ -66,13 +66,6 @@ export default class Asserter {
     }
 
 
-    selectResizer() {
-        const resizer = this.findResizer();
-        TestUtils.Simulate.mouseDown(resizer);
-        return this;
-    }
-
-
     findTopPane() {
         return this.findPanes()[0];
     }

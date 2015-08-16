@@ -72,15 +72,8 @@ describe('Horizontal SplitPane', function () {
         it('should contain a Resizer', function () {
             new Asserter(splitPane).assertContainsResizer();
         });
-
-
-        it('should change size when resized', function () {
-            new Asserter(splitPane)
-                .selectResizer()
-            ;
-        });
-
     });
+
 
 
     describe('With defaultSize property', function () {
@@ -149,14 +142,6 @@ describe('Horizontal SplitPane', function () {
         it('should contain a Resizer', function () {
             new Asserter(splitPane).assertContainsResizer();
         });
-
-
-        it('should change size when resized', function () {
-            new Asserter(splitPane)
-                .selectResizer()
-            ;
-        });
-
     });
 });
 
