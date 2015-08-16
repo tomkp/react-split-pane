@@ -1,14 +1,14 @@
 import React from 'react';
-import SplitPane from '../';
+import {SplitPane} from '../';
 
 
 var Example = React.createClass({
 
     render: function() {
         return (
-            <SplitPane split="vertical" minSize="50">
+            <SplitPane split="vertical" minSize="50" defaultSize="100">
                 <div></div>
-                <SplitPane split="horizontal">
+                <SplitPane split="horizontal" minSize="50" defaultSize="100">
                     <div></div>
                     <div></div>
                 </SplitPane>

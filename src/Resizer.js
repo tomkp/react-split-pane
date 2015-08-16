@@ -5,14 +5,14 @@ import React from 'react';
 
 let Resizer = React.createClass({
 
-    handleDown(event) {
-        this.props.down(event);
+    onMouseDown(event) {
+        this.props.onMouseDown(event);
     },
 
     render() {
         const split = this.props.split;
         const classes = ['Resizer', split];
-        return <span className={classes.join(' ')} onMouseDown={this.handleDown} />
+        return <span className={classes.join(' ')} onMouseDown={this.onMouseDown} />
     }
 });
 

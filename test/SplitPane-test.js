@@ -1,13 +1,13 @@
-import expect from 'expect.js';
 import React from 'react/addons';
 const { TestUtils } = React.addons;
-import SplitPane from '../src/SplitPane';
-import Resizer from '../src/Resizer';
+import {SplitPane, Resizer} from '../';
+import Asserter from './assertions/Asserter';
+
 
 
 describe('Default SplitPane', function () {
 
-    const splitPane = TestUtils.renderIntoDocument(
+    const splitPane = (
         <SplitPane>
             <div>one</div>
             <div>two</div>
@@ -35,33 +35,153 @@ describe('Default SplitPane', function () {
 
 describe('Horizontal SplitPane', function () {
 
-    const splitPane = TestUtils.renderIntoDocument(
-        <SplitPane split="horizontal">
-            <div>one</div>
-            <div>two</div>
-        </SplitPane>
-    );
+    describe('Defaults', function () {
+
+        const splitPane = (
+            <SplitPane split="horizontal">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
 
 
-    it('should render the child panes', function () {
-        new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        it('should render the SplitPane', function () {
+            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        });
+
+
+        it('should use correct css properties for the SplitPane', function () {
+            new Asserter(splitPane).assertSplitPaneStyles({
+                display: '-webkit-flex',
+                height: '100%',
+                left: '',
+                position: 'absolute',
+                outline: 'none',
+                overflow: 'hidden',
+                right: '',
+                WebkitFlex: '1 1 0px',
+                WebkitFlexDirection: 'column',
+                WebkitUserSelect: 'none'
+            });
+        });
+
+
+        it('should use correct css properties for the left Pane', function () {
+            new Asserter(splitPane).assertFirstPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '1 1 0px'
+            });
+        });
+
+
+        it('should use correct css properties for the right Pane', function () {
+            new Asserter(splitPane).assertSecondPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '1 1 0px'
+            });
+        });
+
+
+        it('should render the child panes', function () {
+            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        });
+
+
+        it('should have horizontal orientation', function () {
+            new Asserter(splitPane).assertOrientation('horizontal');
+        });
+
+
+        it('should contain a Resizer', function () {
+            new Asserter(splitPane).assertContainsResizer();
+        });
+
+
+        it('should change size when resized', function () {
+            new Asserter(splitPane)
+                .selectResizer()
+            ;
+        });
+
     });
 
 
-    it('should have horizontal orientation', function () {
-        new Asserter(splitPane).assertOrientation('horizontal');
-    });
+    describe('With default size', function () {
+
+        const splitPane = (
+            <SplitPane split="horizontal" defaultSize="100" >
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
 
 
-    it('should contain a Resizer', function () {
-        new Asserter(splitPane).assertContainsResizer();
-    });
+        it('should render the SplitPane', function () {
+            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        });
 
 
-    it('should change size when resized', function () {
-        new Asserter(splitPane)
-            .selectResizer()
-        ;
+        it('should use correct css properties', function () {
+            new Asserter(splitPane).assertSplitPaneStyles({
+                display: '-webkit-flex',
+                height: '100%',
+                left: '',
+                position: 'absolute',
+                outline: 'none',
+                overflow: 'hidden',
+                right: '',
+                WebkitFlex: '1 1 0px',
+                WebkitFlexDirection: 'column',
+                WebkitUserSelect: 'none'
+            });
+        });
+
+
+        it('should use correct css properties for the left Pane', function () {
+            new Asserter(splitPane).assertFirstPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '0 0 auto'
+            });
+        });
+
+
+        it('should use correct css properties for the right Pane', function () {
+            new Asserter(splitPane).assertSecondPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '1 1 0px'
+            });
+        });
+
+
+        it('should render the child panes', function () {
+            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        });
+
+
+        it('should have horizontal orientation', function () {
+            new Asserter(splitPane).assertOrientation('horizontal');
+        });
+
+
+        it('should contain a Resizer', function () {
+            new Asserter(splitPane).assertContainsResizer();
+        });
+
+
+        it('should change size when resized', function () {
+            new Asserter(splitPane)
+                .selectResizer()
+            ;
+        });
+
     });
 });
 
@@ -69,81 +189,68 @@ describe('Horizontal SplitPane', function () {
 
 describe('Vertical SplitPane', function () {
 
-    const splitPane = TestUtils.renderIntoDocument(
-        <SplitPane split="vertical">
-            <div>one</div>
-            <div>two</div>
-        </SplitPane>
-    );
+
+    describe('Defaults', function () {
+
+        const splitPane = (
+            <SplitPane split="vertical">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
 
 
-    it('should render the SplitPane', function () {
-        const component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
-        expect(component.getDOMNode().textContent).to.equal('onetwo');
+        it('should render the SplitPane', function () {
+            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+        });
+
+
+        it('should use correct css properties', function () {
+            new Asserter(splitPane).assertSplitPaneStyles({
+                display: '-webkit-flex',
+                height: '100%',
+                left: '0px',
+                position: 'absolute',
+                outline: 'none',
+                overflow: 'hidden',
+                right: '0px',
+                WebkitFlex: '1 1 0px',
+                WebkitFlexDirection: 'row',
+                WebkitUserSelect: 'none'
+            });
+        });
+
+
+        it('should use correct css properties for the left Pane', function () {
+            new Asserter(splitPane).assertFirstPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '1 1 0px'
+            });
+        });
+
+
+        it('should use correct css properties for the right Pane', function () {
+            new Asserter(splitPane).assertSecondPaneStyles({
+                position: 'relative',
+                outline: 'none',
+                overflow: 'auto',
+                WebkitFlex: '1 1 0px'
+            });
+        });
+
+
+        it('should have vertical orientation', function () {
+            new Asserter(splitPane).assertOrientation('vertical');
+        });
+
+
+        it('should contain a Resizer', function () {
+            new Asserter(splitPane).assertContainsResizer();
+        });
+
     });
 
-
-    it('should have vertical orientation', function () {
-        new Asserter(splitPane).assertOrientation('vertical');
-    });
-
-
-    it('should contain a Resizer', function () {
-        new Asserter(splitPane).assertContainsResizer();
-    });
 
 });
-
-
-
-
-
-class Asserter {
-
-    constructor(splitPane) {
-        this.component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
-        this.splitPane = splitPane;
-    }
-
-
-    assertOrientation(expectedOrientation) {
-        expect(this.component.getDOMNode().className).to.contain(expectedOrientation);
-        return this;
-    }
-
-
-    assertPaneContents(expectedContents) {
-        let panes = this.findPanes();
-        var values = panes.map((pane) => {
-            return pane.getDOMNode().textContent;
-        });
-        expect(values).to.eql(expectedContents);
-        return this;
-    }
-
-
-    assertContainsResizer(){
-        expect(this.component.props.children.length).to.equal(3);
-        const resizer = this.findResizer();
-        expect(resizer.length).to.be(1);
-        return this;
-    }
-
-
-    selectResizer() {
-        const resizer = this.findResizer();
-        TestUtils.Simulate.mouseDown(resizer);
-        return this;
-    }
-
-
-    findPanes() {
-        return TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'Pane');
-    }
-
-
-    findResizer() {
-        return TestUtils.scryRenderedComponentsWithType(this.splitPane, Resizer);
-    }
-}
-

@@ -6,9 +6,11 @@ import VendorPrefix from 'react-vendor-prefix';
 
 let Pane = React.createClass({
 
+
     getInitialState() {
         return {};
     },
+
 
     render() {
         const split = this.props.split;
@@ -30,6 +32,7 @@ let Pane = React.createClass({
             style.flex = 'none';
         }
         const prefixed = VendorPrefix.prefix({styles: style});
+
         return <div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>;
     }
 });
