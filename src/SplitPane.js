@@ -10,9 +10,9 @@ let SplitPane = React.createClass({
 
 
     propTypes: {
-        minSize: React.PropTypes.number,
-        defaultSize: React.PropTypes.number,
-        split: React.PropTypes.string
+        //minSize: React.PropTypes.number,
+        //defaultSize: React.PropTypes.number,
+        //split: React.PropTypes.string
     },
 
 
