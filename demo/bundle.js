@@ -144,11 +144,7 @@ var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
 var SplitPane = _react2["default"].createClass({
     displayName: "SplitPane",
 
-    propTypes: {
-        minSize: _react2["default"].PropTypes.number,
-        defaultSize: _react2["default"].PropTypes.number,
-        split: _react2["default"].PropTypes.string
-    },
+    propTypes: {},
 
     getInitialState: function getInitialState() {
         return {
@@ -271,6 +267,10 @@ var SplitPane = _react2["default"].createClass({
 
 exports["default"] = SplitPane;
 module.exports = exports["default"];
+
+//minSize: React.PropTypes.number,
+//defaultSize: React.PropTypes.number,
+//split: React.PropTypes.string
 
 },{"./Pane":2,"./Resizer":3,"react":160,"react-vendor-prefix":5}],5:[function(require,module,exports){
 module.exports=function(n){function t(i){if(e[i])return e[i].exports;var r=e[i]={exports:{},id:i,loaded:!1};return n[i].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var e={};return t.m=n,t.c=e,t.p="",t(0)}([function(n,t){"use strict";function e(n){return a.js+n[0].toUpperCase()+n.substr(1)}function i(n){return Object.keys(n).reduce(function(t,i){return-1!==s.indexOf(i)?t[e(i)]=n[i]:t[i]=n[i],t},{})}function r(n){var t=navigator.userAgent.toLowerCase();return-1!==t.indexOf("safari")&&-1===t.indexOf("chrome")?!function(){var t=function(n,t,e){n[e]=n[t],delete n[t]};"flex"===n.display&&(n.display="-webkit-flex"),["alignItems","justifyContent","flexDirection","flex","flexWrap"].forEach(function(i){t(n,i,e(i))})}():-1!==navigator.appVersion.indexOf("MSIE 10")&&"flex"===n.display&&(n.display="-ms-flexbox"),n}function o(n){return Object.keys(n).reduce(function(t,e){return t[e]=r(i(n[e])),t},{})}var a=function(){var n=window.getComputedStyle(document.documentElement,""),t=(Array.prototype.slice.call(n).join("").match(/-(moz|webkit|ms)-/)||""===n.OLink&&["","o"])[1];return{dom:"ms"===t?"MS":t,lowercase:t,css:"-"+t+"-",js:"ms"===t?t:t[0].toUpperCase()+t.substr(1)}}(),s=["animation","animationDelay","animationDirection","animationDuration","animationFillMode","animationIterationCount","animationName","animationPlayState","animationTimingFunction","appearance","backfaceVisibility","backgroundClip","borderImage","borderImageSlice","boxSizing","boxShadow","contentColumns","transform","transformOrigin","transformStyle","transition","transitionDelay","transitionDuration","transitionProperty","transitionTimingFunction","perspective","perspectiveOrigin","userSelect"];t.prefix=o}]);
