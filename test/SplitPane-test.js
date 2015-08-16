@@ -1,6 +1,7 @@
 import React from 'react/addons';
 const { TestUtils } = React.addons;
-import {SplitPane, Resizer} from '../';
+import SplitPane from '../lib/SplitPane';
+import Resizer from '../lib/Resizer';
 import Asserter from './assertions/Asserter';
 
 

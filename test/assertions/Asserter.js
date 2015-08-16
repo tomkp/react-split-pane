@@ -1,9 +1,7 @@
 import React from 'react/addons';
-
-import {SplitPane, Resizer} from '../../';
-
+import SplitPane from '../../lib/SplitPane';
+import Resizer from '../../lib/Resizer';
 import chai from 'chai';
-
 const { TestUtils } = React.addons;
 const expect = chai.expect;
 

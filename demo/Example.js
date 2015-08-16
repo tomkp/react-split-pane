@@ -1,5 +1,5 @@
 import React from 'react';
-import {SplitPane} from '../';
+import SplitPane from '../lib/SplitPane';
 
 
 var Example = React.createClass({
@@ -17,5 +17,6 @@ var Example = React.createClass({
     }
 
 });
+
 
 React.render(<Example />, document.body);
