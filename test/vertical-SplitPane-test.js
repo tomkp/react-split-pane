@@ -26,16 +26,16 @@ describe('Vertical SplitPane', function () {
 
         it('should use correct css properties', function () {
             new Asserter(splitPane).assertSplitPaneStyles({
-                display: '-webkit-flex',
+                display: 'flex',
                 height: '100%',
                 left: '0px',
                 position: 'absolute',
                 outline: 'none',
                 overflow: 'hidden',
                 right: '0px',
-                WebkitFlex: '1 1 0px',
-                WebkitFlexDirection: 'row',
-                WebkitUserSelect: 'none'
+                flex: '1 1 0px',
+                flexDirection: 'row',
+                userSelect: 'none'
             });
         });
 
@@ -45,7 +45,7 @@ describe('Vertical SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px'
+                flex: '1 1 0px'
             });
         });
 
@@ -55,7 +55,7 @@ describe('Vertical SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px'
+                flex: '1 1 0px'
             });
         });
 
@@ -89,16 +89,16 @@ describe('Vertical SplitPane', function () {
 
         it('should use correct css properties', function () {
             new Asserter(splitPane).assertSplitPaneStyles({
-                display: '-webkit-flex',
+                display: 'flex',
                 height: '100%',
                 left: '0px',
                 position: 'absolute',
                 outline: 'none',
                 overflow: 'hidden',
                 right: '0px',
-                WebkitFlex: '1 1 0px',
-                WebkitFlexDirection: 'row',
-                WebkitUserSelect: 'none'
+                flex: '1 1 0px',
+                flexDirection: 'row',
+                userSelect: 'none'
             });
         });
 
@@ -108,7 +108,7 @@ describe('Vertical SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '0 0 auto',
+                flex: '0 0 auto',
                 width: '99px'
             });
         });
@@ -119,7 +119,7 @@ describe('Vertical SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px',
+                flex: '1 1 0px',
                 width: ''
             });
         });

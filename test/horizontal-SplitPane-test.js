@@ -25,16 +25,16 @@ describe('Horizontal SplitPane', function () {
 
         it('should use correct css properties for the SplitPane', function () {
             new Asserter(splitPane).assertSplitPaneStyles({
-                display: '-webkit-flex',
+                display: 'flex',
                 height: '100%',
                 left: '',
                 position: 'absolute',
                 outline: 'none',
                 overflow: 'hidden',
                 right: '',
-                WebkitFlex: '1 1 0px',
-                WebkitFlexDirection: 'column',
-                WebkitUserSelect: 'none'
+                flex: '1 1 0px',
+                flexDirection: 'column',
+                userSelect: 'none'
             });
         });
 
@@ -44,7 +44,7 @@ describe('Horizontal SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px'
+                flex: '1 1 0px'
             });
         });
 
@@ -54,7 +54,7 @@ describe('Horizontal SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px'
+                flex: '1 1 0px'
             });
         });
 
@@ -93,16 +93,16 @@ describe('Horizontal SplitPane', function () {
 
         it('should use correct css properties', function () {
             new Asserter(splitPane).assertSplitPaneStyles({
-                display: '-webkit-flex',
+                display: 'flex',
                 height: '100%',
                 left: '',
                 position: 'absolute',
                 outline: 'none',
                 overflow: 'hidden',
                 right: '',
-                WebkitFlex: '1 1 0px',
-                WebkitFlexDirection: 'column',
-                WebkitUserSelect: 'none'
+                flex: '1 1 0px',
+                flexDirection: 'column',
+                userSelect: 'none'
             });
         });
 
@@ -112,7 +112,7 @@ describe('Horizontal SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '0 0 auto',
+                flex: '0 0 auto',
                 height: '99px'
             });
         });
@@ -123,7 +123,7 @@ describe('Horizontal SplitPane', function () {
                 position: 'relative',
                 outline: 'none',
                 overflow: 'auto',
-                WebkitFlex: '1 1 0px',
+                flex: '1 1 0px',
                 height: ''
             });
         });
