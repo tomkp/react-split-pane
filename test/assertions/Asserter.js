@@ -4,6 +4,8 @@ import Resizer from '../../lib/Resizer';
 import chai from 'chai';
 const { TestUtils } = React.addons;
 const expect = chai.expect;
+import VendorPrefix from 'react-vendor-prefix';
+
 
 
 
@@ -48,10 +50,15 @@ export default class Asserter {
 
 
     assertStyles(componentName, actualStyles, expectedStyles) {
-        for (let prop in expectedStyles) {
-            if( expectedStyles.hasOwnProperty( prop ) ) {
-                //console.log(prop + ': \'' + splitPaneStyles[prop] + '\',');
-                expect(actualStyles[prop]).to.equal(expectedStyles[prop], `${componentName} has incorrect css property for '${prop}'`);
+        const prefixed = VendorPrefix.prefix({styles: expectedStyles}).styles;
+        for (let prop in prefixed) {
+            if( prefixed.hasOwnProperty( prop ) ) {
+                //console.log(prop + ': \'' + actualStyles[prop] + '\',');
+                if (prefixed[prop] && prefixed[prop] !== '') {
+                    //console.log(prop + ': \'' + actualStyles[prop] + '\',');
+                    expect(actualStyles[prop]).to.equal(prefixed[prop], `${componentName} has incorrect css property for '${prop}'`);
+                }
+                //expect(actualStyles[prop]).to.equal(prefixed[prop], `${componentName} has incorrect css property for '${prop}'`);
             }
         }
         return this;
