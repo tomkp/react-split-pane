@@ -11,7 +11,7 @@ Check out the [demo](http://zonked-knife.surge.sh/)
 
 
 ```html
-   <SplitPane split="vertical" minSize="50">
+   <SplitPane split="vertical" minSize="50" defaultSize="100">
        <div></div>
        <div></div>
    </SplitPane>
