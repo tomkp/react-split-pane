@@ -8,7 +8,7 @@ var Example = React.createClass({
         return (
             <SplitPane split="vertical" minSize="50" defaultSize="100">
                 <div></div>
-                <SplitPane split="horizontal" minSize="50" defaultSize="100">
+                <SplitPane split="horizontal">
                     <div></div>
                     <div></div>
                 </SplitPane>
