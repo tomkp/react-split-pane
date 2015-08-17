@@ -24,42 +24,6 @@ describe('Vertical SplitPane', function () {
         });
 
 
-        it('should use correct css properties', function () {
-            new Asserter(splitPane).assertSplitPaneStyles({
-                display: 'flex',
-                height: '100%',
-                left: '0px',
-                position: 'absolute',
-                outline: 'none',
-                overflow: 'hidden',
-                right: '0px',
-                flex: '1 1 0px',
-                flexDirection: 'row',
-                userSelect: 'none'
-            });
-        });
-
-
-        it('should use correct css properties for the left Pane', function () {
-            new Asserter(splitPane).assertFirstPaneStyles({
-                position: 'relative',
-                outline: 'none',
-                overflow: 'auto',
-                flex: '1 1 0px'
-            });
-        });
-
-
-        it('should use correct css properties for the right Pane', function () {
-            new Asserter(splitPane).assertSecondPaneStyles({
-                position: 'relative',
-                outline: 'none',
-                overflow: 'auto',
-                flex: '1 1 0px'
-            });
-        });
-
-
         it('should have vertical orientation', function () {
             new Asserter(splitPane).assertOrientation('vertical');
         });
@@ -82,61 +46,8 @@ describe('Vertical SplitPane', function () {
         );
 
 
-        it('should render the SplitPane', function () {
-            new Asserter(splitPane).assertPaneContents(['one', 'two']);
-        });
-
-
-        it('should use correct css properties', function () {
-            new Asserter(splitPane).assertSplitPaneStyles({
-                display: 'flex',
-                height: '100%',
-                left: '0px',
-                position: 'absolute',
-                outline: 'none',
-                overflow: 'hidden',
-                right: '0px',
-                flex: '1 1 0px',
-                flexDirection: 'row',
-                userSelect: 'none'
-            });
-        });
-
-
-        it('should use correct css properties for the left Pane', function () {
-            new Asserter(splitPane).assertFirstPaneStyles({
-                position: 'relative',
-                outline: 'none',
-                overflow: 'auto',
-                flex: '0 0 auto',
-                width: '99px'
-            });
-        });
-
-
-        it('should use correct css properties for the right Pane', function () {
-            new Asserter(splitPane).assertSecondPaneStyles({
-                position: 'relative',
-                outline: 'none',
-                overflow: 'auto',
-                flex: '1 1 0px',
-                width: ''
-            });
-        });
-
-
-        it('should render the child panes', function () {
-            new Asserter(splitPane).assertPaneContents(['one', 'two']);
-        });
-
-
-        it('should have vertical orientation', function () {
-            new Asserter(splitPane).assertOrientation('vertical');
-        });
-
-
-        it('should contain a Resizer', function () {
-            new Asserter(splitPane).assertContainsResizer();
+        it('should have correct width for the left Pane', function () {
+            new Asserter(splitPane).assertFirstPaneWidth('99px');
         });
     });
 

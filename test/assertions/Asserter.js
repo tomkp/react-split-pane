@@ -34,18 +34,18 @@ export default class Asserter {
     }
 
 
-    assertSplitPaneStyles(expectedStyles) {
-        return this.assertStyles('SplitPane', this.component.getDOMNode().style, expectedStyles);
+    assertFirstPaneWidth(expectedWidth) {
+        return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, { width: expectedWidth });
+    }
+
+
+    assertFirstPaneHeight(expectedHeight) {
+        return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, { height: expectedHeight });
     }
 
 
     assertFirstPaneStyles(expectedStyles) {
         return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, expectedStyles);
-    }
-
-
-    assertSecondPaneStyles(expectedStyles) {
-        return this.assertStyles('Second Pane', this.findBottomPane().getDOMNode().style, expectedStyles);
     }
 
 
