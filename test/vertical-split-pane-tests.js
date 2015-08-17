@@ -2,7 +2,7 @@ import React from 'react/addons';
 const { TestUtils } = React.addons;
 import SplitPane from '../lib/SplitPane';
 import Resizer from '../lib/Resizer';
-import Asserter from './assertions/Asserter';
+import asserter from './assertions/Asserter';
 
 
 
@@ -20,17 +20,17 @@ describe('Vertical SplitPane', function () {
 
 
         it('should render the SplitPane', function () {
-            new Asserter(splitPane).assertPaneContents(['one', 'two']);
+            asserter(splitPane).assertPaneContents(['one', 'two']);
         });
 
 
         it('should have vertical orientation', function () {
-            new Asserter(splitPane).assertOrientation('vertical');
+            asserter(splitPane).assertOrientation('vertical');
         });
 
 
         it('should contain a Resizer', function () {
-            new Asserter(splitPane).assertContainsResizer();
+            asserter(splitPane).assertContainsResizer();
         });
     });
 
@@ -47,7 +47,7 @@ describe('Vertical SplitPane', function () {
 
 
         it('should have correct width for the left Pane', function () {
-            new Asserter(splitPane).assertFirstPaneWidth('99px');
+            asserter(splitPane).assertFirstPaneWidth('99px');
         });
     });
 

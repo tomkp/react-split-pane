@@ -8,51 +8,32 @@ import VendorPrefix from 'react-vendor-prefix';
 
 
 
-
-export default class Asserter {
-
-
-    constructor(jsx) {
-        this.splitPane = TestUtils.renderIntoDocument(jsx);
-        this.component = TestUtils.findRenderedDOMComponentWithClass(this.splitPane, 'SplitPane');
-    }
+export default (jsx) => {
 
 
-    assertOrientation(expectedOrientation) {
-        expect(this.component.getDOMNode().className).to.contain(expectedOrientation, `Incorrect orientation`);
-        return this;
-    }
+    const splitPane = TestUtils.renderIntoDocument(jsx);
+    const component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
 
 
-    assertPaneContents(expectedContents) {
-        const panes = this.findPanes();
-        let values = panes.map((pane) => {
-            return pane.getDOMNode().textContent;
-        });
-        expect(values).to.eql(expectedContents, `Incorrect contents for Pane`);
-        return this;
-    }
+    const findPanes = () => {
+        return TestUtils.scryRenderedDOMComponentsWithClass(component, 'Pane');
+    };
 
 
-    assertFirstPaneWidth(expectedWidth) {
-        return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, { width: expectedWidth });
-    }
+    const findTopPane = () => {
+        return findPanes()[0];
+    };
 
 
-    assertFirstPaneHeight(expectedHeight) {
-        return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, { height: expectedHeight });
-    }
+    const findResizer = () => {
+        return TestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
+    };
 
 
-    assertFirstPaneStyles(expectedStyles) {
-        return this.assertStyles('First Pane', this.findTopPane().getDOMNode().style, expectedStyles);
-    }
-
-
-    assertStyles(componentName, actualStyles, expectedStyles) {
+    const assertStyles = (componentName, actualStyles, expectedStyles) => {
         const prefixed = VendorPrefix.prefix({styles: expectedStyles}).styles;
         for (let prop in prefixed) {
-            if( prefixed.hasOwnProperty( prop ) ) {
+            if (prefixed.hasOwnProperty(prop)) {
                 //console.log(prop + ': \'' + actualStyles[prop] + '\',');
                 if (prefixed[prop] && prefixed[prop] !== '') {
                     //console.log(prop + ': \'' + actualStyles[prop] + '\',');
@@ -62,34 +43,48 @@ export default class Asserter {
             }
         }
         return this;
-    }
+    };
 
 
-    assertContainsResizer(){
-        expect(this.component.props.children.length).to.equal(3, `Expected the SplitPane to have 3 children`);
-        const resizer = this.findResizer();
-        expect(resizer.length).to.equal(1, `Expected to have a single Resizer`);
-        return this;
-    }
+    const assertFirstPaneStyles= (expectedStyles) => {
+        return assertStyles('First Pane', findTopPane().getDOMNode().style, expectedStyles);
+    };
 
 
-    findTopPane() {
-        return this.findPanes()[0];
-    }
+    return {
+
+        assertOrientation(expectedOrientation) {
+            expect(component.getDOMNode().className).to.contain(expectedOrientation, `Incorrect orientation`);
+            return this;
+        },
 
 
-    findBottomPane() {
-        return this.findPanes()[1];
-    }
+        assertPaneContents(expectedContents) {
+            const panes = findPanes();
+            let values = panes.map((pane) => {
+                return pane.getDOMNode().textContent;
+            });
+            expect(values).to.eql(expectedContents, `Incorrect contents for Pane`);
+            return this;
+        },
 
 
-    findPanes() {
-        return TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'Pane');
-    }
+        assertContainsResizer(){
+            expect(component.props.children.length).to.equal(3, `Expected the SplitPane to have 3 children`);
+            const resizer = findResizer();
+            expect(resizer.length).to.equal(1, `Expected to have a single Resizer`);
+            return this;
+        },
 
 
-    findResizer() {
-        return TestUtils.scryRenderedComponentsWithType(this.splitPane, Resizer);
+        assertFirstPaneWidth(expectedWidth) {
+            return assertFirstPaneStyles({width: expectedWidth});
+        },
+
+
+        assertFirstPaneHeight(expectedHeight) {
+            return assertFirstPaneStyles({height: expectedHeight});
+        }
     }
 }
 
