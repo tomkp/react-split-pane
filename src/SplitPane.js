@@ -6,7 +6,7 @@ import Resizer from './Resizer';
 import VendorPrefix from 'react-vendor-prefix';
 
 
-let SplitPane = React.createClass({
+export default React.createClass({
 
 
     propTypes: {
@@ -150,4 +150,3 @@ let SplitPane = React.createClass({
 });
 
 
-export default SplitPane;

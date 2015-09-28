@@ -4,7 +4,7 @@ import React from 'react';
 import VendorPrefix from 'react-vendor-prefix';
 
 
-let Pane = React.createClass({
+export default React.createClass({
 
 
     getInitialState() {
@@ -38,4 +38,3 @@ let Pane = React.createClass({
 });
 
 
-export default Pane;
