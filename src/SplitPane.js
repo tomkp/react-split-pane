@@ -13,6 +13,7 @@ export default React.createClass({
         //minSize: React.PropTypes.number,
         //defaultSize: React.PropTypes.number,
         //split: React.PropTypes.string
+        //onChange: React.PropTypes.func
     },
 
 
@@ -78,6 +79,9 @@ export default React.createClass({
                     });
 
                     if (newSize >= this.props.minSize) {
+                        if (this.props.onChange) {
+                          this.props.onChange(newSize);
+                        }
                         ref.setState({
                             size: newSize
                         });
@@ -148,5 +152,3 @@ export default React.createClass({
         );
     }
 });
-
-

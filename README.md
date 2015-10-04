@@ -27,6 +27,39 @@ Check out the [demo](http://zonked-knife.surge.sh/)
     </SplitPane>
 ```
 
+### Persisting Positions
+
+Each SplitPane accepts an onChange function prop.  Used in conjunction with
+defaultSize and a persistence layer, you can ensure that your splitter choices
+survive a refresh of your app.
+
+For example, if you are comfortable with the trade-offs of localStorage, you
+could do something like the following:
+
+```html
+    <SplitPane split="vertical" minSize="50"
+               defaultSize={ localStorage.getItem('splitPos') }
+               onChange={ size => localStorage.setItem('splitPos', size) }>
+        <div></div>
+        <div></div>
+    </SplitPane>
+```
+
+Disclaimer: localStorage has a variety of performance trade-offs.  Browsers such
+as Firefox have now optimized localStorage use so that they will asynchronously
+initiate a read of all saved localStorage data for an origin once they know the
+page will load.  If the data has not fully loaded by the time code accesses
+localStorage, the code will cause the page's main thread to block until the
+database load completes.  When the main thread is blocked, no other JS code will
+run or layout will occur.  In multiprocess browsers and for users with fast
+disk storage, this will be less of a problem.  You *are* likely to get yelled at
+if you use localStorage.
+
+A potentially better idea is to use something like
+https://github.com/mozilla/localForage although hooking it up will be slightly
+more involved.  You are likely to be admired by all for judiciously avoiding
+use of localStorage.
+
 ### Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
@@ -35,7 +68,7 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
 
 
 ```css
-    
+
     .Resizer {
         background: #000;
         opacity: .2;
@@ -81,4 +114,3 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         border-right: 5px solid rgba(0, 0, 0, 0.5);
     }
  ```
-
