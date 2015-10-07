@@ -21,7 +21,7 @@
     "es6"
   ],
   "dependencies": {
-    "react": "0.13.3",
+    "react": "0.14.0",
     "react-vendor-prefix": "0.0.1"
   },
   "devDependencies": {
