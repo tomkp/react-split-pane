@@ -47,7 +47,7 @@ var _reactVendorPrefix = require("react-vendor-prefix");
 
 var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
 
-var Pane = _react2["default"].createClass({
+exports["default"] = _react2["default"].createClass({
     displayName: "Pane",
 
     getInitialState: function getInitialState() {
@@ -78,8 +78,6 @@ var Pane = _react2["default"].createClass({
         return _react2["default"].createElement("div", { className: classes.join(" "), style: prefixed.styles }, this.props.children);
     }
 });
-
-exports["default"] = Pane;
 module.exports = exports["default"];
 
 },{"react":161,"react-vendor-prefix":6}],3:[function(require,module,exports){
@@ -97,7 +95,7 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Resizer = _react2["default"].createClass({
+exports["default"] = _react2["default"].createClass({
     displayName: "Resizer",
 
     onMouseDown: function onMouseDown(event) {
@@ -110,8 +108,6 @@ var Resizer = _react2["default"].createClass({
         return _react2["default"].createElement("span", { className: classes.join(" "), onMouseDown: this.onMouseDown });
     }
 });
-
-exports["default"] = Resizer;
 module.exports = exports["default"];
 
 },{"react":161}],4:[function(require,module,exports){
@@ -141,7 +137,7 @@ var _reactVendorPrefix = require("react-vendor-prefix");
 
 var _reactVendorPrefix2 = _interopRequireDefault(_reactVendorPrefix);
 
-var SplitPane = _react2["default"].createClass({
+exports["default"] = _react2["default"].createClass({
     displayName: "SplitPane",
 
     propTypes: {},
@@ -203,6 +199,9 @@ var SplitPane = _react2["default"].createClass({
                     });
 
                     if (newSize >= this.props.minSize) {
+                        if (this.props.onChange) {
+                            this.props.onChange(newSize);
+                        }
                         ref.setState({
                             size: newSize
                         });
@@ -264,13 +263,12 @@ var SplitPane = _react2["default"].createClass({
         return _react2["default"].createElement("div", { className: classes.join(" "), style: prefixed.styles, ref: "splitPane" }, _react2["default"].createElement(_Pane2["default"], { ref: "pane1", key: "pane1", split: split }, children[0]), _react2["default"].createElement(_Resizer2["default"], { ref: "resizer", key: "resizer", onMouseDown: this.onMouseDown, split: split }), _react2["default"].createElement(_Pane2["default"], { ref: "pane2", key: "pane2", split: split }, children[1]));
     }
 });
-
-exports["default"] = SplitPane;
 module.exports = exports["default"];
 
 //minSize: React.PropTypes.number,
 //defaultSize: React.PropTypes.number,
 //split: React.PropTypes.string
+//onChange: React.PropTypes.func
 
 },{"./Pane":2,"./Resizer":3,"react":161,"react-vendor-prefix":6}],5:[function(require,module,exports){
 // shim for using process in browser
