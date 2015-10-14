@@ -1,22 +1,24 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import SplitPane from '../../lib/SplitPane';
 import Resizer from '../../lib/Resizer';
+import Pane from '../../lib/Pane';
 import chai from 'chai';
-const { TestUtils } = React.addons;
 const expect = chai.expect;
 import VendorPrefix from 'react-vendor-prefix';
+import ReactTestUtils from 'react-addons-test-utils';
 
 
 
 export default (jsx) => {
 
 
-    const splitPane = TestUtils.renderIntoDocument(jsx);
-    const component = TestUtils.findRenderedDOMComponentWithClass(splitPane, 'SplitPane');
+    const splitPane = ReactTestUtils.renderIntoDocument(jsx);
+    const component = ReactTestUtils.findRenderedComponentWithType(splitPane, SplitPane);
 
 
     const findPanes = () => {
-        return TestUtils.scryRenderedDOMComponentsWithClass(component, 'Pane');
+        return ReactTestUtils.scryRenderedComponentsWithType(component, Pane);
     };
 
 
@@ -26,7 +28,7 @@ export default (jsx) => {
 
 
     const findResizer = () => {
-        return TestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
+        return ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
     };
 
 
@@ -47,14 +49,15 @@ export default (jsx) => {
 
 
     const assertFirstPaneStyles= (expectedStyles) => {
-        return assertStyles('First Pane', findTopPane().getDOMNode().style, expectedStyles);
+        //return assertStyles('First Pane', findTopPane().getDOMNode().style, expectedStyles);
+        return assertStyles('First Pane', ReactDOM.findDOMNode(findTopPane()).style, expectedStyles);
     };
 
 
     return {
 
         assertOrientation(expectedOrientation) {
-            expect(component.getDOMNode().className).to.contain(expectedOrientation, `Incorrect orientation`);
+            expect(ReactDOM.findDOMNode(component).className).to.contain(expectedOrientation, `Incorrect orientation`);
             return this;
         },
 
@@ -62,7 +65,8 @@ export default (jsx) => {
         assertPaneContents(expectedContents) {
             const panes = findPanes();
             let values = panes.map((pane) => {
-                return pane.getDOMNode().textContent;
+                //return pane.getDOMNode().textContent;
+                return ReactDOM.findDOMNode(pane).textContent;
             });
             expect(values).to.eql(expectedContents, `Incorrect contents for Pane`);
             return this;
@@ -70,9 +74,8 @@ export default (jsx) => {
 
 
         assertContainsResizer(){
-            expect(component.props.children.length).to.equal(3, `Expected the SplitPane to have 3 children`);
-            const resizer = findResizer();
-            expect(resizer.length).to.equal(1, `Expected to have a single Resizer`);
+            expect(findResizer().length).to.equal(1, `Expected the SplitPane to have a single Resizer`);
+            expect(findPanes().length).to.equal(2, `Expected the SplitPane to have 2 panes`);
             return this;
         },
 

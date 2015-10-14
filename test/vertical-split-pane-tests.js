@@ -1,9 +1,7 @@
-import React from 'react/addons';
-const { TestUtils } = React.addons;
+import React from 'react';
 import SplitPane from '../lib/SplitPane';
 import Resizer from '../lib/Resizer';
 import asserter from './assertions/Asserter';
-
 
 
 describe('Vertical SplitPane', function () {

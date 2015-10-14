@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import SplitPane from '../lib/SplitPane';
 
 
@@ -19,4 +20,4 @@ var Example = React.createClass({
 });
 
 
-React.render(<Example />, document.body);
+ReactDOM.render(<Example />, document.getElementById("container"));
