@@ -49,7 +49,6 @@ export default (jsx) => {
 
 
     const assertFirstPaneStyles= (expectedStyles) => {
-        //return assertStyles('First Pane', findTopPane().getDOMNode().style, expectedStyles);
         return assertStyles('First Pane', ReactDOM.findDOMNode(findTopPane()).style, expectedStyles);
     };
 
@@ -65,7 +64,6 @@ export default (jsx) => {
         assertPaneContents(expectedContents) {
             const panes = findPanes();
             let values = panes.map((pane) => {
-                //return pane.getDOMNode().textContent;
                 return ReactDOM.findDOMNode(pane).textContent;
             });
             expect(values).to.eql(expectedContents, `Incorrect contents for Pane`);
