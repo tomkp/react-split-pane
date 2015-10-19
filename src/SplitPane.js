@@ -10,14 +10,6 @@ import VendorPrefix from 'react-vendor-prefix';
 export default React.createClass({
 
 
-    propTypes: {
-        //minSize: React.PropTypes.number,
-        //defaultSize: React.PropTypes.number,
-        //split: React.PropTypes.string
-        //onChange: React.PropTypes.func
-    },
-
-
     getInitialState() {
         return {
             active: false,
@@ -64,7 +56,6 @@ export default React.createClass({
         if (this.state.active) {
             const ref = this.refs.pane1;
             if (ref) {
-                //const node = ref.getDOMNode();
                 const node = ReactDOM.findDOMNode(ref);
                 if (window.getComputedStyle) {
                     const styles = window.getComputedStyle(node);
