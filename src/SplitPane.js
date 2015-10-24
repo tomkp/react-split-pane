@@ -9,7 +9,6 @@ import VendorPrefix from 'react-vendor-prefix';
 
 export default React.createClass({
 
-
     getInitialState() {
         return {
             active: false,
@@ -20,6 +19,7 @@ export default React.createClass({
 
     getDefaultProps() {
         return {
+            split: 'vertical',
             minSize: 0
         };
     },
@@ -101,7 +101,7 @@ export default React.createClass({
 
     render() {
 
-        const split = this.props.split || 'vertical';
+        const split = this.props.split;
 
         let style = {
             display: 'flex',
@@ -112,7 +112,15 @@ export default React.createClass({
             userSelect: 'none'
         };
 
-        if (split === 'horizontal') {
+        if (split === 'vertical') {
+            this.merge(style, {
+                flexDirection: 'row',
+                height: '100%',
+                position: 'absolute',
+                left: 0,
+                right: 0
+            });
+        } else {
             this.merge(style, {
                 flexDirection: 'column',
                 height: '100%',
@@ -121,14 +129,6 @@ export default React.createClass({
                 top: 0,
                 bottom: 0,
                 width: '100%'
-            });
-        } else {
-            this.merge(style, {
-                flexDirection: 'row',
-                height: '100%',
-                position: 'absolute',
-                left: 0,
-                right: 0
             });
         }
 

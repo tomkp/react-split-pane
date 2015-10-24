@@ -23,11 +23,11 @@ export default React.createClass({
             overflow: 'auto'
         };
         if (this.state.size) {
-            if (split === 'horizontal') {
+            if (split === 'vertical') {
+                style.width = this.state.size;
+            } else {
                 style.height = this.state.size;
                 style.display = 'flex';
-            } else {
-                style.width = this.state.size;
             }
             style.flex = 'none';
         }
