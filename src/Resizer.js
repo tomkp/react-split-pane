@@ -12,7 +12,7 @@ export default React.createClass({
     render() {
         const split = this.props.split;
         const classes = ['Resizer', split];
-        return <span className={classes.join(' ')} onMouseDown={this.onMouseDown} />
+        return (<span className={classes.join(' ')} onMouseDown={this.onMouseDown} />);
     }
 });
 

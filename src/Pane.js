@@ -33,7 +33,7 @@ export default React.createClass({
         }
         const prefixed = VendorPrefix.prefix({styles: style});
 
-        return <div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>;
+        return (<div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>);
     }
 });
 
