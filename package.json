@@ -26,17 +26,16 @@
     "react-vendor-prefix": "^0.0.1"
   },
   "devDependencies": {
-    "babel": "^6.0.15",
-    "babel-cli": "^6.1.1",
-    "babel-eslint": "^4.1.3",
-    "babel-preset-es2015": "^6.0.15",
-    "babel-preset-react": "^6.0.15",
+    "babel-cli": "^6.1.18",
+    "babel-eslint": "^4.1.5",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
-    "chai": "^3.4.0",
+    "chai": "^3.4.1",
     "coveralls": "^2.11.4",
     "express": "^4.13.3",
-    "mochify": "^2.14.0",
+    "mochify": "^2.14.1",
     "mochify-istanbul": "^2.3.0",
     "react-addons-test-utils": "^0.14.2",
     "watchify": "^3.6.0"
