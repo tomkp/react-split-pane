@@ -35,10 +35,10 @@
     "chai": "^3.4.1",
     "coveralls": "^2.11.4",
     "express": "^4.13.3",
-    "mochify": "^2.14.1",
+    "mochify": "^2.14.2",
     "mochify-istanbul": "^2.3.0",
     "react-addons-test-utils": "^0.14.2",
-    "watchify": "^3.6.0"
+    "watchify": "^3.6.1"
   },
   "scripts": {
     "compile": "babel -d lib/ src/",
