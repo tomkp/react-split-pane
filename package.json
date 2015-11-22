@@ -21,12 +21,12 @@
     "es6"
   ],
   "dependencies": {
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
     "react-vendor-prefix": "^0.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.1.18",
+    "babel-cli": "^6.2.0",
     "babel-eslint": "^4.1.5",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
@@ -37,7 +37,7 @@
     "express": "^4.13.3",
     "mochify": "^2.14.2",
     "mochify-istanbul": "^2.3.0",
-    "react-addons-test-utils": "^0.14.2",
+    "react-addons-test-utils": "^0.14.3",
     "watchify": "^3.6.1"
   },
   "scripts": {
