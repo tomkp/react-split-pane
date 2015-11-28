@@ -57,10 +57,9 @@ export default React.createClass({
             const ref = this.refs.pane1;
             if (ref) {
                 const node = ReactDOM.findDOMNode(ref);
-                if (window.getComputedStyle) {
-                    const styles = window.getComputedStyle(node);
-                    const width = styles.width.replace('px', '');
-                    const height = styles.height.replace('px', '');
+                if (node.getBoundingClientRect) {
+                    const width = node.getBoundingClientRect().width;
+                    const height = node.getBoundingClientRect().height;
                     const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
                     const size = this.props.split === 'vertical' ? width : height;
                     const position = this.state.position;
