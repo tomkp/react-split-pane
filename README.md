@@ -7,7 +7,7 @@ Split-Pane component built with [React](http://facebook.github.io/react), can be
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
 
 
-Check out the [demo](http://zonked-knife.surge.sh/)
+Check out the [demo](http://react-split-pane.surge.sh/)
 
 
 ```html
