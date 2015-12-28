@@ -44,6 +44,7 @@ export default React.createClass({
 
 
     onMouseDown(event) {
+        this.unFocus();
         let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
         this.setState({
             active: true,
@@ -54,6 +55,7 @@ export default React.createClass({
 
     onMouseMove(event) {
         if (this.state.active) {
+            this.unFocus();
             const ref = this.refs.pane1;
             if (ref) {
                 const node = ReactDOM.findDOMNode(ref);
@@ -91,6 +93,15 @@ export default React.createClass({
     },
 
 
+    unFocus() {
+        if (document.selection) {
+            document.selection.empty();
+        } else {
+            window.getSelection().removeAllRanges()
+        }
+    },
+
+
     merge: function (into, obj) {
         for (let attr in obj) {
             into[attr] = obj[attr];
@@ -108,7 +119,10 @@ export default React.createClass({
             position: 'relative',
             outline: 'none',
             overflow: 'hidden',
-            userSelect: 'none'
+            MozUserSelect: 'text',
+            WebkitUserSelect: 'text',
+            msUserSelect: 'text',
+            userSelect: 'text'
         };
 
         if (split === 'vertical') {
