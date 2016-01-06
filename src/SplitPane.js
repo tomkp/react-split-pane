@@ -87,9 +87,14 @@ export default React.createClass({
 
 
     onMouseUp() {
-        this.setState({
-            active: false
-        });
+        if (this.state.active) {
+            if (this.props.onDragFinished) {
+                this.props.onDragFinished();
+            }
+            this.setState({
+                active: false
+            });
+        }
     },
 
 
