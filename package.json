@@ -21,10 +21,13 @@
     "es6"
   ],
   "dependencies": {
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
     "react-vendor-prefix": "^0.0.1"
   },
+  "peerDependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-eslint": "^4.1.5",
@@ -38,6 +41,8 @@
     "express": "^4.13.3",
     "mochify": "^2.14.3",
     "mochify-istanbul": "^2.3.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
     "react-addons-test-utils": "^0.14.3",
     "watchify": "^3.6.1"
   },
