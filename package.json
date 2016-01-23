@@ -2,7 +2,7 @@
   "name": "react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
@@ -27,7 +27,6 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3"
   },
-
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-eslint": "^4.1.5",
