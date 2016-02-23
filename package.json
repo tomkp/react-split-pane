@@ -38,7 +38,7 @@
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
     "express": "^4.13.3",
-    "mochify": "^2.14.3",
+    "mochify": "^2.17.0",
     "mochify-istanbul": "^2.3.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
