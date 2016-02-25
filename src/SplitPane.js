@@ -29,7 +29,7 @@ export default React.createClass({
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
         const ref = this.refs.pane1;
-        if (ref && this.props.defaultSize && !this.state.resized) {
+        if (ref && this.props.defaultSize !== undefined && !this.state.resized) {
             ref.setState({
                 size: this.props.defaultSize
             });
@@ -72,14 +72,16 @@ export default React.createClass({
                         resized: true
                     });
 
-                    if (newSize >= this.props.minSize) {
-                        if (this.props.onChange) {
-                          this.props.onChange(newSize);
-                        }
-                        ref.setState({
-                            size: newSize
-                        });
+                    if (newSize < this.props.minSize) {
+                        newSize = this.props.minSize;
                     }
+                    
+                    if (this.props.onChange) {
+                      this.props.onChange(newSize);
+                    }
+                    ref.setState({
+                        size: newSize
+                    });
                 }
             }
         }
