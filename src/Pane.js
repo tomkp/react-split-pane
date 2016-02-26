@@ -22,7 +22,7 @@ export default React.createClass({
             outline: 'none',
             overflow: 'auto'
         };
-        if (this.state.size) {
+        if (this.state.size !== undefined) {
             if (split === 'vertical') {
                 style.width = this.state.size;
             } else {
