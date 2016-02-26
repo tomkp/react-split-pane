@@ -34,7 +34,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babelify": "^7.2.0",
-    "browserify": "^12.0.1",
+    "browserify": "^13.0.0",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
     "express": "^4.13.3",
