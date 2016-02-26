@@ -29,7 +29,7 @@ export default React.createClass({
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
         const ref = this.refs.pane1;
-        if (ref && this.props.defaultSize && !this.state.resized) {
+        if (ref && this.props.defaultSize !== undefined && !this.state.resized) {
             ref.setState({
                 size: this.props.defaultSize
             });
