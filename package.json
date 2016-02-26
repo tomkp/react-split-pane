@@ -36,7 +36,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "chai": "^3.4.1",
-    "coveralls": "^2.11.6",
+    "coveralls": "^2.11.7",
     "express": "^4.13.3",
     "mochify": "^2.14.3",
     "mochify-istanbul": "^2.3.0",
