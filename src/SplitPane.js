@@ -69,7 +69,7 @@ export default React.createClass({
                     const size = this.props.split === 'vertical' ? width : height;
                     const position = this.state.position;
 
-                    const newSize = size - (position - current);
+                    let newSize = size - (position - current);
                     this.setState({
                         position: current,
                         resized: true
