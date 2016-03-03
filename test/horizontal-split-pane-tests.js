@@ -50,7 +50,66 @@ describe('Horizontal SplitPane', function () {
 
 
         it('should have correct height for the top Pane', function () {
-            asserter(splitPane).assertFirstPaneHeight('99px');
+            asserter(splitPane).assertPaneHeight('99px');
+        });
+    });
+
+    describe('With primary property set to second', function () {
+
+        const splitPane = (
+            <SplitPane split="horizontal" defaultSize="99" primary="second">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+
+        it('should have correct height for the bottom Pane', function () {
+            asserter(splitPane).assertPaneHeight('99px', 'second');
+        });
+    });
+
+    describe('Resizer move up and down', function () {
+
+        const splitPane = (
+            <SplitPane split="horizontal" defaultSize="200">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+        const moveToRight = { y: 200 };
+
+        it('after move down, the first pane should be larger then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToRight, { height: '400px' });
+        });
+
+        const moveToLeft = { y: -120 };
+
+        it('after move up, the first pane should be smaller then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToLeft, { height: '80px' });
+        });
+    });
+
+    describe('Resizer move up and down and primary prop is set to second', function () {
+
+        const splitPane = (
+            <SplitPane split="horizontal" defaultSize="400" primary="second">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+        const moveToRight = { y: 160 };
+
+        it('after move down, the second pane should be smaller then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToRight, { height: '240px' });
+        });
+
+        const moveToLeft = { y: -111 };
+
+        it('after move up, the second pane should be larger then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToLeft, { height: '511px' });
         });
     });
 });
