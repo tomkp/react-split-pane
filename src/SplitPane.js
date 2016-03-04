@@ -9,6 +9,11 @@ import VendorPrefix from 'react-vendor-prefix';
 
 export default React.createClass({
 
+    propTypes: {
+        primary: React.PropTypes.oneOf(['first', 'second']),
+        split: React.PropTypes.oneOf(['vertical', 'horizontal'])
+    },
+
     getInitialState() {
         return {
             active: false,
@@ -20,7 +25,8 @@ export default React.createClass({
     getDefaultProps() {
         return {
             split: 'vertical',
-            minSize: 0
+            minSize: 0,
+            primary: 'first'
         };
     },
 
@@ -28,7 +34,7 @@ export default React.createClass({
     componentDidMount() {
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
-        const ref = this.refs.pane1;
+        const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
         if (ref && this.props.defaultSize !== undefined && !this.state.resized) {
             ref.setState({
                 size: this.props.defaultSize
@@ -59,17 +65,19 @@ export default React.createClass({
     onMouseMove(event) {
         if (this.state.active) {
             this.unFocus();
-            const ref = this.refs.pane1;
+            const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
             if (ref) {
                 const node = ReactDOM.findDOMNode(ref);
+
                 if (node.getBoundingClientRect) {
                     const width = node.getBoundingClientRect().width;
                     const height = node.getBoundingClientRect().height;
                     const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
                     const size = this.props.split === 'vertical' ? width : height;
                     const position = this.state.position;
+                    const newPosition = this.props.primary === 'first' ? (position - current) : (current - position);
 
-                    let newSize = size - (position - current);
+                    let newSize =  size - newPosition;
                     this.setState({
                         position: current,
                         resized: true

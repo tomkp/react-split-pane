@@ -27,6 +27,23 @@ Check out the [demo](http://react-split-pane.surge.sh/)
     </SplitPane>
 ```
 
+### Primary pane
+
+By dragging 'draggable' surface you can change size of the first pane.
+The first pane keeps then its size while the second pane is resized by browser window.
+By default it is the left pane for 'vertical' SplitPane and the top pane for 'horizontal' SplitPane.
+If you want to keep size of the second pane and let the first pane to shrink or grow by browser window dimensions,
+set SplitPane prop `primary` to `second`. In case of 'horizontal' SplitPane the height of bottom pane remains the same.
+
+In this example right pane keeps its width 200px while user is resizing browser window.
+
+```html
+    <SplitPane split="vertical" defaultSize="200" primary="second">
+        <div></div>
+        <div></div>
+    </SplitPane>
+```
+
 ### Persisting Positions
 
 Each SplitPane accepts an onChange function prop.  Used in conjunction with

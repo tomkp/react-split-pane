@@ -33,7 +33,6 @@ describe('Vertical SplitPane', function () {
     });
 
 
-
     describe('With defaultSize property', function () {
 
         const splitPane = (
@@ -45,8 +44,70 @@ describe('Vertical SplitPane', function () {
 
 
         it('should have correct width for the left Pane', function () {
-            asserter(splitPane).assertFirstPaneWidth('99px');
+            asserter(splitPane).assertPaneWidth('99px');
+            asserter(splitPane).assertPaneWidth(null, 'second');
         });
     });
 
+
+    describe('With primary property set to second', function () {
+
+        const splitPane = (
+            <SplitPane split="vertical" defaultSize="99" primary="second" >
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+
+        it('should have correct width for the right Pane', function () {
+            asserter(splitPane).assertPaneWidth(null);
+            asserter(splitPane).assertPaneWidth('99px', 'second');
+        });
+    });
+
+
+    describe('Resizer move to the right and left', function () {
+
+        const splitPane = (
+            <SplitPane split="vertical" defaultSize="200">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+        const moveToRight = { x: 200 };
+
+        it('after move to right, the first pane should be larger then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToRight, { width: '400px' });
+        });
+
+        const moveToLeft = { x: -120 };
+
+        it('after move to left, the first pane should be smaller then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToLeft, { width: '80px' });
+        });
+    });
+
+    describe('Resizer move to the right and left and primary prop is set to second', function () {
+
+        const splitPane = (
+            <SplitPane split="vertical" defaultSize="400" primary="second">
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+        const moveToRight = { x: 160 };
+
+        it('after move to right, the second pane should be smaller then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToRight, { width: '240px' });
+        });
+
+        const moveToLeft = { x: -111 };
+
+        it('after move to left, the second pane should be larger then before', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveToLeft, { width: '511px' });
+        });
+    });
 });
