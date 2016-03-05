@@ -9,3 +9,4 @@ before_install:
 after_script:
   - npm run test:coverage
   - npm run demo:publish
+  - npm run release:patch
