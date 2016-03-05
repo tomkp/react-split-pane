@@ -8,3 +8,4 @@ before_install:
     - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
 after_script:
   - npm run test:coverage
+  - npm run demo:publish
