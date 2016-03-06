@@ -1,11 +1,19 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
 before_install:
-    - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-    - tar -xjf phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-    - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
-    - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
+- wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+- tar -xjf phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+- sudo rm -rf /usr/local/phantomjs/bin/phantomjs
+- sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
 after_script:
-  - npm run test:coverage
-  - npm run demo:publish
+- npm run test:coverage
+- npm run demo:publish
+deploy:
+  provider: npm
+  email: tom@tomkp.com
+  api_key:
+    secure: Kw9L/aogOhOD7wL1P7uthj6aLCyBf5F+sgFsbciF/jqY0WqyGNORIIApWZRUms0UBZ5YOUJyTy65v/pLPR/+KBqmtkJmxx9IeLHvrmvrgwAo6DzRgL0OhZhZKDz9HPschXwyVG6bkJ9gKUDrZnOS2ks4YQ+ji59sYaSkpH9Y4KY=
+  on:
+    tags: false
+    repo: tomkp/react-split-pane
