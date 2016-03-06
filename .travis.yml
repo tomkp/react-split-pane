@@ -9,12 +9,3 @@ before_install:
 after_script:
 - npm run test:coverage
 - npm run demo:publish
-- npm run release:patch
-deploy:
-  provider: npm
-  email: tom@tomkp.com
-  api_key:
-    secure: Kw9L/aogOhOD7wL1P7uthj6aLCyBf5F+sgFsbciF/jqY0WqyGNORIIApWZRUms0UBZ5YOUJyTy65v/pLPR/+KBqmtkJmxx9IeLHvrmvrgwAo6DzRgL0OhZhZKDz9HPschXwyVG6bkJ9gKUDrZnOS2ks4YQ+ji59sYaSkpH9Y4KY=
-  on:
-    tags: false
-    repo: tomkp/react-split-pane
