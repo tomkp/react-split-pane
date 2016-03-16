@@ -11,6 +11,11 @@ export default React.createClass({
 
     propTypes: {
         primary: React.PropTypes.oneOf(['first', 'second']),
+        minSize: React.PropTypes.number,
+        defaultSize: React.PropTypes.number,
+        size: React.PropTypes.number,
+        allowResize: React.PropTypes.bool,
+        split: React.PropTypes.oneOf(['vertical', 'horizontal'])
         split: React.PropTypes.oneOf(['vertical', 'horizontal']),
         onDragStarted: React.PropTypes.func,
         onDragFinished: React.PropTypes.func,
@@ -28,6 +33,7 @@ export default React.createClass({
         return {
             split: 'vertical',
             minSize: 0,
+            allowResize: true,
             primary: 'first'
         };
     },
@@ -36,12 +42,17 @@ export default React.createClass({
     componentDidMount() {
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
-        const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
-        if (ref && this.props.defaultSize !== undefined && !this.state.resized) {
-            ref.setState({
-                size: this.props.defaultSize
-            });
-        }
+    },
+
+    componentWillReceiveProps(props) {
+      const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
+      let newSize;
+      if (ref) {
+        newSize = props.size || this.state.draggedSize || props.defaultSize || props.minSize;
+          ref.setState({
+              size: newSize
+          });
+      }
     },
 
 
@@ -52,6 +63,7 @@ export default React.createClass({
 
 
     onMouseDown(event) {
+      if(this.props.allowResize && !this.props.size) {
         this.unFocus();
         let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
         if (typeof this.props.onDragStarted === 'function') {
@@ -61,10 +73,12 @@ export default React.createClass({
             active: true,
             position: position
         });
+      }
     },
 
 
     onMouseMove(event) {
+      if(this.props.allowResize && !this.props.size) {
         if (this.state.active) {
             this.unFocus();
             const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
@@ -92,16 +106,21 @@ export default React.createClass({
                     if (this.props.onChange) {
                       this.props.onChange(newSize);
                     }
+                    this.setState({
+                      draggedSize: newSize
+                    });
                     ref.setState({
                         size: newSize
                     });
                 }
             }
         }
+      }
     },
 
 
     onMouseUp() {
+      if(this.props.allowResize && !this.props.size) {
         if (this.state.active) {
             if (typeof this.props.onDragFinished === 'function') {
                 this.props.onDragFinished();
@@ -110,6 +129,7 @@ export default React.createClass({
                 active: false
             });
         }
+      }
     },
 
 
@@ -131,7 +151,8 @@ export default React.createClass({
 
     render() {
 
-        const split = this.props.split;
+        const {split, allowResize} = this.props;
+        let disabledClass = allowResize ? '' : 'disabled';
 
         let style = {
             display: 'flex',
@@ -166,13 +187,13 @@ export default React.createClass({
         }
 
         const children = this.props.children;
-        const classes = ['SplitPane', this.props.className, split];
+        const classes = ['SplitPane', this.props.className, split, disabledClass];
         const prefixed = VendorPrefix.prefix({styles: style});
 
         return (
             <div className={classes.join(' ')} style={prefixed.styles} ref="splitPane">
                 <Pane ref="pane1" key="pane1" className="Pane1" split={split}>{children[0]}</Pane>
-                <Resizer ref="resizer" key="resizer" onMouseDown={this.onMouseDown} split={split} />
+                <Resizer ref="resizer" key="resizer" className={disabledClass} onMouseDown={this.onMouseDown} split={split} />
                 <Pane ref="pane2" key="pane2" className="Pane2" split={split}>{children[1]}</Pane>
             </div>
         );

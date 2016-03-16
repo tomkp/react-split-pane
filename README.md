@@ -11,14 +11,14 @@ Check out the [demo](http://react-split-pane.surge.sh/)
 
 
 ```html
-   <SplitPane split="vertical" minSize="50" defaultSize="100">
+   <SplitPane split="vertical" minSize={50} defaultSize={100}>
        <div></div>
        <div></div>
    </SplitPane>
 ```
 
 ```html
-    <SplitPane split="vertical" minSize="50">
+    <SplitPane split="vertical" minSize={50}>
         <div></div>
         <SplitPane split="horizontal">
             <div></div>
@@ -35,10 +35,14 @@ By default it is the left pane for 'vertical' SplitPane and the top pane for 'ho
 If you want to keep size of the second pane and let the first pane to shrink or grow by browser window dimensions,
 set SplitPane prop `primary` to `second`. In case of 'horizontal' SplitPane the height of bottom pane remains the same.
 
+Resizing can be disabled by passing the `enableResizing` prop as `false`. Resizing is enabled by default.
+
+You can also set the size of the pane using the `size` prop. Note that a size set through props ignores the `defaultSize` and `minSize` properties.
+
 In this example right pane keeps its width 200px while user is resizing browser window.
 
 ```html
-    <SplitPane split="vertical" defaultSize="200" primary="second">
+    <SplitPane split="vertical" defaultSize={200} primary="second">
         <div></div>
         <div></div>
     </SplitPane>
@@ -54,7 +58,7 @@ For example, if you are comfortable with the trade-offs of localStorage, you
 could do something like the following:
 
 ```html
-    <SplitPane split="vertical" minSize="50"
+    <SplitPane split="vertical" minSize={50}
                defaultSize={ localStorage.getItem('splitPos') }
                onChange={ size => localStorage.setItem('splitPos', size) }>
         <div></div>
@@ -135,4 +139,11 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         border-left: 5px solid rgba(0, 0, 0, 0.5);
         border-right: 5px solid rgba(0, 0, 0, 0.5);
     }
+    Resizer.disabled {
+      cursor: not-allowed;
+    }
+    Resizer.disabled:hover {
+      border-color: transparent;
+    }
+
  ```
