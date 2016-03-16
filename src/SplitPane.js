@@ -99,13 +99,14 @@ export default React.createClass({
                     const newPosition = this.props.primary === 'first' ? (position - current) : (current - position);
 
                     let newSize =  size - newPosition;
-                    this.setState({
-                        position: current,
-                        resized: true
-                    });
 
                     if (newSize < this.props.minSize) {
-                        newSize = this.props.minSize;
+                      newSize = this.props.minSize;
+                    } else {
+                      this.setState({
+                          position: current,
+                          resized: true
+                      });                      
                     }
 
                     if (this.props.onChange) {
