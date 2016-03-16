@@ -37,15 +37,20 @@ export default React.createClass({
 
 
     componentDidMount() {
-        document.addEventListener('mouseup', this.onMouseUp);
-        document.addEventListener('mousemove', this.onMouseMove);
+      this.setSize(this.props, this.state);
+      document.addEventListener('mouseup', this.onMouseUp);
+      document.addEventListener('mousemove', this.onMouseMove);
     },
 
     componentWillReceiveProps(props) {
+      this.setSize(props, this.state);
+    },
+
+    setSize(props, state) {
       const ref = this.props.primary === 'first' ? this.refs.pane1 : this.refs.pane2;
       let newSize;
       if (ref) {
-        newSize = props.size || this.state.draggedSize || props.defaultSize || props.minSize;
+        newSize = props.size || (state && state.draggedSize) || props.defaultSize || props.minSize;
           ref.setState({
               size: newSize
           });
@@ -99,7 +104,7 @@ export default React.createClass({
                     if (newSize < this.props.minSize) {
                         newSize = this.props.minSize;
                     }
-                    
+
                     if (this.props.onChange) {
                       this.props.onChange(newSize);
                     }
