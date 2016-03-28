@@ -19,8 +19,7 @@ export default React.createClass({
         let style = {
             flex: 1,
             position: 'relative',
-            outline: 'none',
-            overflow: 'auto'
+            outline: 'none'
         };
         if (this.state.size !== undefined) {
             if (split === 'vertical') {
