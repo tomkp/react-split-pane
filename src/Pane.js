@@ -14,7 +14,7 @@ export default React.createClass({
 
     render() {
         const split = this.props.split;
-        const classes = ['Pane', split];
+        const classes = ['Pane', split, this.props.className];
 
         let style = {
             flex: 1,

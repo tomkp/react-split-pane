@@ -26,5 +26,39 @@ describe('Default SplitPane', function () {
     it('should contain a Resizer', function () {
          asserter(splitPane).assertContainsResizer();
     });
+    
 });
 
+
+describe('SplitPane can have a specific class', function () {
+
+    const splitPane = (
+        <SplitPane className="some-class">
+            <div>one</div>
+            <div>two</div>
+        </SplitPane>
+    );
+
+
+    it('should have the specified class', function () {
+        asserter(splitPane).assertSplitPaneClass('some-class');
+    });
+
+});
+
+
+describe('Internal Panes have class', function () {
+
+    const splitPane = (
+        <SplitPane className="some-class">
+            <div>one</div>
+            <div>two</div>
+        </SplitPane>
+    );
+
+
+    it('should have the specified classname', function () {
+        asserter(splitPane).assertPaneClasses('Pane1', 'Pane2');
+    });
+
+});

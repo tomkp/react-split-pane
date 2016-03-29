@@ -107,6 +107,10 @@ export default (jsx, renderToDom = false) => {
         component.onMouseUp();
     };
 
+    const assertClass = (component, expectedClassName) => {
+        expect(ReactDOM.findDOMNode(component).className).to.contain(expectedClassName, `Incorrect className`);
+        return this;
+    };
 
     return {
         assertOrientation(expectedOrientation) {
@@ -114,7 +118,17 @@ export default (jsx, renderToDom = false) => {
             return this;
         },
 
+        assertSplitPaneClass(expectedClassName) {
+          assertClass(component, expectedClassName);  
+        },
 
+        
+        assertPaneClasses(expectedTopPaneClass, expectedBottomPaneClass) {
+            assertClass(findTopPane(), expectedTopPaneClass);
+            assertClass(findBottomPane(), expectedBottomPaneClass);
+        },
+
+        
         assertPaneContents(expectedContents) {
             const panes = findPanes();
             let values = panes.map((pane) => {
