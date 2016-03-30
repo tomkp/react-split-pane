@@ -15,10 +15,9 @@ export default React.createClass({
         defaultSize: React.PropTypes.number,
         size: React.PropTypes.number,
         allowResize: React.PropTypes.bool,
-        split: React.PropTypes.oneOf(['vertical', 'horizontal'])
         split: React.PropTypes.oneOf(['vertical', 'horizontal']),
         onDragStarted: React.PropTypes.func,
-        onDragFinished: React.PropTypes.func,
+        onDragFinished: React.PropTypes.func
     },
 
     getInitialState() {
