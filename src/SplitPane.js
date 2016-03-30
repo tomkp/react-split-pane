@@ -31,7 +31,7 @@ export default React.createClass({
     getDefaultProps() {
         return {
             split: 'vertical',
-            minSize: 0,
+            minSize: 50,
             allowResize: true,
             primary: 'first'
         };
