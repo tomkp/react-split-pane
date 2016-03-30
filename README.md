@@ -77,6 +77,11 @@ https://github.com/mozilla/localForage although hooking it up will be slightly
 more involved.  You are likely to be admired by all for judiciously avoiding
 use of localStorage.
 
+### Resizing callbacks
+
+If you need more control over resizing, SplitPane can notify you about when resizing started
+and when it ended through two callbacks: `onDragStarted` and `onDragFinished`.
+
 ### Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.

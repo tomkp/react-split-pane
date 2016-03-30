@@ -4,9 +4,12 @@ import SplitPane from '../../lib/SplitPane';
 import Resizer from '../../lib/Resizer';
 import Pane from '../../lib/Pane';
 import chai from 'chai';
+import spies from 'chai-spies';
 const expect = chai.expect;
 import VendorPrefix from 'react-vendor-prefix';
 import ReactTestUtils from 'react-addons-test-utils';
+
+chai.use(spies);
 
 /**
  * getBoundingClientRect() does not work correctly with ReactTestUtils.renderIntoDocument().
@@ -72,6 +75,12 @@ export default (jsx, renderToDom = false) => {
     };
 
 
+    const assertCallbacks = (expectedDragStartedCallback, expectedDragFinishedCallback) => {
+        expect(expectedDragStartedCallback).to.have.been.called();
+        expect(expectedDragFinishedCallback).to.have.been.called();
+    };
+
+
     const getResizerPosition = () => {
         const resizerNode = ReactDOM.findDOMNode(findResizer()[0]);
         return resizerNode.getBoundingClientRect();
@@ -119,16 +128,16 @@ export default (jsx, renderToDom = false) => {
         },
 
         assertSplitPaneClass(expectedClassName) {
-          assertClass(component, expectedClassName);  
+          assertClass(component, expectedClassName);
         },
 
-        
+
         assertPaneClasses(expectedTopPaneClass, expectedBottomPaneClass) {
             assertClass(findTopPane(), expectedTopPaneClass);
             assertClass(findBottomPane(), expectedBottomPaneClass);
         },
 
-        
+
         assertPaneContents(expectedContents) {
             const panes = findPanes();
             let values = panes.map((pane) => {
@@ -159,6 +168,11 @@ export default (jsx, renderToDom = false) => {
         assertResizeByDragging(mousePositionDifference, expectedStyle) {
             simulateDragAndDrop(mousePositionDifference);
             return assertPaneStyles(expectedStyle, component.props.primary);
+        },
+
+        assertResizeCallbacks(expectedDragStartedCallback, expectedDragFinishedCallback) {
+            simulateDragAndDrop(200);
+            return assertCallbacks(expectedDragStartedCallback, expectedDragFinishedCallback);
         }
     }
 }

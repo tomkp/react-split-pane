@@ -11,7 +11,9 @@ export default React.createClass({
 
     propTypes: {
         primary: React.PropTypes.oneOf(['first', 'second']),
-        split: React.PropTypes.oneOf(['vertical', 'horizontal'])
+        split: React.PropTypes.oneOf(['vertical', 'horizontal']),
+        onDragStarted: React.PropTypes.func,
+        onDragFinished: React.PropTypes.func,
     },
 
     getInitialState() {
@@ -52,8 +54,8 @@ export default React.createClass({
     onMouseDown(event) {
         this.unFocus();
         let position = this.props.split === 'vertical' ? event.clientX : event.clientY;
-        if (this.props.onDragStart) {
-            this.props.onDragStart();
+        if (typeof this.props.onDragStarted === 'function') {
+            this.props.onDragStarted();
         }
         this.setState({
             active: true,
@@ -86,7 +88,7 @@ export default React.createClass({
                     if (newSize < this.props.minSize) {
                         newSize = this.props.minSize;
                     }
-                    
+
                     if (this.props.onChange) {
                       this.props.onChange(newSize);
                     }
@@ -101,7 +103,7 @@ export default React.createClass({
 
     onMouseUp() {
         if (this.state.active) {
-            if (this.props.onDragFinished) {
+            if (typeof this.props.onDragFinished === 'function') {
                 this.props.onDragFinished();
             }
             this.setState({
