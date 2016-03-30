@@ -42,7 +42,7 @@ describe('Horizontal SplitPane', function () {
     describe('With defaultSize property', function () {
 
         const splitPane = (
-            <SplitPane split="horizontal" defaultSize="99" >
+            <SplitPane split="horizontal" defaultSize={99} >
                 <div>one</div>
                 <div>two</div>
             </SplitPane>
@@ -57,7 +57,7 @@ describe('Horizontal SplitPane', function () {
     describe('With primary property set to second', function () {
 
         const splitPane = (
-            <SplitPane split="horizontal" defaultSize="99" primary="second">
+            <SplitPane split="horizontal" defaultSize={99} primary="second">
                 <div>one</div>
                 <div>two</div>
             </SplitPane>
@@ -72,7 +72,7 @@ describe('Horizontal SplitPane', function () {
     describe('Resizer move up and down', function () {
 
         const splitPane = (
-            <SplitPane split="horizontal" defaultSize="200">
+            <SplitPane split="horizontal" defaultSize={200}>
                 <div>one</div>
                 <div>two</div>
             </SplitPane>
@@ -94,7 +94,7 @@ describe('Horizontal SplitPane', function () {
     describe('Resizer move up and down and primary prop is set to second', function () {
 
         const splitPane = (
-            <SplitPane split="horizontal" defaultSize="400" primary="second">
+            <SplitPane split="horizontal" defaultSize={400} primary="second">
                 <div>one</div>
                 <div>two</div>
             </SplitPane>
@@ -113,5 +113,6 @@ describe('Horizontal SplitPane', function () {
         });
     });
 });
+
 
 
