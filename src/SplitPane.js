@@ -12,6 +12,7 @@ export default React.createClass({
     propTypes: {
         primary: React.PropTypes.oneOf(['first', 'second']),
         minSize: React.PropTypes.number,
+        maxSize: React.PropTypes.number,
         defaultSize: React.PropTypes.number,
         size: React.PropTypes.number,
         allowResize: React.PropTypes.bool,
@@ -100,7 +101,9 @@ export default React.createClass({
                     let newSize =  size - newPosition;
 
                     if (newSize < this.props.minSize) {
-                      newSize = this.props.minSize;
+                        newSize = this.props.minSize;
+                    } else if (newSize > this.props.maxSize) {
+                        newSize = this.props.maxSize;
                     } else {
                       this.setState({
                           position: current,
