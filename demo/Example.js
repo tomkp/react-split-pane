@@ -7,7 +7,7 @@ var Example = React.createClass({
 
     render: function() {
         return (
-            <SplitPane split="vertical" minSize="50" defaultSize="100" className="primary">
+            <SplitPane split="vertical" minSize="50" maxSize="300" defaultSize="100" className="primary">
                 <div></div>
                 <SplitPane split="horizontal">
                     <div></div>
