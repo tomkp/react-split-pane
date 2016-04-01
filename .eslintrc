@@ -2,6 +2,12 @@
   "extends": "airbnb",
 
   "rules": {
-    "indent": [2, 4]
+    "indent": [2, 4],
+    "max-len": [2, 120, 4, {
+      "ignoreUrls": true,
+      "ignoreComments": false
+    }],
+    "react/jsx-indent-props": [2, 4],
+    "space-before-function-paren": [2, "never"]
   }
 }
