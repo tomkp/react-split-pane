@@ -70,7 +70,7 @@ describe('Vertical SplitPane', function () {
     describe('Resizer move to the right and left', function () {
 
         const splitPane = (
-            <SplitPane split="vertical" defaultSize={200}>
+            <SplitPane split="vertical" defaultSize={200} minSize={50} maxSize={450}>
                 <div>one</div>
                 <div>two</div>
             </SplitPane>
@@ -78,14 +78,26 @@ describe('Vertical SplitPane', function () {
 
         const moveToRight = { x: 200 };
 
-        it('after move to right, the first pane should be larger then before', function () {
+        it('after move to right, the first pane should be larger than before', function () {
             asserter(splitPane, true).assertResizeByDragging(moveToRight, { width: '400px' });
         });
 
         const moveToLeft = { x: -120 };
 
-        it('after move to left, the first pane should be smaller then before', function () {
+        it('after move to left, the first pane should be smaller than before', function () {
             asserter(splitPane, true).assertResizeByDragging(moveToLeft, { width: '80px' });
+        });
+
+        const moveLeftExtreme = { x: -190 };
+
+        it('after move to left, the first pane should not be smaller than `minSize`', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveLeftExtreme, { width: '50px' });
+        });
+
+        const moveRightExtreme = { x: 300 };
+
+        it('after move to right, the first pane should not be larger than `minSize`', function () {
+            asserter(splitPane, true).assertResizeByDragging(moveRightExtreme, { width: '450px' });
         });
     });
 
