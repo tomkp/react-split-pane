@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Pane from './Pane';
+import VSplit from './VSplit';
+import HSplit from './HSplit';
 import Resizer from './Resizer';
 import VendorPrefix from 'react-vendor-prefix';
 
@@ -161,8 +163,16 @@ class SplitPane extends Component {
             });
         }
 
+        let resizerChildren = null;
+        if (this.props.resizerChildren) {
+          resizerChildren = this.props.resizerChildren;
+        } else if (split === 'vertical') {
+          resizerChildren = <VSplit />;
+        } else {
+          resizerChildren = <HSplit />;
+        }
+
         const children = this.props.children;
-        const resizerChildren = this.props.resizerChildren;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
         const prefixed = VendorPrefix.prefix({ styles: style });
 
@@ -196,7 +206,7 @@ SplitPane.propTypes = {
     onChange: PropTypes.func,
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
-    resizerChildren: PropTypes.node.isRequired,
+    resizerChildren: PropTypes.node,
 };
 
 SplitPane.defaultProps = {

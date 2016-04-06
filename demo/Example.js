@@ -2,21 +2,6 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import SplitPane from '../lib/SplitPane';
 
-const VSplit = React.createClass({
-  render() {
-    const style = {
-      cursor: 'col-resize',
-      background: '#EEEEEE',
-      borderLeft: 'solid #E0E0E0 1px',
-      borderRight: 'solid #E0E0E0 1px',
-      height: '100%',
-      width: '10px',
-    };
-
-    return <div style={style}></div>;
-  }
-});
-
 const HSplit = React.createClass({
   render() {
     const style = {
@@ -72,13 +57,11 @@ HSplit.propTypes = {
 
 var Example = React.createClass({
     render: function() {
-        const vsplit = <VSplit />;
-
         const close = () => alert('close button clicked');
         const hsplit = <HSplit header="Split Pane Header" onClose={close} />;
 
         return (
-            <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={250} className="primary" resizerChildren={vsplit}>
+            <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={250} className="primary">
                 <div></div>
                 <SplitPane split="horizontal" primary="second" defaultSize={250} resizerChildren={hsplit}>
                     <div></div>
