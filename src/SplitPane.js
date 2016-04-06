@@ -162,6 +162,7 @@ class SplitPane extends Component {
         }
 
         const children = this.props.children;
+        const resizerChildren = this.props.resizerChildren;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
         const prefixed = VendorPrefix.prefix({ styles: style });
 
@@ -173,6 +174,7 @@ class SplitPane extends Component {
                     key="resizer"
                     className={disabledClass}
                     onMouseDown={this.onMouseDown}
+                    children={resizerChildren}
                     split={split}
                 />
                 <Pane ref="pane2" key="pane2" className="Pane2" split={split}>{children[1]}</Pane>
@@ -194,6 +196,7 @@ SplitPane.propTypes = {
     onChange: PropTypes.func,
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    resizerChildren: PropTypes.node.isRequired,
 };
 
 SplitPane.defaultProps = {
