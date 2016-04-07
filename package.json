@@ -46,7 +46,7 @@
     "mochify": "^2.17.0",
     "mochify-istanbul": "^2.4.1",
     "react": "^0.14.8",
-    "react-addons-test-utils": "^0.14.8",
+    "react-addons-test-utils": "^15.0.0",
     "react-dom": "^0.14.8",
     "surge": "^0.17.7",
     "watchify": "^3.7.0"
