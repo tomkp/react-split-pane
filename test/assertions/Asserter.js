@@ -6,7 +6,6 @@ import Pane from '../../lib/Pane';
 import chai from 'chai';
 import spies from 'chai-spies';
 const expect = chai.expect;
-import VendorPrefix from 'react-vendor-prefix';
 import ReactTestUtils from 'react-addons-test-utils';
 
 chai.use(spies);
@@ -54,15 +53,14 @@ export default (jsx, renderToDom = false) => {
 
 
     const assertStyles = (componentName, actualStyles, expectedStyles) => {
-        const prefixed = VendorPrefix.prefix({styles: expectedStyles}).styles;
-        for (let prop in prefixed) {
-            if (prefixed.hasOwnProperty(prop)) {
+        for (let prop in expectedStyles) {
+            if (expectedStyles.hasOwnProperty(prop)) {
                 //console.log(prop + ': \'' + actualStyles[prop] + '\',');
-                if (prefixed[prop] && prefixed[prop] !== '') {
+                if (expectedStyles[prop] && expectedStyles[prop] !== '') {
                     //console.log(prop + ': \'' + actualStyles[prop] + '\',');
-                    expect(actualStyles[prop]).to.equal(prefixed[prop], `${componentName} has incorrect css property for '${prop}'`);
+                    expect(actualStyles[prop]).to.equal(expectedStyles[prop], `${componentName} has incorrect css property for '${prop}'`);
                 }
-                //expect(actualStyles[prop]).to.equal(prefixed[prop], `${componentName} has incorrect css property for '${prop}'`);
+                //expect(actualStyles[prop]).to.equal(expectedStyles[prop], `${componentName} has incorrect css property for '${prop}'`);
             }
         }
         return this;
