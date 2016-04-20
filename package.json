@@ -2,7 +2,7 @@
   "name": "react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
-  "version": "0.1.30",
+  "version": "0.1.33",
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
@@ -25,8 +25,8 @@
     "react-dom": "^0.14.8"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.5",
-    "babel-eslint": "^6.0.0",
+    "babel-cli": "^6.7.5",
+    "babel-eslint": "^6.0.3",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-object-assign": "^6.5.0",
     "babel-preset-es2015": "^6.6.0",
@@ -36,15 +36,15 @@
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
     "coveralls": "^2.11.9",
-    "eslint": "^2.5.3",
-    "eslint-config-airbnb": "^6.2.0",
-    "eslint-plugin-react": "^4.2.3",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-react": "^5.0.1",
     "express": "^4.13.4",
     "mochify": "^2.17.0",
     "mochify-istanbul": "^2.4.1",
-    "react": "^0.14.8",
-    "react-addons-test-utils": "^0.14.8",
-    "react-dom": "^0.14.8",
+    "react": "^15.0.1",
+    "react-addons-test-utils": "^15.0.1",
+    "react-dom": "^15.0.1",
     "surge": "^0.17.7",
     "watchify": "^3.7.0"
   },
@@ -56,9 +56,9 @@
     "test:watch": "npm run compile:watch & mochify -R spec --watch",
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "lint": "eslint src/",
-    "demo": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js",
-    "demo:watch": "npm run compile:watch & watchify demo/Example.js -d -t -o demo/bundle.js",
-    "demo:publish": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
+    "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
+    "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
+    "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
     "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish"
   },
   "browserify": {
