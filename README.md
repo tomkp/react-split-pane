@@ -141,7 +141,6 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         border-left: 5px solid rgba(255, 255, 255, 0);
         border-right: 5px solid rgba(255, 255, 255, 0);
         cursor: col-resize;
-        height: 100%;
     }
 
     .Resizer.vertical:hover {
