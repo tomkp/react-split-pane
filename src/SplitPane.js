@@ -65,12 +65,22 @@ class SplitPane extends Component {
                         const position = this.state.position;
                         const newPosition = isPrimaryFirst ? (position - current) : (current - position);
 
+                        let maxSize = this.props.maxSize;
+                        if ((this.props.maxSize !== undefined) && (this.props.maxSize <= 0)) {
+                            const splPane = ReactDOM.findDOMNode(this.refs.splitPane);
+                            if (this.props.split === 'vertical') {
+                                maxSize = splPane.getBoundingClientRect().width + this.props.maxSize;
+                            } else {
+                                maxSize = splPane.getBoundingClientRect().height + this.props.maxSize;
+                            }
+                        }
+
                         let newSize = size - newPosition;
 
                         if (newSize < this.props.minSize) {
                             newSize = this.props.minSize;
-                        } else if (newSize > this.props.maxSize) {
-                            newSize = this.props.maxSize;
+                        } else if ((this.props.maxSize !== undefined) && (newSize > maxSize)) {
+                            newSize = maxSize;
                         } else {
                             this.setState({
                                 position: current,
