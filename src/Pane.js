@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import VendorPrefix from 'react-vendor-prefix';
-
 
 class Pane extends Component {
     constructor(...args) {
@@ -28,10 +26,9 @@ class Pane extends Component {
             }
             style.flex = 'none';
         }
-        const prefixed = VendorPrefix.prefix({ styles: style });
 
         return (
-            <div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>
+            <div className={classes.join(' ')} style={style}>{this.props.children}</div>
         );
     }
 }

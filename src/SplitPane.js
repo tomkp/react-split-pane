@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Pane from './Pane';
 import Resizer from './Resizer';
-import VendorPrefix from 'react-vendor-prefix';
-
 
 class SplitPane extends Component {
     constructor(...args) {
@@ -173,10 +171,9 @@ class SplitPane extends Component {
 
         const children = this.props.children;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
-        const prefixed = VendorPrefix.prefix({ styles: style });
 
         return (
-            <div className={classes.join(' ')} style={prefixed.styles} ref="splitPane">
+            <div className={classes.join(' ')} style={style} ref="splitPane">
                 <Pane ref="pane1" key="pane1" className="Pane1" split={split}>{children[0]}</Pane>
                 <Resizer
                     ref="resizer"
