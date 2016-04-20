@@ -59,9 +59,9 @@
     "test:watch": "npm run compile:watch & mochify -R spec --watch",
     "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
     "lint": "eslint src/",
-    "demo": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js",
-    "demo:watch": "npm run compile:watch & watchify demo/Example.js -d -t -o demo/bundle.js",
-    "demo:publish": "npm run compile && browserify demo/Example.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
+    "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
+    "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
+    "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
     "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish"
   },
   "browserify": {
