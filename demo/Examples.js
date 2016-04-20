@@ -34,6 +34,6 @@ const BasicHorizontalExample = () => {
 };
 
 
-if (document.getElementById("example1")) render(<SimpleNestedExample />, document.getElementById("example1"));
-if (document.getElementById("example2")) render(<BasicVerticalExample />, document.getElementById("example2"));
-if (document.getElementById("example3")) render(<BasicHorizontalExample />, document.getElementById("example3"));
+if (document.getElementById("simple-nested-example")) render(<SimpleNestedExample />, document.getElementById("simple-nested-example"));
+if (document.getElementById("basic-vertical-example")) render(<BasicVerticalExample />, document.getElementById("basic-vertical-example"));
+if (document.getElementById("basic-horizontal-example")) render(<BasicHorizontalExample />, document.getElementById("basic-horizontal-example"));
