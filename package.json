@@ -20,9 +20,6 @@
     "react-split-pane",
     "es6"
   ],
-  "dependencies": {
-    "react-vendor-prefix": "^0.0.1"
-  },
   "peerDependencies": {
     "react": "^0.14.8",
     "react-dom": "^0.14.8"
