@@ -33,9 +33,36 @@ const BasicHorizontalExample = () => {
     );
 };
 
-const PercentageSplitExample = () => {
+const PercentageVerticalExample = () => {
     return (
         <SplitPane defaultSize="50%">
+            <div></div>
+            <div></div>
+        </SplitPane>
+    );
+};
+
+const PercentageHorizontalExample = () => {
+    return (
+        <SplitPane defaultSize="50%" split="horizontal">
+            <div></div>
+            <div></div>
+        </SplitPane>
+    );
+};
+
+const VerticallyNestedInContainerExample = () => {
+    return (
+        <SplitPane defaultSize="40%" split="vertical">
+            <div></div>
+            <div></div>
+        </SplitPane>
+    );
+};
+
+const HorizontallyNestedInContainerExample = () => {
+    return (
+        <SplitPane defaultSize="40%" split="horizontal">
             <div></div>
             <div></div>
         </SplitPane>
@@ -46,4 +73,7 @@ const PercentageSplitExample = () => {
 if (document.getElementById("simple-nested-example")) render(<SimpleNestedExample />, document.getElementById("simple-nested-example"));
 if (document.getElementById("basic-vertical-example")) render(<BasicVerticalExample />, document.getElementById("basic-vertical-example"));
 if (document.getElementById("basic-horizontal-example")) render(<BasicHorizontalExample />, document.getElementById("basic-horizontal-example"));
-if (document.getElementById("percentage-split-example")) render(<PercentageSplitExample />, document.getElementById("percentage-split-example"));
+if (document.getElementById("percentage-vertical-example")) render(<PercentageVerticalExample />, document.getElementById("percentage-vertical-example"));
+if (document.getElementById("percentage-horizontal-example")) render(<PercentageHorizontalExample />, document.getElementById("percentage-horizontal-example"));
+if (document.getElementById("vertically-nested-in-container-example")) render(<VerticallyNestedInContainerExample />, document.getElementById("vertically-nested-in-container-example"));
+if (document.getElementById("horizontally-nested-in-container-example")) render(<HorizontallyNestedInContainerExample />, document.getElementById("horizontally-nested-in-container-example"));
