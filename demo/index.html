@@ -8,58 +8,20 @@
     <title>React Split Pane</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css" rel="stylesheet">
 
-    <style>
-        .Resizer {
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            background: #000;
-            opacity: .2;
-            z-index: 1;
-            -moz-background-clip: padding;
-            -webkit-background-clip: padding;
-            background-clip: padding-box;
-        }
+    <link href="styles.css" rel="stylesheet">
 
-        .Resizer:hover {
-            -webkit-transition: all 2s ease;
-            transition: all 2s ease;
-        }
-
-        .Resizer.horizontal {
-            height: 11px;
-            margin: -5px 0;
-            border-top: 5px solid rgba(255, 255, 255, 0);
-            border-bottom: 5px solid rgba(255, 255, 255, 0);
-            cursor: row-resize;
-            width: 100%;
-        }
-
-        .Resizer.horizontal:hover {
-            border-top: 5px solid rgba(0, 0, 0, 0.5);
-            border-bottom: 5px solid rgba(0, 0, 0, 0.5);
-        }
-
-        .Resizer.vertical {
-            width: 11px;
-            margin: 0 -5px;
-            border-left: 5px solid rgba(255, 255, 255, 0);
-            border-right: 5px solid rgba(255, 255, 255, 0);
-            cursor: col-resize;
-            height: 100%;
-        }
-
-        .Resizer.vertical:hover {
-            border-left: 5px solid rgba(0, 0, 0, 0.5);
-            border-right: 5px solid rgba(0, 0, 0, 0.5);
-        }
-    </style>
 </head>
 <body>
-    <div id="container">
 
-    </div>
+    <ul>
+        <li><a href="simple-nested.html">Simple nested</a></li>
+        <li><a href="basic-horizontal.html">Basic horizontal split</a></li>
+        <li><a href="basic-vertical.html">Basic vertical split</a></li>
+        <li><a href="percentage-vertical.html">Percentage vertical split</a></li>
+        <li><a href="percentage-horizontal.html">Percentage horizontal split</a></li>
+        <li><a href="nested-vertically-in-container.html">Vertically nested in container</a></li>
+        <li><a href="nested-horizontally-in-container.html">Horizontally nested in container</a></li>
+    </ul>
+
 </body>
-
-<script src="bundle.js"></script>
 </html>

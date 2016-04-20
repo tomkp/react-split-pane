@@ -7,7 +7,7 @@ Split-Pane component built with [React](http://facebook.github.io/react), can be
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
 
 
-Check out the [demo](http://react-split-pane.surge.sh/)
+Check out the [demos](http://react-split-pane.surge.sh/)
 
 
 ```html
@@ -47,6 +47,15 @@ In this example right pane keeps its width 200px while user is resizing browser 
         <div></div>
     </SplitPane>
 ```
+
+### maxSize
+You can limit the maximal size of the 'fixed' pane using the maxSize parameter with a positive value (measured in pixels but state just a number).
+If you wrap the SplitPane into a container component (yes you can, just remember the container has to have the relative or absolute positioning), 
+then you'll need to limit the movement of the splitter (resizer) at the end of the SplitPane (otherwise it can be dragged outside the SplitPane 
+and you don't catch it never more). For this purpose use the maxSize parameter with value 0. When dragged the splitter/resizer will stop at the border 
+of the SplitPane component and think this you'll be able to pick it again and drag it back then.
+And more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal 
+size of the 'resizable' pane in this case). This can be useful also in the full-screen case of use.
 
 ### Persisting Positions
 
@@ -132,7 +141,6 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         border-left: 5px solid rgba(255, 255, 255, 0);
         border-right: 5px solid rgba(255, 255, 255, 0);
         cursor: col-resize;
-        height: 100%;
     }
 
     .Resizer.vertical:hover {
