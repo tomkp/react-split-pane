@@ -33,7 +33,17 @@ const BasicHorizontalExample = () => {
     );
 };
 
+const PercentageSplitExample = () => {
+    return (
+        <SplitPane defaultSize="50%">
+            <div></div>
+            <div></div>
+        </SplitPane>
+    );
+};
+
 
 if (document.getElementById("simple-nested-example")) render(<SimpleNestedExample />, document.getElementById("simple-nested-example"));
 if (document.getElementById("basic-vertical-example")) render(<BasicVerticalExample />, document.getElementById("basic-vertical-example"));
 if (document.getElementById("basic-horizontal-example")) render(<BasicHorizontalExample />, document.getElementById("basic-horizontal-example"));
+if (document.getElementById("percentage-split-example")) render(<PercentageSplitExample />, document.getElementById("percentage-split-example"));

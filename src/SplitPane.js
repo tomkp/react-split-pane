@@ -193,10 +193,22 @@ class SplitPane extends Component {
 
 SplitPane.propTypes = {
     primary: PropTypes.oneOf(['first', 'second']),
-    minSize: PropTypes.number,
-    maxSize: PropTypes.number,
-    defaultSize: PropTypes.number,
-    size: PropTypes.number,
+    minSize: PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
+    maxSize: PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
+    defaultSize: PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
+    size: PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+    ]),
     allowResize: PropTypes.bool,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     onDragStarted: PropTypes.func,
