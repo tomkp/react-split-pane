@@ -69,6 +69,17 @@ const HorizontallyNestedInContainerExample = () => {
     );
 };
 
+const MultipleVerticalExample = () => {
+    return (
+        <SplitPane split="vertical" defaultSize="33%">
+            <div></div>
+            <SplitPane split="vertical" defaultSize="50%">
+                <div></div>
+                <div></div>
+            </SplitPane>
+        </SplitPane>
+    );
+};
 
 if (document.getElementById("simple-nested-example")) render(<SimpleNestedExample />, document.getElementById("simple-nested-example"));
 if (document.getElementById("basic-vertical-example")) render(<BasicVerticalExample />, document.getElementById("basic-vertical-example"));
@@ -77,3 +88,4 @@ if (document.getElementById("percentage-vertical-example")) render(<PercentageVe
 if (document.getElementById("percentage-horizontal-example")) render(<PercentageHorizontalExample />, document.getElementById("percentage-horizontal-example"));
 if (document.getElementById("vertically-nested-in-container-example")) render(<VerticallyNestedInContainerExample />, document.getElementById("vertically-nested-in-container-example"));
 if (document.getElementById("horizontally-nested-in-container-example")) render(<HorizontallyNestedInContainerExample />, document.getElementById("horizontally-nested-in-container-example"));
+if (document.getElementById("multiple-vertical-example")) render(<MultipleVerticalExample />, document.getElementById("multiple-vertical-example"));
