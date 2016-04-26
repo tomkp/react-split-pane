@@ -20,10 +20,6 @@
     "react-split-pane",
     "es6"
   ],
-  "peerDependencies": {
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8"
-  },
   "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-eslint": "^6.0.3",
