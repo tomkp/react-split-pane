@@ -41,7 +41,7 @@
     "react": "^15.0.1",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
-    "surge": "^0.17.7",
+    "surge": "^0.18.0",
     "watchify": "^3.7.0"
   },
   "scripts": {
