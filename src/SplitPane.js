@@ -192,19 +192,19 @@ SplitPane.propTypes = {
     primary: PropTypes.oneOf(['first', 'second']),
     minSize: PropTypes.oneOfType([
         React.PropTypes.string,
-        React.PropTypes.number
+        React.PropTypes.number,
     ]),
     maxSize: PropTypes.oneOfType([
         React.PropTypes.string,
-        React.PropTypes.number
+        React.PropTypes.number,
     ]),
     defaultSize: PropTypes.oneOfType([
         React.PropTypes.string,
-        React.PropTypes.number
+        React.PropTypes.number,
     ]),
     size: PropTypes.oneOfType([
         React.PropTypes.string,
-        React.PropTypes.number
+        React.PropTypes.number,
     ]),
     allowResize: PropTypes.bool,
     split: PropTypes.oneOf(['vertical', 'horizontal']),

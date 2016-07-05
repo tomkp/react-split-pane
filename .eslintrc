@@ -8,6 +8,7 @@
       "ignoreComments": false
     }],
     "react/jsx-indent-props": [2, 4],
+    "react/jsx-indent": [2, 4],
     "space-before-function-paren": [2, "never"]
   }
 }
