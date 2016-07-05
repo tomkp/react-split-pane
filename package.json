@@ -53,7 +53,7 @@
     "prepublish": "npm run compile",
     "test": "npm run compile && mochify -R spec",
     "test:watch": "npm run compile:watch & mochify -R spec --watch",
-    "test:coverage": "node cover.js && cat lcov.info | coveralls && rm lcov.info",
+    "test:coverage": "mochify --plugin [ mochify-istanbul --exclude '**/test/**' --report lcovonly ] && cat lcov.info | coveralls && rm lcov.info",
     "lint": "eslint src/",
     "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
     "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
