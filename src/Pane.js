@@ -11,11 +11,11 @@ class Pane extends Component {
         const split = this.props.split;
         const classes = ['Pane', split, this.props.className];
 
-        const style = {
+        const style = Object.assign({}, this.props.style || {}, {
             flex: 1,
             position: 'relative',
             outline: 'none',
-        };
+        });
 
         if (this.state.size !== undefined) {
             if (split === 'vertical') {

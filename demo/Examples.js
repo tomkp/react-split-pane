@@ -5,7 +5,7 @@ import SplitPane from "../lib/SplitPane";
 
 const SimpleNestedExample = () => {
     return (
-        <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={100} className="primary">
+        <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={100} className="primary" pane1Style={{background: '#eee'}}>
             <div></div>
             <SplitPane split="horizontal">
                 <div></div>

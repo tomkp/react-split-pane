@@ -16,7 +16,7 @@ class Resizer extends Component {
         const { split, className } = this.props;
         const classes = ['Resizer', split, className];
         return (
-            <span className={classes.join(' ')} onMouseDown={this.onMouseDown} />
+            <span className={classes.join(' ')} style={this.props.style || {}} onMouseDown={this.onMouseDown} />
         );
     }
 }
