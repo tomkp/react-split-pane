@@ -114,23 +114,13 @@ const InlineStyleExample = () => {
     );
 };
 
-if (document.getElementById('simple-nested-example')) render(
-    <SimpleNestedExample />, document.getElementById('simple-nested-example'));
-if (document.getElementById('basic-vertical-example')) render(
-    <BasicVerticalExample />, document.getElementById('basic-vertical-example'));
-if (document.getElementById('basic-horizontal-example')) render(
-    <BasicHorizontalExample />, document.getElementById('basic-horizontal-example'));
-if (document.getElementById('percentage-vertical-example')) render(
-    <PercentageVerticalExample />, document.getElementById('percentage-vertical-example'));
-if (document.getElementById('percentage-horizontal-example')) render(
-    <PercentageHorizontalExample />, document.getElementById('percentage-horizontal-example'));
-if (document.getElementById('vertically-nested-in-container-example')) render(
-    <VerticallyNestedInContainerExample />, document.getElementById('vertically-nested-in-container-example'));
-if (document.getElementById('horizontally-nested-in-container-example')) render(
-    <HorizontallyNestedInContainerExample />, document.getElementById('horizontally-nested-in-container-example'));
-if (document.getElementById('multiple-vertical-example')) render(
-    <MultipleVerticalExample />, document.getElementById('multiple-vertical-example'));
-if (document.getElementById('multiple-horizontal-example')) render(
-    <MultipleHorizontalExample />, document.getElementById('multiple-horizontal-example'));
-if (document.getElementById('inline-style-example')) render(
-    <InlineStyleExample />, document.getElementById('inline-style-example'));
+if (document.getElementById('simple-nested-example')) render(<SimpleNestedExample />, document.getElementById('simple-nested-example'));
+if (document.getElementById('basic-vertical-example')) render(<BasicVerticalExample />, document.getElementById('basic-vertical-example'));
+if (document.getElementById('basic-horizontal-example')) render(<BasicHorizontalExample />, document.getElementById('basic-horizontal-example'));
+if (document.getElementById('percentage-vertical-example')) render(<PercentageVerticalExample />, document.getElementById('percentage-vertical-example'));
+if (document.getElementById('percentage-horizontal-example')) render(<PercentageHorizontalExample />, document.getElementById('percentage-horizontal-example'));
+if (document.getElementById('vertically-nested-in-container-example')) render(<VerticallyNestedInContainerExample />, document.getElementById('vertically-nested-in-container-example'));
+if (document.getElementById('horizontally-nested-in-container-example')) render(<HorizontallyNestedInContainerExample />, document.getElementById('horizontally-nested-in-container-example'));
+if (document.getElementById('multiple-vertical-example')) render(<MultipleVerticalExample />, document.getElementById('multiple-vertical-example'));
+if (document.getElementById('multiple-horizontal-example')) render(<MultipleHorizontalExample />, document.getElementById('multiple-horizontal-example'));
+if (document.getElementById('inline-style-example')) render(<InlineStyleExample />, document.getElementById('inline-style-example'));
