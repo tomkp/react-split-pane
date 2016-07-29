@@ -5,7 +5,7 @@ import SplitPane from "../lib/SplitPane";
 
 const SimpleNestedExample = () => {
     return (
-        <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={100} className="primary" pane1Style={{background: '#eee'}}>
+        <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={100} className="primary">
             <div></div>
             <SplitPane split="horizontal">
                 <div></div>
@@ -93,6 +93,27 @@ const MultipleHorizontalExample = () => {
     );
 };
 
+const InlineStyleExample = () => {
+    const styleA = {background: '#eee'};
+    const styleB = {background: '#aaa4ba'};
+    const styleC = {background: '#000'};
+    const styleD = {padding: "2em", fontStyle: 'italic'};
+    return (
+        <SplitPane
+          split="vertical"
+          minSize={50} maxSize={300} defaultSize={100}
+          className="primary"
+          pane1Style={styleA}
+          resizerStyle={styleC} >
+            <div></div>
+            <SplitPane split="horizontal" paneStyle={styleD} pane2Style={styleB}>
+                <div>Hello... </div>
+                <div> ...world.</div>
+            </SplitPane>
+        </SplitPane>
+    );
+};
+
 if (document.getElementById("simple-nested-example")) render(<SimpleNestedExample />, document.getElementById("simple-nested-example"));
 if (document.getElementById("basic-vertical-example")) render(<BasicVerticalExample />, document.getElementById("basic-vertical-example"));
 if (document.getElementById("basic-horizontal-example")) render(<BasicHorizontalExample />, document.getElementById("basic-horizontal-example"));
@@ -102,3 +123,4 @@ if (document.getElementById("vertically-nested-in-container-example")) render(<V
 if (document.getElementById("horizontally-nested-in-container-example")) render(<HorizontallyNestedInContainerExample />, document.getElementById("horizontally-nested-in-container-example"));
 if (document.getElementById("multiple-vertical-example")) render(<MultipleVerticalExample />, document.getElementById("multiple-vertical-example"));
 if (document.getElementById("multiple-horizontal-example")) render(<MultipleHorizontalExample />, document.getElementById("multiple-horizontal-example"));
+if (document.getElementById("inline-style-example")) render(<InlineStyleExample />, document.getElementById("inline-style-example"));
