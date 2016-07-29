@@ -50,11 +50,11 @@ In this example right pane keeps its width 200px while user is resizing browser 
 
 ### maxSize
 You can limit the maximal size of the 'fixed' pane using the maxSize parameter with a positive value (measured in pixels but state just a number).
-If you wrap the SplitPane into a container component (yes you can, just remember the container has to have the relative or absolute positioning), 
-then you'll need to limit the movement of the splitter (resizer) at the end of the SplitPane (otherwise it can be dragged outside the SplitPane 
-and you don't catch it never more). For this purpose use the maxSize parameter with value 0. When dragged the splitter/resizer will stop at the border 
+If you wrap the SplitPane into a container component (yes you can, just remember the container has to have the relative or absolute positioning),
+then you'll need to limit the movement of the splitter (resizer) at the end of the SplitPane (otherwise it can be dragged outside the SplitPane
+and you don't catch it never more). For this purpose use the maxSize parameter with value 0. When dragged the splitter/resizer will stop at the border
 of the SplitPane component and think this you'll be able to pick it again and drag it back then.
-And more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal 
+And more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal
 size of the 'resizable' pane in this case). This can be useful also in the full-screen case of use.
 
 ### Persisting Positions
@@ -155,3 +155,11 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
     }
 
  ```
+### Inline Styles
+
+You can also pass inline styles to the components via props. These are:
+
+ * `paneStyle` - Styling to be applied to both panes
+ * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
+ * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
+ * `resizerStyle` - Styling to be applied to the resizer bar

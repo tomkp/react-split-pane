@@ -137,7 +137,8 @@ class SplitPane extends Component {
         const { split, allowResize } = this.props;
         let disabledClass = allowResize ? '' : 'disabled';
 
-        const style = {
+        const style = Object.assign({},
+            this.props.style || {}, {
             display: 'flex',
             flex: 1,
             position: 'relative',
@@ -147,7 +148,7 @@ class SplitPane extends Component {
             WebkitUserSelect: 'text',
             msUserSelect: 'text',
             userSelect: 'text',
-        };
+        });
 
         if (split === 'vertical') {
             Object.assign(style, {
@@ -172,17 +173,21 @@ class SplitPane extends Component {
         const children = this.props.children;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
 
+        const pane1Style = Object.assign({}, this.props.paneStyle || {}, this.props.pane1Style || {});
+        const pane2Style = Object.assign({}, this.props.paneStyle || {}, this.props.pane2Style || {});
+
         return (
             <div className={classes.join(' ')} style={style} ref="splitPane">
-                <Pane ref="pane1" key="pane1" className="Pane1" split={split}>{children[0]}</Pane>
+                <Pane ref="pane1" key="pane1" className="Pane1" style={pane1Style} split={split}>{children[0]}</Pane>
                 <Resizer
                     ref="resizer"
                     key="resizer"
                     className={disabledClass}
                     onMouseDown={this.onMouseDown}
+                    style={this.props.resizerStyle || {}}
                     split={split}
                 />
-                <Pane ref="pane2" key="pane2" className="Pane2" split={split}>{children[1]}</Pane>
+                <Pane ref="pane2" key="pane2" className="Pane2" style={pane2Style} split={split}>{children[1]}</Pane>
             </div>
         );
     }
