@@ -68,7 +68,7 @@ could do something like the following:
 
 ```html
     <SplitPane split="vertical" minSize={50}
-               defaultSize={ localStorage.getItem('splitPos') }
+               defaultSize={ parseInt(localStorage.getItem('splitPos'), 10) }
                onChange={ size => localStorage.setItem('splitPos', size) }>
         <div></div>
         <div></div>
