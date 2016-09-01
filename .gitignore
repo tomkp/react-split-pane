@@ -32,3 +32,4 @@ node_modules
 /lib
 
 lcov.info
+.DS_Store
