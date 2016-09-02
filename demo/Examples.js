@@ -1,15 +1,15 @@
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import SplitPane from '../lib/SplitPane';
 
 
 const SimpleNestedExample = () => {
     return (
         <SplitPane split="vertical" minSize={50} maxSize={300} defaultSize={100} className="primary">
-            <div></div>
+            <div />
             <SplitPane split="horizontal">
-                <div></div>
-                <div></div>
+                <div />
+                <div />
             </SplitPane>
         </SplitPane>
     );
@@ -18,8 +18,8 @@ const SimpleNestedExample = () => {
 const BasicVerticalExample = () => {
     return (
         <SplitPane split="vertical">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -27,8 +27,8 @@ const BasicVerticalExample = () => {
 const BasicHorizontalExample = () => {
     return (
         <SplitPane split="horizontal">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -36,8 +36,8 @@ const BasicHorizontalExample = () => {
 const PercentageVerticalExample = () => {
     return (
         <SplitPane defaultSize="50%">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -45,8 +45,8 @@ const PercentageVerticalExample = () => {
 const PercentageHorizontalExample = () => {
     return (
         <SplitPane defaultSize="50%" split="horizontal">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -54,8 +54,8 @@ const PercentageHorizontalExample = () => {
 const VerticallyNestedInContainerExample = () => {
     return (
         <SplitPane defaultSize="40%" split="vertical">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -63,8 +63,8 @@ const VerticallyNestedInContainerExample = () => {
 const HorizontallyNestedInContainerExample = () => {
     return (
         <SplitPane defaultSize="40%" split="horizontal">
-            <div></div>
-            <div></div>
+            <div />
+            <div />
         </SplitPane>
     );
 };
@@ -72,10 +72,10 @@ const HorizontallyNestedInContainerExample = () => {
 const MultipleVerticalExample = () => {
     return (
         <SplitPane split="vertical" defaultSize="33%">
-            <div></div>
+            <div />
             <SplitPane split="vertical" defaultSize="50%">
-                <div></div>
-                <div></div>
+                <div />
+                <div />
             </SplitPane>
         </SplitPane>
     );
@@ -84,10 +84,10 @@ const MultipleVerticalExample = () => {
 const MultipleHorizontalExample = () => {
     return (
         <SplitPane split="horizontal" defaultSize="33%">
-            <div></div>
+            <div />
             <SplitPane split="horizontal" defaultSize="50%">
-                <div></div>
-                <div></div>
+                <div />
+                <div />
             </SplitPane>
         </SplitPane>
     );
@@ -105,7 +105,7 @@ const InlineStyleExample = () => {
             className="primary"
             pane1Style={styleA}
             resizerStyle={styleC}>
-            <div></div>
+            <div />
             <SplitPane split="horizontal" paneStyle={styleD} pane2Style={styleB}>
                 <div>Hello...</div>
                 <div> ...world.</div>
