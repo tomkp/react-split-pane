@@ -1,6 +1,5 @@
 import React from 'react';
 import SplitPane from '../src/SplitPane';
-import Resizer from '../src/Resizer';
 import asserter from './assertions/Asserter';
 
 

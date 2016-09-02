@@ -1,6 +1,5 @@
 import React from 'react';
 import SplitPane from '../src/SplitPane';
-import Resizer from '../src/Resizer';
 import asserter from './assertions/Asserter';
 import chai from 'chai';
 import spies from 'chai-spies';
@@ -18,15 +17,15 @@ describe('Default SplitPane', function () {
 
 
     it('should render the child panes', function () {
-         asserter(splitPane).assertPaneContents(['one', 'two']);
+        asserter(splitPane).assertPaneContents(['one', 'two']);
     });
 
     it('should have vertical orientation', function () {
-         asserter(splitPane).assertOrientation('vertical');
+        asserter(splitPane).assertOrientation('vertical');
     });
 
     it('should contain a Resizer', function () {
-         asserter(splitPane).assertContainsResizer();
+        asserter(splitPane).assertContainsResizer();
     });
 
 });
@@ -50,13 +49,15 @@ describe('SplitPane can have a specific class', function () {
 
 
 describe('SplitPane can have resizing callbacks', function () {
-    const onDragStartedCallback = chai.spy(function() { });
-    const onDragFinishedCallback = chai.spy(function() { });
+    const onDragStartedCallback = chai.spy(function () {
+    });
+    const onDragFinishedCallback = chai.spy(function () {
+    });
 
     const splitPane = (
         <SplitPane className="some-class"
-          onDragStarted = { onDragStartedCallback }
-          onDragFinished = { onDragFinishedCallback }
+                   onDragStarted={ onDragStartedCallback }
+                   onDragFinished={ onDragFinishedCallback }
         >
             <div>one</div>
             <div>two</div>
@@ -66,8 +67,8 @@ describe('SplitPane can have resizing callbacks', function () {
 
     it('should call callbacks on resizing', function () {
         asserter(splitPane).assertResizeCallbacks(
-          onDragStartedCallback,
-          onDragFinishedCallback
+            onDragStartedCallback,
+            onDragFinishedCallback
         );
     });
 
