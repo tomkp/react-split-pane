@@ -93,6 +93,20 @@ const MultipleHorizontalExample = () => {
     );
 };
 
+const SubComponentExample = () => {
+    return (
+        <div className="parent">
+            <div className="header">Header</div>
+            <div className="wrapper">
+                <SplitPane split="horizontal" defaultSize="50%">
+                    <div />
+                    <div />
+                </SplitPane>
+            </div>
+        </div>
+    );
+};
+
 const InlineStyleExample = () => {
     const styleA = { background: '#eee' };
     const styleB = { background: '#aaa4ba' };
@@ -123,4 +137,5 @@ if (document.getElementById('vertically-nested-in-container-example')) render(<V
 if (document.getElementById('horizontally-nested-in-container-example')) render(<HorizontallyNestedInContainerExample />, document.getElementById('horizontally-nested-in-container-example'));
 if (document.getElementById('multiple-vertical-example')) render(<MultipleVerticalExample />, document.getElementById('multiple-vertical-example'));
 if (document.getElementById('multiple-horizontal-example')) render(<MultipleHorizontalExample />, document.getElementById('multiple-horizontal-example'));
+if (document.getElementById('subcomponent-example')) render(<SubComponentExample />, document.getElementById('subcomponent-example'));
 if (document.getElementById('inline-style-example')) render(<InlineStyleExample />, document.getElementById('inline-style-example'));
