@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, findDOMNode} from 'react-dom';
+import { render, findDOMNode } from 'react-dom';
 import chai from 'chai';
 import spies from 'chai-spies';
 import ReactTestUtils from 'react-addons-test-utils';
@@ -29,11 +29,7 @@ export default (jsx, renderToDom = false) => {
     const splitPane = renderComponent(jsx, renderToDom);
     const component = ReactTestUtils.findRenderedComponentWithType(splitPane, SplitPane);
 
-
-    const findPanes = () => {
-        return ReactTestUtils.scryRenderedComponentsWithType(component, Pane);
-    };
-
+    const findPanes = () => ReactTestUtils.scryRenderedComponentsWithType(component, Pane);
 
     const findTopPane = () => findPanes()[0];
 
@@ -43,18 +39,16 @@ export default (jsx, renderToDom = false) => {
 
     const findResizer = () => ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
 
-
     const assertStyles = (componentName, actualStyles, expectedStyles) => {
-        for (const prop in expectedStyles) {
-            if (expectedStyles.hasOwnProperty(prop)) {
-                //console.log(prop + ': \'' + actualStyles[prop] + '\',');
-                if (expectedStyles[prop] && expectedStyles[prop] !== '') {
-                    //console.log(prop + ': \'' + actualStyles[prop] + '\',');
-                    expect(actualStyles[prop]).to.equal(expectedStyles[prop], `${componentName} has incorrect css property for '${prop}'`);
-                }
-                //expect(actualStyles[prop]).to.equal(expectedStyles[prop], `${componentName} has incorrect css property for '${prop}'`);
+        Object.keys(expectedStyles).forEach(prop => {
+            // console.log(`${prop}: '${actualStyles[prop]}',`);
+            if (expectedStyles[prop] && expectedStyles[prop] !== '') {
+                // console.log(`${prop}: '${actualStyles[prop]}',`);
+                expect(actualStyles[prop]).to.equal(expectedStyles[prop],
+                    `${componentName} has incorrect css property for '${prop}'`
+                );
             }
-        }
+        });
         return this;
     };
 
@@ -106,14 +100,14 @@ export default (jsx, renderToDom = false) => {
         component.onMouseUp();
     };
 
-    const assertClass = (component, expectedClassName) => {
-        expect(findDOMNode(component).className).to.contain(expectedClassName, `Incorrect className`);
+    const assertClass = (comp, expectedClassName) => {
+        expect(findDOMNode(comp).className).to.contain(expectedClassName, 'Incorrect className');
         return this;
     };
 
     return {
         assertOrientation(expectedOrientation) {
-            expect(findDOMNode(component).className).to.contain(expectedOrientation, `Incorrect orientation`);
+            expect(findDOMNode(component).className).to.contain(expectedOrientation, 'Incorrect orientation');
             return this;
         },
 
