@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, findDOMNode } from 'react-dom';
 import chai from 'chai';
 import spies from 'chai-spies';

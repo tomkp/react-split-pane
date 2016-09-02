@@ -25,6 +25,7 @@ Resizer.propTypes = {
     onMouseDown: PropTypes.func.isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
+    style: PropTypes.object,
 };
 
 export default Resizer;
