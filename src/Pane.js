@@ -37,6 +37,7 @@ Pane.propTypes = {
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
     children: PropTypes.object.isRequired,
+    style: PropTypes.object,
 };
 
 export default Pane;

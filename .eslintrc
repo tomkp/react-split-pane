@@ -3,12 +3,20 @@
 
   "rules": {
     "indent": [2, 4],
+    "padded-blocks": "off",
     "max-len": [2, 120, 4, {
       "ignoreUrls": true,
       "ignoreComments": false
     }],
     "react/jsx-indent-props": [2, 4],
     "react/jsx-indent": [2, 4],
-    "space-before-function-paren": [2, "never"]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "space-before-function-paren": [2, "never"],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": true}]
+  },
+
+  "env": {
+    "browser": true,
+    "mocha": true
   }
 }
