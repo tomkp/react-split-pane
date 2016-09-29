@@ -21,6 +21,9 @@ class SplitPane extends Component {
         this.setSize(this.props, this.state);
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
+        if (typeof this.props.onDoubleClick === 'function') {
+            document.addEventListener('dblclick', this.props.onDoubleClick);
+        }
     }
 
     componentWillReceiveProps(props) {
@@ -30,6 +33,9 @@ class SplitPane extends Component {
     componentWillUnmount() {
         document.removeEventListener('mouseup', this.onMouseUp);
         document.removeEventListener('mousemove', this.onMouseMove);
+        if (typeof this.props.onDoubleClick === 'function') {
+            document.removeEventListener('dblclick', this.props.onDoubleClick);
+        }
     }
 
     onMouseDown(event) {
