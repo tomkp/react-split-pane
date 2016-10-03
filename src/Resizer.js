@@ -16,13 +16,22 @@ class Resizer extends Component {
         const { split, className } = this.props;
         const classes = ['Resizer', split, className];
         return (
-            <span className={classes.join(' ')} style={this.props.style || {}} onMouseDown={this.onMouseDown} />
+            <span
+              className={classes.join(' ')}
+              style={this.props.style || {}}
+              onMouseDown={this.onMouseDown}
+              onTouchStart={(event) => {
+                  event.preventDefault();
+                  this.props.onTouchStart(event);
+              }}
+            />
         );
     }
 }
 
 Resizer.propTypes = {
     onMouseDown: PropTypes.func.isRequired,
+    onTouchStart: PropTypes.func.isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
     style: PropTypes.object,
