@@ -8,7 +8,9 @@ class SplitPane extends Component {
         super(...args);
 
         this.onMouseDown = this.onMouseDown.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
 
         this.state = {
@@ -21,6 +23,7 @@ class SplitPane extends Component {
         this.setSize(this.props, this.state);
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('touchmove', this.onTouchMove);
     }
 
     componentWillReceiveProps(props) {
@@ -29,13 +32,21 @@ class SplitPane extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('mouseup', this.onMouseUp);
+        document.removeEventListener('touchend', this.onMouseUp);
         document.removeEventListener('mousemove', this.onMouseMove);
+        document.removeEventListener('touchmove', this.onTouchMove);
     }
 
     onMouseDown(event) {
+        event.touches = [{clientX: event.clientX, clientY: event.clientY}];
+        this.onTouchStart(event);
+    }
+
+    onTouchStart(event) {
+        console.log('here');
         if (this.props.allowResize && !this.props.size) {
             this.unFocus();
-            const position = this.props.split === 'vertical' ? event.clientX : event.clientY;
+            const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
             if (typeof this.props.onDragStarted === 'function') {
                 this.props.onDragStarted();
             }
@@ -47,6 +58,11 @@ class SplitPane extends Component {
     }
 
     onMouseMove(event) {
+        event.touches = [{clientX: event.clientX, clientY: event.clientY}];
+        this.onTouchMove(event);
+    }
+
+    onTouchMove(event) {
         if (this.props.allowResize && !this.props.size) {
             if (this.state.active) {
                 this.unFocus();
@@ -58,7 +74,7 @@ class SplitPane extends Component {
                     if (node.getBoundingClientRect) {
                         const width = node.getBoundingClientRect().width;
                         const height = node.getBoundingClientRect().height;
-                        const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
+                        const current = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                         const size = this.props.split === 'vertical' ? width : height;
                         const position = this.state.position;
                         const newPosition = isPrimaryFirst ? (position - current) : (current - position);
@@ -192,6 +208,7 @@ class SplitPane extends Component {
                     key="resizer"
                     className={disabledClass}
                     onMouseDown={this.onMouseDown}
+                    onTouchStart={this.onTouchStart}
                     style={this.props.resizerStyle || {}}
                     split={split}
                 />
