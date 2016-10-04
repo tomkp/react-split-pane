@@ -2,15 +2,6 @@ import React, { Component, PropTypes } from 'react';
 
 
 class Resizer extends Component {
-    constructor(...args) {
-        super(...args);
-
-        this.onMouseDown = this.onMouseDown.bind(this);
-    }
-
-    onMouseDown(event) {
-        this.props.onMouseDown(event);
-    }
 
     render() {
         const { split, className } = this.props;
@@ -19,10 +10,16 @@ class Resizer extends Component {
             <span
               className={classes.join(' ')}
               style={this.props.style || {}}
-              onMouseDown={this.onMouseDown}
+              onMouseDown={(event) => {
+                this.props.onMouseDown(event);
+              }}
               onTouchStart={(event) => {
-                  event.preventDefault();
-                  this.props.onTouchStart(event);
+                event.preventDefault();
+                this.props.onTouchStart(event);
+              }}
+              onTouchEnd={(event) => {
+                event.preventDefault();
+                this.props.onTouchEnd(event);
               }}
             />
         );
@@ -30,11 +27,12 @@ class Resizer extends Component {
 }
 
 Resizer.propTypes = {
-    onMouseDown: PropTypes.func.isRequired,
-    onTouchStart: PropTypes.func.isRequired,
-    split: PropTypes.oneOf(['vertical', 'horizontal']),
-    className: PropTypes.string.isRequired,
-    style: PropTypes.object,
+  onMouseDown: PropTypes.func.isRequired,
+  onTouchStart: PropTypes.func.isRequired,
+  onTouchEnd: PropTypes.func.isRequired,
+  split: PropTypes.oneOf(['vertical', 'horizontal']),
+  className: PropTypes.string.isRequired,
+  style: PropTypes.object,
 };
 
 export default Resizer;
