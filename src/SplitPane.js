@@ -43,7 +43,6 @@ class SplitPane extends Component {
     }
 
     onTouchStart(event) {
-        console.log('here');
         if (this.props.allowResize && !this.props.size) {
             this.unFocus();
             const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
