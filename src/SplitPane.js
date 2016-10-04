@@ -32,7 +32,6 @@ class SplitPane extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('mouseup', this.onMouseUp);
-        document.removeEventListener('touchend', this.onMouseUp);
         document.removeEventListener('mousemove', this.onMouseMove);
         document.removeEventListener('touchmove', this.onTouchMove);
     }
@@ -208,6 +207,7 @@ class SplitPane extends Component {
                     className={disabledClass}
                     onMouseDown={this.onMouseDown}
                     onTouchStart={this.onTouchStart}
+                    onTouchEnd={this.onMouseUp}
                     style={this.props.resizerStyle || {}}
                     split={split}
                 />
