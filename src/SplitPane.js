@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import prefix from 'react-prefixer';
+
 import Pane from './Pane';
 import Resizer from './Resizer';
 
@@ -187,11 +189,11 @@ class SplitPane extends Component {
         const children = this.props.children;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
 
-        const pane1Style = Object.assign({}, this.props.paneStyle || {}, this.props.pane1Style || {});
-        const pane2Style = Object.assign({}, this.props.paneStyle || {}, this.props.pane2Style || {});
+        const pane1Style = prefix(Object.assign({}, this.props.paneStyle || {}, this.props.pane1Style || {}));
+        const pane2Style = prefix(Object.assign({}, this.props.paneStyle || {}, this.props.pane2Style || {}));
 
         return (
-            <div className={classes.join(' ')} style={style} ref={node => { this.splitPane = node; }}>
+            <div className={classes.join(' ')} style={prefix(style)} ref={node => { this.splitPane = node; }}>
 
                 <Pane
                     ref={node => { this.pane1 = node; }}
