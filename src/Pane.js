@@ -38,7 +38,7 @@ class Pane extends Component {
 Pane.propTypes = {
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
-    children: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
     style: stylePropType,
 };
 

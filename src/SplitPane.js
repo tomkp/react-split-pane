@@ -6,6 +6,14 @@ import stylePropType from 'react-style-proptype';
 import Pane from './Pane';
 import Resizer from './Resizer';
 
+function unFocus(document, window) {
+    if (document.selection) {
+        document.selection.empty();
+    } else {
+        window.getSelection().removeAllRanges();
+    }
+}
+
 class SplitPane extends Component {
     constructor(...args) {
         super(...args);
@@ -40,13 +48,17 @@ class SplitPane extends Component {
     }
 
     onMouseDown(event) {
-        event.touches = [{clientX: event.clientX, clientY: event.clientY}];
-        this.onTouchStart(event);
+        const eventWithTouches = Object.assign(
+            {},
+            event,
+            { touches: [{ clientX: event.clientX, clientY: event.clientY }] }
+        );
+        this.onTouchStart(eventWithTouches);
     }
 
     onTouchStart(event) {
         if (this.props.allowResize && !this.props.size) {
-            this.unFocus();
+            unFocus(document, window);
             const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
             if (typeof this.props.onDragStarted === 'function') {
                 this.props.onDragStarted();
@@ -59,14 +71,18 @@ class SplitPane extends Component {
     }
 
     onMouseMove(event) {
-        event.touches = [{clientX: event.clientX, clientY: event.clientY}];
-        this.onTouchMove(event);
+        const eventWithTouches = Object.assign(
+            {},
+            event,
+            { touches: [{ clientX: event.clientX, clientY: event.clientY }] }
+        );
+        this.onTouchMove(eventWithTouches);
     }
 
     onTouchMove(event) {
         if (this.props.allowResize && !this.props.size) {
             if (this.state.active) {
-                this.unFocus();
+                unFocus(document, window);
                 const isPrimaryFirst = this.props.primary === 'first';
                 const ref = isPrimaryFirst ? this.pane1 : this.pane2;
                 if (ref) {
@@ -75,8 +91,12 @@ class SplitPane extends Component {
                     if (node.getBoundingClientRect) {
                         const width = node.getBoundingClientRect().width;
                         const height = node.getBoundingClientRect().height;
-                        const current = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
-                        const size = this.props.split === 'vertical' ? width : height;
+                        const current = this.props.split === 'vertical'
+                            ? event.touches[0].clientX
+                            : event.touches[0].clientY;
+                        const size = this.props.split === 'vertical'
+                            ? width
+                            : height;
                         const position = this.state.position;
                         const newPosition = isPrimaryFirst ? (position - current) : (current - position);
 
@@ -142,14 +162,6 @@ class SplitPane extends Component {
         }
     }
 
-    unFocus() {
-        if (document.selection) {
-            document.selection.empty();
-        } else {
-            window.getSelection().removeAllRanges();
-        }
-    }
-
     render() {
         const { split, allowResize } = this.props;
         const disabledClass = allowResize ? '' : 'disabled';
@@ -194,10 +206,10 @@ class SplitPane extends Component {
         const pane2Style = prefix(Object.assign({}, this.props.paneStyle || {}, this.props.pane2Style || {}));
 
         return (
-            <div className={classes.join(' ')} style={prefix(style)} ref={node => { this.splitPane = node; }}>
+            <div className={classes.join(' ')} style={prefix(style)} ref={(node) => { this.splitPane = node; }}>
 
                 <Pane
-                    ref={node => { this.pane1 = node; }}
+                    ref={(node) => { this.pane1 = node; }}
                     key="pane1" className="Pane1"
                     style={pane1Style}
                     split={split}
@@ -205,7 +217,7 @@ class SplitPane extends Component {
                     {children[0]}
                 </Pane>
                 <Resizer
-                    ref={node => { this.resizer = node; }}
+                    ref={(node) => { this.resizer = node; }}
                     key="resizer"
                     className={disabledClass}
                     onMouseDown={this.onMouseDown}
@@ -215,7 +227,7 @@ class SplitPane extends Component {
                     split={split}
                 />
                 <Pane
-                    ref={node => { this.pane2 = node; }}
+                    ref={(node) => { this.pane2 = node; }}
                     key="pane2"
                     className="Pane2"
                     style={pane2Style}
@@ -238,6 +250,7 @@ SplitPane.propTypes = {
         React.PropTypes.string,
         React.PropTypes.number,
     ]),
+    // eslint-disable-next-line react/no-unused-prop-types
     defaultSize: PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number,
