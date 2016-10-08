@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import prefix from 'react-prefixer';
+import stylePropType from 'react-style-proptype';
 
 import Pane from './Pane';
 import Resizer from './Resizer';
@@ -250,11 +251,11 @@ SplitPane.propTypes = {
     onDragStarted: PropTypes.func,
     onDragFinished: PropTypes.func,
     onChange: PropTypes.func,
-    style: PropTypes.object,
-    resizerStyle: PropTypes.object,
-    paneStyle: PropTypes.object,
-    pane1Style: PropTypes.object,
-    pane2Style: PropTypes.object,
+    style: stylePropType,
+    resizerStyle: stylePropType,
+    paneStyle: stylePropType,
+    pane1Style: stylePropType,
+    pane2Style: stylePropType,
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };

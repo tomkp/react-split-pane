@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import prefix from 'react-prefixer';
+import stylePropType from 'react-style-proptype';
 
 class Resizer extends Component {
 
@@ -32,7 +33,7 @@ Resizer.propTypes = {
   onTouchEnd: PropTypes.func.isRequired,
   split: PropTypes.oneOf(['vertical', 'horizontal']),
   className: PropTypes.string.isRequired,
-  style: PropTypes.object,
+    style: stylePropType,
 };
 
 export default Resizer;

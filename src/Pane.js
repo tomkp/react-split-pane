@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import prefix from 'react-prefixer';
+import stylePropType from 'react-style-proptype';
 
 class Pane extends Component {
     constructor(...args) {
@@ -38,7 +39,7 @@ Pane.propTypes = {
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
     children: PropTypes.object.isRequired,
-    style: PropTypes.object,
+    style: stylePropType,
 };
 
 export default Pane;
