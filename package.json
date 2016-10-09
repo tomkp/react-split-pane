@@ -21,7 +21,8 @@
     "es6"
   ],
   "dependencies": {
-    "react-prefixer": "^1.1.4"
+    "react-prefixer": "^1.1.4",
+    "react-style-proptype": "^1.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
@@ -37,7 +38,7 @@
     "coveralls": "^2.11.12",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^12.0.0",
-    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.1",
     "eslint-plugin-react": "^6.2.0",
     "express": "^4.14.0",

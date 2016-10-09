@@ -34,12 +34,12 @@ export default (jsx, renderToDom = false) => {
 
     const findBottomPane = () => findPanes()[1];
 
-    const findPaneByOrder = (paneString) => (paneString === 'first' ? findTopPane() : findBottomPane());
+    const findPaneByOrder = paneString => (paneString === 'first' ? findTopPane() : findBottomPane());
 
     const findResizer = () => ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
 
     const assertStyles = (componentName, actualStyles, expectedStyles) => {
-        Object.keys(expectedStyles).forEach(prop => {
+        Object.keys(expectedStyles).forEach((prop) => {
             // console.log(`${prop}: '${actualStyles[prop]}',`);
             if (expectedStyles[prop] && expectedStyles[prop] !== '') {
                 // console.log(`${prop}: '${actualStyles[prop]}',`);

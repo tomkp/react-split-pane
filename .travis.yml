@@ -6,6 +6,9 @@ before_install:
 - tar -xjf phantomjs-2.0.0-ubuntu-12.04.tar.bz2
 - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
 - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
+script:
+- npm run lint
+- npm test
 after_script:
 - npm run test:coverage
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && npm run demo:publish || false'
