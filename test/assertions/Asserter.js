@@ -99,6 +99,11 @@ export default (jsx, renderToDom = false) => {
         component.onMouseUp();
     };
 
+    const changeSize = (newSize, comp) => {
+        const parent = ReactTestUtils.findRenderedComponentWithType(splitPane, comp);
+        parent.setState({ size: newSize });
+    };
+
     const assertClass = (comp, expectedClassName) => {
         expect(findDOMNode(comp).className).to.contain(expectedClassName, 'Incorrect className');
         return this;
@@ -155,6 +160,13 @@ export default (jsx, renderToDom = false) => {
             simulateDragAndDrop(200);
             return assertCallbacks(expectedDragStartedCallback, expectedDragFinishedCallback);
         },
+
+        assertSizePersists(comp) {
+            const pane = 'first';
+            changeSize(100, comp);
+            assertPaneStyles({ width: '100px' }, pane);
+            changeSize(undefined, comp);
+            assertPaneStyles({ width: '100px' }, pane);
+        },
     };
 };
-

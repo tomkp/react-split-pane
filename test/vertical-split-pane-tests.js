@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import SplitPane from '../src/SplitPane';
 import asserter from './assertions/Asserter';
 
@@ -38,6 +38,52 @@ describe('Vertical SplitPane', () => {
         it('should have correct width for the left Pane', () => {
             asserter(splitPane).assertPaneWidth('99px');
             asserter(splitPane).assertPaneWidth(null, 'second');
+        });
+    });
+
+    describe('With size property', () => {
+
+        it('should set the width of the primary pane', () => {
+            const splitPane = (
+                <SplitPane size={100}>
+                    <div>one</div>
+                    <div>two</div>
+                </SplitPane>
+            );
+            asserter(splitPane).assertPaneWidth('100px');
+        });
+
+        it('should override the defaultSize', () => {
+            const splitPane = (
+                <SplitPane size={100} defaultSize={200}>
+                    <div>one</div>
+                    <div>two</div>
+                </SplitPane>
+            );
+            asserter(splitPane).assertPaneWidth('100px');
+        });
+
+        it('should maintain width after being unset', () => {
+            class PaneContainer extends Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        size: 80,
+                    };
+                }
+
+                render() {
+                    return (
+                        <SplitPane size={this.state.size}>
+                            <div>one</div>
+                            <div>two</div>
+                        </SplitPane>
+                    );
+                }
+            }
+
+            const splitPane = <PaneContainer className="container" />;
+            asserter(splitPane).assertSizePersists(PaneContainer);
         });
     });
 

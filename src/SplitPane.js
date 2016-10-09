@@ -138,6 +138,11 @@ class SplitPane extends Component {
             ref.setState({
                 size: newSize,
             });
+            if (props.size !== state.draggedSize) {
+                this.setState({
+                    draggedSize: newSize,
+                });
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import SplitPane from '../lib/SplitPane';
 
@@ -128,6 +128,84 @@ const InlineStyleExample = () => {
     );
 };
 
+class SnapToPositionExample extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            size: undefined,
+            dragging: false,
+        };
+        this.handleDragStart = this.handleDragStart.bind(this);
+        this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    handleDragStart() {
+        this.setState({
+            dragging: true,
+        });
+    }
+
+    handleDragEnd() {
+        this.setState({
+            dragging: false,
+        });
+        setTimeout(() => {
+            this.setState({ size: undefined });
+        }, 0);
+    }
+
+    handleDrag(width) {
+        if (width >= 300 && width <= 400) {
+            this.setState({ size: 300 });
+        } else if (width > 400 && width <= 500) {
+            this.setState({ size: 500 });
+        } else {
+            this.setState({ size: undefined });
+        }
+    }
+
+    render() {
+        const dropWarnStyle = {
+            backgroundColor: 'yellow',
+            left: 300,
+            width: 200,
+        };
+        const centeredTextStyle = {
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+        };
+        return (
+            <div style={{ height: '100%' }}>
+                <SplitPane
+                    size={this.state.dragging ? undefined : this.state.size}
+                    onChange={this.handleDrag}
+                    onDragStarted={this.handleDragStart}
+                    onDragFinished={this.handleDragEnd}
+                >
+                    <div style={{ backgroundColor: 'blue', height: '100%', zIndex: 1, opacity: 0.1 }} />
+                    <div />
+                </SplitPane>
+                <div style={Object.assign({}, centeredTextStyle, { left: 0, width: 300 })}>
+                    Can drop anywhere
+                </div>
+                <div style={Object.assign({}, centeredTextStyle, dropWarnStyle)}>
+                    Will snap to edges
+                </div>
+                <div style={Object.assign({}, centeredTextStyle, { left: 500, width: 'calc(100% - 500px)' })}>
+                    Can drop anywhere
+                </div>
+            </div>
+
+        );
+    }
+
+}
+
 if (document.getElementById('simple-nested-example')) render(<SimpleNestedExample />, document.getElementById('simple-nested-example'));
 if (document.getElementById('basic-vertical-example')) render(<BasicVerticalExample />, document.getElementById('basic-vertical-example'));
 if (document.getElementById('basic-horizontal-example')) render(<BasicHorizontalExample />, document.getElementById('basic-horizontal-example'));
@@ -139,3 +217,4 @@ if (document.getElementById('multiple-vertical-example')) render(<MultipleVertic
 if (document.getElementById('multiple-horizontal-example')) render(<MultipleHorizontalExample />, document.getElementById('multiple-horizontal-example'));
 if (document.getElementById('subcomponent-example')) render(<SubComponentExample />, document.getElementById('subcomponent-example'));
 if (document.getElementById('inline-style-example')) render(<InlineStyleExample />, document.getElementById('inline-style-example'));
+if (document.getElementById('snap-to-position-example')) render(<SnapToPositionExample />, document.getElementById('snap-to-position-example'));
