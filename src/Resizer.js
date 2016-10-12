@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import prefix from 'react-prefixer';
+import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
+
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
 class Resizer extends Component {
 
@@ -10,7 +12,7 @@ class Resizer extends Component {
         return (
             <span
                 className={classes.join(' ')}
-                style={prefix(this.props.style) || {}}
+                style={this.props.prefixer.prefix(this.props.style) || {}}
                 onMouseDown={(event) => {
                     this.props.onMouseDown(event);
                 }}
@@ -31,9 +33,14 @@ Resizer.propTypes = {
     onMouseDown: PropTypes.func.isRequired,
     onTouchStart: PropTypes.func.isRequired,
     onTouchEnd: PropTypes.func.isRequired,
+    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
     style: stylePropType,
+};
+
+Resizer.defaultProps = {
+    prefixer: new Prefixer({ userAgent: USER_AGENT }),
 };
 
 export default Resizer;

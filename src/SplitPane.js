@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import prefix from 'react-prefixer';
+import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 import Pane from './Pane';
 import Resizer from './Resizer';
+
+const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
 function unFocus(document, window) {
     if (document.selection) {
@@ -207,11 +209,24 @@ class SplitPane extends Component {
         const children = this.props.children;
         const classes = ['SplitPane', this.props.className, split, disabledClass];
 
-        const pane1Style = prefix(Object.assign({}, this.props.paneStyle || {}, this.props.pane1Style || {}));
-        const pane2Style = prefix(Object.assign({}, this.props.paneStyle || {}, this.props.pane2Style || {}));
+        const pane1Style = this.props.prefixer.prefix(
+            Object.assign({},
+            this.props.paneStyle || {},
+            this.props.pane1Style || {})
+        );
+
+        const pane2Style = this.props.prefixer.prefix(
+            Object.assign({},
+            this.props.paneStyle || {},
+            this.props.pane2Style || {})
+        );
 
         return (
-            <div className={classes.join(' ')} style={prefix(style)} ref={(node) => { this.splitPane = node; }}>
+            <div
+                className={classes.join(' ')}
+                style={this.props.prefixer.prefix(style)}
+                ref={(node) => { this.splitPane = node; }}
+            >
 
                 <Pane
                     ref={(node) => { this.pane1 = node; }}
@@ -269,6 +284,7 @@ SplitPane.propTypes = {
     onDragStarted: PropTypes.func,
     onDragFinished: PropTypes.func,
     onChange: PropTypes.func,
+    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     style: stylePropType,
     resizerStyle: stylePropType,
     paneStyle: stylePropType,
@@ -282,6 +298,7 @@ SplitPane.defaultProps = {
     split: 'vertical',
     minSize: 50,
     allowResize: true,
+    prefixer: new Prefixer({ userAgent: USER_AGENT }),
     primary: 'first',
 };
 
