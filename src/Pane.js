@@ -8,7 +8,7 @@ class Pane extends Component {
     constructor(...args) {
         super(...args);
 
-        this.state = {};
+        this.state = { size: this.props.size };
     }
 
     render() {
@@ -43,6 +43,10 @@ Pane.propTypes = {
     children: PropTypes.node.isRequired,
     prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     style: stylePropType,
+    size: PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number,
+    ]),
 };
 
 Pane.defaultProps = {
