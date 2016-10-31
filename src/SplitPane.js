@@ -233,6 +233,10 @@ class SplitPane extends Component {
                     key="pane1" className="Pane1"
                     style={pane1Style}
                     split={split}
+                    size={this.props.primary === 'first' ?
+                      this.props.size || this.props.defaultSize || this.props.minSize :
+                      undefined
+                    }
                 >
                     {children[0]}
                 </Pane>
@@ -252,6 +256,10 @@ class SplitPane extends Component {
                     className="Pane2"
                     style={pane2Style}
                     split={split}
+                    size={this.props.primary === 'second' ?
+                      this.props.size || this.props.defaultSize || this.props.minSize :
+                      undefined
+                    }
                 >
                     {children[1]}
                 </Pane>
