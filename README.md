@@ -163,3 +163,13 @@ You can also pass inline styles to the components via props. These are:
  * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
  * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
  * `resizerStyle` - Styling to be applied to the resizer bar
+
+
+### Contributing
+
+I'm always happy to receive Pull Requests for contributions of any kind. 
+
+If possible / necessary then please try and include a test and/or update the examples.
+  
+Thanks, Tom  
+  
