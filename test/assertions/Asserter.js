@@ -168,5 +168,9 @@ export default (jsx, renderToDom = false) => {
             changeSize(undefined, comp);
             assertPaneStyles({ width: '100px' }, pane);
         },
+
+        assertResizerClasses(expectedClass) {
+            assertClass(findResizer()[0], expectedClass);
+        },
     };
 };

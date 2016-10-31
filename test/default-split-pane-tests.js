@@ -92,3 +92,20 @@ describe('Internal Panes have class', () => {
     });
 
 });
+
+
+describe('Internal Resizer have class', () => {
+
+    const splitPane = (
+        <SplitPane resizerClassName="some-class">
+            <div>one</div>
+            <div>two</div>
+        </SplitPane>
+    );
+
+
+    it('should have the specified classname', () => {
+        asserter(splitPane).assertResizerClasses('some-class');
+    });
+
+});

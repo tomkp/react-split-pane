@@ -7,8 +7,8 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like 
 class Resizer extends Component {
 
     render() {
-        const { split, className } = this.props;
-        const classes = ['Resizer', split, className];
+        const { split, className, resizerClassName } = this.props;
+        const classes = [resizerClassName, split, className];
         return (
             <span
                 className={classes.join(' ')}
@@ -36,11 +36,13 @@ Resizer.propTypes = {
     prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,
+    resizerClassName: PropTypes.string.isRequired,
     style: stylePropType,
 };
 
 Resizer.defaultProps = {
     prefixer: new Prefixer({ userAgent: USER_AGENT }),
+    resizerClassName: 'Resizer',
 };
 
 export default Resizer;
