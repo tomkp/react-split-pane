@@ -240,6 +240,7 @@ class SplitPane extends Component {
                     ref={(node) => { this.resizer = node; }}
                     key="resizer"
                     className={disabledClass}
+                    resizerClassName={this.props.resizerClassName}
                     onMouseDown={this.onMouseDown}
                     onTouchStart={this.onTouchStart}
                     onTouchEnd={this.onMouseUp}
@@ -291,6 +292,7 @@ SplitPane.propTypes = {
     pane1Style: stylePropType,
     pane2Style: stylePropType,
     className: PropTypes.string,
+    resizerClassName: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };
 
