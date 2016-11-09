@@ -14,8 +14,8 @@ function unFocus(document, window) {
     } else {
         try {
             window.getSelection().removeAllRanges();
+        // eslint-disable-next-line no-empty
         } catch (e) {}
-        
     }
 }
 
