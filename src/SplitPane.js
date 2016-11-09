@@ -12,7 +12,10 @@ function unFocus(document, window) {
     if (document.selection) {
         document.selection.empty();
     } else {
-        window.getSelection().removeAllRanges();
+        try {
+            window.getSelection().removeAllRanges();
+        } catch (e) {}
+        
     }
 }
 
