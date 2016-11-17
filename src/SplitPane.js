@@ -53,7 +53,7 @@ class SplitPane extends Component {
         const eventWithTouches = Object.assign(
             {},
             event,
-            { touches: [{ clientX: event.clientX, clientY: event.clientY }] }
+            { touches: [{ clientX: event.clientX, clientY: event.clientY }] },
         );
         this.onTouchStart(eventWithTouches);
     }
@@ -76,7 +76,7 @@ class SplitPane extends Component {
         const eventWithTouches = Object.assign(
             {},
             event,
-            { touches: [{ clientX: event.clientX, clientY: event.clientY }] }
+            { touches: [{ clientX: event.clientX, clientY: event.clientY }] },
         );
         this.onTouchMove(eventWithTouches);
     }
@@ -212,13 +212,13 @@ class SplitPane extends Component {
         const pane1Style = this.props.prefixer.prefix(
             Object.assign({},
             this.props.paneStyle || {},
-            this.props.pane1Style || {})
+            this.props.pane1Style || {}),
         );
 
         const pane2Style = this.props.prefixer.prefix(
             Object.assign({},
             this.props.paneStyle || {},
-            this.props.pane2Style || {})
+            this.props.pane2Style || {}),
         );
 
         return (
