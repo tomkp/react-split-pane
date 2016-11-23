@@ -62,7 +62,7 @@ class SplitPane extends Component {
     }
 
     onTouchStart(event) {
-        if (this.props.allowResize && !this.props.size) {
+        if (this.props.allowResize) {
             unFocus(document, window);
             const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
             if (typeof this.props.onDragStarted === 'function') {
@@ -85,7 +85,7 @@ class SplitPane extends Component {
     }
 
     onTouchMove(event) {
-        if (this.props.allowResize && !this.props.size) {
+        if (this.props.allowResize) {
             if (this.state.active) {
                 unFocus(document, window);
                 const isPrimaryFirst = this.props.primary === 'first';
@@ -144,7 +144,7 @@ class SplitPane extends Component {
     }
 
     onMouseUp() {
-        if (this.props.allowResize && !this.props.size) {
+        if (this.props.allowResize) {
             if (this.state.active) {
                 if (typeof this.props.onDragFinished === 'function') {
                     this.props.onDragFinished();
