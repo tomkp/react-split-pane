@@ -147,7 +147,7 @@ class SplitPane extends Component {
         if (this.props.allowResize) {
             if (this.state.active) {
                 if (typeof this.props.onDragFinished === 'function') {
-                    this.props.onDragFinished();
+                    this.props.onDragFinished(this.state.draggedSize);
                 }
                 this.setState({
                     active: false,
