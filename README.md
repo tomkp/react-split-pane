@@ -35,7 +35,7 @@ By default it is the left pane for 'vertical' SplitPane and the top pane for 'ho
 If you want to keep size of the second pane and let the first pane to shrink or grow by browser window dimensions,
 set SplitPane prop `primary` to `second`. In case of 'horizontal' SplitPane the height of bottom pane remains the same.
 
-Resizing can be disabled by passing the `enableResizing` prop as `false`. Resizing is enabled by default.
+Resizing can be disabled by passing the `allowResize` prop as `false` (`allowResize={false}`). Resizing is enabled by default.
 
 You can also set the size of the pane using the `size` prop. Note that a size set through props ignores the `defaultSize` and `minSize` properties.
 
