@@ -2,6 +2,9 @@
 
 Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
+```
+npm install react-split-pane
+```
 
 [![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
