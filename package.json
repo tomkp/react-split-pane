@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "inline-style-prefixer": "^2.0.4",
-    "react-style-proptype": "^1.4.0"
+    "react-style-proptype": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
