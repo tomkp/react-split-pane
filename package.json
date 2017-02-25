@@ -42,7 +42,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "express": "^4.14.0",
-    "mochify": "^2.18.1",
+    "mochify": "^3.0.0",
     "mochify-istanbul": "^2.4.1",
     "phantomjs-prebuilt": "^2.1.13",
     "react": "^15.4.0",
