@@ -45,6 +45,8 @@ Resizer.propTypes = {
     onMouseDown: PropTypes.func.isRequired,
     onTouchStart: PropTypes.func.isRequired,
     onTouchEnd: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
     prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     className: PropTypes.string.isRequired,

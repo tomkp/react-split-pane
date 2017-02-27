@@ -298,6 +298,8 @@ SplitPane.propTypes = {
     onDragStarted: PropTypes.func,
     onDragFinished: PropTypes.func,
     onChange: PropTypes.func,
+    onResizerClick: PropTypes.func,
+    onResizerDoubleClick: PropTypes.func,
     prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     style: stylePropType,
     resizerStyle: stylePropType,
