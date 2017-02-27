@@ -251,6 +251,8 @@ class SplitPane extends Component {
                     onMouseDown={this.onMouseDown}
                     onTouchStart={this.onTouchStart}
                     onTouchEnd={this.onMouseUp}
+                    onClick={this.props.onResizerClick}
+                    onDoubleClick={this.props.onResizerDoubleClick}
                     style={this.props.resizerStyle || {}}
                     split={split}
                 />
