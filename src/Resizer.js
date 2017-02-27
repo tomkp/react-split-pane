@@ -24,6 +24,10 @@ class Resizer extends Component {
                     event.preventDefault();
                     this.props.onTouchEnd(event);
                 }}
+                onClick={(event) => {
+                    event.preventDefault();
+                    this.props.onClick(event);
+                }}
             />
         );
     }
