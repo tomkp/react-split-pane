@@ -1,2 +1,4 @@
 src/
 .babelrc
+demo/
+test/
