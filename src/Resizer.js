@@ -24,6 +24,7 @@ class Resizer extends Component {
                     event.preventDefault();
                     this.props.onTouchEnd(event);
                 }}
+                // eslint-disable-next-line no-static-element-interactions
                 onClick={(event) => {
                     if (this.props.onClick) {
                         event.preventDefault();
