@@ -15,7 +15,8 @@
     "react/prefer-stateless-function": "off",
     "react/require-default-props": "off",
     "space-before-function-paren": [2, "never"],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": true}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": true}],
+    "jsx-a11y/no-static-element-interactions": "off"
   },
 
   "env": {
