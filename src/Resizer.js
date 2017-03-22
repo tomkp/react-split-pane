@@ -1,40 +1,39 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
-class Resizer extends Component {
-
+class Resizer extends React.Component {
     render() {
-        const { split, className, resizerClassName } = this.props;
+        const { className, onClick, onDoubleClick, onMouseDown, onTouchEnd, onTouchStart, prefixer, resizerClassName,
+            split, style } = this.props;
         const classes = [resizerClassName, split, className];
+
         return (
             <span
                 className={classes.join(' ')}
-                style={this.props.prefixer.prefix(this.props.style) || {}}
-                onMouseDown={(event) => {
-                    this.props.onMouseDown(event);
-                }}
+                style={prefixer.prefix(style) || {}}
+                onMouseDown={event => onMouseDown(event)}
                 onTouchStart={(event) => {
                     event.preventDefault();
-                    this.props.onTouchStart(event);
+                    onTouchStart(event);
                 }}
                 onTouchEnd={(event) => {
                     event.preventDefault();
-                    this.props.onTouchEnd(event);
+                    onTouchEnd(event);
                 }}
                 // eslint-disable-next-line no-static-element-interactions
                 onClick={(event) => {
-                    if (this.props.onClick) {
+                    if (onClick) {
                         event.preventDefault();
-                        this.props.onClick(event);
+                        onClick(event);
                     }
                 }}
                 onDoubleClick={(event) => {
-                    if (this.props.onDoubleClick) {
+                    if (onDoubleClick) {
                         event.preventDefault();
-                        this.props.onDoubleClick(event);
+                        onDoubleClick(event);
                     }
                 }}
             />
@@ -43,16 +42,16 @@ class Resizer extends Component {
 }
 
 Resizer.propTypes = {
-    onMouseDown: PropTypes.func.isRequired,
-    onTouchStart: PropTypes.func.isRequired,
-    onTouchEnd: PropTypes.func.isRequired,
-    onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-    split: PropTypes.oneOf(['vertical', 'horizontal']),
-    className: PropTypes.string.isRequired,
-    resizerClassName: PropTypes.string.isRequired,
+    className: React.PropTypes.string.isRequired,
+    onClick: React.PropTypes.func,
+    onDoubleClick: React.PropTypes.func,
+    onMouseDown: React.PropTypes.func.isRequired,
+    onTouchStart: React.PropTypes.func.isRequired,
+    onTouchEnd: React.PropTypes.func.isRequired,
+    prefixer: React.PropTypes.instanceOf(Prefixer).isRequired,
+    split: React.PropTypes.oneOf(['vertical', 'horizontal']),
     style: stylePropType,
+    resizerClassName: React.PropTypes.string.isRequired,
 };
 
 Resizer.defaultProps = {
