@@ -2,7 +2,7 @@
   "name": "react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
-  "version": "0.1.57",
+  "version": "0.1.59",
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
@@ -21,35 +21,35 @@
     "es6"
   ],
   "dependencies": {
-    "inline-style-prefixer": "^2.0.4",
-    "react-style-proptype": "^1.4.0"
+    "inline-style-prefixer": "^3.0.0",
+    "react-style-proptype": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
-    "babel-eslint": "^7.1.0",
+    "babel-eslint": "^7.1.1",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-object-assign": "^6.8.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
     "babelify": "^7.3.0",
-    "browserify": "^13.1.1",
+    "browserify": "^14.1.0",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
-    "coveralls": "^2.11.15",
-    "eslint": "^3.10.2",
-    "eslint-config-airbnb": "^13.0.0",
+    "coveralls": "^2.11.16",
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.7.1",
-    "express": "^4.14.0",
-    "mochify": "^2.18.1",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "express": "^4.14.1",
+    "mochify": "^3.0.0",
     "mochify-istanbul": "^2.4.1",
-    "phantomjs-prebuilt": "^2.1.13",
-    "react": "^15.4.0",
-    "react-addons-test-utils": "^15.4.0",
-    "react-dom": "^15.4.0",
+    "phantomjs-prebuilt": "^2.1.14",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "surge": "^0.18.0",
-    "watchify": "^3.7.0"
+    "watchify": "^3.9.0"
   },
   "scripts": {
     "compile": "babel -d lib/ src/",
