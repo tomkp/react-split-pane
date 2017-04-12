@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
@@ -23,7 +24,6 @@ class Resizer extends React.Component {
                     event.preventDefault();
                     onTouchEnd(event);
                 }}
-                // eslint-disable-next-line no-static-element-interactions
                 onClick={(event) => {
                     if (onClick) {
                         event.preventDefault();
@@ -42,16 +42,16 @@ class Resizer extends React.Component {
 }
 
 Resizer.propTypes = {
-    className: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func,
-    onDoubleClick: React.PropTypes.func,
-    onMouseDown: React.PropTypes.func.isRequired,
-    onTouchStart: React.PropTypes.func.isRequired,
-    onTouchEnd: React.PropTypes.func.isRequired,
-    prefixer: React.PropTypes.instanceOf(Prefixer).isRequired,
-    split: React.PropTypes.oneOf(['vertical', 'horizontal']),
+    className: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+    onMouseDown: PropTypes.func.isRequired,
+    onTouchStart: PropTypes.func.isRequired,
+    onTouchEnd: PropTypes.func.isRequired,
+    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
+    split: PropTypes.oneOf(['vertical', 'horizontal']),
     style: stylePropType,
-    resizerClassName: React.PropTypes.string.isRequired,
+    resizerClassName: PropTypes.string.isRequired,
 };
 
 Resizer.defaultProps = {

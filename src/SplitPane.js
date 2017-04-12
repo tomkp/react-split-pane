@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
@@ -246,28 +247,28 @@ class SplitPane extends React.Component {
 }
 
 SplitPane.propTypes = {
-    allowResize: React.PropTypes.bool,
-    children: React.PropTypes.arrayOf(React.PropTypes.node).isRequired,
-    className: React.PropTypes.string,
-    primary: React.PropTypes.oneOf(['first', 'second']),
-    minSize: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    maxSize: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    allowResize: PropTypes.bool,
+    children: PropTypes.arrayOf(PropTypes.node).isRequired,
+    className: PropTypes.string,
+    primary: PropTypes.oneOf(['first', 'second']),
+    minSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    maxSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     // eslint-disable-next-line react/no-unused-prop-types
-    defaultSize: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    size: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    split: React.PropTypes.oneOf(['vertical', 'horizontal']),
-    onDragStarted: React.PropTypes.func,
-    onDragFinished: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onResizerClick: React.PropTypes.func,
-    onResizerDoubleClick: React.PropTypes.func,
-    prefixer: React.PropTypes.instanceOf(Prefixer).isRequired,
+    defaultSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    split: PropTypes.oneOf(['vertical', 'horizontal']),
+    onDragStarted: PropTypes.func,
+    onDragFinished: PropTypes.func,
+    onChange: PropTypes.func,
+    onResizerClick: PropTypes.func,
+    onResizerDoubleClick: PropTypes.func,
+    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     style: stylePropType,
     resizerStyle: stylePropType,
     paneStyle: stylePropType,
     pane1Style: stylePropType,
     pane2Style: stylePropType,
-    resizerClassName: React.PropTypes.string,
+    resizerClassName: PropTypes.string,
 };
 
 SplitPane.defaultProps = {

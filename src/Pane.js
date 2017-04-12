@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
@@ -37,11 +38,11 @@ class Pane extends React.Component {
 }
 
 Pane.propTypes = {
-    className: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired,
-    prefixer: React.PropTypes.instanceOf(Prefixer).isRequired,
-    size: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-    split: React.PropTypes.oneOf(['vertical', 'horizontal']),
+    className: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
+    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    split: PropTypes.oneOf(['vertical', 'horizontal']),
     style: stylePropType,
 };
 
