@@ -1,7 +1,7 @@
 import { render, findDOMNode } from 'react-dom';
 import chai from 'chai';
 import spies from 'chai-spies';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import SplitPane from '../../src/SplitPane';
 import Resizer from '../../src/Resizer';
 import Pane from '../../src/Pane';
@@ -44,7 +44,7 @@ export default (jsx, renderToDom = false) => {
             if (expectedStyles[prop] && expectedStyles[prop] !== '') {
                 // console.log(`${prop}: '${actualStyles[prop]}',`);
                 expect(actualStyles[prop]).to.equal(expectedStyles[prop],
-                    `${componentName} has incorrect css property for '${prop}'`
+                    `${componentName} has incorrect css property for '${prop}'`,
                 );
             }
         });
