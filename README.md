@@ -150,10 +150,10 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
         border-left: 5px solid rgba(0, 0, 0, 0.5);
         border-right: 5px solid rgba(0, 0, 0, 0.5);
     }
-    Resizer.disabled {
+    .Resizer.disabled {
       cursor: not-allowed;
     }
-    Resizer.disabled:hover {
+    .Resizer.disabled:hover {
       border-color: transparent;
     }
 
