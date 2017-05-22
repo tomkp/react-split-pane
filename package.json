@@ -21,7 +21,7 @@
     "es6"
   ],
   "dependencies": {
-    "inline-style-prefixer": "^3.0.2",
+    "inline-style-prefixer": "^3.0.5",
     "prop-types": "^15.5.8",
     "react-style-proptype": "^3.0.0"
   },
