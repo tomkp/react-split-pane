@@ -1,5 +1,7 @@
 # React Split Pane
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/tomkp/react-split-pane.svg)](https://greenkeeper.io/)
+
 Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
 ```
