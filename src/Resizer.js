@@ -4,6 +4,7 @@ import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
+export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
 
 class Resizer extends React.Component {
     render() {
@@ -56,7 +57,7 @@ Resizer.propTypes = {
 
 Resizer.defaultProps = {
     prefixer: new Prefixer({ userAgent: USER_AGENT }),
-    resizerClassName: 'Resizer',
+    resizerClassName: RESIZER_DEFAULT_CLASSNAME,
 };
 
 export default Resizer;
