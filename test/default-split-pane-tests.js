@@ -107,5 +107,9 @@ describe('Internal Resizer have class', () => {
     it('should have the specified classname', () => {
         asserter(splitPane).assertResizerClasses('some-class');
     });
+    
+    it('should have the default classname', () => {
+        asserter(splitPane).assertResizerClasses('Resizer');
+    });
 
 });
