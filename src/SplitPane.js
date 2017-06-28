@@ -5,7 +5,7 @@ import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 import Pane from './Pane';
-import Resizer from './Resizer';
+import Resizer, { RESIZER_DEFAULT_CLASSNAME } from './Resizer';
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
@@ -167,6 +167,8 @@ class SplitPane extends React.Component {
             pane1Style: pane1StyleProps, pane2Style: pane2StyleProps, primary, prefixer, resizerClassName,
             resizerStyle, size, split, style: styleProps } = this.props;
         const disabledClass = allowResize ? '' : 'disabled';
+        const resizerClassNamesIncludingDefault = (resizerClassName ?
+              `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}` : resizerClassName);
 
         const style = Object.assign({},
             styleProps || {}, {
@@ -227,7 +229,7 @@ class SplitPane extends React.Component {
                     onTouchEnd={this.onMouseUp}
                     key="resizer"
                     ref={(node) => { this.resizer = node; }}
-                    resizerClassName={resizerClassName}
+                    resizerClassName={resizerClassNamesIncludingDefault}
                     split={split}
                     style={resizerStyle || {}}
                 />
