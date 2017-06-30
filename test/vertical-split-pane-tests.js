@@ -161,7 +161,7 @@ describe('Vertical SplitPane', () => {
         });
     });
 
-    describe('Resizer move to the right and left and step prop is set', () => {
+    describe('Resizer move to the right and left and step prop is set to 50px', () => {
 
         const splitPane = (
             <SplitPane split="vertical" defaultSize={400} minSize={200} maxSize={600} step={50}>
@@ -180,6 +180,18 @@ describe('Vertical SplitPane', () => {
 
         it('after move to left by 75px, first pane should only have width 350px', () => {
             asserter(splitPane, true).assertResizeByDragging(moveToLeft, { width: '350px' });
+        });
+
+        const moveToRightSmall = { x: 25 };
+
+        it('after move to right by 25px, first pane should still have width 400px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveToRightSmall, { width: '400px' });
+        });
+
+        const moveToLeftSmall = { x: -25 };
+
+        it('after move to left by 75px, first pane should still have width 400px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveToLeftSmall, { width: '400px' });
         });
 
     });
