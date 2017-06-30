@@ -107,6 +107,8 @@ class SplitPane extends React.Component {
                         if (Math.abs(positionDelta) < step) {
                             return;
                         }
+                        // Integer division
+                        // eslint-disable-next-line no-bitwise
                         positionDelta = ~~(positionDelta / step) * step;
                     }
 
