@@ -107,7 +107,7 @@ class SplitPane extends React.Component {
                         if (Math.abs(positionDelta) < step) {
                             return;
                         }
-                        positionDelta = Math.floor(positionDelta / step) * step;
+                        positionDelta = ~~(positionDelta / step) * step;
                     }
 
                     let newMaxSize = maxSize;
