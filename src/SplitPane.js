@@ -7,7 +7,7 @@ import stylePropType from 'react-style-proptype';
 import Pane from './Pane';
 import Resizer, { RESIZER_DEFAULT_CLASSNAME } from './Resizer';
 
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
+const USER_AGENT = typeof navigator !== 'undefined' ? navigator.userAgent : 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
 function unFocus(document, window) {
     if (document.selection) {
