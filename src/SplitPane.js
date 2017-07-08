@@ -68,6 +68,7 @@ class SplitPane extends React.Component {
         if (allowResize) {
             unFocus(document, window);
             const position = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
+
             if (typeof onDragStarted === 'function') {
                 onDragStarted();
             }
@@ -88,7 +89,7 @@ class SplitPane extends React.Component {
     }
 
     onTouchMove(event) {
-        const { allowResize, maxSize, minSize, onChange, split } = this.props;
+        const { allowResize, maxSize, minSize, onChange, split, step } = this.props;
         const { active, position } = this.state;
         if (allowResize && active) {
             unFocus(document, window);
@@ -102,7 +103,15 @@ class SplitPane extends React.Component {
                     const height = node.getBoundingClientRect().height;
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;
-                    const newPosition = isPrimaryFirst ? (position - current) : (current - position);
+                    let positionDelta = isPrimaryFirst ? (position - current) : (current - position);
+                    if (step) {
+                        if (Math.abs(positionDelta) < step) {
+                            return;
+                        }
+                        // Integer division
+                        // eslint-disable-next-line no-bitwise
+                        positionDelta = ~~(positionDelta / step) * step;
+                    }
 
                     let newMaxSize = maxSize;
                     if ((maxSize !== undefined) && (maxSize <= 0)) {
@@ -114,21 +123,23 @@ class SplitPane extends React.Component {
                         }
                     }
 
-                    let newSize = size - newPosition;
+                    let newSize = size - positionDelta;
+                    let newPosition = position - positionDelta;
 
                     if (newSize < minSize) {
                         newSize = minSize;
+                        newPosition = newSize;
                     } else if ((maxSize !== undefined) && (newSize > newMaxSize)) {
                         newSize = newMaxSize;
-                    } else {
-                        this.setState({
-                            position: current,
-                            resized: true,
-                        });
+                        newPosition = newSize;
                     }
 
                     if (onChange) onChange(newSize);
-                    this.setState({ draggedSize: newSize });
+                    this.setState({
+                        draggedSize: newSize,
+                        position: newPosition,
+                        resized: true,
+                    });
                     ref.setState({ size: newSize });
                 }
             }
@@ -272,6 +283,7 @@ SplitPane.propTypes = {
     pane1Style: stylePropType,
     pane2Style: stylePropType,
     resizerClassName: PropTypes.string,
+    step: PropTypes.number,
 };
 
 SplitPane.defaultProps = {

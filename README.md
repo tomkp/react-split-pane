@@ -60,6 +60,9 @@ of the SplitPane component and think this you'll be able to pick it again and dr
 And more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal
 size of the 'resizable' pane in this case). This can be useful also in the full-screen case of use.
 
+### step
+You can use the step prop to only allow resizing in fixed increments.
+
 ### Persisting Positions
 
 Each SplitPane accepts an onChange function prop.  Used in conjunction with

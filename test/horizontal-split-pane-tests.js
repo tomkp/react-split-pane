@@ -108,16 +108,51 @@ describe('Horizontal SplitPane', () => {
             </SplitPane>
         );
 
-        const moveToRight = { y: 160 };
+        const moveDown = { y: 160 };
 
-        it('after move down, the second pane should be smaller then before', () => {
-            asserter(splitPane, true).assertResizeByDragging(moveToRight, { height: '240px' });
+        it('after move down, the second pane should be smaller than before', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveDown, { height: '240px' });
         });
 
-        const moveToLeft = { y: -111 };
+        const moveUp = { y: -111 };
 
-        it('after move up, the second pane should be larger then before', () => {
-            asserter(splitPane, true).assertResizeByDragging(moveToLeft, { height: '511px' });
+        it('after move up, the second pane should be larger than before', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveUp, { height: '511px' });
         });
+    });
+    
+    describe('Resizer move up and down and step prop is set to 50px', () => {
+
+        const splitPane = (
+            <SplitPane split="horizontal" defaultSize={400} minSize={200} maxSize={600} step={50}>
+                <div>one</div>
+                <div>two</div>
+            </SplitPane>
+        );
+
+        const moveDown = { y: 75 };
+
+        it('after move down by 75px, first pane should only have height 450px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveDown, { height: '450px' });
+        });
+
+        const moveUp = { y: -75 };
+
+        it('after move up by 75px, first pane should only have height 350px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveUp, { height: '350px' });
+        });
+
+        const moveDownSmall = { y: 25 };
+
+        it('after move down by 75px, first pane should still have height 400px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveDownSmall, { height: '400px' });
+        });
+
+        const moveUpSmall = { y: -25 };
+
+        it('after move up by 75px, first pane should still have height 400px', () => {
+            asserter(splitPane, true).assertResizeByDragging(moveUpSmall, { height: '400px' });
+        });
+
     });
 });
