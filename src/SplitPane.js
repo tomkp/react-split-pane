@@ -104,7 +104,6 @@ class SplitPane extends React.Component {
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;
                     let positionDelta = position - current;
-                    let sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
                     if (step) {
                         if (Math.abs(positionDelta) < step) {
                             return;
@@ -112,8 +111,8 @@ class SplitPane extends React.Component {
                         // Integer division
                         // eslint-disable-next-line no-bitwise
                         positionDelta = ~~(positionDelta / step) * step;
-                        sizeDelta = ~~(sizeDelta / step) * step;
                     }
+                    const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
 
                     let newMaxSize = maxSize;
                     if ((maxSize !== undefined) && (maxSize <= 0)) {
@@ -140,7 +139,7 @@ class SplitPane extends React.Component {
                     }
 
                     if (onChange) onChange(newSize);
-                    this.setState({draggedSize: newSize});
+                    this.setState({ draggedSize: newSize });
                     ref.setState({ size: newSize });
                 }
             }
