@@ -103,7 +103,8 @@ class SplitPane extends React.Component {
                     const height = node.getBoundingClientRect().height;
                     const current = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
                     const size = split === 'vertical' ? width : height;
-                    let positionDelta = isPrimaryFirst ? (position - current) : (current - position);
+                    let positionDelta = position - current;
+                    let sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
                     if (step) {
                         if (Math.abs(positionDelta) < step) {
                             return;
@@ -111,6 +112,7 @@ class SplitPane extends React.Component {
                         // Integer division
                         // eslint-disable-next-line no-bitwise
                         positionDelta = ~~(positionDelta / step) * step;
+                        sizeDelta = ~~(sizeDelta / step) * step;
                     }
 
                     let newMaxSize = maxSize;
@@ -123,23 +125,22 @@ class SplitPane extends React.Component {
                         }
                     }
 
-                    let newSize = size - positionDelta;
-                    let newPosition = position - positionDelta;
+                    let newSize = size - sizeDelta;
+                    const newPosition = position - positionDelta;
 
                     if (newSize < minSize) {
                         newSize = minSize;
-                        newPosition = newSize;
                     } else if ((maxSize !== undefined) && (newSize > newMaxSize)) {
                         newSize = newMaxSize;
-                        newPosition = newSize;
+                    } else {
+                        this.setState({
+                            position: newPosition,
+                            resized: true,
+                        });
                     }
 
                     if (onChange) onChange(newSize);
-                    this.setState({
-                        draggedSize: newSize,
-                        position: newPosition,
-                        resized: true,
-                    });
+                    this.setState({draggedSize: newSize});
                     ref.setState({ size: newSize });
                 }
             }
