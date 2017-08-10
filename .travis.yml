@@ -7,7 +7,6 @@ before_install:
 - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
 - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
 script:
-- npm run lint
 - npm test
 after_script:
 - npm run test:coverage
