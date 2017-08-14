@@ -183,7 +183,7 @@ class SplitPane extends React.Component {
               `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}` : resizerClassName);
 
         const style = Object.assign({},
-            styleProps || {}, {
+            {
                 display: 'flex',
                 flex: 1,
                 height: '100%',
@@ -194,7 +194,8 @@ class SplitPane extends React.Component {
                 WebkitUserSelect: 'text',
                 msUserSelect: 'text',
                 userSelect: 'text',
-            });
+            },
+	    styleProps || {});
 
         if (split === 'vertical') {
             Object.assign(style, {
