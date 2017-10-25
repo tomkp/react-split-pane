@@ -2,6 +2,7 @@
   "name": "react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
+  "types": "index.d.ts",
   "version": "0.1.66",
   "repository": {
     "type": "git",
@@ -21,6 +22,8 @@
     "es6"
   ],
   "dependencies": {
+    "@types/inline-style-prefixer": "^3.0.0",
+    "@types/react": "^16.0.18",
     "inline-style-prefixer": "^3.0.6",
     "prop-types": "^15.5.10",
     "react-style-proptype": "^3.0.0"
@@ -42,6 +45,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "surge": "^0.19.0",
+    "typescript": "^2.5.3",
     "watchify": "^3.9.0"
   },
   "scripts": {
