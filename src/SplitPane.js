@@ -118,7 +118,7 @@ class SplitPane extends React.Component {
             // eslint-disable-next-line no-bitwise
             positionDelta = ~~(positionDelta / step) * step;
           }
-          const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
+          let sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
 
           const pane1Order = parseInt(window.getComputedStyle(node).order);
           const pane2Order = parseInt(window.getComputedStyle(node2).order);
