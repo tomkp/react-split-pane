@@ -93,20 +93,3 @@ describe('Internal Resizer have class', () => {
     asserter(splitPane).assertResizerClasses('Resizer');
   });
 });
-
-describe('Order CSS property is taken into account when resizing', () => {
-  const splitPane = (
-    <SplitPane
-      pane1Style={{ order: 3 }}
-      resizerStyle={{ order: 2 }}
-      pane2Style={{ order: 1 }}
-      defaultSize={100}
-      primary="first"
-    >
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
-  
-  asserter(splitPane).assertResizeByDragging({ width: '200px' })
-});
