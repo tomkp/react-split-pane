@@ -187,13 +187,13 @@ class SplitPane extends React.Component {
       allowResize,
       children,
       className,
-      paneClassName,
-      pane1ClassName,
-      pane2ClassName,
       defaultSize,
       minSize,
       onResizerClick,
       onResizerDoubleClick,
+      paneClassName,
+      pane1ClassName,
+      pane2ClassName,
       paneStyle,
       pane1Style: pane1StyleProps,
       pane2Style: pane2StyleProps,
@@ -251,8 +251,8 @@ class SplitPane extends React.Component {
       Object.assign({}, paneStyle || {}, pane2StyleProps || {})
     );
 
-    const pane1classes = ['Pane1', paneClassName, pane1ClassName];
-    const pane2classes = ['Pane2', paneClassName, pane2ClassName];
+    const pane1ClassName = ['Pane1', paneClassName, pane1ClassName];
+    const pane2ClassName = ['Pane2', paneClassName, pane2ClassName];
    
     return (
       <div
@@ -329,6 +329,9 @@ SplitPane.propTypes = {
   prefixer: PropTypes.instanceOf(Prefixer).isRequired,
   style: stylePropType,
   resizerStyle: stylePropType,
+  paneClassName: PropTypes.string,
+  pane1ClassName: PropTypes.string,
+  pane2ClassName: PropTypes.string,
   paneStyle: stylePropType,
   pane1Style: stylePropType,
   pane2Style: stylePropType,
