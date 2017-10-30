@@ -251,8 +251,8 @@ class SplitPane extends React.Component {
       Object.assign({}, paneStyle || {}, pane2StyleProps || {})
     );
 
-    const pane1ClassName = ['Pane1', paneClassName, pane1ClassName];
-    const pane2ClassName = ['Pane2', paneClassName, pane2ClassName];
+    const pane1Classes = ['Pane1', paneClassName, pane1ClassName];
+    const pane2Classes = ['Pane2', paneClassName, pane2ClassName];
    
     return (
       <div
@@ -263,7 +263,7 @@ class SplitPane extends React.Component {
         style={prefixer.prefix(style)}
       >
         <Pane
-          className={pane1ClassName}
+          className={pane1Classes}
           key="pane1"
           ref={node => {
             this.pane1 = node;
@@ -292,7 +292,7 @@ class SplitPane extends React.Component {
           style={resizerStyle || {}}
         />
         <Pane
-          className={pane2ClassName}
+          className={pane2Classes}
           key="pane2"
           ref={node => {
             this.pane2 = node;
