@@ -263,7 +263,7 @@ class SplitPane extends React.Component {
         style={prefixer.prefix(style)}
       >
         <Pane
-          className="Pane1"
+          className={pane1ClassName}
           key="pane1"
           ref={node => {
             this.pane1 = node;
@@ -292,7 +292,7 @@ class SplitPane extends React.Component {
           style={resizerStyle || {}}
         />
         <Pane
-          className="Pane2"
+          className={pane2ClassName}
           key="pane2"
           ref={node => {
             this.pane2 = node;
