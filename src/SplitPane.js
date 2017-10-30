@@ -251,8 +251,8 @@ class SplitPane extends React.Component {
       Object.assign({}, paneStyle || {}, pane2StyleProps || {})
     );
 
-    const pane1Classes = ['Pane1', paneClassName, pane1ClassName];
-    const pane2Classes = ['Pane2', paneClassName, pane2ClassName];
+    const pane1Classes = ['Pane1', paneClassName, pane1ClassName].join(' ');
+    const pane2Classes = ['Pane2', paneClassName, pane2ClassName].join(' ');
    
     return (
       <div
@@ -345,6 +345,9 @@ SplitPane.defaultProps = {
   prefixer: new Prefixer({ userAgent: USER_AGENT }),
   primary: 'first',
   split: 'vertical',
+  paneClassName: '',
+  pane1ClassName: '',
+  pane2ClassName: '',
 };
 
 export default SplitPane;
