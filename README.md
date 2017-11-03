@@ -170,6 +170,11 @@ You can also pass inline styles to the components via props. These are:
  * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
  * `resizerStyle` - Styling to be applied to the resizer bar
 
+### Alternatives 
+This library does a great job of providing a simple, straightforward API, but it doesn't do everything! 
+Some other great split pane libraries exist out there as well if you want to check em out: 
+ - https://github.com/leefsmp/Re-Flex (Good for triple pane layouts and subcomponent measurements)
+ - https://github.com/palantir/react-mosaic (Good for advanced drag/drop + extra goodies)
 
 ### Contributing
 
