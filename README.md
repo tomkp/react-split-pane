@@ -177,5 +177,7 @@ I'm always happy to receive Pull Requests for contributions of any kind.
 
 Please include tests and/or update the examples if possible.
   
+I've been working on an updated version of this library - if you'd like to get involved in any way please ping me a message.    
+  
 Thanks, Tom  
   
