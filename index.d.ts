@@ -1,5 +1,5 @@
-import React, { CSSProperties } from 'react';
-import Prefixer from 'inline-style-prefixer';
+import * as Prefixer from 'inline-style-prefixer';
+import * as React from 'react';
 
 export type Size = string | number;
 
@@ -18,11 +18,11 @@ export interface Props {
     onResizerClick?: (event: MouseEvent) => void;
     onResizerDoubleClick?: (event: MouseEvent) => void;
     prefixer?: Prefixer;
-    style?: CSSProperties;
-    resizerStyle?: CSSProperties;
-    paneStyle?: CSSProperties;
-    pane1Style?: CSSProperties;
-    pane2Style?: CSSProperties;
+    style?: React.CSSProperties;
+    resizerStyle?: React.CSSProperties;
+    paneStyle?: React.CSSProperties;
+    pane1Style?: React.CSSProperties;
+    pane2Style?: React.CSSProperties;
     resizerClassName?: string;
     step?: number;
 }
