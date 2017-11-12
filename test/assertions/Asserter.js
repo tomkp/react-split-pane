@@ -142,6 +142,14 @@ export default (jsx, renderToDom = false) => {
       assertClass(findBottomPane(), expectedBottomPaneClass);
     },
 
+    assertTopPaneClasses(expectedTopPaneClass) {
+      assertClass(findTopPane(), expectedTopPaneClass);
+    },
+
+    assertBottomPaneClasses(expectedBottomPaneClass) {
+      assertClass(findBottomPane(), expectedBottomPaneClass);
+    },
+
     assertPaneContents(expectedContents) {
       const panes = findPanes();
       const values = panes.map(pane => findDOMNode(pane).textContent);

@@ -191,6 +191,9 @@ class SplitPane extends React.Component {
       minSize,
       onResizerClick,
       onResizerDoubleClick,
+      paneClassName,
+      pane1ClassName,
+      pane2ClassName,
       paneStyle,
       pane1Style: pane1StyleProps,
       pane2Style: pane2StyleProps,
@@ -248,6 +251,9 @@ class SplitPane extends React.Component {
       Object.assign({}, paneStyle || {}, pane2StyleProps || {})
     );
 
+    const pane1Classes = ['Pane1', paneClassName, pane1ClassName].join(' ');
+    const pane2Classes = ['Pane2', paneClassName, pane2ClassName].join(' ');
+   
     return (
       <div
         className={classes.join(' ')}
@@ -257,7 +263,7 @@ class SplitPane extends React.Component {
         style={prefixer.prefix(style)}
       >
         <Pane
-          className="Pane1"
+          className={pane1Classes}
           key="pane1"
           ref={node => {
             this.pane1 = node;
@@ -286,7 +292,7 @@ class SplitPane extends React.Component {
           style={resizerStyle || {}}
         />
         <Pane
-          className="Pane2"
+          className={pane2Classes}
           key="pane2"
           ref={node => {
             this.pane2 = node;
@@ -323,6 +329,9 @@ SplitPane.propTypes = {
   prefixer: PropTypes.instanceOf(Prefixer).isRequired,
   style: stylePropType,
   resizerStyle: stylePropType,
+  paneClassName: PropTypes.string,
+  pane1ClassName: PropTypes.string,
+  pane2ClassName: PropTypes.string,
   paneStyle: stylePropType,
   pane1Style: stylePropType,
   pane2Style: stylePropType,
@@ -336,6 +345,9 @@ SplitPane.defaultProps = {
   prefixer: new Prefixer({ userAgent: USER_AGENT }),
   primary: 'first',
   split: 'vertical',
+  paneClassName: '',
+  pane1ClassName: '',
+  pane2ClassName: '',
 };
 
 export default SplitPane;

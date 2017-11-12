@@ -66,14 +66,52 @@ describe('SplitPane can have resizing callbacks', () => {
 
 describe('Internal Panes have class', () => {
   const splitPane = (
-    <SplitPane className="some-class">
+    <SplitPane paneClassName="some-class">
       <div>one</div>
       <div>two</div>
     </SplitPane>
   );
 
   it('should have the specified classname', () => {
+    asserter(splitPane).assertPaneClasses('some-class', 'some-class');
+  });
+
+  it('should have the default classname', () => {
     asserter(splitPane).assertPaneClasses('Pane1', 'Pane2');
+  });
+});
+
+describe('Top/Left Pane have class', () => {
+  const splitPane = (
+    <SplitPane pane1ClassName="some-class">
+      <div>one</div>
+      <div>two</div>
+    </SplitPane>
+  );
+
+  it('should have the specified classname', () => {
+    asserter(splitPane).assertTopPaneClasses('some-class');
+  });
+
+  it('should have the default classname', () => {
+    asserter(splitPane).assertTopPaneClasses('Pane1');
+  });
+});
+
+describe('Bottom/Right Pane have class', () => {
+  const splitPane = (
+    <SplitPane pane2ClassName="some-class">
+      <div>one</div>
+      <div>two</div>
+    </SplitPane>
+  );
+
+  it('should have the specified classname', () => {
+    asserter(splitPane).assertBottomPaneClasses('some-class');
+  });
+
+  it('should have the default classname', () => {
+    asserter(splitPane).assertBottomPaneClasses('Pane2');
   });
 });
 
