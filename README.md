@@ -175,7 +175,7 @@ You can also pass inline styles to the components via props. These are:
 
 I'm always happy to receive Pull Requests for contributions of any kind. 
 
-If possible / necessary then please try and include a test and/or update the examples.
+Please include tests and/or update the examples if possible.
   
 Thanks, Tom  
   
