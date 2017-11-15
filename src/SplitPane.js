@@ -96,8 +96,10 @@ class SplitPane extends React.Component {
       unFocus(document, window);
       const isPrimaryFirst = this.props.primary === 'first';
       const ref = isPrimaryFirst ? this.pane1 : this.pane2;
+      const ref2 = isPrimaryFirst ? this.pane2 : this.pane1;
       if (ref) {
         const node = ReactDOM.findDOMNode(ref);
+        const node2 = ReactDOM.findDOMNode(ref2);
 
         if (node.getBoundingClientRect) {
           const width = node.getBoundingClientRect().width;
@@ -116,7 +118,13 @@ class SplitPane extends React.Component {
             // eslint-disable-next-line no-bitwise
             positionDelta = ~~(positionDelta / step) * step;
           }
-          const sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
+          let sizeDelta = isPrimaryFirst ? positionDelta : -positionDelta;
+
+          const pane1Order = parseInt(window.getComputedStyle(node).order);
+          const pane2Order = parseInt(window.getComputedStyle(node2).order);
+          if (pane1Order > pane2Order) {
+              sizeDelta = -sizeDelta;
+          }
 
           let newMaxSize = maxSize;
           if (maxSize !== undefined && maxSize <= 0) {
