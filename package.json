@@ -3,7 +3,7 @@
   "description": "React split-pane component",
   "main": "index.js",
   "types": "index.d.ts",
-  "version": "0.1.70",
+  "version": "0.1.71",
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
