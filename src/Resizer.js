@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
+import equal from 'fast-deep-equal';
 
 const DEFAULT_USER_AGENT =
   'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
@@ -10,6 +11,11 @@ const USER_AGENT =
 export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
 
 class Resizer extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    const currentState=this.state;
+    const currnetProps=this.props;
+    return !equal(currnetProps,nextProps)||!equal(currentState,nextState)
+  }
   render() {
     const {
       className,
