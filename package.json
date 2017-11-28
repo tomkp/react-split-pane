@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/inline-style-prefixer": "^3.0.0",
     "@types/react": "^16.0.18",
+    "fast-deep-equal": "^1.0.0",
     "inline-style-prefixer": "^3.0.6",
     "prop-types": "^15.5.10",
     "react-style-proptype": "^3.0.0"
