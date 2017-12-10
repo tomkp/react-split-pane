@@ -24,6 +24,60 @@ const BasicVerticalExample = () => {
     );
 };
 
+const BasicVerticalSnapPointsExample = () => {
+    const pointA = 350
+    const pointB = 600
+    const threshold = 40
+    const min = 50
+    const max = pointB
+    return (
+        <SplitPane 
+            split="vertical"
+            defaultSize={pointA}
+            maxSize={max}
+            minSize={min}
+            // paneStyle={{ transition: 'all .1s ease' }}
+            controlSnap={({jumped, newPosition, draggingDelta, startPosition, setSize, setSizeOnRelease, setStep}) => {
+                if (newPosition >= 0 && newPosition <= min) {
+                    return setSize(min)
+                }else if(newPosition > min && newPosition <= min + threshold){
+                    if(jumped) {
+                        return setSize(min)
+                    }
+                    return setSizeOnRelease(min)
+                }else if(newPosition > min + threshold && newPosition < pointA - threshold){
+                    if(draggingDelta > 0){
+                        return setSize(pointA)
+                    }else {
+                        return setSize(min)
+                    }
+                }else if(newPosition >= pointA - threshold && newPosition <= pointA + threshold){
+                    if(jumped) {
+                        return setSize(pointA)
+                    }
+                    return setSizeOnRelease(pointA)
+                }else if(newPosition > pointA + threshold && newPosition < pointB - threshold){
+                    if(draggingDelta > 0){
+                        return setSize(pointB)
+                    }else{
+                        return setSize(pointA)
+                    }
+                }else if(newPosition >= pointB - threshold){
+                    if(jumped) {
+                        return setSize(pointB)
+                    }
+                    return setSizeOnRelease(pointB)
+                }else if(newPosition > pointB) {
+                    return setSize(pointB)
+                }
+            }}
+        >
+            <div />
+            <div />
+        </SplitPane>
+    );
+};
+
 const BasicHorizontalExample = () => {
     return (
         <SplitPane split="horizontal">
@@ -222,6 +276,7 @@ class SnapToPositionExample extends Component {
 
 if (document.getElementById('simple-nested-example')) render(<SimpleNestedExample />, document.getElementById('simple-nested-example'));
 if (document.getElementById('basic-vertical-example')) render(<BasicVerticalExample />, document.getElementById('basic-vertical-example'));
+if (document.getElementById('basic-vertical-snap-points-example')) render(<BasicVerticalSnapPointsExample />, document.getElementById('basic-vertical-snap-points-example'));
 if (document.getElementById('basic-horizontal-example')) render(<BasicHorizontalExample />, document.getElementById('basic-horizontal-example'));
 if (document.getElementById('basic-step-example')) render(<BasicStepExample />, document.getElementById('basic-step-example'));
 if (document.getElementById('percentage-vertical-example')) render(<PercentageVerticalExample />, document.getElementById('percentage-vertical-example'));
