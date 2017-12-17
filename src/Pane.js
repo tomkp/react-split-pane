@@ -8,7 +8,7 @@ const DEFAULT_USER_AGENT =
 const USER_AGENT =
   typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
 
-class Pane extends React.Component {
+class Pane extends React.PureComponent {
   constructor(props) {
     super(props);
 
