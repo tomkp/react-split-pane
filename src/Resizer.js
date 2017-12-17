@@ -9,7 +9,7 @@ const USER_AGENT =
   typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
 export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
 
-class Resizer extends React.Component {
+class Resizer extends React.PureComponent {
   render() {
     const {
       className,
