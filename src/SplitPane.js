@@ -123,7 +123,7 @@ class SplitPane extends React.PureComponent {
           const pane1Order = parseInt(window.getComputedStyle(node).order);
           const pane2Order = parseInt(window.getComputedStyle(node2).order);
           if (pane1Order > pane2Order) {
-              sizeDelta = -sizeDelta;
+            sizeDelta = -sizeDelta;
           }
 
           let newMaxSize = maxSize;

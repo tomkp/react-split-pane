@@ -16,9 +16,9 @@ class Pane extends React.Component {
     this.state = { size: this.props.size };
   }
   shouldComponentUpdate(nextProps, nextState) {
-    const currentState=this.state;
-    const currentProps=this.props;
-    return !equal(currentProps,nextProps)||!equal(currentState,nextState)
+    const currentState = this.state;
+    const currentProps = this.props;
+    return !equal(currentProps, nextProps) || !equal(currentState, nextState);
   }
 
   render() {

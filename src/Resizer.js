@@ -12,9 +12,9 @@ export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
 
 class Resizer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    const currentState=this.state;
-    const currentProps=this.props;
-    return !equal(currentProps,nextProps)||!equal(currentState,nextState)
+    const currentState = this.state;
+    const currentProps = this.props;
+    return !equal(currentProps, nextProps) || !equal(currentState, nextState);
   }
   render() {
     const {
