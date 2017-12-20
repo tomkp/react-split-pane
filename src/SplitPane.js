@@ -23,7 +23,7 @@ function unFocus(document, window) {
   }
 }
 
-class SplitPane extends React.Component {
+class SplitPane extends React.PureComponent {
   constructor() {
     super();
 
