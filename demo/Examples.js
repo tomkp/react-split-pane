@@ -166,24 +166,6 @@ const MaxPxHorizontalExample = () => {
 };
 
 
-const VerticallyNestedInContainerExample = () => {
-    return (
-        <SplitPane defaultSize="40%" split="vertical">
-            <div />
-            <div />
-        </SplitPane>
-    );
-};
-
-const HorizontallyNestedInContainerExample = () => {
-    return (
-        <SplitPane defaultSize="40%" split="horizontal">
-            <div />
-            <div />
-        </SplitPane>
-    );
-};
-
 const MultipleVerticalExample = () => {
     return (
         <SplitPane split="vertical">
@@ -226,8 +208,6 @@ const examples = {
   SubComponentExample,
   MultipleHorizontalExample,
   MultipleVerticalExample,
-  HorizontallyNestedInContainerExample,
-  VerticallyNestedInContainerExample,
   MaxPxHorizontalExample,
   MaxPxVerticalExample,
   MaxPercentageHorizontalExample,
