@@ -4,15 +4,13 @@ import SplitPane from '../lib/SplitPane';
 import Pane from "../lib/Pane";
 
 
-const SimpleNestedExample = () => {
+const SimpleExample = () => {
     return (
-        <SplitPane split="vertical">
-            <div />
-            <SplitPane split="horizontal">
-                <div />
-                <div />
-            </SplitPane>
-        </SplitPane>
+      <SplitPane split="vertical">
+        <Pane>You can use a Pane component</Pane>
+        <div>or you can use a plain old div</div>
+        <Pane initialSize="25%" minSize="10%" maxSize="500px">Using a Pane allows you to specify any constraints directly</Pane>
+      </SplitPane>
     );
 };
 
@@ -224,7 +222,7 @@ const SubComponentExample = () => {
 
 
 const examples = {
-  SimpleNestedExample,
+  SimpleExample,
   SubComponentExample,
   MultipleHorizontalExample,
   MultipleVerticalExample,
