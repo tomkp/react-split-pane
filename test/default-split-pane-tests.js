@@ -1,133 +1,154 @@
 import React from 'react';
-import chai from 'chai';
-import spies from 'chai-spies';
-
 import SplitPane from '../src/SplitPane';
+import Pane from '../src/Pane';
+import Resizer from '../src/Resizer';
 import asserter from './assertions/Asserter';
+import {
+  findRenderedComponentWithType,
+  scryRenderedComponentsWithType,
+} from 'react-dom/test-utils';
+import { render, findDOMNode } from 'react-dom';
 
-chai.use(spies);
+describe.only('Div panes', () => {
 
-describe('Default SplitPane', () => {
-  const splitPane = (
-    <SplitPane>
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
+  describe('Defaults', () => {
 
-  it('should render the child panes', () => {
-    asserter(splitPane).assertPaneContents(['one', 'two']);
+    it('each Pane should have the same flex', () => {
+      const jsx = (
+        <SplitPane>
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertOrientation('vertical')
+        .assertNumberOfPanes(2)
+        .assertNumberOfResizers(1)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5]);
+    });
+
+    it('each Pane should have the same flex', () => {
+      const jsx = (
+        <SplitPane>
+          <div>one</div>
+          <div>two</div>
+          <div>three</div>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertOrientation('vertical')
+        .assertNumberOfPanes(3)
+        .assertNumberOfResizers(2)
+        .assertRatios([33, 33, 33])
+        .assertSizes([199.33, 199.33, 199.33]);
+    });
   });
 
-  it('should have vertical orientation', () => {
-    asserter(splitPane).assertOrientation('vertical');
-  });
+  describe('Panes', () => {
+    it.only('each Pane should have the same flex', () => {
+      const jsx = (
+        <SplitPane>
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
 
-  it('should contain a Resizer', () => {
-    asserter(splitPane).assertContainsResizer();
-  });
-});
+      asserter(jsx)
+        .assertOrientation('vertical')
+        .assertNumberOfPanes(2)
+        .assertNumberOfResizers(1)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .simulateDragAndDrop(100)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5]);
+    });
 
-describe('SplitPane can have a specific class', () => {
-  const splitPane = (
-    <SplitPane className="some-class">
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
+    it('each Pane should have the same flex', () => {
+      const jsx = (
+        <SplitPane>
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+          <Pane>three</Pane>
+        </SplitPane>
+      );
 
-  it('should have the specified class', () => {
-    asserter(splitPane).assertSplitPaneClass('some-class');
-  });
-});
+      asserter(jsx)
+        .assertOrientation('vertical')
+        .assertNumberOfPanes(3)
+        .assertNumberOfResizers(2)
+        .assertRatios([33, 33, 33])
+        .assertSizes([199.33, 199.33, 199.33]);
+    });
 
-describe('SplitPane can have resizing callbacks', () => {
-  const onDragStartedCallback = chai.spy(() => {});
-  const onDragFinishedCallback = chai.spy(() => {});
+    describe('initial sizes', () => {
+      it('first pane', () => {
+        const jsx = (
+          <SplitPane>
+            <Pane initialSize="250px">one</Pane>
+            <Pane>two</Pane>
+          </SplitPane>
+        );
 
-  const splitPane = (
-    <SplitPane
-      className="some-class"
-      onDragStarted={onDragStartedCallback}
-      onDragFinished={onDragFinishedCallback}
-    >
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
+        asserter(jsx)
+          .assertOrientation('vertical')
+          .assertNumberOfPanes(2)
+          .assertNumberOfResizers(1)
+          .assertRatios([42, 58])
+          .assertSizes([250, 349]);
+      });
 
-  it('should call callbacks on resizing', () => {
-    asserter(splitPane).assertResizeCallbacks(
-      onDragStartedCallback,
-      onDragFinishedCallback
-    );
-  });
-});
+      it('second pane', () => {
+        const jsx = (
+          <SplitPane>
+            <Pane>one</Pane>
+            <Pane initialSize="250px">two</Pane>
+          </SplitPane>
+        );
 
-describe('Internal Panes have class', () => {
-  const splitPane = (
-    <SplitPane paneClassName="some-class">
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
+        asserter(jsx)
+          .assertOrientation('vertical')
+          .assertNumberOfPanes(2)
+          .assertNumberOfResizers(1)
+          .assertRatios([58, 42])
+          .assertSizes([349, 250]);
+      });
+    });
 
-  it('should have the specified classname', () => {
-    asserter(splitPane).assertPaneClasses('some-class', 'some-class');
-  });
+    describe('min sizes', () => {
+      it('first pane', () => {
+        const jsx = (
+          <SplitPane>
+            <Pane minSize="250px">one</Pane>
+            <Pane>two</Pane>
+          </SplitPane>
+        );
 
-  it('should have the default classname', () => {
-    asserter(splitPane).assertPaneClasses('Pane1', 'Pane2');
-  });
-});
+        asserter(jsx)
+          .assertOrientation('vertical')
+          .assertNumberOfPanes(2)
+          .assertNumberOfResizers(1)
+          .assertRatios([50, 50])
+          .assertSizes([299.5, 299.5]);
+      });
 
-describe('Top/Left Pane have class', () => {
-  const splitPane = (
-    <SplitPane pane1ClassName="some-class">
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
+      it('second pane', () => {
+        const jsx = (
+          <SplitPane>
+            <Pane>one</Pane>
+            <Pane minSize="250px">two</Pane>
+          </SplitPane>
+        );
 
-  it('should have the specified classname', () => {
-    asserter(splitPane).assertTopPaneClasses('some-class');
-  });
-
-  it('should have the default classname', () => {
-    asserter(splitPane).assertTopPaneClasses('Pane1');
-  });
-});
-
-describe('Bottom/Right Pane have class', () => {
-  const splitPane = (
-    <SplitPane pane2ClassName="some-class">
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
-
-  it('should have the specified classname', () => {
-    asserter(splitPane).assertBottomPaneClasses('some-class');
-  });
-
-  it('should have the default classname', () => {
-    asserter(splitPane).assertBottomPaneClasses('Pane2');
-  });
-});
-
-describe('Internal Resizer have class', () => {
-  const splitPane = (
-    <SplitPane resizerClassName="some-class">
-      <div>one</div>
-      <div>two</div>
-    </SplitPane>
-  );
-
-  it('should have the specified classname', () => {
-    asserter(splitPane).assertResizerClasses('some-class');
-  });
-
-  it('should have the default classname', () => {
-    asserter(splitPane).assertResizerClasses('Resizer');
+        asserter(jsx)
+          .assertOrientation('vertical')
+          .assertNumberOfPanes(2)
+          .assertNumberOfResizers(1)
+          .assertMinSizes(['0px', '250px']);
+      });
+    });
   });
 });

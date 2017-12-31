@@ -1,76 +1,103 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Prefixer from 'inline-style-prefixer';
-import stylePropType from 'react-style-proptype';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-const DEFAULT_USER_AGENT =
-  'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
-const USER_AGENT =
-  typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
-export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
+const Wrapper = styled.div`
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
 
-class Resizer extends React.Component {
+  :hover {
+    transition: all 2s ease;
+  }
+`;
+
+const HorizontalWrapper = styled(Wrapper)`
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+
+  :hover {
+    border-top: 5px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+  }
+
+  .disabled {
+    cursor: not-allowed;
+  }
+  .disabled:hover {
+    border-color: transparent;
+  }
+`;
+
+const VerticalWrapper = styled(Wrapper)`
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+
+  :hover {
+    border-left: 5px solid rgba(0, 0, 0, 0.5);
+    border-right: 5px solid rgba(0, 0, 0, 0.5);
+  }
+  .disabled {
+    cursor: not-allowed;
+  }
+  .disabled:hover {
+    border-color: transparent;
+  }
+`;
+
+class Resizer extends Component {
   render() {
     const {
-      className,
-      onClick,
-      onDoubleClick,
-      onMouseDown,
-      onTouchEnd,
-      onTouchStart,
-      prefixer,
-      resizerClassName,
-      split,
-      style,
+      index,
+      split = 'vertical',
+      onClick = () => {},
+      onDoubleClick = () => {},
+      onMouseDown = () => {},
+      onTouchEnd = () => {},
+      onTouchStart = () => {},
     } = this.props;
-    const classes = [resizerClassName, split, className];
 
-    return (
-      <span
-        className={classes.join(' ')}
-        style={prefixer.prefix(style) || {}}
-        onMouseDown={event => onMouseDown(event)}
-        onTouchStart={event => {
+    const props = {
+      ref: _ => (this.resizer = _),
+      'data-attribute': split,
+      'data-type': 'Resizer',
+      onMouseDown: event => onMouseDown(event, index),
+      onTouchStart: event => {
+        event.preventDefault();
+        onTouchStart(event, index);
+      },
+      onTouchEnd: event => {
+        event.preventDefault();
+        onTouchEnd(event, index);
+      },
+      onClick: event => {
+        if (onClick) {
           event.preventDefault();
-          onTouchStart(event);
-        }}
-        onTouchEnd={event => {
+          onClick(event, index);
+        }
+      },
+      onDoubleClick: event => {
+        if (onDoubleClick) {
           event.preventDefault();
-          onTouchEnd(event);
-        }}
-        onClick={event => {
-          if (onClick) {
-            event.preventDefault();
-            onClick(event);
-          }
-        }}
-        onDoubleClick={event => {
-          if (onDoubleClick) {
-            event.preventDefault();
-            onDoubleClick(event);
-          }
-        }}
-      />
+          onDoubleClick(event, index);
+        }
+      },
+    };
+
+    return split === 'vertical' ? (
+      <VerticalWrapper {...props} />
+    ) : (
+      <HorizontalWrapper {...props} />
     );
   }
 }
-
-Resizer.propTypes = {
-  className: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  onDoubleClick: PropTypes.func,
-  onMouseDown: PropTypes.func.isRequired,
-  onTouchStart: PropTypes.func.isRequired,
-  onTouchEnd: PropTypes.func.isRequired,
-  prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-  split: PropTypes.oneOf(['vertical', 'horizontal']),
-  style: stylePropType,
-  resizerClassName: PropTypes.string.isRequired,
-};
-
-Resizer.defaultProps = {
-  prefixer: new Prefixer({ userAgent: USER_AGENT }),
-  resizerClassName: RESIZER_DEFAULT_CLASSNAME,
-};
 
 export default Resizer;

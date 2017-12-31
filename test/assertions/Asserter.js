@@ -1,86 +1,74 @@
+import React from 'react';
+import SplitPane from '../../src/SplitPane';
+import Pane from '../../src/Pane';
+import Resizer from '../../src/Resizer';
+import {
+  findRenderedComponentWithType,
+  scryRenderedComponentsWithType,
+} from 'react-dom/test-utils';
 import { render, findDOMNode } from 'react-dom';
 import chai from 'chai';
-import spies from 'chai-spies';
-import ReactTestUtils from 'react-dom/test-utils';
-import SplitPane from '../../src/SplitPane';
-import Resizer from '../../src/Resizer';
-import Pane from '../../src/Pane';
 
 const expect = chai.expect;
 
-chai.use(spies);
-
-/**
- * getBoundingClientRect() does not work correctly with ReactTestUtils.renderIntoDocument().
- * So for testing resizing we need  ReactDOM.render()
- */
-const renderComponent = (jsx, renderToDOM) => {
-  if (renderToDOM) {
-    const testDiv = document.createElement('div');
-    document.body.appendChild(testDiv);
-    return render(jsx, testDiv);
-  }
-  return ReactTestUtils.renderIntoDocument(jsx);
+const renderComponent = jsx => {
+  const testDiv = document.createElement('div');
+  testDiv.setAttribute(
+    'style',
+    'height: 600px; width: 600px; background: yellow;'
+  );
+  document.body.appendChild(testDiv);
+  const component = render(jsx, testDiv);
+  console.log(`rendered Component`);
+  return component;
 };
 
-export default (jsx, renderToDom = false) => {
-  const splitPane = renderComponent(jsx, renderToDom);
-  const component = ReactTestUtils.findRenderedComponentWithType(
-    splitPane,
-    SplitPane
-  );
+const logStyles = _ => {
+  console.log(`log styles for `, _);
+  const style = findDOMNode(_).style;
+  Object.keys(style).forEach(key => {
+    const value = style[key];
+    if (value) console.log(key, `->`, value);
+  });
+};
 
-  const findPanes = () =>
-    ReactTestUtils.scryRenderedComponentsWithType(component, Pane);
+const logProps = _ => {
+  console.log(_.props);
+};
 
-  const findTopPane = () => findPanes()[0];
+const asserter = jsx => {
+  const splitPane = renderComponent(jsx);
+  const component = findRenderedComponentWithType(splitPane, SplitPane);
 
-  const findBottomPane = () => findPanes()[1];
-
-  const findPaneByOrder = paneString =>
-    paneString === 'first' ? findTopPane() : findBottomPane();
-
-  const findResizer = () =>
-    ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
-
-  const assertStyles = (componentName, actualStyles, expectedStyles) => {
-    Object.keys(expectedStyles).forEach(prop => {
-      // console.log(`${prop}: '${actualStyles[prop]}',`);
-      if (expectedStyles[prop] && expectedStyles[prop] !== '') {
-        // console.log(`${prop}: '${actualStyles[prop]}',`);
-        expect(actualStyles[prop]).to.equal(
-          expectedStyles[prop],
-          `${componentName} has incorrect css property for '${prop}'`
-        );
-      }
-    });
-    return this;
-  };
-
-  const assertPaneStyles = (expectedStyles, paneString) => {
-    const pane = findPaneByOrder(paneString);
-    return assertStyles(
-      `${paneString} Pane`,
-      findDOMNode(pane).style,
-      expectedStyles
+  const findPanes = () => {
+    console.log(`findPanes`);
+    const components = scryRenderedComponentsWithType(component, Pane);
+    components.forEach(_ =>
+      console.log(findDOMNode(_).getBoundingClientRect())
     );
+    return components;
   };
 
-  const assertCallbacks = (
-    expectedDragStartedCallback,
-    expectedDragFinishedCallback
-  ) => {
-    expect(expectedDragStartedCallback).to.have.been.called();
-    expect(expectedDragFinishedCallback).to.have.been.called();
+  const findResizers = () => {
+    console.log(`findResizers`);
+    const components = scryRenderedComponentsWithType(component, Resizer);
+    components.forEach(_ =>
+      console.log(findDOMNode(_).getBoundingClientRect())
+    );
+    return components;
   };
 
   const getResizerPosition = () => {
-    const resizerNode = findDOMNode(findResizer()[0]);
+    console.log(`getResizerPosition`);
+    const resizerNode = findDOMNode(findResizers()[0]);
+    //console.log(`resizerNode`, resizerNode);
     return resizerNode.getBoundingClientRect();
   };
 
   const calculateMouseMove = mousePositionDifference => {
+    console.log(`calculateMouseMove`);
     const resizerPosition = getResizerPosition();
+    console.log(`resizerPosition`, resizerPosition);
     const mouseMove = {
       start: {
         clientX: resizerPosition.left,
@@ -101,108 +89,67 @@ export default (jsx, renderToDom = false) => {
     return mouseMove;
   };
 
-  const simulateDragAndDrop = mousePositionDifference => {
-    const mouseMove = calculateMouseMove(mousePositionDifference);
-    component.onMouseDown(mouseMove.start);
-    component.onMouseMove(mouseMove.end);
-    component.onMouseUp();
-  };
-
-  const changeSize = (newSize, comp) => {
-    const parent = ReactTestUtils.findRenderedComponentWithType(
-      splitPane,
-      comp
-    );
-    parent.setState({ size: newSize });
-  };
-
-  const assertClass = (comp, expectedClassName) => {
-    expect(findDOMNode(comp).className).to.contain(
-      expectedClassName,
-      'Incorrect className'
-    );
-    return this;
-  };
-
   return {
-    assertOrientation(expectedOrientation) {
-      expect(findDOMNode(component).className).to.contain(
-        expectedOrientation,
-        'Incorrect orientation'
-      );
-      return this;
-    },
-
-    assertSplitPaneClass(expectedClassName) {
-      assertClass(component, expectedClassName);
-    },
-
-    assertPaneClasses(expectedTopPaneClass, expectedBottomPaneClass) {
-      assertClass(findTopPane(), expectedTopPaneClass);
-      assertClass(findBottomPane(), expectedBottomPaneClass);
-    },
-
-    assertTopPaneClasses(expectedTopPaneClass) {
-      assertClass(findTopPane(), expectedTopPaneClass);
-    },
-
-    assertBottomPaneClasses(expectedBottomPaneClass) {
-      assertClass(findBottomPane(), expectedBottomPaneClass);
-    },
-
-    assertPaneContents(expectedContents) {
+    assertNumberOfPanes(expected) {
       const panes = findPanes();
-      const values = panes.map(pane => findDOMNode(pane).textContent);
-      expect(values).to.eql(expectedContents, 'Incorrect contents for Pane');
+      expect(panes.length).to.equal(expected, 'Unexpected number of panes');
       return this;
     },
-
-    assertContainsResizer() {
-      expect(findResizer().length).to.equal(
-        1,
-        'Expected the SplitPane to have a single Resizer'
-      );
-      expect(findPanes().length).to.equal(
-        2,
-        'Expected the SplitPane to have 2 panes'
+    assertNumberOfResizers(expected) {
+      const resizers = findResizers();
+      expect(resizers.length).to.equal(
+        expected,
+        'Unexpected number of resizers'
       );
       return this;
     },
-
-    assertPaneWidth(expectedWidth, pane = 'first') {
-      return assertPaneStyles({ width: expectedWidth }, pane);
-    },
-
-    assertPaneHeight(expectedHeight, pane = 'first') {
-      return assertPaneStyles({ height: expectedHeight }, pane);
-    },
-
-    assertResizeByDragging(mousePositionDifference, expectedStyle) {
-      simulateDragAndDrop(mousePositionDifference);
-      return assertPaneStyles(expectedStyle, component.props.primary);
-    },
-
-    assertResizeCallbacks(
-      expectedDragStartedCallback,
-      expectedDragFinishedCallback
-    ) {
-      simulateDragAndDrop(200);
-      return assertCallbacks(
-        expectedDragStartedCallback,
-        expectedDragFinishedCallback
+    assertOrientation(expected) {
+      expect(component.props['split']).to.eql(
+        expected,
+        'Unexpected split orientation'
       );
+      return this;
+    },
+    assertRatios(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => +_.props['ratio']);
+      expect(actualSizes).to.eql(expected, 'Unexpected ratios');
+      return this;
+    },
+    assertSizes(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => +_.props['size']);
+      expect(actualSizes).to.eql(expected, 'Unexpected sizes');
+      return this;
     },
 
-    assertSizePersists(comp) {
-      const pane = 'first';
-      changeSize(100, comp);
-      assertPaneStyles({ width: '100px' }, pane);
-      changeSize(undefined, comp);
-      assertPaneStyles({ width: '100px' }, pane);
+    // todo - are these relevant?
+    assertMinSizes(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => _.props['minSize']);
+      expect(actualSizes).to.eql(expected, 'Unexpected min size');
+      return this;
+    },
+    assertMaxSizes(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => _.props['maxSize']);
+      expect(actualSizes).to.eql(expected, 'Unexpected max size');
+      return this;
     },
 
-    assertResizerClasses(expectedClass) {
-      assertClass(findResizer()[0], expectedClass);
+    assertFlexSizes(expectedSizes) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => +findDOMNode(_).style.flexGrow);
+      expect(actualSizes).to.eql(expectedSizes, 'Unexpected flex sizes');
+      return this;
+    },
+    simulateDragAndDrop(mousePositionDifference) {
+      const mouseMove = calculateMouseMove(mousePositionDifference);
+      component.onMouseDown(mouseMove.start);
+      component.onMouseMove(mouseMove.end);
+      component.onMouseUp();
     },
   };
 };
+
+export default asserter;

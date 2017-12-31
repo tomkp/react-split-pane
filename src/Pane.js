@@ -1,49 +1,74 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Prefixer from 'inline-style-prefixer';
-import stylePropType from 'react-style-proptype';
 
-const DEFAULT_USER_AGENT =
-  'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
-const USER_AGENT =
-  typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
+import prefixAll from 'inline-style-prefixer/static';
 
-class Pane extends React.Component {
-  constructor(props) {
-    super(props);
+const RowPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
+  width: useInitial && initialSize ? initialSize : size + 'px',
+  minWidth: minSize,
+  maxWidth: maxSize,
+  outline: 'none',
+});
 
-    this.state = { size: this.props.size };
-  }
+const ColumnPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
+  height: useInitial && initialSize ? initialSize : size + 'px',
+  minHeight: minSize,
+  maxHeight: maxSize,
+  outline: 'none',
+});
 
+const RowFlex = ({ ratio, minSize, maxSize }) => ({
+  flex: ratio * 100,
+  minWidth: minSize,
+  maxWidth: maxSize,
+  display: 'flex',
+  outline: 'none',
+});
+
+const ColumnFlex = ({ ratio, minSize, maxSize }) => ({
+  flex: ratio * 100,
+  minHeight: minSize,
+  maxHeight: maxSize,
+  display: 'flex',
+  outline: 'none',
+});
+
+const debug = false;
+
+const log = (...args) => {
+  if (debug) console.log(...['Pane', ...args]);
+};
+
+class Pane extends PureComponent {
   render() {
     const {
       children,
       className,
-      prefixer,
+      resized,
       split,
-      style: styleProps,
+      useInitial,
+      initialSize,
     } = this.props;
-    const { size } = this.state;
-    const classes = ['Pane', split, className];
 
-    const style = Object.assign({}, styleProps || {}, {
-      flex: 1,
-      position: 'relative',
-      outline: 'none',
-    });
+    log('render', this.props);
 
-    if (size !== undefined) {
+    let prefixedStyle;
+
+    if (resized && !(useInitial && initialSize)) {
       if (split === 'vertical') {
-        style.width = size;
+        prefixedStyle = prefixAll(RowFlex(this.props));
       } else {
-        style.height = size;
-        style.display = 'flex';
+        prefixedStyle = prefixAll(ColumnFlex(this.props));
       }
-      style.flex = 'none';
+    } else {
+      if (split === 'vertical') {
+        prefixedStyle = prefixAll(RowPx(this.props));
+      } else {
+        prefixedStyle = prefixAll(ColumnPx(this.props));
+      }
     }
-
     return (
-      <div className={classes.join(' ')} style={prefixer.prefix(style)}>
+      <div className={className} style={prefixedStyle}>
         {children}
       </div>
     );
@@ -51,16 +76,17 @@ class Pane extends React.Component {
 }
 
 Pane.propTypes = {
-  className: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  split: PropTypes.oneOf(['vertical', 'horizontal']),
-  style: stylePropType,
+  className: PropTypes.string,
+  initialSize: PropTypes.string,
+  minSize: PropTypes.string,
+  maxSize: PropTypes.string,
 };
 
 Pane.defaultProps = {
-  prefixer: new Prefixer({ userAgent: USER_AGENT }),
+  split: 'vertical',
+  minSize: '0px',
+  maxSize: '100%',
 };
 
 export default Pane;
