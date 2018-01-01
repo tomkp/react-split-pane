@@ -177,7 +177,7 @@ I'm always happy to receive Pull Requests for contributions of any kind.
 
 Please include tests and/or update the examples if possible.
   
-I'm working on an updated version of this library, and looking for help: https://github.com/tomkp/react-split-pane/pull/240
+**I'm working on an updated version of this library, and looking for help:** https://github.com/tomkp/react-split-pane/pull/240
   
 Thanks, Tom  
   
