@@ -35,6 +35,45 @@ const SimpleExample = () => {
 };
 
 
+const SimpleNestedExample = () => {
+  return (
+    <section>
+
+      <pre className="source">
+        {`
+          <SplitPane split="vertical">
+            <Pane/>
+            <Pane/>
+            <SplitPane split="horizontal">
+              <Pane/>
+              <Pane/>
+              <Pane/>
+            </SplitPane>
+            <Pane/>
+          </SplitPane>
+        `}
+      </pre>
+
+      <div className="example">
+
+        <SplitPane split="vertical">
+          <Pane/>
+          <Pane/>
+          <SplitPane split="horizontal">
+            <Pane/>
+            <Pane/>
+            <Pane/>
+          </SplitPane>
+          <Pane/>
+        </SplitPane>
+
+      </div>
+
+    </section>
+  );
+};
+
+
 const BasicVerticalExample = () => {
   return (
     <section>
@@ -562,6 +601,7 @@ const SubComponentExample = () => {
 
 const examples = {
   SimpleExample,
+  SimpleNestedExample,
   SubComponentExample,
   MultipleHorizontalExample,
   MultipleVerticalExample,
