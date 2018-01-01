@@ -1,3 +1,5 @@
+import 'core-js/es6';
+
 import React from 'react';
 import SplitPane from '../src/SplitPane';
 import Pane from '../src/Pane';
@@ -62,9 +64,6 @@ describe.only('Div panes', () => {
         .assertNumberOfResizers(1)
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
-        .simulateDragAndDrop(100)
-        .assertRatios([50, 50])
-        .assertSizes([299.5, 299.5]);
     });
 
     it('each Pane should have the same flex', () => {
