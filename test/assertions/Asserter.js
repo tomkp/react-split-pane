@@ -11,6 +11,13 @@ import chai from 'chai';
 
 const expect = chai.expect;
 
+const debug = true;
+
+const log = (...args) => {
+  if (debug) console.log(...['Asserter', ...args]);
+};
+
+
 const renderComponent = jsx => {
   const testDiv = document.createElement('div');
   testDiv.setAttribute(
@@ -19,21 +26,21 @@ const renderComponent = jsx => {
   );
   document.body.appendChild(testDiv);
   const component = render(jsx, testDiv);
-  console.log(`rendered Component`);
+  log(`rendered Component`);
   return component;
 };
 
 const logStyles = _ => {
-  console.log(`log styles for `, _);
+  log(`log styles for `, _);
   const style = findDOMNode(_).style;
   Object.keys(style).forEach(key => {
     const value = style[key];
-    if (value) console.log(key, `->`, value);
+    if (value) log(key, `->`, value);
   });
 };
 
 const logProps = _ => {
-  console.log(_.props);
+  log(_.props);
 };
 
 const asserter = jsx => {
@@ -41,34 +48,34 @@ const asserter = jsx => {
   const component = findRenderedComponentWithType(splitPane, SplitPane);
 
   const findPanes = () => {
-    console.log(`findPanes`);
+    log(`findPanes`);
     const components = scryRenderedComponentsWithType(component, Pane);
     components.forEach(_ =>
-      console.log(findDOMNode(_).getBoundingClientRect())
+      log(findDOMNode(_).getBoundingClientRect())
     );
     return components;
   };
 
   const findResizers = () => {
-    console.log(`findResizers`);
+    log(`findResizers`);
     const components = scryRenderedComponentsWithType(component, Resizer);
     components.forEach(_ =>
-      console.log(findDOMNode(_).getBoundingClientRect())
+      log(findDOMNode(_).getBoundingClientRect())
     );
     return components;
   };
 
-  const getResizerPosition = () => {
-    console.log(`getResizerPosition`);
-    const resizerNode = findDOMNode(findResizers()[0]);
-    //console.log(`resizerNode`, resizerNode);
+  const getResizerPosition = (resizerIndex) => {
+    log(`getResizerPosition`);
+    const resizerNode = findDOMNode(findResizers()[resizerIndex]);
+    //log(`resizerNode`, resizerNode);
     return resizerNode.getBoundingClientRect();
   };
 
-  const calculateMouseMove = mousePositionDifference => {
-    console.log(`calculateMouseMove`);
-    const resizerPosition = getResizerPosition();
-    console.log(`resizerPosition`, resizerPosition);
+  const calculateMouseMove = (resizerIndex, mousePositionDifference) => {
+    log(`calculateMouseMove`, resizerIndex, mousePositionDifference);
+    const resizerPosition = getResizerPosition(resizerIndex);
+    log(`resizerPosition`, resizerPosition);
     const mouseMove = {
       start: {
         clientX: resizerPosition.left,
@@ -79,13 +86,11 @@ const asserter = jsx => {
         clientY: resizerPosition.top,
       },
     };
-
     if (mousePositionDifference.x) {
       mouseMove.end.clientX = resizerPosition.left + mousePositionDifference.x;
     } else if (mousePositionDifference.y) {
       mouseMove.end.clientY = resizerPosition.top + mousePositionDifference.y;
     }
-
     return mouseMove;
   };
 
@@ -143,11 +148,13 @@ const asserter = jsx => {
       expect(actualSizes).to.eql(expectedSizes, 'Unexpected flex sizes');
       return this;
     },
-    simulateDragAndDrop(mousePositionDifference) {
-      const mouseMove = calculateMouseMove(mousePositionDifference);
-      component.onMouseDown(mouseMove.start);
+    dragResizer(resizerIndex, mousePositionDifference) {
+      const mouseMove = calculateMouseMove(resizerIndex, mousePositionDifference);
+      log(`mouseMove`, mouseMove);
+      component.onMouseDown(mouseMove.start, resizerIndex);
       component.onMouseMove(mouseMove.end);
       component.onMouseUp();
+      return this;
     },
   };
 };

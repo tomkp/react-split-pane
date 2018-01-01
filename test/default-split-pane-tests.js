@@ -150,4 +150,24 @@ describe.only('Div panes', () => {
       });
     });
   });
+
+  describe('Drag resizer', () => {
+
+    it.only('vertical panes', () => {
+      const jsx = (
+        <SplitPane>
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertOrientation('vertical')
+        .assertNumberOfPanes(2)
+        .assertNumberOfResizers(1)
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x:20, y:0})
+        //.assertSizes([299.5, 299.5]);
+    });
+  });
 });
