@@ -27,3 +27,22 @@ a {
   flex: 1;
 }
 
+
+section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: #eee;
+}
+
+.source {
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+  background:  #FFF;
+}
+
+.example {
+  margin: 1rem;
+  flex: 1;
+  background: #fff;
+}
