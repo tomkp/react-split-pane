@@ -122,6 +122,7 @@ class SplitPane extends Component {
   }
 
   onMouseDown(event, resizerIndex) {
+    log(`onMouseDown`, resizerIndex);
     this.onDown();
     this.setState({
       resizer: resizerIndex,
@@ -129,6 +130,7 @@ class SplitPane extends Component {
   }
 
   onTouchStart(event, resizerIndex) {
+    log(`onTouchStart`, resizerIndex);
     this.onDown();
     this.setState({
       resizer: resizerIndex,
@@ -212,7 +214,7 @@ class SplitPane extends Component {
     const { active, dimensions, resizer } = this.state;
 
     if (active) {
-      console.log(`onMove ${clientX},${clientY}`, this.state);
+      log(`onMove ${clientX},${clientY}`, this.state);
       const node = findDOMNode(this.splitPane);
       const splitPaneDimensions = findDOMNode(node).getBoundingClientRect();
 
@@ -223,7 +225,7 @@ class SplitPane extends Component {
       const minSizes = this.getPropForRef(refs, 'minSize');
       const maxSizes = this.getPropForRef(refs, 'maxSize');
 
-      console.log('min/max sizes', minSizes, maxSizes);
+      log('min, max sizes', minSizes, maxSizes);
 
       if (
         (split === 'vertical' &&

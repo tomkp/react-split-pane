@@ -33,11 +33,6 @@ const ColumnFlex = ({ ratio, minSize, maxSize }) => ({
   outline: 'none',
 });
 
-const debug = false;
-
-const log = (...args) => {
-  if (debug) console.log(...['Pane', ...args]);
-};
 
 class Pane extends PureComponent {
   render() {
@@ -49,8 +44,6 @@ class Pane extends PureComponent {
       useInitial,
       initialSize,
     } = this.props;
-
-    log('render', this.props);
 
     let prefixedStyle;
 
