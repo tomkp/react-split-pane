@@ -52,7 +52,10 @@
     "react-dom": "^16.2.0",
     "surge": "^0.19.0",
     "typescript": "^2.6.2",
-    "watchify": "^3.9.0"
+    "watchify": "^3.9.0",
+    "@storybook/react": "^3.3.3",
+    "@storybook/addon-actions": "^3.3.3",
+    "@storybook/addon-links": "^3.3.3"
   },
   "scripts": {
     "compile": "babel -d lib/ src/",
@@ -64,7 +67,9 @@
     "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
     "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
     "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane-v2.surge.sh",
-    "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'"
+    "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "browserify": {
     "transform": [
