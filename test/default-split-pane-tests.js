@@ -11,7 +11,7 @@ import {
 } from 'react-dom/test-utils';
 import { render, findDOMNode } from 'react-dom';
 
-describe.only('Div panes', () => {
+describe('Div panes', () => {
 
   describe('Defaults', () => {
 
@@ -50,7 +50,7 @@ describe.only('Div panes', () => {
   });
 
   describe('Panes', () => {
-    it.only('each Pane should have the same flex', () => {
+    it('each Pane should have the same flex', () => {
       const jsx = (
         <SplitPane>
           <Pane>one</Pane>
@@ -153,7 +153,7 @@ describe.only('Div panes', () => {
 
   describe('Drag resizer', () => {
 
-    it.only('vertical panes', () => {
+    it('vertical panes', () => {
       const jsx = (
         <SplitPane>
           <div>one</div>
@@ -167,7 +167,7 @@ describe.only('Div panes', () => {
         .assertNumberOfResizers(1)
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x:20, y:0})
-        //.assertSizes([299.5, 299.5]);
+        .assertSizes([319.5, 279.5]);
     });
   });
 });

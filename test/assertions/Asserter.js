@@ -43,6 +43,13 @@ const logProps = _ => {
   log(_.props);
 };
 
+const getCentre = (dimensions) => {
+  return {
+    x: (dimensions.left + ((dimensions.right - dimensions.left) / 2)),
+    y: (dimensions.top + ((dimensions.bottom - dimensions.top) / 2))
+  };
+};
+
 const asserter = jsx => {
   const splitPane = renderComponent(jsx);
   const component = findRenderedComponentWithType(splitPane, SplitPane);
@@ -65,31 +72,29 @@ const asserter = jsx => {
     return components;
   };
 
-  const getResizerPosition = (resizerIndex) => {
-    log(`getResizerPosition`);
+  const getResizerBoundingRect = (resizerIndex) => {
     const resizerNode = findDOMNode(findResizers()[resizerIndex]);
-    //log(`resizerNode`, resizerNode);
     return resizerNode.getBoundingClientRect();
   };
 
   const calculateMouseMove = (resizerIndex, mousePositionDifference) => {
     log(`calculateMouseMove`, resizerIndex, mousePositionDifference);
-    const resizerPosition = getResizerPosition(resizerIndex);
-    log(`resizerPosition`, resizerPosition);
+    const resizerPosition = getResizerBoundingRect(resizerIndex);
+    const resizerCoords = getCentre(resizerPosition);
     const mouseMove = {
       start: {
-        clientX: resizerPosition.left,
-        clientY: resizerPosition.top,
+        clientX: resizerCoords.x,
+        clientY: resizerCoords.y,
       },
       end: {
-        clientX: resizerPosition.left,
-        clientY: resizerPosition.top,
+        clientX: resizerCoords.x,
+        clientY: resizerCoords.y,
       },
     };
     if (mousePositionDifference.x) {
-      mouseMove.end.clientX = resizerPosition.left + mousePositionDifference.x;
+      mouseMove.end.clientX = resizerCoords.x + mousePositionDifference.x;
     } else if (mousePositionDifference.y) {
-      mouseMove.end.clientY = resizerPosition.top + mousePositionDifference.y;
+      mouseMove.end.clientY = resizerCoords.y + mousePositionDifference.y;
     }
     return mouseMove;
   };
