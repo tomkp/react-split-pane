@@ -153,7 +153,7 @@ describe('Div panes', () => {
 
   describe('Drag resizer', () => {
 
-    it('vertical panes', () => {
+    it('vertical divs', () => {
       const jsx = (
         <SplitPane>
           <div>one</div>
@@ -162,12 +162,62 @@ describe('Div panes', () => {
       );
 
       asserter(jsx)
-        .assertOrientation('vertical')
-        .assertNumberOfPanes(2)
-        .assertNumberOfResizers(1)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x: 20, y: 20})
+        .assertSizes([319.47, 279.53])
+        .assertRatios([53, 47])
+    });
+
+    it('horizontal divs', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x: 0, y: 20})
+        .assertSizes([319.47, 279.53])
+        .assertRatios([53, 47])
+      ;
+    });
+
+    it('vertical Panes', () => {
+      const jsx = (
+        <SplitPane>
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 20, y: 0})
-        .assertSizes([319.47, 279.53]);
+        .assertSizes([319.47, 279.53])
+        .assertRatios([53, 47])
+      ;
+    });
+
+    it('horizontal Panes', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x: 0, y: 20})
+        .assertSizes([319.47, 279.53])
+        .assertRatios([53, 47])
+      ;
     });
   });
 });
