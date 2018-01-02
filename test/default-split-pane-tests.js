@@ -9,7 +9,7 @@ import {
   findRenderedComponentWithType,
   scryRenderedComponentsWithType,
 } from 'react-dom/test-utils';
-import { render, findDOMNode } from 'react-dom';
+import {render, findDOMNode} from 'react-dom';
 
 describe('Div panes', () => {
 
@@ -166,8 +166,8 @@ describe('Div panes', () => {
         .assertNumberOfPanes(2)
         .assertNumberOfResizers(1)
         .assertSizes([299.5, 299.5])
-        .dragResizer(0, {x:20, y:0})
-        .assertSizes([319.5, 279.5]);
+        .dragResizer(0, {x: 20, y: 0})
+        .assertSizes([319.47, 279.53]);
     });
   });
 });
