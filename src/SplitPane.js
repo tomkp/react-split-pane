@@ -229,11 +229,11 @@ class SplitPane extends Component {
 
       if (
         (split === 'vertical' &&
-          clientX > primary.left &&
-          clientX < secondary.right) ||
+          clientX >= primary.left &&
+          clientX <= secondary.right) ||
         (split !== 'vertical' &&
-          clientY > primary.top &&
-          clientY < secondary.bottom)
+          clientY >= primary.top &&
+          clientY <= secondary.bottom)
       ) {
         this.setState(state => {
           let primarySize;
