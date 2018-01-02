@@ -188,7 +188,7 @@ describe('Div panes', () => {
 
     it('vertical Panes', () => {
       const jsx = (
-        <SplitPane>
+        <SplitPane split="vertical">
           <Pane>one</Pane>
           <Pane>two</Pane>
         </SplitPane>
@@ -200,6 +200,23 @@ describe('Div panes', () => {
         .dragResizer(0, {x: 20, y: 0})
         .assertSizes([319.47, 279.53])
         .assertRatios([53, 47])
+      ;
+    });
+
+    it('vertical Panes - resized all the way', () => {
+      const jsx = (
+        <SplitPane split="vertical">
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x: 300, y: 0})
+        .assertSizes([599, 0])
+        .assertRatios([100, 0])
       ;
     });
 
@@ -219,6 +236,25 @@ describe('Div panes', () => {
         .assertRatios([53, 47])
       ;
     });
+
+
+    it('horizontal Panes - resized all the way', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([50, 50])
+        .assertSizes([299.5, 299.5])
+        .dragResizer(0, {x: 0, y: 300})
+        .assertSizes([599, 0])
+        .assertRatios([100, 0])
+      ;
+    });
+
 
     describe('multiple horizontal Panes', () => {
 
