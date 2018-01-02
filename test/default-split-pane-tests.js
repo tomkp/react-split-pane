@@ -219,5 +219,69 @@ describe('Div panes', () => {
         .assertRatios([53, 47])
       ;
     });
+
+    describe('multiple horizontal Panes', () => {
+
+      it('first resizer', () => {
+
+        const jsx = (
+          <SplitPane split="horizontal">
+            <Pane>one</Pane>
+            <Pane>two</Pane>
+            <Pane>three</Pane>
+            <Pane>four</Pane>
+          </SplitPane>
+        );
+
+        asserter(jsx)
+          .assertRatios([25, 25, 25, 25])
+          .assertSizes([149.25, 149.25, 149.25, 149.25])
+          .dragResizer(0, {x: 0, y: 20})
+          .assertRatios([28, 22, 25, 25])
+          .assertSizes([169.47, 129.53, 149, 149])
+        ;
+      });
+
+      it('second resizer', () => {
+
+        const jsx = (
+          <SplitPane split="horizontal">
+            <Pane>one</Pane>
+            <Pane>two</Pane>
+            <Pane>three</Pane>
+            <Pane>four</Pane>
+          </SplitPane>
+        );
+
+        asserter(jsx)
+          .assertRatios([25, 25, 25, 25])
+          .assertSizes([149.25, 149.25, 149.25, 149.25])
+          .dragResizer(1, {x: 0, y: 20})
+          .assertRatios([25, 28, 22, 25])
+          .assertSizes([149, 169.47, 129.53, 149])
+        ;
+      });
+
+      it('third resizer', () => {
+
+        const jsx = (
+          <SplitPane split="horizontal">
+            <Pane>one</Pane>
+            <Pane>two</Pane>
+            <Pane>three</Pane>
+            <Pane>four</Pane>
+          </SplitPane>
+        );
+
+        asserter(jsx)
+          .assertRatios([25, 25, 25, 25])
+          .assertSizes([149.25, 149.25, 149.25, 149.25])
+          .dragResizer(2, {x: 0, y: 20})
+          .assertRatios([25, 25, 28, 22])
+          .assertSizes([149, 149, 169.47, 129.53])
+        ;
+      });
+    });
+
   });
 });
