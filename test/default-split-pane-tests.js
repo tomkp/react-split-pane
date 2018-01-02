@@ -238,7 +238,7 @@ describe('Div panes', () => {
     });
 
 
-    it('horizontal Panes - first pane resized to max', () => {
+    it('horizontal Panes - first pane resized fully', () => {
       const jsx = (
         <SplitPane split="horizontal">
           <Pane>one</Pane>
@@ -255,7 +255,7 @@ describe('Div panes', () => {
       ;
     });
 
-    it('horizontal Panes - second pane resized to max', () => {
+    it('horizontal Panes - second pane resized fully', () => {
       const jsx = (
         <SplitPane split="horizontal">
           <Pane>one</Pane>
@@ -272,7 +272,7 @@ describe('Div panes', () => {
       ;
     });
 
-    it('horizontal Panes - resize to specific max', () => {
+    it('horizontal Panes - resize, max px size', () => {
       const jsx = (
         <SplitPane split="horizontal">
           <Pane maxSize="400px">one</Pane>
@@ -283,9 +283,26 @@ describe('Div panes', () => {
       asserter(jsx)
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
-        .dragResizer(0, {x: 0, y: 400})
+        .dragResizer(0, {x: 0, y: 200})
         .assertSizes([399.33, 199.67])
         .assertRatios([67, 33])
+      ;
+    });
+
+    it('horizontal Panes - resize, min px size', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane minSize="400px">one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx)
+        .assertRatios([67, 33])
+        .assertSizes([400, 199])
+        .dragResizer(0, {x: 0, y: 100})
+        .assertSizes([501, 98.02])
+        .assertRatios([83, 16])
       ;
     });
 

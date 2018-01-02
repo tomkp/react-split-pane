@@ -6,7 +6,7 @@ import glamorous from 'glamorous';
 import Resizer from './Resizer';
 import Pane from './Pane';
 
-const debug = true;
+const debug = false;
 
 const log = (...args) => {
   if (debug) console.log(...['SplitPane', ...args]);
@@ -37,6 +37,7 @@ const RowStyle = glamorous.div({
 });
 
 const paneSize = (split, dimensions, splitPaneDimensions) => {
+  //console.log(`paneSize:`, split, dimensions, splitPaneDimensions);
   const sizes = dimensions.map(dimension =>
     (split === 'vertical' ? dimension.width : dimension.height).toFixed(2)
   );

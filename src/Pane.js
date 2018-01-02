@@ -47,6 +47,8 @@ class Pane extends PureComponent {
 
     let prefixedStyle;
 
+    //console.log(`Pane.render`, resized && !(useInitial && initialSize), resized, useInitial, initialSize);
+
     if (resized && !(useInitial && initialSize)) {
       if (split === 'vertical') {
         prefixedStyle = prefixAll(RowFlex(this.props));
