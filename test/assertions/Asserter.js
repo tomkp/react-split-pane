@@ -17,12 +17,54 @@ const log = (...args) => {
   if (debug) console.log(...['Asserter', ...args]);
 };
 
+//.....
+const tween = (from, to) => {
+  let x0 = from.clientX;
+  let y0 = from.clientY;
+  let x1 = to.clientX;
+  let y1 = to.clientY;
+
+  let dots = [];
+  let dx = Math.abs(x1 - x0);
+  let dy = Math.abs(y1 - y0);
+  let sx = (x0 < x1) ? 1 : -1;
+  let sy = (y0 < y1) ? 1 : -1;
+  let err = dx - dy;
+
+  dots.push({ x: x0, y: y0 });
+
+  while(!((x0 === x1) && (y0 === y1))) {
+    let e2 = err << 1;
+
+    if (e2 > -dy) {
+      err -= dy;
+      x0 += sx;
+    }
+
+    if (e2 < dx) {
+      err += dx;
+      y0 += sy;
+    }
+
+    dots.push({ clientX: x0, clientY: y0 });
+  }
+
+  return dots;
+}
+
+
+
+//.....
 
 const renderComponent = jsx => {
   const testDiv = document.createElement('div');
   testDiv.setAttribute(
     'style',
-    'height: 600px; width: 600px; background: yellow;'
+    'margin:0; height: 600px; width: 600px; background: yellow;'
+  );
+  document.body.setAttribute(
+    'style',
+    'margin:0; padding: 0;'
   );
   document.body.appendChild(testDiv);
   const component = render(jsx, testDiv);
@@ -91,12 +133,19 @@ const asserter = jsx => {
         clientY: resizerCoords.y,
       },
     };
+
     if (mousePositionDifference.x) {
       mouseMove.end.clientX = resizerCoords.x + mousePositionDifference.x;
-    } else if (mousePositionDifference.y) {
+    }
+    if (mousePositionDifference.y) {
       mouseMove.end.clientY = resizerCoords.y + mousePositionDifference.y;
     }
-    return mouseMove;
+
+
+    const movements = tween(mouseMove.start, mouseMove.end);
+    //console.log(`movements`, movements);
+    //return mouseMove;
+    return movements;
   };
 
   return {
@@ -154,10 +203,19 @@ const asserter = jsx => {
       return this;
     },
     dragResizer(resizerIndex, mousePositionDifference) {
-      const mouseMove = calculateMouseMove(resizerIndex, mousePositionDifference);
-      log(`mouseMove`, mouseMove);
-      component.onMouseDown(mouseMove.start, resizerIndex);
-      component.onMouseMove(mouseMove.end);
+      const coordinates = calculateMouseMove(resizerIndex, mousePositionDifference);
+      log(`coordinates`, coordinates);
+      //component.onMouseDown(mouseMove.start, resizerIndex);
+      //component.onMouseMove(mouseMove.end);
+
+      const [start, ...rest] = coordinates;
+      component.onMouseDown(start, resizerIndex);
+
+      rest.forEach(coordinate => {
+        console.log(`-> `, coordinate);
+        component.onMouseMove(coordinate);
+      });
+
       component.onMouseUp();
       return this;
     },
