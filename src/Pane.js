@@ -71,7 +71,7 @@ class Pane extends PureComponent {
 }
 
 Pane.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
   initialSize: PropTypes.string,
   minSize: PropTypes.string,
