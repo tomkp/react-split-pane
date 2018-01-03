@@ -113,11 +113,8 @@ class SplitPane extends Component {
     window.addEventListener('resize', this.resize);
     this.calculateSize();
 
-    const refs = this.refs;
-
-    // cacheable?
-    const minSizes = this.getPropForRef(refs, 'minSize');
-    const maxSizes = this.getPropForRef(refs, 'maxSize');
+    const minSizes = this.getPaneProp('minSize');
+    const maxSizes = this.getPaneProp('maxSize');
 
     log('min, max sizes', minSizes, maxSizes);
     this.setState({
@@ -211,15 +208,25 @@ class SplitPane extends Component {
     }
   }
 
-  getPropForRef(refs, key) {
-    return Object.keys(refs).map(ref => refs[ref].props[key]);
+  getPaneProp(key) {
+    const refs = this.refs;
+    return Object.keys(refs)
+      .filter(ref => ref.startsWith('Pane'))
+      .map(ref => refs[ref].props[key]);
   }
 
   getPaneDimensions() {
     const refs = this.refs;
-    return Object.keys(refs).map(ref =>
-      findDOMNode(refs[ref]).getBoundingClientRect()
-    );
+    return Object.keys(refs)
+      .filter(ref => ref.startsWith('Pane'))
+      .map(ref => findDOMNode(refs[ref]).getBoundingClientRect());
+  }
+
+  getResizerDimensions() {
+    const refs = this.refs;
+    return Object.keys(refs)
+      .filter(ref => ref.startsWith('Resizer'))
+      .map(ref => findDOMNode(refs[ref]).getBoundingClientRect());
   }
 
   onMove(clientX, clientY) {
@@ -336,6 +343,7 @@ class SplitPane extends Component {
           <Resizer
             index={resizerIndex}
             key={`Resizer-${resizerIndex}`}
+            ref={`Resizer-${resizerIndex}`}
             split={split}
             onMouseDown={this.onMouseDown}
             onTouchStart={this.onTouchStart}
