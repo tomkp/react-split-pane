@@ -64,3 +64,30 @@ section {
   margin: 5rem;
   flex: 1;
 }
+
+h3 {
+  margin: 1rem 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+}
+nav {
+  margin: 0 1rem;
+  padding: 0;
+}
+ul {
+  flex-basis: 20rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  padding: 0;
+}
+
+#root {
+  flex: 1;
+}
