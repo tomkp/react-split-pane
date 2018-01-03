@@ -72,6 +72,17 @@ const toPx = (value, unit = 'px', size) => {
   }
 };
 
+const convertSizes = (sizes, index, splitPaneSize) => {
+  const primaryMinSize = convert(sizes[index], splitPaneSize);
+  const secondaryMinSize = convert(
+    sizes[index + 1],
+    splitPaneSize
+  );
+  return {primaryMinSize, secondaryMinSize};
+};
+
+
+
 class SplitPane extends Component {
   constructor(props) {
     super(props);
@@ -114,12 +125,10 @@ class SplitPane extends Component {
     this.calculateSize();
 
     const refs = this.refs;
-
-    // cacheable?
     const minSizes = this.getPropForRef(refs, 'minSize');
     const maxSizes = this.getPropForRef(refs, 'maxSize');
-
     log('min, max sizes', minSizes, maxSizes);
+
     this.setState({
       minSizes,
       maxSizes
@@ -257,17 +266,8 @@ class SplitPane extends Component {
             splitPaneSize = splitPaneDimensions.height;
           }
 
-          const primaryMinSize = convert(minSizes[resizer], splitPaneSize);
-          const secondaryMinSize = convert(
-            minSizes[resizer + 1],
-            splitPaneSize
-          );
-
-          const primaryMaxSize = convert(maxSizes[resizer], splitPaneSize);
-          const secondaryMaxSize = convert(
-            maxSizes[resizer + 1],
-            splitPaneSize
-          );
+          const {primaryMinSize, secondaryMinSize} = convertSizes(minSizes, resizer, splitPaneSize);
+          const {primaryMaxSize, secondaryMaxSize} = convertSizes(maxSizes, resizer, splitPaneSize);
 
           if (
             primaryMinSize <= primarySize &&
