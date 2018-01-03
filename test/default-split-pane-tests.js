@@ -165,7 +165,7 @@ describe('Div panes', () => {
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 20, y: 20})
-        .assertSizes([319.47, 279.53])
+        .assertSizes([320, 279])
         .assertRatios([53, 47])
     });
 
@@ -181,7 +181,7 @@ describe('Div panes', () => {
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 0, y: 20})
-        .assertSizes([319.47, 279.53])
+        .assertSizes([320, 279])
         .assertRatios([53, 47])
       ;
     });
@@ -198,7 +198,7 @@ describe('Div panes', () => {
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 20, y: 0})
-        .assertSizes([319.47, 279.53])
+        .assertSizes([320, 279])
         .assertRatios([53, 47])
       ;
     });
@@ -232,7 +232,7 @@ describe('Div panes', () => {
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 0, y: 20})
-        .assertSizes([319.47, 279.53])
+        .assertSizes([320, 279])
         .assertRatios([53, 47])
       ;
     });
@@ -284,7 +284,7 @@ describe('Div panes', () => {
         .assertRatios([50, 50])
         .assertSizes([299.5, 299.5])
         .dragResizer(0, {x: 0, y: 200})
-        .assertSizes([399.33, 199.67])
+        .assertSizes([400, 199])
         .assertRatios([67, 33])
       ;
     });
@@ -301,8 +301,9 @@ describe('Div panes', () => {
         .assertRatios([67, 33])
         .assertSizes([400, 199])
         .dragResizer(0, {x: 0, y: 100})
-        .assertSizes([501, 98.02])
-        .assertRatios([83, 16])
+
+        .assertRatios([84, 16])
+        .assertSizes([501.83, 97.17]) //todo - is this expected?
       ;
     });
 
@@ -324,8 +325,8 @@ describe('Div panes', () => {
           .assertRatios([25, 25, 25, 25])
           .assertSizes([149.25, 149.25, 149.25, 149.25])
           .dragResizer(0, {x: 0, y: 20})
-          .assertRatios([28, 22, 25, 25])
-          .assertSizes([169.47, 129.53, 149, 149])
+          .assertRatios([28, 21, 25, 25])
+          .assertSizes([169.75, 128.75, 149.25, 149.25])
         ;
       });
 
@@ -344,8 +345,8 @@ describe('Div panes', () => {
           .assertRatios([25, 25, 25, 25])
           .assertSizes([149.25, 149.25, 149.25, 149.25])
           .dragResizer(1, {x: 0, y: 20})
-          .assertRatios([25, 28, 22, 25])
-          .assertSizes([149, 169.47, 129.53, 149])
+          .assertSizes([149.25, 169.75, 128.75, 149.25])
+          .assertRatios([25, 28, 21, 25])
         ;
       });
 
@@ -364,8 +365,8 @@ describe('Div panes', () => {
           .assertRatios([25, 25, 25, 25])
           .assertSizes([149.25, 149.25, 149.25, 149.25])
           .dragResizer(2, {x: 0, y: 20})
-          .assertRatios([25, 25, 28, 22])
-          .assertSizes([149, 149, 169.47, 129.53])
+          .assertSizes([149.25, 149.25, 169.75, 128.75])
+          .assertRatios([25, 25, 28, 21])
         ;
       });
     });

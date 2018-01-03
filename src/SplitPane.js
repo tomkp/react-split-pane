@@ -41,15 +41,14 @@ const paneSize = (split, dimensions, splitPaneDimensions) => {
   const sizes = dimensions.map(dimension =>
     (split === 'vertical' ? dimension.width : dimension.height).toFixed(2)
   );
+
   const ratios = dimensions.map(
     dimension =>
       split === 'vertical'
-        ? Math.round(
-            (dimension.width / splitPaneDimensions.width).toFixed(2) * 100
-          )
-        : Math.round(
-            (dimension.height / splitPaneDimensions.height).toFixed(2) * 100
-          )
+        ? Math.round
+          ((dimension.width / splitPaneDimensions.width).toFixed(4) * 100)
+        : Math.round
+          ((dimension.height / splitPaneDimensions.height).toFixed(4) * 100)
   );
   return { sizes, ratios };
 };
@@ -189,6 +188,7 @@ class SplitPane extends Component {
     log('calculateSize', this.state);
     const { split } = this.props;
     const dimensions = this.getPaneDimensions();
+
     const node = findDOMNode(this.splitPane);
     if (node) {
       const splitPaneDimensions = findDOMNode(node).getBoundingClientRect();
@@ -230,7 +230,7 @@ class SplitPane extends Component {
   }
 
   onMove(clientX, clientY) {
-    const { split } = this.props;
+    const { split, resizerSize } = this.props;
     const { active, dimensions, resizerIndex, minSizes, maxSizes } = this.state;
 
     if (active) {
@@ -256,11 +256,11 @@ class SplitPane extends Component {
 
           if (split === 'vertical') {
             primarySize = clientX - primary.left;
-            secondarySize = secondary.right - clientX;
+            secondarySize = secondary.right - (clientX + resizerSize);
             splitPaneSize = splitPaneDimensions.width;
           } else {
             primarySize = clientY - primary.top;
-            secondarySize = secondary.bottom - clientY;
+            secondarySize = secondary.bottom - (clientY + resizerSize);
             splitPaneSize = splitPaneDimensions.height;
           }
 
@@ -282,8 +282,8 @@ class SplitPane extends Component {
             secondaryMinSize <= secondarySize &&
             secondaryMaxSize >= secondarySize
           ) {
-            const primaryRatio = (primarySize / splitPaneSize).toFixed(2);
-            const secondaryRatio = (secondarySize / splitPaneSize).toFixed(2);
+            const primaryRatio = (primarySize / splitPaneSize).toFixed(4) * 100;
+            const secondaryRatio = ((secondarySize + resizerSize) / splitPaneSize).toFixed(4) * 100;
 
             const { ratios, sizes } = state;
 
@@ -310,6 +310,7 @@ class SplitPane extends Component {
     log('render', this.state);
     const { children, className, split } = this.props;
     const { ratios, sizes, resized, useInitial } = this.state;
+
     let paneIndex = 0;
     let resizerIndex = 0;
 
@@ -385,10 +386,12 @@ SplitPane.propTypes = {
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
   className: PropTypes.string,
   split: PropTypes.oneOf(['vertical', 'horizontal']),
+  resizerSize: PropTypes.number,
 };
 
 SplitPane.defaultProps = {
   split: 'vertical',
+  resizerSize: 1,
 };
 
 export default SplitPane;
