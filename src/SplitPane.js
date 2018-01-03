@@ -138,7 +138,7 @@ class SplitPane extends Component {
     log(`onMouseDown`, resizerIndex);
     this.onDown();
     this.setState({
-      resizer: resizerIndex,
+      resizerIndex,
     });
   }
 
@@ -146,7 +146,7 @@ class SplitPane extends Component {
     log(`onTouchStart`, resizerIndex);
     this.onDown();
     this.setState({
-      resizer: resizerIndex,
+      resizerIndex,
     });
   }
 
@@ -224,15 +224,15 @@ class SplitPane extends Component {
 
   onMove(clientX, clientY) {
     const { split } = this.props;
-    const { active, dimensions, resizer, minSizes, maxSizes } = this.state;
+    const { active, dimensions, resizerIndex, minSizes, maxSizes } = this.state;
 
     if (active) {
       log(`onMove ${clientX},${clientY}`, this.state);
       const node = findDOMNode(this.splitPane);
       const splitPaneDimensions = findDOMNode(node).getBoundingClientRect();
 
-      const primary = dimensions[resizer];
-      const secondary = dimensions[resizer + 1];
+      const primary = dimensions[resizerIndex];
+      const secondary = dimensions[resizerIndex + 1];
 
       if (
         (split === 'vertical' &&
@@ -257,15 +257,15 @@ class SplitPane extends Component {
             splitPaneSize = splitPaneDimensions.height;
           }
 
-          const primaryMinSize = convert(minSizes[resizer], splitPaneSize);
+          const primaryMinSize = convert(minSizes[resizerIndex], splitPaneSize);
           const secondaryMinSize = convert(
-            minSizes[resizer + 1],
+            minSizes[resizerIndex + 1],
             splitPaneSize
           );
 
-          const primaryMaxSize = convert(maxSizes[resizer], splitPaneSize);
+          const primaryMaxSize = convert(maxSizes[resizerIndex], splitPaneSize);
           const secondaryMaxSize = convert(
-            maxSizes[resizer + 1],
+            maxSizes[resizerIndex + 1],
             splitPaneSize
           );
 
@@ -280,11 +280,11 @@ class SplitPane extends Component {
 
             const { ratios, sizes } = state;
 
-            sizes[resizer] = primarySize;
-            sizes[resizer + 1] = secondarySize;
+            sizes[resizerIndex] = primarySize;
+            sizes[resizerIndex + 1] = secondarySize;
 
-            ratios[resizer] = primaryRatio;
-            ratios[resizer + 1] = secondaryRatio;
+            ratios[resizerIndex] = primaryRatio;
+            ratios[resizerIndex + 1] = secondaryRatio;
 
             return {
               useInitial: false,
