@@ -112,6 +112,18 @@ class SplitPane extends Component {
     document.addEventListener('touchmove', this.onTouchMove);
     window.addEventListener('resize', this.resize);
     this.calculateSize();
+
+    const refs = this.refs;
+
+    // cacheable?
+    const minSizes = this.getPropForRef(refs, 'minSize');
+    const maxSizes = this.getPropForRef(refs, 'maxSize');
+
+    log('min, max sizes', minSizes, maxSizes);
+    this.setState({
+      minSizes,
+      maxSizes
+    })
   }
 
   componentWillUnmount() {
@@ -212,7 +224,7 @@ class SplitPane extends Component {
 
   onMove(clientX, clientY) {
     const { split } = this.props;
-    const { active, dimensions, resizer } = this.state;
+    const { active, dimensions, resizer, minSizes, maxSizes } = this.state;
 
     if (active) {
       log(`onMove ${clientX},${clientY}`, this.state);
@@ -221,12 +233,6 @@ class SplitPane extends Component {
 
       const primary = dimensions[resizer];
       const secondary = dimensions[resizer + 1];
-
-      const refs = this.refs;
-      const minSizes = this.getPropForRef(refs, 'minSize');
-      const maxSizes = this.getPropForRef(refs, 'maxSize');
-
-      log('min, max sizes', minSizes, maxSizes);
 
       if (
         (split === 'vertical' &&
