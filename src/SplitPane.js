@@ -335,7 +335,7 @@ class SplitPane extends Component {
         const resizer = (
           <Resizer
             index={resizerIndex}
-            key={`Resizer${resizerIndex}`}
+            key={`Resizer-${resizerIndex}`}
             split={split}
             onMouseDown={this.onMouseDown}
             onTouchStart={this.onTouchStart}
