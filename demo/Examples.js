@@ -74,6 +74,40 @@ const SimpleNestedExample = () => {
 };
 
 
+
+const MultiplePropsNestedExample = () => {
+  return (
+    <section>
+
+      <pre className="source">
+        {`
+          <Pane initialSize="200px" minSize="200px" maxSize="600px">initialSize="200px" minSize="200px" maxSize="600px"</Pane>
+          <Pane minSize="20%" maxSize="80%">minSize="20%" maxSize="80%"</Pane>
+          <SplitPane split="horizontal">
+            <Pane minSize="10%" maxSize="600px">minSize="10%" maxSize="600px"</Pane>
+            <Pane initialSize="50%" minSize="50px" maxSize="80%">initialSize="50%" minSize="50px" maxSize="80%"</Pane>
+          </SplitPane>
+        `}
+      </pre>
+
+      <div className="example">
+
+        <SplitPane split="vertical">
+          <Pane initialSize="200px" minSize="200px" maxSize="600px">initialSize="100px" minSize="100px" maxSize="600px"</Pane>
+          <Pane minSize="20%" maxSize="80%">minSize="20%" maxSize="80%"</Pane>
+          <SplitPane split="horizontal">
+            <Pane minSize="10%" maxSize="600px">minSize="10%" maxSize="600px"</Pane>
+            <Pane initialSize="50%" minSize="50px" maxSize="80%">initialSize="50%" minSize="50px" maxSize="80%"</Pane>
+          </SplitPane>
+        </SplitPane>
+
+      </div>
+
+    </section>
+  );
+};
+
+
 const BasicVerticalExample = () => {
   return (
     <section>
@@ -602,6 +636,7 @@ const SubComponentExample = () => {
 const examples = {
   SimpleExample,
   SimpleNestedExample,
+  MultiplePropsNestedExample,
   SubComponentExample,
   MultipleHorizontalExample,
   MultipleVerticalExample,
