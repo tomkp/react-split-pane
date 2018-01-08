@@ -1,10 +1,11 @@
 import { render } from 'react-dom';
 
-export const renderComponent = jsx => {
+export const renderComponent = (jsx, dimensions) => {
+  const { width = 600, height = 600} = dimensions;
   const testDiv = document.createElement('div');
   testDiv.setAttribute(
     'style',
-    'margin:0; height: 600px; width: 600px; background: yellow;'
+    `margin:0; height: ${height}px; width: ${width}px; background: yellow;`
   );
   document.body.setAttribute(
     'style',
