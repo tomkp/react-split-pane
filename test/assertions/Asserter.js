@@ -26,7 +26,7 @@ const log = (...args) => {
 //.....
 
 
-const asserter = (jsx, dimensions) => {
+const asserter = (jsx, dimensions = {}) => {
   const splitPane = renderComponent(jsx, dimensions);
   const component = findRenderedComponentWithType(splitPane, SplitPane);
 

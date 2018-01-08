@@ -237,6 +237,7 @@ class SplitPane extends Component {
       log(`onMove ${clientX},${clientY}`, this.state);
       const node = findDOMNode(this.splitPane);
       const splitPaneDimensions = findDOMNode(node).getBoundingClientRect();
+      const resizerDimensions = this.getResizerDimensions()[resizerIndex];
 
       const primary = dimensions[resizerIndex];
       const secondary = dimensions[resizerIndex + 1];
@@ -255,12 +256,20 @@ class SplitPane extends Component {
           let splitPaneSize;
 
           if (split === 'vertical') {
-            primarySize = clientX - primary.left;
-            secondarySize = secondary.right - (clientX + resizerSize);
+
+            const resizerLeft = clientX - (resizerSize / 2);
+            const resizerRight = clientX + (resizerSize / 2);
+
+            primarySize = resizerLeft - primary.left;
+            secondarySize = secondary.right - resizerRight;
             splitPaneSize = splitPaneDimensions.width;
           } else {
-            primarySize = clientY - primary.top;
-            secondarySize = secondary.bottom - (clientY + resizerSize);
+
+            const resizerTop = clientY - (resizerSize / 2);
+            const resizerBottom = clientY + (resizerSize / 2);
+
+            primarySize = resizerTop - primary.top;
+            secondarySize = secondary.bottom - resizerBottom;
             splitPaneSize = splitPaneDimensions.height;
           }
 
@@ -276,14 +285,17 @@ class SplitPane extends Component {
             splitPaneSize
           );
 
+          const numResizers = resizerDimensions.length;
+          const totalResizerSize = numResizers * resizerSize;
+
           if (
             primaryMinSize <= primarySize &&
             primaryMaxSize >= primarySize &&
             secondaryMinSize <= secondarySize &&
             secondaryMaxSize >= secondarySize
           ) {
-            const primaryRatio = (primarySize / splitPaneSize).toFixed(4) * 100;
-            const secondaryRatio = ((secondarySize + resizerSize) / splitPaneSize).toFixed(4) * 100;
+            const primaryRatio = (primarySize / (splitPaneSize - totalResizerSize)).toFixed(4) * 100;
+            const secondaryRatio = (secondarySize / (splitPaneSize - totalResizerSize)).toFixed(4) * 100;
 
             const { ratios, sizes } = state;
 

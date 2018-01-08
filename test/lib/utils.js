@@ -1,7 +1,7 @@
 import { render } from 'react-dom';
 
 export const renderComponent = (jsx, dimensions) => {
-  const { width = 600, height = 600} = dimensions;
+  const { width = 800, height = 800} = dimensions;
   const testDiv = document.createElement('div');
   testDiv.setAttribute(
     'style',
