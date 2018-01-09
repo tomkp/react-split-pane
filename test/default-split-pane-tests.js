@@ -12,7 +12,7 @@ import {
 import {render, findDOMNode} from 'react-dom';
 
 
-describe('divs', () => {
+describe('Plain divs', () => {
 
   it('2 divs', () => {
     const jsx = (
@@ -129,7 +129,7 @@ describe('Initial sizes', () => {
 });
 
 
-describe('min sizes', () => {
+describe('Minimum sizes', () => {
 
   it('first Pane has minimum size', () => {
 
@@ -169,143 +169,190 @@ describe('min sizes', () => {
 });
 
 
+describe('Maximum sizes', () => {
+
+  it('first Pane has maximum size', () => {
+
+    const jsx = (
+      <SplitPane>
+        <Pane maxSize="200px">one</Pane>
+        <Pane>two</Pane>
+      </SplitPane>
+    );
+
+    asserter(jsx, {width: 601})
+      .assertOrientation('vertical')
+      .assertNumberOfPanes(2)
+      .assertNumberOfResizers(1)
+      .assertSizes([200, 400])
+      .assertRatios([33, 67])
+    ;
+  });
+
+  it('second Pane has maximum size', () => {
+
+    const jsx = (
+      <SplitPane>
+        <Pane>one</Pane>
+        <Pane maxSize="200px">two</Pane>
+      </SplitPane>
+    );
+
+    asserter(jsx, {width: 601})
+      .assertOrientation('vertical')
+      .assertNumberOfPanes(2)
+      .assertNumberOfResizers(1)
+      .assertSizes([400, 200])
+      .assertRatios([67, 33])
+    ;
+  });
+});
+
+
 describe('Drag resizer', () => {
 
-  it('vertical divs', () => {
-    const jsx = (
-      <SplitPane>
-        <div>one</div>
-        <div>two</div>
-      </SplitPane>
-    );
+  describe('horizontal', () => {
 
-    asserter(jsx, {width: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {x: 100})
-      .assertSizes([400, 200])
-      .assertRatios([67, 33])
-    ;
-  });
+    it('2 divs', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
 
-  it('horizontal divs', () => {
-    const jsx = (
-      <SplitPane split="horizontal">
-        <div>one</div>
-        <div>two</div>
-      </SplitPane>
-    );
+      asserter(jsx, {height: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {y: -100})
+        .assertSizes([200, 400])
+        .assertRatios([33, 67])
+      ;
+    });
 
-    asserter(jsx, {height: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {y: -100})
-      .assertSizes([200, 400])
-      .assertRatios([33, 67])
-    ;
-  });
+    it('2 Panes', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
 
-  it('vertical Panes', () => {
-    const jsx = (
-      <SplitPane>
-        <Pane>one</Pane>
-        <Pane>two</Pane>
-      </SplitPane>
-    );
+      asserter(jsx, {height: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {y: -100})
+        .assertSizes([200, 400])
+        .assertRatios([33, 67])
+      ;
+    });
 
-    asserter(jsx, {width: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {x: 100})
-      .assertSizes([400, 200])
-      .assertRatios([67, 33])
-    ;
-  });
+    it('2 Panes - resized all the way', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
 
-  it('horizontal Panes', () => {
-    const jsx = (
-      <SplitPane split="horizontal">
-        <Pane>one</Pane>
-        <Pane>two</Pane>
-      </SplitPane>
-    );
+      asserter(jsx, {height: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {y: 300})
+        .assertSizes([600, 0])
+        .assertRatios([100, 0])
+      ;
+    });
 
-    asserter(jsx, {height: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {y: -100})
-      .assertSizes([200, 400])
-      .assertRatios([33, 67])
-    ;
-  });
 
-  it('vertical Panes - resized all the way', () => {
-    const jsx = (
-      <SplitPane>
-        <div>one</div>
-        <div>two</div>
-      </SplitPane>
-    );
+    it('2 Panes - resize, max px size', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane maxSize="400px">one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
 
-    asserter(jsx, {width: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {x: 300})
-      .assertSizes([600, 0])
-      .assertRatios([100, 0])
-    ;
-  });
+      asserter(jsx, {height: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {y: 300})
+        .assertSizes([400, 200])
+        .assertRatios([67, 33])
+      ;
+    });
 
-  it('horizontal Panes - resized all the way', () => {
-    const jsx = (
-      <SplitPane split="horizontal">
-        <div>one</div>
-        <div>two</div>
-      </SplitPane>
-    );
+    it('2 Panes - resize, min px size', () => {
+      const jsx = (
+        <SplitPane split="horizontal">
+          <Pane minSize="200px">one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
 
-    asserter(jsx, {height: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {y: 300})
-      .assertSizes([600, 0])
-      .assertRatios([100, 0])
-    ;
+      asserter(jsx, {height: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {y: -300})
+        .assertSizes([200, 400])
+        .assertRatios([33, 67])
+      ;
+    });
   });
 
 
-  it('horizontal Panes - resize, max px size', () => {
-    const jsx = (
-      <SplitPane split="horizontal">
-        <Pane maxSize="400px">one</Pane>
-        <Pane>two</Pane>
-      </SplitPane>
-    );
+  describe('vertical', () => {
 
-    asserter(jsx, {height: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {y: 300})
-      .assertSizes([400, 200])
-      .assertRatios([67, 33])
-    ;
-  });
+    it('2 divs', () => {
+      const jsx = (
+        <SplitPane>
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
 
-  it('horizontal Panes - resize, min px size', () => {
-    const jsx = (
-      <SplitPane split="horizontal">
-        <Pane minSize="200px">one</Pane>
-        <Pane>two</Pane>
-      </SplitPane>
-    );
+      asserter(jsx, {width: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {x: 100})
+        .assertSizes([400, 200])
+        .assertRatios([67, 33])
+      ;
+    });
 
-    asserter(jsx, {height: 601})
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
-      .dragResizer(0, {y: -300})
-      .assertSizes([200, 400])
-      .assertRatios([33, 67])
-    ;
+    it('2 Panes', () => {
+      const jsx = (
+        <SplitPane>
+          <Pane>one</Pane>
+          <Pane>two</Pane>
+        </SplitPane>
+      );
+
+      asserter(jsx, {width: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {x: 100})
+        .assertSizes([400, 200])
+        .assertRatios([67, 33])
+      ;
+    });
+
+    it('2 Panes - resized all the way', () => {
+      const jsx = (
+        <SplitPane>
+          <div>one</div>
+          <div>two</div>
+        </SplitPane>
+      );
+
+      asserter(jsx, {width: 601})
+        .assertRatios([50, 50])
+        .assertSizes([300, 300])
+        .dragResizer(0, {x: 300})
+        .assertSizes([600, 0])
+        .assertRatios([100, 0])
+      ;
+    });
   });
 
 
