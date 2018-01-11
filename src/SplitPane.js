@@ -170,8 +170,9 @@ class SplitPane extends React.Component {
   }
 
   setSize(props, state) {
-    const { primary } = this.props;
-    const ref = primary === 'first' ? this.pane1 : this.pane2;
+    const isPrimaryFirst = props.primary === 'first';
+    const ref = isPrimaryFirst ? this.pane1 : this.pane2;
+    const ref2 = isPrimaryFirst ? this.pane2 : this.pane1;
     let newSize;
     if (ref) {
       newSize =
@@ -187,6 +188,11 @@ class SplitPane extends React.Component {
           draggedSize: newSize,
         });
       }
+    }
+    if (ref2 && props.primary !== this.props.primary) {
+      ref2.setState({
+        size: undefined,
+      });
     }
   }
 
