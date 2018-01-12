@@ -43,6 +43,10 @@ export default (jsx, renderToDom = false) => {
   const findResizer = () =>
     ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
 
+  const updateComponent = newJsx =>
+    render(newJsx, findDOMNode(splitPane).parentNode);
+
+
   const assertStyles = (componentName, actualStyles, expectedStyles) => {
     Object.keys(expectedStyles).forEach(prop => {
       // console.log(`${prop}: '${actualStyles[prop]}',`);
@@ -203,6 +207,16 @@ export default (jsx, renderToDom = false) => {
 
     assertResizerClasses(expectedClass) {
       assertClass(findResizer()[0], expectedClass);
+    },
+    
+    assertPrimaryPanelChange(newJsx, primaryPane, secondaryPane) {
+      const primary = findPaneByOrder(primaryPane);
+      const secondary = findPaneByOrder(secondaryPane);
+      expect(primary.state.size).to.equal(50);
+      expect(secondary.state.size).to.equal(undefined);
+      updateComponent(newJsx);
+      expect(primary.state.size).to.equal(undefined);
+      expect(secondary.state.size).to.equal(50);
     },
   };
 };

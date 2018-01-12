@@ -131,3 +131,26 @@ describe('Internal Resizer have class', () => {
     asserter(splitPane).assertResizerClasses('Resizer');
   });
 });
+
+describe('Component updates', () => {
+  const splitPane1 = (
+    <SplitPane primary="first">
+      <div>one</div>
+      <div>two</div>
+    </SplitPane>
+  );
+  const splitPane2 = (
+    <SplitPane primary="second">
+      <div>one</div>
+      <div>two</div>
+    </SplitPane>
+  );
+  
+  it('unsets the width on the non-primary panel when first', () => {
+    asserter(splitPane1).assertPrimaryPanelChange(splitPane2, 'first', 'second');
+  });
+
+  it('unsets the width on the non-primary panel when second', () => {
+    asserter(splitPane2).assertPrimaryPanelChange(splitPane1, 'second', 'first');
+  });
+});
