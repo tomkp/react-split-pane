@@ -13,7 +13,7 @@ export interface Props {
     size?: Size;
     split?: 'vertical' | 'horizontal';
     onDragStarted?: () => void;
-    onDragFinished?: () => void;
+    onDragFinished?: (newSize: number) => void;
     onChange?: (newSize: number) => void;
     onResizerClick?: (event: MouseEvent) => void;
     onResizerDoubleClick?: (event: MouseEvent) => void;
