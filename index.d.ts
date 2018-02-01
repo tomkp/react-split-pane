@@ -50,4 +50,4 @@ declare class SplitPane extends React.Component<Props, State> {
     static defaultProps: Props;
 }
 
-export { SplitPane as default };
+export = SplitPane;
