@@ -2,6 +2,7 @@
   "name": "react-split-pane",
   "description": "React split-pane component",
   "main": "index.js",
+  "module": "es/index",
   "types": "index.d.ts",
   "version": "0.1.76",
   "repository": {
