@@ -24,3 +24,17 @@ storiesOf('Vertical', module)
       <Pane>This is a Pane</Pane>
     </SplitPane>
   );
+
+storiesOf('Horizontal', module)
+  .add('with divs', () =>
+    <SplitPane split="horizontal">
+      <div>This is a div</div>
+      <div>This is a div</div>
+    </SplitPane>
+  )
+  .add('with Panes', () =>
+    <SplitPane split="horizontal">
+      <Pane>This is a Pane</Pane>
+      <Pane>This is a Pane</Pane>
+    </SplitPane>
+  );
