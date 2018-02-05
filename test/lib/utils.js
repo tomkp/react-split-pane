@@ -30,7 +30,7 @@ export const calculatePointsBetween = (from, to) => {
   let sy = (y0 < y1) ? 1 : -1;
   let err = dx - dy;
 
-  coordinates.push({ x: x0, y: y0 });
+  coordinates.push({ clientX: x0, clientY: y0 });
 
   while (!((x0 === x1) && (y0 === y1))) {
     let e2 = err << 1;
