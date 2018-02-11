@@ -24,8 +24,7 @@
   "dependencies": {
     "inline-style-prefixer": "^3.0.6",
     "prop-types": "^15.5.10",
-    "react-style-proptype": "^3.0.0",
-    "semantic-release": "^12.4.1"
+    "react-style-proptype": "^3.0.0"
   },
   "devDependencies": {
     "@types/inline-style-prefixer": "^3.0.1",
