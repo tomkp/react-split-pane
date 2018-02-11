@@ -1,10 +1,20 @@
 language: node_js
 sudo: required
 dist: trusty
+
 node_js:
 - stable
+
 script:
 - npm test
+
 after_script:
 - npm run test:coverage
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && npm run demo:publish || false'
+
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - npx semantic-release
