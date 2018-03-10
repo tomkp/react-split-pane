@@ -70,7 +70,7 @@
     "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish --tag next"
+    "publish:next": "npm publish --tag next"
   },
   "browserify": {
     "transform": [
