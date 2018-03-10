@@ -69,8 +69,7 @@
     "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane-v2.surge.sh",
     "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "publish:next": "npm publish --tag next"
+    "build-storybook": "build-storybook"
   },
   "browserify": {
     "transform": [
