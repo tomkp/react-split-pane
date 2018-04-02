@@ -109,6 +109,7 @@ class SplitPane extends React.Component {
               ? event.touches[0].clientX
               : event.touches[0].clientY;
           const size = split === 'vertical' ? width : height;
+          
           let positionDelta = position - current;
           if (step) {
             if (Math.abs(positionDelta) < step) {
@@ -136,8 +137,9 @@ class SplitPane extends React.Component {
             }
           }
 
-          let newSize = size - sizeDelta;
-          const newPosition = position - positionDelta;
+          const isRTL = this.props.rtl && split == 'vertical'
+          let newSize = isRTL ? size + sizeDelta : size - sizeDelta;
+          const newPosition = isRTL ? position - positionDelta : position + positionDelta;
 
           if (newSize < minSize) {
             newSize = minSize;
@@ -351,6 +353,7 @@ SplitPane.propTypes = {
   pane2Style: stylePropType,
   resizerClassName: PropTypes.string,
   step: PropTypes.number,
+  rtl: PropTypes.bool,
 };
 
 SplitPane.defaultProps = {
