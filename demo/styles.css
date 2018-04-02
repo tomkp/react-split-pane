@@ -68,6 +68,10 @@
             flex-direction: column;
 }
 
+.rtl-demo.vertical {
+    direction: rtl;
+}
+
 .vertical header {
     padding: 1rem;
     background: #eee;

@@ -24,6 +24,15 @@ const BasicVerticalExample = () => {
     );
 };
 
+const BasicVerticalRTLExample = () => {
+    return (
+        <SplitPane className="rtl-demo" split="vertical" rtl>
+            <div />
+            <div />
+        </SplitPane>
+    );
+};
+
 const BasicHorizontalExample = () => {
     return (
         <SplitPane split="horizontal">
@@ -222,6 +231,7 @@ class SnapToPositionExample extends Component {
 
 if (document.getElementById('simple-nested-example')) render(<SimpleNestedExample />, document.getElementById('simple-nested-example'));
 if (document.getElementById('basic-vertical-example')) render(<BasicVerticalExample />, document.getElementById('basic-vertical-example'));
+if (document.getElementById('basic-vertical-rtl-example')) render(<BasicVerticalRTLExample />, document.getElementById('basic-vertical-rtl-example'));
 if (document.getElementById('basic-horizontal-example')) render(<BasicHorizontalExample />, document.getElementById('basic-horizontal-example'));
 if (document.getElementById('basic-step-example')) render(<BasicStepExample />, document.getElementById('basic-step-example'));
 if (document.getElementById('percentage-vertical-example')) render(<PercentageVerticalExample />, document.getElementById('percentage-vertical-example'));
