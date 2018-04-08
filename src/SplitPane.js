@@ -139,7 +139,7 @@ class SplitPane extends React.Component {
 
           const isRTL = this.props.rtl && split == 'vertical'
           let newSize = isRTL ? size + sizeDelta : size - sizeDelta;
-          const newPosition = isRTL ? position - positionDelta : position + positionDelta;
+          const newPosition = position - positionDelta;
 
           if (newSize < minSize) {
             newSize = minSize;
