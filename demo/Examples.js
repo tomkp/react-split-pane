@@ -11,7 +11,7 @@ const SimpleExample = () => {
       <pre className="source">
         {`
         <SplitPane split="vertical">
-          <Pane>You can use a Pane component</Pane>
+          <Pane initialSize="200px">You can use a Pane component</Pane>
           <div>or you can use a plain old div</div>
           <Pane initialSize="25%" minSize="10%" maxSize="500px">Using a Pane allows you to specify any constraints
             directly</Pane>
@@ -22,7 +22,7 @@ const SimpleExample = () => {
       <div className="example">
 
         <SplitPane split="vertical">
-          <Pane>You can use a Pane component</Pane>
+          <Pane initialSize="200px">You can use a Pane component</Pane>
           <div>or you can use a plain old div</div>
           <Pane initialSize="25%" minSize="10%" maxSize="500px">Using a Pane allows you to specify any constraints
             directly</Pane>
