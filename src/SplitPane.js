@@ -75,7 +75,7 @@ function convertUnits(size, unit, containerSize) {
     case "px":
       return `${size.toFixed(2)}px`;
     case "ratio":
-      return size.toFixed(2) * 100;
+      return (size * 100).toFixed(0);
   }
 }
 

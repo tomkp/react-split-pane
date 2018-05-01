@@ -26,8 +26,7 @@ describe('Plain divs', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
+      .assertSizes(["1", "1"])
     ;
   });
 
@@ -44,8 +43,7 @@ describe('Plain divs', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(3)
       .assertNumberOfResizers(2)
-      .assertRatios([33, 33, 33])
-      .assertSizes([200, 200, 200])
+      .assertSizes(["1", "1", "1"])
     ;
   });
 });
@@ -65,8 +63,7 @@ describe('Panes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertRatios([50, 50])
-      .assertSizes([300, 300])
+      .assertSizes(["1", "1"])
     ;
   });
 
@@ -84,8 +81,7 @@ describe('Panes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(3)
       .assertNumberOfResizers(2)
-      .assertRatios([33, 33, 33])
-      .assertSizes([200, 200, 200])
+      .assertSizes(["1", "1", "1"])
     ;
   });
 });
@@ -105,8 +101,7 @@ describe('Initial sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([200, 400])
-      .assertRatios([33, 67])
+      .assertSizes(["200px", "1"])
     ;
   });
 
@@ -122,8 +117,7 @@ describe('Initial sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([400, 200])
-      .assertRatios([67, 33])
+      .assertSizes(["1", "200px"])
     ;
   });
 });
@@ -144,8 +138,7 @@ describe('Minimum sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([300, 300])
-      .assertRatios([50, 50])
+      .assertSizes(["1", "1"])
     ;
   });
 
@@ -162,8 +155,7 @@ describe('Minimum sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([300, 300])
-      .assertRatios([50, 50])
+      .assertSizes(["1", "1"])
     ;
   });
 });
@@ -184,8 +176,7 @@ describe('Maximum sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([200, 400])
-      .assertRatios([33, 67])
+      .assertSizes(["1", "1"])
     ;
   });
 
@@ -202,8 +193,7 @@ describe('Maximum sizes', () => {
       .assertOrientation('vertical')
       .assertNumberOfPanes(2)
       .assertNumberOfResizers(1)
-      .assertSizes([400, 200])
-      .assertRatios([67, 33])
+      .assertSizes(["1", "1"])
     ;
   });
 });
@@ -222,11 +212,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {y: -100})
-        .assertSizes([200, 400])
-        .assertRatios([33, 67])
+        .assertSizes(["20000", "40000"])
       ;
     });
 
@@ -239,11 +227,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {y: -100})
-        .assertSizes([200, 400])
-        .assertRatios([33, 67])
+        .assertSizes(["20000", "40000"])
       ;
     });
 
@@ -256,11 +242,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {y: 300})
-        .assertSizes([600, 0])
-        .assertRatios([100, 0])
+        .assertSizes(["60000", "0"])
       ;
     });
 
@@ -274,11 +258,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {y: 300})
-        .assertSizes([400, 200])
-        .assertRatios([67, 33])
+        .assertSizes(["40000", "20000"])
       ;
     });
 
@@ -291,11 +273,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {y: -300})
-        .assertSizes([200, 400])
-        .assertRatios([33, 67])
+        .assertSizes(["20000", "40000"])
       ;
     });
   });
@@ -312,11 +292,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {width: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {x: 100})
-        .assertSizes([400, 200])
-        .assertRatios([67, 33])
+        .assertSizes(["40000", "20000"])
       ;
     });
 
@@ -329,11 +307,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {width: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {x: 100})
-        .assertSizes([400, 200])
-        .assertRatios([67, 33])
+        .assertSizes(["40000", "20000"])
       ;
     });
 
@@ -346,11 +322,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {width: 601})
-        .assertRatios([50, 50])
-        .assertSizes([300, 300])
+        .assertSizes(["1", "1"])
         .dragResizer(0, {x: 300})
-        .assertSizes([600, 0])
-        .assertRatios([100, 0])
+        .assertSizes(["60000", "0"])
       ;
     });
   });
@@ -370,11 +344,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 403})
-        .assertRatios([25, 25, 25, 25])
-        .assertSizes([100, 100, 100, 100])
+        .assertSizes(["1", "1", "1", "1"])
         .dragResizer(0, {y: 50})
-        .assertSizes([150, 50, 100, 100])
-        .assertRatios([37, 12, 25, 25])
+        .assertSizes(["15000", "5000", "10000", "10000"])
       ;
     });
 
@@ -390,11 +362,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 403})
-        .assertRatios([25, 25, 25, 25])
-        .assertSizes([100, 100, 100, 100])
+        .assertSizes(["1", "1", "1", "1"])
         .dragResizer(1, {y: 50})
-        .assertSizes([100, 150, 50, 100])
-        .assertRatios([25, 37, 12, 25])
+        .assertSizes(["10000", "15000", "5000", "10000"])
       ;
     });
 
@@ -410,11 +380,9 @@ describe('Drag resizer', () => {
       );
 
       asserter(jsx, {height: 403})
-        .assertRatios([25, 25, 25, 25])
-        .assertSizes([100, 100, 100, 100])
+        .assertSizes(["1", "1", "1", "1"])
         .dragResizer(2, {y: 50})
-        .assertSizes([100, 100, 150, 50])
-        .assertRatios([25, 25, 37, 12])
+        .assertSizes(["10000", "10000", "15000", "5000"])
       ;
     });
   });
