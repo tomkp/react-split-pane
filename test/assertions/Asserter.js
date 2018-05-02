@@ -114,6 +114,15 @@ const asserter = (jsx, dimensions = {}) => {
       expect(actualSizes).to.eql(expected, 'Unexpected sizes');
       return this;
     },
+    assertSizesPx(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => {
+        const sizeProp = component.props['split'] === "vertical" ? 'width' : 'height';
+        return findDOMNode(_).getBoundingClientRect()[sizeProp];
+      });
+      expect(actualSizes).to.eql(expected, 'Unexpected sizes in px');
+      return this;
+    },
 
     // todo - are these relevant?
     assertMinSizes(expected) {

@@ -21,6 +21,9 @@ const ColumnStyle = glamorous.div({
 
   minHeight: '100%',
   width: '100%',
+  '& > *': {
+    boxSizing: 'border-box'
+  }
 });
 
 const RowStyle = glamorous.div({
@@ -31,7 +34,9 @@ const RowStyle = glamorous.div({
   outline: 'none',
   overflow: 'hidden',
   userSelect: 'text',
-
+  '& > *': {
+    boxSizing: 'border-box'
+  }
 });
 
 function convert(str, size) {
@@ -225,18 +230,12 @@ class SplitPane extends Component {
     let splitPaneSizePx;
 
     if (split === 'vertical') {
-      const resizerLeft = clientX - (resizerSize / 2);
-      const resizerRight = clientX + (resizerSize / 2);
-
-      primarySizePx = resizerLeft - primary.left;
-      secondarySizePx = secondary.right - resizerRight;
+      primarySizePx = clientX - primary.left;
+      secondarySizePx = secondary.right - clientX;
       splitPaneSizePx = splitPaneDimensions.width;
     } else {
-      const resizerTop = clientY - (resizerSize / 2);
-      const resizerBottom = clientY + (resizerSize / 2);
-
-      primarySizePx = resizerTop - primary.top;
-      secondarySizePx = secondary.bottom - resizerBottom;
+      primarySizePx = clientY - primary.top;
+      secondarySizePx = secondary.bottom - clientY;
       splitPaneSizePx = splitPaneDimensions.height;
     }
 
@@ -285,7 +284,7 @@ class SplitPane extends Component {
       });
 
       if (ratioCount === 1) {
-        sizes[lastRatioIdx] = 1;
+        sizes[lastRatioIdx] = '1';
       }
     }
 
