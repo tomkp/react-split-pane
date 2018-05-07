@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const HorizontalWrapper = styled(Wrapper)`
   height: 11px;
-  margin: -5.5px 0;
+  margin: -5px 0;
   border-top: 5px solid rgba(255, 255, 255, 0);
   border-bottom: 5px solid rgba(255, 255, 255, 0);
   cursor: row-resize;
@@ -36,7 +36,7 @@ const HorizontalWrapper = styled(Wrapper)`
 
 const VerticalWrapper = styled(Wrapper)`
   width: 11px;
-  margin: 0 -5.5px;
+  margin: 0 -5px;
   border-left: 5px solid rgba(255, 255, 255, 0);
   border-right: 5px solid rgba(255, 255, 255, 0);
   cursor: col-resize;

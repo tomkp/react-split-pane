@@ -3,82 +3,44 @@ import PropTypes from 'prop-types';
 
 import prefixAll from 'inline-style-prefixer/static';
 
-import {getUnit} from "./SplitPane";
+import { getUnit, convertSizeToCssValue } from "./SplitPane";
 
-const RowPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
-  width: useInitial && initialSize ? initialSize : size + 'px',
-  minWidth: minSize,
-  maxWidth: maxSize,
-  outline: 'none',
-});
-
-const ColumnPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
-  height: useInitial && initialSize ? initialSize : size + 'px',
-  minHeight: minSize,
-  maxHeight: maxSize,
-  outline: 'none',
-});
-
-const RowFlex = ({ initialSize, size, minSize, maxSize }) => {
-  const value = size ? size : initialSize;
-
-  const style = {
-    minWidth: minSize,
-    maxWidth: maxSize,
-    display: 'flex',
-    outline: 'none',
-    position: 'relative'
+function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize }) {
+  const value = size || initialSize;
+  const vertical = split === "vertical";
+  const styleProp = {
+    minSize: vertical ? 'minWidth' : 'minHeight',
+    maxSize: vertical ? 'maxWidth' : 'maxHeight',
+    size: vertical ? 'width' : 'height'
   };
 
-  if (getUnit(value) === "ratio") {
-    style.flex = value;
-  } else {
-    style.flexGrow = 0;
-    style.width = value;
+  let style = {
+    display: 'flex',
+    outline: 'none'
+  };
+
+  style[styleProp.minSize] = convertSizeToCssValue(minSize, resizersSize);
+  style[styleProp.maxSize] = convertSizeToCssValue(maxSize, resizersSize);
+
+  switch(getUnit(value)) {
+    case "ratio":
+      style.flex = value;
+      break;
+    case "%":
+    case "px":
+      style.flexGrow = 0;
+      style[styleProp.size] = convertSizeToCssValue(value, resizersSize);
+      break;
   }
 
   return style;
-};
-
-const ColumnFlex = ({ initialSize, size, minSize, maxSize }) => {
-  const value = size ? size : initialSize;
-
-  const style = {
-    minHeight: minSize,
-    maxHeight: maxSize,
-    display: 'flex',
-    outline: 'none',
-    flexShrink: 1,
-    position: 'relative'
-  };
-
-  if (getUnit(value) === "ratio") {
-    style.flex = value;
-  } else {
-    style.flexGrow = 0;
-    style.height = value;
-  }
-
-  return style;
-};
+}
 
 
 class Pane extends PureComponent {
   render() {
-    const {
-      children,
-      className,
-      split,
-      useInitial,
-    } = this.props;
-
-    let prefixedStyle;
-
-    if (split === 'vertical') {
-      prefixedStyle = prefixAll(RowFlex(this.props));
-    } else {
-      prefixedStyle = prefixAll(ColumnFlex(this.props));
-    }
+    const { children, className } = this.props;
+    const prefixedStyle = prefixAll(PaneStyle(this.props));
 
     return (
       <div className={className} style={prefixedStyle}>
