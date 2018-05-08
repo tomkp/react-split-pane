@@ -52,10 +52,6 @@ function toPx(value, unit = 'px', size) {
 }
 
 export function getUnit(size) {
-  if (typeof size === "number") {
-    return "ratio";
-  }
-
   if(size.endsWith("px")) {
     return "px";
   }
@@ -158,7 +154,7 @@ class SplitPane extends Component {
     // document.addEventListener('touchcancel', this.onMouseUp);
 
     if (onResizeStart) {
-      onResizeStart(resizerIndex);
+      onResizeStart();
     }
   }
 
@@ -186,7 +182,7 @@ class SplitPane extends Component {
     document.removeEventListener('touchend', this.onMouseUp);
 
     if (this.props.onResizeEnd) {
-      this.props.onResizeEnd();
+      this.props.onResizeEnd(this.state.sizes);
     }
   }
 
@@ -216,9 +212,9 @@ class SplitPane extends Component {
     return this.paneElements.map(el => findDOMNode(el).getBoundingClientRect());
   }
 
-  getResizerDimensions() {
-    return this.resizerElements.map(el => findDOMNode(el).getBoundingClientRect())
-  }
+  // getResizerDimensions() {
+  //   return this.resizerElements.map(el => findDOMNode(el).getBoundingClientRect())
+  // }
 
   getSizes() {
       return this.state.sizes;

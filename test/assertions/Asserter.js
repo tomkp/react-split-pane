@@ -9,7 +9,7 @@ import {
 import { findDOMNode } from 'react-dom';
 import chai from 'chai';
 
-import {calculatePointsBetween, getCentre, renderComponent} from '../lib/utils';
+import {calculatePointsBetween, getCentre, renderComponent, unmountComponent} from '../lib/utils';
 
 const expect = chai.expect;
 
@@ -144,10 +144,14 @@ const asserter = (jsx, dimensions = {}) => {
       expect(actualSizes).to.eql(expectedSizes, 'Unexpected flex sizes');
       return this;
     },
-    dragResizer(resizerIndex, mousePositionDifference) {
+    dragResizer(resizerIndex, mousePositionDifference, mouseRightClick = false) {
       const coordinates = calculateMouseMove(resizerIndex, mousePositionDifference);
       const [startPosition, ...moveCoordinates] = coordinates;
-      const event = {preventDefault(){}, button: 0};
+      const event = {
+        preventDefault(){},
+        button: mouseRightClick ? 1 : 0
+      };
+
       component.onMouseDown(event, resizerIndex);
       moveCoordinates.forEach(coordinate => component.onMouseMove({...coordinate, preventDefault(){}}));
       component.onMouseUp(event);
@@ -155,5 +159,7 @@ const asserter = (jsx, dimensions = {}) => {
     },
   };
 };
+
+asserter.unmountComponent = unmountComponent;
 
 export default asserter;

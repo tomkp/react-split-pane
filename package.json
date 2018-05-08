@@ -50,6 +50,7 @@
     "prettier": "^1.9.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "sinon": "^5.0.7",
     "surge": "^0.19.0",
     "typescript": "^2.6.2",
     "watchify": "^3.9.0",
