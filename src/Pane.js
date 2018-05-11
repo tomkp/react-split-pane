@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import prefixAll from 'inline-style-prefixer/static';
 
-import { getUnit, convertSizeToCssValue } from "./SplitPane";
+import { getUnit, convertSizeToCssValue } from './SplitPane';
 
 function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize }) {
   const value = size || initialSize;
-  const vertical = split === "vertical";
+  const vertical = split === 'vertical';
   const styleProp = {
     minSize: vertical ? 'minWidth' : 'minHeight',
     maxSize: vertical ? 'maxWidth' : 'maxHeight',
@@ -23,11 +23,11 @@ function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize })
   style[styleProp.maxSize] = convertSizeToCssValue(maxSize, resizersSize);
 
   switch(getUnit(value)) {
-    case "ratio":
+    case 'ratio':
       style.flex = value;
       break;
-    case "%":
-    case "px":
+    case '%':
+    case 'px':
       style.flexGrow = 0;
       style[styleProp.size] = convertSizeToCssValue(value, resizersSize);
       break;
@@ -59,7 +59,7 @@ Pane.propTypes = {
 };
 
 Pane.defaultProps = {
-  initialSize: "1",
+  initialSize: '1',
   split: 'vertical',
   minSize: '0',
   maxSize: '100%',

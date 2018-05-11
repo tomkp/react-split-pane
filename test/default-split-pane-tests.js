@@ -1,6 +1,6 @@
 import 'core-js/es6';
 import React from 'react';
-import sinon from "sinon";
+import sinon from 'sinon';
 import chai from 'chai';
 
 import SplitPane from '../src/SplitPane';
@@ -279,9 +279,9 @@ describe('SplitPane', () => {
       it('multiple panes have initial sizes, different units', () => {
         const jsx = (
           <SplitPane split='horizontal'>
-            <Pane initialSize="50%">one</Pane>
+            <Pane initialSize='50%'>one</Pane>
             <Pane>two</Pane>
-            <Pane initialSize="200px">three</Pane>
+            <Pane initialSize='200px'>three</Pane>
           </SplitPane>
         );
     
@@ -367,9 +367,9 @@ describe('SplitPane', () => {
       it('multiple panes have initial sizes, different units', () => {
         const jsx = (
           <SplitPane>
-            <Pane initialSize="50%">one</Pane>
+            <Pane initialSize='50%'>one</Pane>
             <Pane>two</Pane>
-            <Pane initialSize="200px">three</Pane>
+            <Pane initialSize='200px'>three</Pane>
           </SplitPane>
         );
     
@@ -465,7 +465,7 @@ describe('SplitPane', () => {
     
         const jsx = (
           <SplitPane split='horizontal'>
-            <Pane initialSize="1" minSize='210px'>one</Pane>
+            <Pane initialSize='1' minSize='210px'>one</Pane>
             <Pane initialSize='2'>two</Pane>
           </SplitPane>
         );

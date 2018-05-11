@@ -117,7 +117,7 @@ const asserter = (jsx, dimensions = {}) => {
     assertSizesPx(expected) {
       const panes = scryRenderedComponentsWithType(component, Pane);
       const actualSizes = panes.map(_ => {
-        const sizeProp = component.props['split'] === "vertical" ? 'width' : 'height';
+        const sizeProp = component.props['split'] === 'vertical' ? 'width' : 'height';
         return findDOMNode(_).getBoundingClientRect()[sizeProp];
       });
       expect(actualSizes).to.eql(expected, 'Unexpected sizes in px');
