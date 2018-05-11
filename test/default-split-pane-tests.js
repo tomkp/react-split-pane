@@ -96,7 +96,7 @@ describe('SplitPane', () => {
   
   describe('Panes', () => {
 
-    it('should update jsx, componentWillReceiveProps', () => {
+    it('should update component when new props receive', () => {
       let jsx = (
         <SplitPane>
           <Pane initialSize='200px'>one</Pane>
@@ -110,18 +110,21 @@ describe('SplitPane', () => {
         .assertSizesPx([200, 200, 200])
       ;
 
-      // todo: add initial size with %
       jsx = (
         <SplitPane>
-          <Pane initialSize='100px'>one</Pane>
+          <Pane initialSize='50%'>one</Pane>
           <Pane>two</Pane>
         </SplitPane>
       );
 
-      asserter(jsx, {width: 401})
-        .assertSizes(['100px', '1'])
-        .assertSizesPx([100, 300])
+      asserter(jsx, {width: 601})
+        .assertSizes(['50%', '1'])
+        .assertSizesPx([300, 300])
+        .dragResizer(0, {x: -150})
+        .assertSizes(['25.00%', '1'])
+        .assertSizesPx([150, 450])
       ;
+
     });
   
     describe('horizontal', () => {
