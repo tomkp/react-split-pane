@@ -1,5 +1,4 @@
 import React, { Component, cloneElement } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import glamorous from 'glamorous';
@@ -17,10 +16,7 @@ const ColumnStyle = glamorous.div({
   flex: 1,
   outline: 'none',
   overflow: 'hidden',
-  userSelect: 'text',
-
-  minHeight: '100%',
-  width: '100%'
+  userSelect: 'text'
 });
 
 const RowStyle = glamorous.div({
@@ -229,7 +225,7 @@ class SplitPane extends Component {
   }
 
   getPaneDimensions() {
-    return this.paneElements.filter(el => el).map(el => findDOMNode(el).getBoundingClientRect());
+    return this.paneElements.filter(el => el).map(el => el.getBoundingClientRect());
   }
 
   getSizes() {
@@ -350,7 +346,7 @@ class SplitPane extends Component {
   }
 
   render() {
-    const { children, className, split, allowResize } = this.props;
+    const { children, className, split } = this.props;
     const sizes = this.getSizes();
     const resizersSize = this.getResizersSize();
 
@@ -363,13 +359,10 @@ class SplitPane extends Component {
         'data-type': 'Pane',
         split: split,
         key: `Pane-${idx}`,
-        ref: this.setPaneRef.bind(null, idx),
-        resizersSize
+        innerRef: this.setPaneRef,
+        resizersSize,
+        size: sizes[idx]
       };
-
-      if (sizes) {
-        paneProps.size = sizes[idx];
-      }
 
       if (isPane) {
         pane = cloneElement(child, paneProps);
