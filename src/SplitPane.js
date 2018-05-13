@@ -116,17 +116,19 @@ class SplitPane extends Component {
 
     event.preventDefault();
 
-    this.onDown(resizerIndex);
+    this.onDown(resizerIndex, event.clientX, event.clientY);
   }
 
   onTouchStart = (event, resizerIndex) => {
     event.preventDefault();
 
-    this.onDown(resizerIndex);
+    const {clientX, clientY} = event.touches[0];
+
+    this.onDown(resizerIndex, clientX, clientY);
   }
 
-  onDown = (resizerIndex) => {
-    const {allowResize, onResizeStart} = this.props;
+  onDown = (resizerIndex, clientX, clientY) => {
+    const {allowResize, onResizeStart, split} = this.props;
 
     if (!allowResize) {
       return;
@@ -134,6 +136,8 @@ class SplitPane extends Component {
 
     this.resizerIndex = resizerIndex;
     this.dimensionsSnapshot = this.getDimensionsSnapshot(this.props);
+    this.startClientX = clientX;
+    this.startClientY = clientY;
 
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
@@ -233,72 +237,65 @@ class SplitPane extends Component {
   }
 
   onMove(clientX, clientY) {
-    const { split, resizerSize, onChange } = this.props;
+    const { split, onChange } = this.props;
     const resizerIndex = this.resizerIndex;
-    const { sizesPx, minSizesPx, maxSizesPx, splitPaneSizePx, paneDimensions } = this.dimensionsSnapshot;
+    const {
+      sizesPx,
+      minSizesPx,
+      maxSizesPx,
+      splitPaneSizePx,
+      paneDimensions
+    } = this.dimensionsSnapshot;
 
+    const sizeDim = split === 'vertical' ? 'width' : 'height';
     const primary = paneDimensions[resizerIndex];
     const secondary = paneDimensions[resizerIndex + 1];
+    const maxSize = primary[sizeDim] + secondary[sizeDim];
+
     const primaryMinSizePx = minSizesPx[resizerIndex];
     const secondaryMinSizePx = minSizesPx[resizerIndex + 1];
-    const primaryMaxSizePx = maxSizesPx[resizerIndex];
-    const secondaryMaxSizePx = maxSizesPx[resizerIndex + 1];
+    const primaryMaxSizePx = Math.min(maxSizesPx[resizerIndex], maxSize);
+    const secondaryMaxSizePx = Math.min(maxSizesPx[resizerIndex + 1], maxSize);
 
-    const resizerSize1 = resizerSize / 2;
-    const resizerSize2 = resizerSize / 2;
-    let primarySizePx;
-    let secondarySizePx;
+    const moveOffset = split === 'vertical'
+      ? this.startClientX - clientX
+      : this.startClientY - clientY;
 
-    if (split === 'vertical') {
-      const mostLeft = Math.max(
-        primary.left + resizerSize1,
-        primary.left + primaryMinSizePx + resizerSize1,
-        secondary.right - secondaryMaxSizePx - resizerSize2
-      );
-      const mostRight = Math.min(
-        secondary.right - resizerSize2,
-        secondary.right - secondaryMinSizePx - resizerSize2,
-        primary.left + primaryMaxSizePx + resizerSize1
-      );
+    let primarySizePx = primary[sizeDim] - moveOffset;
+    let secondarySizePx = secondary[sizeDim] + moveOffset;
 
-      clientX = clientX < mostLeft ? mostLeft : clientX;
-      clientX = clientX > mostRight ? mostRight : clientX;
+    let primaryHasReachedLimit = false;
+    let secondaryHasReachedLimit = false;
 
-      const resizerLeft = clientX - resizerSize1;
-      const resizerRight = clientX + resizerSize2;
+    if (primarySizePx < primaryMinSizePx) {
+      primarySizePx = primaryMinSizePx;
+      primaryHasReachedLimit = true;
+    } else if (primarySizePx > primaryMaxSizePx){
+      primarySizePx = primaryMaxSizePx;
+      primaryHasReachedLimit = true;
+    }
 
-      primarySizePx = resizerLeft - primary.left;
-      secondarySizePx = secondary.right - resizerRight;
-    } else {
-      const mostTop = Math.max(
-        primary.top + resizerSize1,
-        primary.top + primaryMinSizePx + resizerSize1,
-        secondary.bottom - secondaryMaxSizePx - resizerSize2
-      );
-      const mostBottom = Math.min(
-        secondary.bottom - resizerSize2,
-        secondary.bottom - secondaryMinSizePx - resizerSize2,
-        primary.top + primaryMaxSizePx + resizerSize1
-      );
+    if (secondarySizePx < secondaryMinSizePx) {
+      secondarySizePx = secondaryMinSizePx;
+      secondaryHasReachedLimit = true;
+    } else if (secondarySizePx > secondaryMaxSizePx){
+      secondarySizePx = secondaryMaxSizePx;
+      secondaryHasReachedLimit = true;
+    }
 
-      clientY = clientY < mostTop ? mostTop : clientY;
-      clientY = clientY > mostBottom ? mostBottom : clientY;
-
-      const resizerTop = clientY - resizerSize1;
-      const resizerBottom = clientY + resizerSize2;
-
-      primarySizePx = resizerTop - primary.top;
-      secondarySizePx = secondary.bottom - resizerBottom;
+    if (primaryHasReachedLimit) {
+      secondarySizePx = primary[sizeDim] + secondary[sizeDim] - primarySizePx;
+    } else if (secondaryHasReachedLimit) {
+      primarySizePx = primary[sizeDim] + primary[sizeDim] - secondarySizePx;
     }
 
     sizesPx[resizerIndex] = primarySizePx;
     sizesPx[resizerIndex + 1] = secondarySizePx;
 
-    const panesSizes = [primarySizePx, secondarySizePx];
     let sizes = this.getSizes().concat();
     let updateRatio;
 
-    panesSizes.forEach((paneSize, idx) => {
+    [primarySizePx, secondarySizePx].forEach((paneSize, idx) => {
       const unit = getUnit(sizes[resizerIndex + idx]);
       if (unit !== 'ratio') {
         sizes[resizerIndex + idx] = convertToUnit(paneSize, unit, splitPaneSizePx);

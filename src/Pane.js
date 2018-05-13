@@ -40,7 +40,7 @@ function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize })
 class Pane extends PureComponent {
   setRef = element => {
     this.props.innerRef(this.props.index, element);
-  }
+  };
 
   render() {
     const { children, className } = this.props;

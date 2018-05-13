@@ -149,7 +149,8 @@ const asserter = (jsx, dimensions = {}) => {
       const [startPosition, ...moveCoordinates] = coordinates;
       const event = {
         preventDefault(){},
-        button: mouseRightClick ? 1 : 0
+        button: mouseRightClick ? 1 : 0,
+        ...startPosition
       };
 
       component.onMouseDown(event, resizerIndex);
