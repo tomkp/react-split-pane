@@ -6,6 +6,7 @@
   "plugins": [
     "add-module-exports",
     "transform-object-assign",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "transform-class-properties"
   ]
 }

@@ -3,67 +3,55 @@ import PropTypes from 'prop-types';
 
 import prefixAll from 'inline-style-prefixer/static';
 
-const RowPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
-  width: useInitial && initialSize ? initialSize : size + 'px',
-  minWidth: minSize,
-  maxWidth: maxSize,
-  outline: 'none',
-});
+import { getUnit, convertSizeToCssValue } from './SplitPane';
 
-const ColumnPx = ({ useInitial, initialSize, size, minSize, maxSize }) => ({
-  height: useInitial && initialSize ? initialSize : size + 'px',
-  minHeight: minSize,
-  maxHeight: maxSize,
-  outline: 'none',
-});
+function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize }) {
+  const value = size || initialSize;
+  const vertical = split === 'vertical';
+  const styleProp = {
+    minSize: vertical ? 'minWidth' : 'minHeight',
+    maxSize: vertical ? 'maxWidth' : 'maxHeight',
+    size: vertical ? 'width' : 'height'
+  };
 
-const RowFlex = ({ ratio, minSize, maxSize }) => ({
-  flex: ratio * 100,
-  minWidth: minSize,
-  maxWidth: maxSize,
-  display: 'flex',
-  outline: 'none',
-});
+  let style = {
+    display: 'flex',
+    outline: 'none'
+  };
 
-const ColumnFlex = ({ ratio, minSize, maxSize }) => ({
-  flex: ratio * 100,
-  minHeight: minSize,
-  maxHeight: maxSize,
-  display: 'flex',
-  outline: 'none',
-});
+  style[styleProp.minSize] = convertSizeToCssValue(minSize, resizersSize);
+  style[styleProp.maxSize] = convertSizeToCssValue(maxSize, resizersSize);
+
+  switch(getUnit(value)) {
+    case 'ratio':
+      style.flex = value;
+      break;
+    case '%':
+    case 'px':
+      style.flexGrow = 0;
+      style[styleProp.size] = convertSizeToCssValue(value, resizersSize);
+      break;
+  }
+
+  return style;
+}
 
 
 class Pane extends PureComponent {
+  setRef = element => {
+    this.props.innerRef(this.props.index, element);
+  };
+
   render() {
-    const {
-      children,
-      className,
-      resized,
-      split,
-      useInitial,
-      initialSize,
-    } = this.props;
+    const { children, className } = this.props;
+    const prefixedStyle = prefixAll(PaneStyle(this.props));
 
-    let prefixedStyle;
-
-    //console.log(`Pane.render`, resized && !(useInitial && initialSize), resized, useInitial, initialSize);
-
-    if (resized && !(useInitial && initialSize)) {
-      if (split === 'vertical') {
-        prefixedStyle = prefixAll(RowFlex(this.props));
-      } else {
-        prefixedStyle = prefixAll(ColumnFlex(this.props));
-      }
-    } else {
-      if (split === 'vertical') {
-        prefixedStyle = prefixAll(RowPx(this.props));
-      } else {
-        prefixedStyle = prefixAll(ColumnPx(this.props));
-      }
-    }
     return (
-      <div className={className} style={prefixedStyle}>
+      <div
+        className={className}
+        style={prefixedStyle}
+        ref={this.setRef}
+      >
         {children}
       </div>
     );
@@ -72,15 +60,18 @@ class Pane extends PureComponent {
 
 Pane.propTypes = {
   children: PropTypes.node,
+  innerRef: PropTypes.func,
+  index: PropTypes.number,
   className: PropTypes.string,
-  initialSize: PropTypes.string,
+  initialSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   minSize: PropTypes.string,
   maxSize: PropTypes.string,
 };
 
 Pane.defaultProps = {
+  initialSize: '1',
   split: 'vertical',
-  minSize: '0px',
+  minSize: '0',
   maxSize: '100%',
 };
 

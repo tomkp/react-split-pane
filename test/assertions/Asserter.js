@@ -9,7 +9,7 @@ import {
 import { findDOMNode } from 'react-dom';
 import chai from 'chai';
 
-import {calculatePointsBetween, getCentre, renderComponent} from '../lib/utils';
+import {calculatePointsBetween, getCentre, renderComponent, unmountComponent} from '../lib/utils';
 
 const expect = chai.expect;
 
@@ -110,8 +110,17 @@ const asserter = (jsx, dimensions = {}) => {
     },
     assertSizes(expected) {
       const panes = scryRenderedComponentsWithType(component, Pane);
-      const actualSizes = panes.map(_ => +_.props['size']);
+      const actualSizes = panes.map(_ => _.props['size']);
       expect(actualSizes).to.eql(expected, 'Unexpected sizes');
+      return this;
+    },
+    assertSizesPx(expected) {
+      const panes = scryRenderedComponentsWithType(component, Pane);
+      const actualSizes = panes.map(_ => {
+        const sizeProp = component.props['split'] === 'vertical' ? 'width' : 'height';
+        return findDOMNode(_).getBoundingClientRect()[sizeProp];
+      });
+      expect(actualSizes).to.eql(expected, 'Unexpected sizes in px');
       return this;
     },
 
@@ -135,15 +144,23 @@ const asserter = (jsx, dimensions = {}) => {
       expect(actualSizes).to.eql(expectedSizes, 'Unexpected flex sizes');
       return this;
     },
-    dragResizer(resizerIndex, mousePositionDifference) {
+    dragResizer(resizerIndex, mousePositionDifference, mouseRightClick = false) {
       const coordinates = calculateMouseMove(resizerIndex, mousePositionDifference);
       const [startPosition, ...moveCoordinates] = coordinates;
-      component.onMouseDown(startPosition, resizerIndex);
-      moveCoordinates.forEach(coordinate => component.onMouseMove(coordinate));
-      component.onMouseUp();
+      const event = {
+        preventDefault(){},
+        button: mouseRightClick ? 1 : 0,
+        ...startPosition
+      };
+
+      component.onMouseDown(event, resizerIndex);
+      moveCoordinates.forEach(coordinate => component.onMouseMove({...coordinate, preventDefault(){}}));
+      component.onMouseUp(event);
       return this;
     },
   };
 };
+
+asserter.unmountComponent = unmountComponent;
 
 export default asserter;

@@ -1,8 +1,15 @@
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
+
+let testDiv;
 
 export const renderComponent = (jsx, dimensions) => {
   const { width = 800, height = 800} = dimensions;
-  const testDiv = document.createElement('div');
+
+  if (!testDiv) {
+    testDiv = document.createElement('div');
+    document.body.appendChild(testDiv);
+  }
+
   testDiv.setAttribute(
     'style',
     `margin:0; height: ${height}px; width: ${width}px; background: yellow;`
@@ -11,11 +18,13 @@ export const renderComponent = (jsx, dimensions) => {
     'style',
     'margin:0; padding: 0;'
   );
-  document.body.appendChild(testDiv);
+
   return render(jsx, testDiv);
 };
 
-
+export const unmountComponent = () => {
+  unmountComponentAtNode(testDiv);
+};
 
 export const calculatePointsBetween = (from, to) => {
   let x0 = from.clientX;
