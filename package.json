@@ -70,7 +70,6 @@
     "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-
     "prepublish": "npm run compile",
     "preversion": "npm test",
     "version": "npm run demo:publish && git add -A .",
