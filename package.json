@@ -61,7 +61,6 @@
   "scripts": {
     "compile": "babel -d lib/ src/",
     "compile:watch": "babel -w -d lib/ src/",
-    "prepublish": "npm run compile",
     "test": "npm run compile && mochify -R spec",
     "test:watch": "npm run compile:watch & mochify -R spec --watch",
     "test:coverage": "mochify --plugin [ mochify-istanbul --exclude '**/test/**' --report lcovonly ] && cat lcov.info | coveralls && rm lcov.info",
@@ -70,7 +69,13 @@
     "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane-v2.surge.sh",
     "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+
+    "prepublish": "npm run compile",
+    "preversion": "npm test",
+    "version": "npm run demo:publish && git add -A .",
+    "postversion": "git push && git push --tags",
+    "release:patch": "npm version patch && npm publish --tag next"
   },
   "browserify": {
     "transform": [
