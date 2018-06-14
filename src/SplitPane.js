@@ -175,15 +175,14 @@ class SplitPane extends React.Component {
     const ref2 = isPrimaryFirst ? this.pane2 : this.pane1;
     let newSize;
     if (ref) {
-      newSize =
-        props.size ||
-        (state && state.draggedSize) ||
-        props.defaultSize ||
-        props.minSize;
+      newSize = (props.size !== undefined
+        ? props.size
+        : getDefaultSize(props.defaultSize, props.minSize, props.maxSize, state.draggedSize)
+      );
       ref.setState({
         size: newSize,
       });
-      if (props.size !== state.draggedSize) {
+      if ((props.size !== undefined) && (props.size !== state.draggedSize)) {
         this.setState({
           draggedSize: newSize,
         });
@@ -193,6 +192,16 @@ class SplitPane extends React.Component {
       ref2.setState({
         size: undefined,
       });
+    }
+
+    function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
+      if (typeof draggedSize === 'number') {
+        const min = (typeof minSize === 'number' ? minSize : 0);
+        const max = ((typeof maxSize === 'number') && (maxSize >= 0) ? maxSize : Infinity);
+        return Math.max(min, Math.min(max, draggedSize));
+      }
+      if (defaultSize !== undefined) { return defaultSize; }
+      return minSize;
     }
   }
 
@@ -283,7 +292,9 @@ class SplitPane extends React.Component {
             this.pane1 = node;
           }}
           size={
-            primary === 'first' ? size || defaultSize || minSize : undefined
+            primary === 'first'
+              ? (size !== undefined ? size : (defaultSize !== undefined ? defaultSize : minSize))
+              : undefined
           }
           split={split}
           style={pane1Style}
@@ -312,7 +323,9 @@ class SplitPane extends React.Component {
             this.pane2 = node;
           }}
           size={
-            primary === 'second' ? size || defaultSize || minSize : undefined
+            primary === 'second'
+              ? (size !== undefined ? size : (defaultSize !== undefined ? defaultSize : minSize))
+              : undefined
           }
           split={split}
           style={pane2Style}
