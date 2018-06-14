@@ -32,10 +32,13 @@ class SplitPane extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
+    
     this.state = {
       active: false,
       resized: false,
+      resizerHighlight: false,
     };
   }
 
@@ -88,6 +91,19 @@ class SplitPane extends React.Component {
     });
     this.onTouchMove(eventWithTouches);
   }
+
+  onMouseOver(event){
+    this.setState({
+      resizerHighlight: true
+    })
+  }
+
+  onMouseOut(event){
+    this.setState({
+      resizerHighlight: false
+    })
+  }
+
 
   onTouchMove(event) {
     const { allowResize, maxSize, minSize, onChange, split, step } = this.props;
@@ -202,6 +218,7 @@ class SplitPane extends React.Component {
       children,
       className,
       defaultSize,
+      highlightClassName,
       minSize,
       onResizerClick,
       onResizerDoubleClick,
@@ -215,11 +232,16 @@ class SplitPane extends React.Component {
       prefixer,
       resizerClassName,
       resizerStyle,
+      resizerChildren,
       size,
       split,
       style: styleProps,
     } = this.props;
     const disabledClass = allowResize ? '' : 'disabled';
+    
+    
+    const { resizerHighlight } = this.state;    
+
     const resizerClassNamesIncludingDefault = resizerClassName
       ? `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}`
       : resizerClassName;
@@ -295,16 +317,22 @@ class SplitPane extends React.Component {
           onClick={onResizerClick}
           onDoubleClick={onResizerDoubleClick}
           onMouseDown={this.onMouseDown}
+          onMouseOver={this.onMouseOver}
+          onMouseOut={this.onMouseOut}
           onTouchStart={this.onTouchStart}
           onTouchEnd={this.onMouseUp}
           key="resizer"
           ref={node => {
             this.resizer = node;
           }}
-          resizerClassName={resizerClassNamesIncludingDefault}
+          resizerClassName={resizerClassNamesIncludingDefault}          
+          highlightClassName={resizerHighlight ? highlightClassName : ''}
           split={split}
           style={resizerStyle || {}}
-        />
+          resizerChildren={resizerChildren}
+        >
+        
+        </Resizer>
         <Pane
           className={pane2Classes}
           key="pane2"
@@ -351,6 +379,7 @@ SplitPane.propTypes = {
   pane2Style: stylePropType,
   resizerClassName: PropTypes.string,
   step: PropTypes.number,
+  resizerChildren: PropTypes.element
 };
 
 SplitPane.defaultProps = {

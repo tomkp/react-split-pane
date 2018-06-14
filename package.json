@@ -1,66 +1,58 @@
 {
-  "name": "react-split-pane",
-  "description": "React split-pane component",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "version": "0.1.77",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tomkp/react-split-pane"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tomkp/react-split-pane"
-  },
-  "homepage": "https://github.com/tomkp/react-split-pane",
-  "author": "tomkp <tom@tomkp.com>",
-  "keywords": [
-    "react",
-    "react-component",
-    "split-pane",
-    "react-split-pane",
-    "es6"
+  "_args": [
+    [
+      {
+        "raw": "react-split-pane@next",
+        "scope": null,
+        "escapedName": "react-split-pane",
+        "name": "react-split-pane",
+        "rawSpec": "next",
+        "spec": "next",
+        "type": "tag"
+      },
+      "/Users/gerald.glynn/Dev/swaggerhub-frontend"
+    ]
   ],
-  "dependencies": {
-    "inline-style-prefixer": "^3.0.6",
-    "prop-types": "^15.5.10",
-    "react-style-proptype": "^3.0.0"
+  "_from": "react-split-pane@next",
+  "_id": "react-split-pane@2.0.2",
+  "_inCache": true,
+  "_location": "/react-split-pane",
+  "_nodeVersion": "9.5.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/react-split-pane_2.0.2_1526537342181_0.8373455390763513"
   },
-  "devDependencies": {
-    "@types/inline-style-prefixer": "^3.0.1",
-    "@types/react": "^16.0.36",
-    "babel-cli": "^6.24.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
-    "chai": "^4.0.2",
-    "chai-spies": "^0.7.1",
-    "coveralls": "^2.13.1",
-    "express": "^4.15.3",
-    "mochify": "^3.3.0",
-    "mochify-istanbul": "^2.4.2",
-    "prettier": "^1.7.4",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "surge": "^0.19.0",
-    "typescript": "^2.5.3",
-    "watchify": "^3.9.0"
+  "_npmUser": {
+    "name": "tomkp",
+    "email": "tom@tomkp.com"
   },
-  "scripts": {
-    "compile": "babel -d lib/ src/",
-    "compile:watch": "babel -w -d lib/ src/",
-    "prepublish": "npm run compile",
-    "test": "npm run compile && mochify -R spec",
-    "test:watch": "npm run compile:watch & mochify -R spec --watch",
-    "test:coverage": "mochify --plugin [ mochify-istanbul --exclude '**/test/**' --report lcovonly ] && cat lcov.info | coveralls && rm lcov.info",
-    "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
-    "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
-    "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane.surge.sh",
-    "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
-    "release:patch": "npm test && npm run compile && npm version patch && git push && npm publish"
+  "_npmVersion": "6.0.0",
+  "_phantomChildren": {
+    "fbjs": "0.8.16",
+    "loose-envify": "1.3.1",
+    "prop-types": "15.6.1"
+  },
+  "_requested": {
+    "raw": "react-split-pane@next",
+    "scope": null,
+    "escapedName": "react-split-pane",
+    "name": "react-split-pane",
+    "rawSpec": "next",
+    "spec": "next",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-split-pane/-/react-split-pane-2.0.2.tgz",
+  "_shasum": "a287f3763189627c466656df75d47b8ad1383b3d",
+  "_shrinkwrap": null,
+  "_spec": "react-split-pane@next",
+  "_where": "/Users/gerald.glynn/Dev/swaggerhub-frontend",
+  "author": {
+    "name": "tomkp",
+    "email": "tom@tomkp.com"
   },
   "browserify": {
     "transform": [
@@ -69,5 +61,96 @@
       ]
     ]
   },
-  "false": {}
+  "bugs": {
+    "url": "https://github.com/tomkp/react-split-pane"
+  },
+  "dependencies": {
+    "glamor": "^2.20.40",
+    "glamorous": "^4.11.2",
+    "inline-style-prefixer": "^4.0.0",
+    "normalize.css": "^7.0.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "styled-components": "^2.4.0"
+  },
+  "description": "React split-pane component",
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.3.3",
+    "@storybook/addon-links": "^3.3.3",
+    "@storybook/react": "^3.3.3",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^14.5.0",
+    "chai": "^4.1.2",
+    "chai-spies": "^0.7.1",
+    "core-js": "^2.5.3",
+    "coveralls": "^3.0.0",
+    "express": "^4.16.2",
+    "mochify": "^4.0.0",
+    "mochify-istanbul": "^2.4.2",
+    "prettier": "^1.9.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "sinon": "^5.0.7",
+    "surge": "^0.19.0",
+    "typescript": "^2.6.2",
+    "watchify": "^3.9.0"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-c1HAFumBlTCzT17/hJC7Z9Cw6p9Rqny8vwSuCM5iF5QaH9xhabMWf4fgJjCnOBzifVZynXOsjIJ1nFVDePz/JQ==",
+    "shasum": "a287f3763189627c466656df75d47b8ad1383b3d",
+    "tarball": "https://registry.npmjs.org/react-split-pane/-/react-split-pane-2.0.2.tgz",
+    "fileCount": 27,
+    "unpackedSize": 7292694,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJa/Rx/CRA9TVsSAnZWagAAzNcP/RFb9LiU5IgyZf8JBJX2\n9c72RuYm08TwHtSLG5BThnCO1TUNq0n+e0K+Rscr2xWVssT5+sY+iEkwGWjz\nnHJOVt7g5Nzoh62RI6Azr3ddZT+VnIUMCmHTMGvYR4q7ixI2/qEAcENMDOpN\nMhEQ3S+gy/UD6K6VrpLvOmfEe5h0kh8OGPrnhwCLBOwS9Iwzf1suvNSEb5IV\nxFWkNbZ/kX66b8rKyige0BzvESzJXK7FVDyxyg3Rbla75/pO9QWYiCPACVZ4\nhhIwYNm2xlS0trPntjc4oGPjtHK2YjQvG2DHoy2MeYmtwfBj3W5KGLncibZh\nnmlCktyrTIw2GcrF+GK21WUU/B60asGdKKJqiByMyfr6kNW/HwJYWzEpa265\nps7ppOF1PInyfI81GPlHE0cVIclLhmCJ8apnYZSyBpF9heRPs1lOxs1Sys22\nBPmxkeiWqFRQIVbuQFXrUtRH2DAS7P61tP+mWF2A6zY6A4e4Hwi6fGBum/6e\nj9H0OMiDQ71fPtfA0yPjihVUinqTrzybZ3TEGeHouj3YL4a+EHMijWkCgVZc\nnhdD6nqC4rzdd3Zm0jI3IIBYgKPNq5J9Ia1ZnEm02vfC7Z40X4VCK/3w5AMU\nPAnLuXtPfsfNWwTJORNBobqUJOa9AKMN7VacbB+fNhn9p5357syNb9jYKFSM\nZD9t\r\n=H2tK\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "false": {},
+  "gitHead": "22e649c7f6762d8ff5728457bf410bde1e164140",
+  "homepage": "https://github.com/tomkp/react-split-pane",
+  "keywords": [
+    "react",
+    "react-component",
+    "split-pane",
+    "react-split-pane",
+    "es6"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "tomkp",
+      "email": "tom@tomkp.com"
+    }
+  ],
+  "name": "react-split-pane",
+  "optionalDependencies": {},
+  "readme": "# React Split Pane\n\nSplit-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.\n\n```\nnpm install react-split-pane\n```\n\n[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)\n[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)\n\n\nCheck out the [demos](http://react-split-pane.surge.sh/)\n\n\n```html\n   <SplitPane split=\"vertical\" minSize={50} defaultSize={100}>\n       <div></div>\n       <div></div>\n   </SplitPane>\n```\n\n```html\n    <SplitPane split=\"vertical\" minSize={50}>\n        <div></div>\n        <SplitPane split=\"horizontal\">\n            <div></div>\n            <div></div>\n        </SplitPane>\n    </SplitPane>\n```\n\n### Primary pane\n\nBy dragging 'draggable' surface you can change size of the first pane.\nThe first pane keeps then its size while the second pane is resized by browser window.\nBy default it is the left pane for 'vertical' SplitPane and the top pane for 'horizontal' SplitPane.\nIf you want to keep size of the second pane and let the first pane to shrink or grow by browser window dimensions,\nset SplitPane prop `primary` to `second`. In case of 'horizontal' SplitPane the height of bottom pane remains the same.\n\nResizing can be disabled by passing the `allowResize` prop as `false` (`allowResize={false}`). Resizing is enabled by default.\n\nYou can also set the size of the pane using the `size` prop. Note that a size set through props ignores the `defaultSize` and `minSize` properties.\n\nIn this example right pane keeps its width 200px while user is resizing browser window.\n\n```html\n    <SplitPane split=\"vertical\" defaultSize={200} primary=\"second\">\n        <div></div>\n        <div></div>\n    </SplitPane>\n```\n\n### maxSize\nYou can limit the maximal size of the 'fixed' pane using the maxSize parameter with a positive value (measured in pixels but state just a number).\nIf you wrap the SplitPane into a container component (yes you can, just remember the container has to have the relative or absolute positioning),\nthen you'll need to limit the movement of the splitter (resizer) at the end of the SplitPane (otherwise it can be dragged outside the SplitPane\nand you don't catch it never more). For this purpose use the maxSize parameter with value 0. When dragged the splitter/resizer will stop at the border\nof the SplitPane component and think this you'll be able to pick it again and drag it back then.\nAnd more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal\nsize of the 'resizable' pane in this case). This can be useful also in the full-screen case of use.\n\n### step\nYou can use the step prop to only allow resizing in fixed increments.\n\n### Persisting Positions\n\nEach SplitPane accepts an onChange function prop.  Used in conjunction with\ndefaultSize and a persistence layer, you can ensure that your splitter choices\nsurvive a refresh of your app.\n\nFor example, if you are comfortable with the trade-offs of localStorage, you\ncould do something like the following:\n\n```html\n    <SplitPane split=\"vertical\" minSize={50}\n               defaultSize={ parseInt(localStorage.getItem('splitPos'), 10) }\n               onChange={ size => localStorage.setItem('splitPos', size) }>\n        <div></div>\n        <div></div>\n    </SplitPane>\n```\n\nDisclaimer: localStorage has a variety of performance trade-offs.  Browsers such\nas Firefox have now optimized localStorage use so that they will asynchronously\ninitiate a read of all saved localStorage data for an origin once they know the\npage will load.  If the data has not fully loaded by the time code accesses\nlocalStorage, the code will cause the page's main thread to block until the\ndatabase load completes.  When the main thread is blocked, no other JS code will\nrun or layout will occur.  In multiprocess browsers and for users with fast\ndisk storage, this will be less of a problem.  You *are* likely to get yelled at\nif you use localStorage.\n\nA potentially better idea is to use something like\nhttps://github.com/mozilla/localForage although hooking it up will be slightly\nmore involved.  You are likely to be admired by all for judiciously avoiding\nuse of localStorage.\n\n### Resizing callbacks\n\nIf you need more control over resizing, SplitPane can notify you about when resizing started\nand when it ended through two callbacks: `onDragStarted` and `onDragFinished`.\n\n### Example styling\n\nThis gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.\n\nThanks to ```background-clip: padding-box;``` for making transparent borders possible.\n\n\n```css\n\n    .Resizer {\n        background: #000;\n        opacity: .2;\n        z-index: 1;\n        -moz-box-sizing: border-box;\n        -webkit-box-sizing: border-box;\n        box-sizing: border-box;\n        -moz-background-clip: padding;\n        -webkit-background-clip: padding;\n        background-clip: padding-box;\n    }\n\n     .Resizer:hover {\n        -webkit-transition: all 2s ease;\n        transition: all 2s ease;\n    }\n\n     .Resizer.horizontal {\n        height: 11px;\n        margin: -5px 0;\n        border-top: 5px solid rgba(255, 255, 255, 0);\n        border-bottom: 5px solid rgba(255, 255, 255, 0);\n        cursor: row-resize;\n        width: 100%;\n    }\n\n    .Resizer.horizontal:hover {\n        border-top: 5px solid rgba(0, 0, 0, 0.5);\n        border-bottom: 5px solid rgba(0, 0, 0, 0.5);\n    }\n\n    .Resizer.vertical {\n        width: 11px;\n        margin: 0 -5px;\n        border-left: 5px solid rgba(255, 255, 255, 0);\n        border-right: 5px solid rgba(255, 255, 255, 0);\n        cursor: col-resize;\n    }\n\n    .Resizer.vertical:hover {\n        border-left: 5px solid rgba(0, 0, 0, 0.5);\n        border-right: 5px solid rgba(0, 0, 0, 0.5);\n    }\n    .Resizer.disabled {\n      cursor: not-allowed;\n    }\n    .Resizer.disabled:hover {\n      border-color: transparent;\n    }\n\n ```\n### Inline Styles\n\nYou can also pass inline styles to the components via props. These are:\n\n * `paneStyle` - Styling to be applied to both panes\n * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`\n * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`\n * `resizerStyle` - Styling to be applied to the resizer bar\n\n\n### Contributing\n\nI'm always happy to receive Pull Requests for contributions of any kind. \n\nPlease include tests and/or update the examples if possible.\n  \nI've been working on an updated version of this library - if you'd like to get involved in any way please ping me a message.    \n  \nThanks, Tom  \n  \n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomkp/react-split-pane.git"
+  },
+  "scripts": {
+    "build-storybook": "build-storybook",
+    "compile": "babel -d lib/ src/",
+    "compile:watch": "babel -w -d lib/ src/",
+    "demo": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js",
+    "demo:publish": "npm run compile && browserify demo/Examples.js -d -t -o demo/bundle.js && surge demo react-split-pane-v2.surge.sh",
+    "demo:watch": "npm run compile:watch & watchify demo/Examples.js -d -t -o demo/bundle.js",
+    "prettier": "prettier --single-quote --trailing-comma es5 --write './{src,test}/**/*.js'",
+    "release:patch": "npm test && npm version patch && git push && npm publish --tag next",
+    "storybook": "start-storybook -p 6006",
+    "test": "npm run compile && mochify -R spec",
+    "test:coverage": "mochify --plugin [ mochify-istanbul --exclude '**/test/**' --report lcovonly ] && cat lcov.info | coveralls && rm lcov.info",
+    "test:watch": "npm run compile:watch & mochify -R spec --watch"
+  },
+  "types": "index.d.ts",
+  "version": "2.0.2"
 }
