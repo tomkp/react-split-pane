@@ -10,20 +10,26 @@ const USER_AGENT =
 export const RESIZER_DEFAULT_CLASSNAME = 'Resizer';
 
 class Resizer extends React.Component {
-  render() {
+
+  render() {    
     const {
       className,
       onClick,
       onDoubleClick,
       onMouseDown,
+      onMouseOver,
+      onMouseOut,
       onTouchEnd,
       onTouchStart,
       prefixer,
       resizerClassName,
+      highlightClassName,
       split,
       style,
+      resizerChildren
     } = this.props;
-    const classes = [resizerClassName, split, className];
+
+    const classes = [resizerClassName, split, className, highlightClassName]
 
     return (
       <span
@@ -50,7 +56,21 @@ class Resizer extends React.Component {
             onDoubleClick(event);
           }
         }}
-      />
+        onMouseOver={event => {
+          if (onMouseOver) {
+            event.preventDefault();
+            onMouseOver(event);
+          }
+        }}      
+        onMouseOut={event => {
+          if (onMouseOut) {
+            event.preventDefault();
+            onMouseOut(event);
+          }
+        }}
+      >
+      {resizerChildren}      
+      </span>
     );
   }
 }
@@ -60,12 +80,15 @@ Resizer.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onMouseDown: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func.isRequired,
   onTouchStart: PropTypes.func.isRequired,
   onTouchEnd: PropTypes.func.isRequired,
   prefixer: PropTypes.instanceOf(Prefixer).isRequired,
   split: PropTypes.oneOf(['vertical', 'horizontal']),
   style: stylePropType,
   resizerClassName: PropTypes.string.isRequired,
+  resizerChildren: PropTypes.element,
 };
 
 Resizer.defaultProps = {
