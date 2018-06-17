@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
+import { polyfill } from 'react-lifecycles-compat';
 
 import Pane from './Pane';
 import Resizer, { RESIZER_DEFAULT_CLASSNAME } from './Resizer';
@@ -23,9 +24,22 @@ function unFocus(document, window) {
   }
 }
 
+function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
+  if (typeof draggedSize === 'number') {
+    const min = typeof minSize === 'number' ? minSize : 0;
+    const max =
+      typeof maxSize === 'number' && maxSize >= 0 ? maxSize : Infinity;
+    return Math.max(min, Math.min(max, draggedSize));
+  }
+  if (defaultSize !== undefined) {
+    return defaultSize;
+  }
+  return minSize;
+}
+
 class SplitPane extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
@@ -33,21 +47,40 @@ class SplitPane extends React.Component {
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
 
+    // order of setting panel sizes.
+    // 1. size
+    // 2. defaultSize
+    // 3. minSize
+
+    const { size, defaultSize, minSize, primary } = props;
+
+    const initialSize =
+      size !== undefined
+        ? size
+        : defaultSize !== undefined ? defaultSize : minSize;
+
     this.state = {
       active: false,
       resized: false,
+      pane1Size: primary === 'first' ? initialSize : undefined,
+      pane2Size: primary === 'second' ? initialSize : undefined,
+
+      // previous props that we need in static methods
+      instanceProps: {
+        primary,
+      },
     };
   }
 
   componentDidMount() {
-    this.setSize(this.props, this.state);
+    this.setState(SplitPane.setSize(this.props, this.state));
     document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('touchmove', this.onTouchMove);
   }
 
-  componentWillReceiveProps(props) {
-    this.setSize(props, this.state);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return SplitPane.setSize(nextProps, prevState);
   }
 
   componentWillUnmount() {
@@ -92,6 +125,7 @@ class SplitPane extends React.Component {
   onTouchMove(event) {
     const { allowResize, maxSize, minSize, onChange, split, step } = this.props;
     const { active, position } = this.state;
+
     if (allowResize && active) {
       unFocus(document, window);
       const isPrimaryFirst = this.props.primary === 'first';
@@ -123,7 +157,7 @@ class SplitPane extends React.Component {
           const pane1Order = parseInt(window.getComputedStyle(node).order);
           const pane2Order = parseInt(window.getComputedStyle(node2).order);
           if (pane1Order > pane2Order) {
-              sizeDelta = -sizeDelta;
+            sizeDelta = -sizeDelta;
           }
 
           let newMaxSize = maxSize;
@@ -151,8 +185,11 @@ class SplitPane extends React.Component {
           }
 
           if (onChange) onChange(newSize);
-          this.setState({ draggedSize: newSize });
-          ref.setState({ size: newSize });
+
+          this.setState({
+            draggedSize: newSize,
+            [isPrimaryFirst ? 'pane1Size' : 'pane2Size']: newSize,
+          });
         }
       }
     }
@@ -169,40 +206,32 @@ class SplitPane extends React.Component {
     }
   }
 
-  setSize(props, state) {
-    const isPrimaryFirst = props.primary === 'first';
-    const ref = isPrimaryFirst ? this.pane1 : this.pane2;
-    const ref2 = isPrimaryFirst ? this.pane2 : this.pane1;
-    let newSize;
-    if (ref) {
-      newSize = (props.size !== undefined
+  static setSize(props, state) {
+    const newState = {};
+    const isPanel1Primary = props.primary === 'first';
+
+    const newSize =
+      props.size !== undefined
         ? props.size
-        : getDefaultSize(props.defaultSize, props.minSize, props.maxSize, state.draggedSize)
-      );
-      ref.setState({
-        size: newSize,
-      });
-      if ((props.size !== undefined) && (props.size !== state.draggedSize)) {
-        this.setState({
-          draggedSize: newSize,
-        });
-      }
-    }
-    if (ref2 && props.primary !== this.props.primary) {
-      ref2.setState({
-        size: undefined,
-      });
+        : getDefaultSize(
+            props.defaultSize,
+            props.minSize,
+            props.maxSize,
+            state.draggedSize
+          );
+
+    newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
+
+    if (props.size !== undefined && props.size !== state.draggedSize) {
+      newState.draggedSize = newSize;
     }
 
-    function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
-      if (typeof draggedSize === 'number') {
-        const min = (typeof minSize === 'number' ? minSize : 0);
-        const max = ((typeof maxSize === 'number') && (maxSize >= 0) ? maxSize : Infinity);
-        return Math.max(min, Math.min(max, draggedSize));
-      }
-      if (defaultSize !== undefined) { return defaultSize; }
-      return minSize;
+    if (props.primary !== state.instanceProps.primary) {
+      newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined;
+      newState.instanceProps = { primary: props.primary };
     }
+
+    return newState;
   }
 
   render() {
@@ -228,6 +257,9 @@ class SplitPane extends React.Component {
       split,
       style: styleProps,
     } = this.props;
+
+    const { pane1Size, pane2Size } = this.state;
+
     const disabledClass = allowResize ? '' : 'disabled';
     const resizerClassNamesIncludingDefault = resizerClassName
       ? `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}`
@@ -291,11 +323,7 @@ class SplitPane extends React.Component {
           ref={node => {
             this.pane1 = node;
           }}
-          size={
-            primary === 'first'
-              ? (size !== undefined ? size : (defaultSize !== undefined ? defaultSize : minSize))
-              : undefined
-          }
+          size={pane1Size}
           split={split}
           style={pane1Style}
         >
@@ -322,11 +350,7 @@ class SplitPane extends React.Component {
           ref={node => {
             this.pane2 = node;
           }}
-          size={
-            primary === 'second'
-              ? (size !== undefined ? size : (defaultSize !== undefined ? defaultSize : minSize))
-              : undefined
-          }
+          size={pane2Size}
           split={split}
           style={pane2Style}
         >
@@ -376,5 +400,7 @@ SplitPane.defaultProps = {
   pane1ClassName: '',
   pane2ClassName: '',
 };
+
+polyfill(SplitPane);
 
 export default SplitPane;
