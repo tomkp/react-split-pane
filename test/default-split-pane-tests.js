@@ -145,12 +145,20 @@ describe('Component updates', () => {
       <div>two</div>
     </SplitPane>
   );
-  
+
   it('unsets the width on the non-primary panel when first', () => {
-    asserter(splitPane1).assertPrimaryPanelChange(splitPane2, 'first', 'second');
+    asserter(splitPane1).assertPrimaryPanelChange(
+      splitPane2,
+      'first',
+      'second'
+    );
   });
 
   it('unsets the width on the non-primary panel when second', () => {
-    asserter(splitPane2).assertPrimaryPanelChange(splitPane1, 'second', 'first');
+    asserter(splitPane2).assertPrimaryPanelChange(
+      splitPane1,
+      'second',
+      'first'
+    );
   });
 });

@@ -8,13 +8,7 @@ const DEFAULT_USER_AGENT =
 const USER_AGENT =
   typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
 
-class Pane extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { size: this.props.size };
-  }
-
+class Pane extends React.PureComponent {
   render() {
     const {
       children,
@@ -22,8 +16,9 @@ class Pane extends React.Component {
       prefixer,
       split,
       style: styleProps,
+      size,
     } = this.props;
-    const { size } = this.state;
+
     const classes = ['Pane', split, className];
 
     const style = Object.assign({}, styleProps || {}, {
