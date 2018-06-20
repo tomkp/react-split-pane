@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV;
 
 if (env === 'test' || env === 'demo') {
   module.exports = {
-    presets: [['env'], 'stage-0', 'react'],
+    presets: ['env', 'stage-0', 'react'],
   };
 } else {
   module.exports = {
