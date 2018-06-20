@@ -1,9 +1,9 @@
 import * as Prefixer from 'inline-style-prefixer';
 import * as React from 'react';
 
-export type Size = string | number;
-
-export interface Props {
+declare namespace SplitPane {
+  export type Size = string | number;
+  export interface Props {
     allowResize?: boolean;
     className?: string;
     primary?: 'first' | 'second';
@@ -25,29 +25,22 @@ export interface Props {
     pane2Style?: React.CSSProperties;
     resizerClassName?: string;
     step?: number;
-}
-
-export interface State {
+  }
+  export interface State {
     active: boolean;
     resized: boolean;
+  }
 }
 
-declare class SplitPane extends React.Component<Props, State> {
+declare class SplitPane extends React.Component<SplitPane.Props, SplitPane.State> {
     constructor();
-
     onMouseDown(event: MouseEvent): void;
-    
     onTouchStart(event: TouchEvent): void;
-
     onMouseMove(event: MouseEvent): void;
-
     onTouchMove(event: TouchEvent): void;
-
     onMouseUp(): void;
-
-    setSize(props: Props, state: State): void;
-
-    static defaultProps: Props;
+    setSize(props: SplitPane.Props, state: SplitPane.State): void;
+    static defaultProps: SplitPane.Props;
 }
 
-export default SplitPane;
+export = SplitPane;
