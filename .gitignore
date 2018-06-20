@@ -33,3 +33,5 @@ node_modules
 
 lcov.info
 .DS_Store
+
+dist
