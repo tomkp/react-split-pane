@@ -57,7 +57,9 @@ class SplitPane extends React.Component {
     const initialSize =
       size !== undefined
         ? size
-        : defaultSize !== undefined ? defaultSize : minSize;
+        : defaultSize !== undefined
+          ? defaultSize
+          : minSize;
 
     this.state = {
       active: false,
