@@ -62,7 +62,7 @@
     "lint-staged": "^7.2.0",
     "mochify": "^5.8.0",
     "mochify-istanbul": "^2.4.2",
-    "prettier": "^1.7.4",
+    "prettier": "^1.13.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "rimraf": "^2.6.2",
