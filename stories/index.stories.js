@@ -4,8 +4,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import SplitPane from '../lib/SplitPane';
-import Pane from "../lib/Pane";
+import SplitPane from '../src/SplitPane';
+import Pane from "../src/Pane";
 
 import { Button, Welcome } from '@storybook/react/demo';
 
