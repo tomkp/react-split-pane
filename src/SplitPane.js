@@ -47,6 +47,10 @@ function toPx(value, unit = 'px', size) {
   }
 }
 
+function removeNullChildren(children) {
+  return React.Children.toArray(children).filter(c => c);
+}
+
 export function getUnit(size) {
   if(size.endsWith('px')) {
     return 'px';
@@ -187,7 +191,7 @@ class SplitPane extends Component {
     const minSizes = this.getPanePropMinMaxSize(props, 'minSize');
     const maxSizes = this.getPanePropMinMaxSize(props, 'maxSize');
 
-    const resizersSize = this.getResizersSize();
+    const resizersSize = this.getResizersSize(removeNullChildren(this.props.children));
     const splitPaneSizePx = split === 'vertical'
       ? splitPaneDimensions.width - resizersSize
       : splitPaneDimensions.height - resizersSize;
@@ -207,7 +211,7 @@ class SplitPane extends Component {
   }
 
   getPanePropSize(props) {
-    return React.Children.map(props.children, child => {
+    return removeNullChildren(props.children).map(child => {
       const value = child.props['size'] || child.props['initialSize'];
       if (value === undefined) {
         return DEFAULT_PANE_SIZE;
@@ -218,7 +222,7 @@ class SplitPane extends Component {
   }
 
   getPanePropMinMaxSize(props, key) {
-    return React.Children.map(props.children, child => {
+    return removeNullChildren(props.children).map(child => {
       const value = child.props[key];
       if (value === undefined) {
         return key === 'maxSize' ? DEFAULT_PANE_MAX_SIZE : DEFAULT_PANE_MIN_SIZE;
@@ -338,16 +342,17 @@ class SplitPane extends Component {
     this.paneElements[idx] = el;
   }
 
-  getResizersSize() {
-    return (React.Children.count(this.props.children) - 1) * this.props.resizerSize;
+  getResizersSize(children) {
+    return (children.length - 1) * this.props.resizerSize;
   }
 
   render() {
     const { children, className, split } = this.props;
+    const notNullChildren = removeNullChildren(this.props.children)
     const sizes = this.getSizes();
-    const resizersSize = this.getResizersSize();
+    const resizersSize = this.getResizersSize(notNullChildren);
 
-    const elements = children.reduce((acc, child, idx) => {
+    const elements = notNullChildren.reduce((acc, child, idx) => {
       let pane;
       const resizerIndex = idx - 1;
       const isPane = child.type === Pane;

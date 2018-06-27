@@ -37,4 +37,12 @@ storiesOf('Horizontal', module)
       <Pane>This is a Pane</Pane>
       <Pane>This is a Pane</Pane>
     </SplitPane>
+  )
+  .add('with a null child', () => 
+    <SplitPane split="horizontal">
+      {false && <div>This is a div</div>}
+      <div>This is a div</div>
+      <div>This is a div</div>
+    </SplitPane>
   );
+  
