@@ -9,6 +9,7 @@ const Container = styled('div')`
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #e0e0e0;
 `;
 
 const TitleArea = styled('div')`

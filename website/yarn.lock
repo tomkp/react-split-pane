@@ -7720,10 +7720,6 @@ react-error-overlay@5.0.0-next.66cc7a90:
   version "5.0.0-next.66cc7a90"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.0.0-next.66cc7a90.tgz#68379b131ebe74112a12197504bfe7fa53119b3b"
 
-react-lifecycles-compat@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
-
 react-router-dom@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
@@ -7808,9 +7804,13 @@ react-scripts@^2.0.0-next.66cc7a90:
   optionalDependencies:
     fsevents "1.2.0"
 
-"react-split-pane@link:..":
-  version "0.0.0"
-  uid ""
+react-split-pane@latest:
+  version "0.1.77"
+  resolved "https://registry.yarnpkg.com/react-split-pane/-/react-split-pane-0.1.77.tgz#f0c8cd18d076bbac900248dcf6dbcec02d5340db"
+  dependencies:
+    inline-style-prefixer "^3.0.6"
+    prop-types "^15.5.10"
+    react-style-proptype "^3.0.0"
 
 react-style-proptype@^3.0.0:
   version "3.2.1"
