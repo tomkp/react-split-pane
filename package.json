@@ -94,13 +94,6 @@
       "git add"
     ]
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify"
-      ]
-    ]
-  },
   "babel": {
     "presets": [
       "./.babelrc.js"
