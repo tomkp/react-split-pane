@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 import { polyfill } from 'react-lifecycles-compat';
@@ -134,8 +133,8 @@ class SplitPane extends React.Component {
       const ref = isPrimaryFirst ? this.pane1 : this.pane2;
       const ref2 = isPrimaryFirst ? this.pane2 : this.pane1;
       if (ref) {
-        const node = ReactDOM.findDOMNode(ref);
-        const node2 = ReactDOM.findDOMNode(ref2);
+        const node = ref;
+        const node2 = ref2;
 
         if (node.getBoundingClientRect) {
           const width = node.getBoundingClientRect().width;
@@ -164,11 +163,11 @@ class SplitPane extends React.Component {
 
           let newMaxSize = maxSize;
           if (maxSize !== undefined && maxSize <= 0) {
-            const splPane = this.splitPane;
+            const splitPane = this.splitPane;
             if (split === 'vertical') {
-              newMaxSize = splPane.getBoundingClientRect().width + maxSize;
+              newMaxSize = splitPane.getBoundingClientRect().width + maxSize;
             } else {
-              newMaxSize = splPane.getBoundingClientRect().height + maxSize;
+              newMaxSize = splitPane.getBoundingClientRect().height + maxSize;
             }
           }
 
@@ -318,7 +317,7 @@ class SplitPane extends React.Component {
         <Pane
           className={pane1Classes}
           key="pane1"
-          ref={node => {
+          eleRef={node => {
             this.pane1 = node;
           }}
           size={pane1Size}
@@ -335,9 +334,6 @@ class SplitPane extends React.Component {
           onTouchStart={this.onTouchStart}
           onTouchEnd={this.onMouseUp}
           key="resizer"
-          ref={node => {
-            this.resizer = node;
-          }}
           resizerClassName={resizerClassNamesIncludingDefault}
           split={split}
           style={resizerStyle || {}}
@@ -345,7 +341,7 @@ class SplitPane extends React.Component {
         <Pane
           className={pane2Classes}
           key="pane2"
-          ref={node => {
+          eleRef={node => {
             this.pane2 = node;
           }}
           size={pane2Size}
