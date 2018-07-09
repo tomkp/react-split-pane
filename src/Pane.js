@@ -17,6 +17,7 @@ class Pane extends React.PureComponent {
       split,
       style: styleProps,
       size,
+      eleRef,
     } = this.props;
 
     const classes = ['Pane', split, className];
@@ -38,7 +39,11 @@ class Pane extends React.PureComponent {
     }
 
     return (
-      <div className={classes.join(' ')} style={prefixer.prefix(style)}>
+      <div
+        ref={eleRef}
+        className={classes.join(' ')}
+        style={prefixer.prefix(style)}
+      >
         {children}
       </div>
     );
@@ -52,6 +57,7 @@ Pane.propTypes = {
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   split: PropTypes.oneOf(['vertical', 'horizontal']),
   style: stylePropType,
+  eleRef: PropTypes.func,
 };
 
 Pane.defaultProps = {

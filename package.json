@@ -3,6 +3,7 @@
   "description": "React split-pane component",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
+  "source": "src/index.js",
   "types": "index.d.ts",
   "files": [
     "dist",
