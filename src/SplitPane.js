@@ -48,17 +48,14 @@ class SplitPane extends React.Component {
 
     // order of setting panel sizes.
     // 1. size
-    // 2. defaultSize
-    // 3. minSize
+    // 2. getDefaultSize(defaultSize, minsize, maxSize)
 
-    const { size, defaultSize, minSize, primary } = props;
+    const { size, defaultSize, minSize, maxSize, primary } = props;
 
     const initialSize =
       size !== undefined
         ? size
-        : defaultSize !== undefined
-          ? defaultSize
-          : minSize;
+        : getDefaultSize(defaultSize, minSize, maxSize, null);
 
     this.state = {
       active: false,
@@ -69,15 +66,19 @@ class SplitPane extends React.Component {
       // previous props that we need in static methods
       instanceProps: {
         primary,
+        size,
+        defaultSize,
+        minSize,
+        maxSize,
       },
     };
   }
 
   componentDidMount() {
-    this.setState(SplitPane.setSize(this.props, this.state));
     document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('touchmove', this.onTouchMove);
+    this.setState(SplitPane.setSize(this.props, this.state));
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -207,9 +208,11 @@ class SplitPane extends React.Component {
     }
   }
 
+  // TODO: find a more elegant way to fix this. memoize calls to setSize?
+  // we have to check values since gDSFP is called on every render
   static setSize(props, state) {
+    const { instanceProps } = state;
     const newState = {};
-    const isPanel1Primary = props.primary === 'first';
 
     const newSize =
       props.size !== undefined
@@ -221,16 +224,43 @@ class SplitPane extends React.Component {
             state.draggedSize
           );
 
-    newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
+    const defaultSizeChanged =
+      props.defaultSize !== instanceProps.defaultSize ||
+      props.minSize !== instanceProps.minSize ||
+      props.maxSize !== instanceProps.maxSize;
 
-    if (props.size !== undefined && props.size !== state.draggedSize) {
+    const shouldUpdateSize =
+      props.size !== undefined
+        ? props.size !== instanceProps.size
+        : defaultSizeChanged;
+
+    if (
+      props.size !== undefined &&
+      props.size !== state.draggedSize &&
+      shouldUpdateSize
+    ) {
       newState.draggedSize = newSize;
     }
 
+    const isPanel1Primary = props.primary === 'first';
+
+    if (shouldUpdateSize || props.primary !== state.instanceProps.primary) {
+      newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
+    }
+
+    // unset the size on the non primary panel
     if (props.primary !== state.instanceProps.primary) {
       newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined;
-      newState.instanceProps = { primary: props.primary };
     }
+
+    // update the values in instanceProps
+    instanceProps.primary = props.primary;
+    instanceProps.size = props.size;
+    instanceProps.defaultSize = props.defaultSize;
+    instanceProps.minSize = props.minSize;
+    instanceProps.maxSize = props.maxSize;
+
+    newState.instanceProps = instanceProps;
 
     return newState;
   }
