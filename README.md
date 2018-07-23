@@ -1,37 +1,44 @@
 # React Split Pane
 
-Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
-
-```
-npm install react-split-pane
-```
-
+[![NPM version](https://img.shields.io/npm/v/react-split-pane.svg?style=flat)](https://www.npmjs.com/package/react-split-pane)
+![NPM license](https://img.shields.io/npm/l/react-split-pane.svg?style=flat)
+[![NPM total downloads](https://img.shields.io/npm/dt/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
+[![NPM monthly downloads](https://img.shields.io/npm/dm/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
 [![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
 
+Split-Pane React component, can be nested or split vertically or horizontally. Check out some demos [here](http://react-split-pane.surge.sh/)!
 
-Check out the [demos](http://react-split-pane.surge.sh/)
+## Installing
+```sh
+npm install react-split-pane
 
+# or if you use yarn
 
+yarn add react-split-pane
+```
+
+## Example Usage
 ```html
-   <SplitPane split="vertical" minSize={50} defaultSize={100}>
-       <div></div>
-       <div></div>
-   </SplitPane>
+ <SplitPane split="vertical" minSize={50} defaultSize={100}>
+     <div></div>
+     <div></div>
+ </SplitPane>
 ```
 
 ```html
-    <SplitPane split="vertical" minSize={50}>
-        <div></div>
-        <SplitPane split="horizontal">
-            <div></div>
-            <div></div>
-        </SplitPane>
-    </SplitPane>
+  <SplitPane split="vertical" minSize={50}>
+      <div></div>
+      <SplitPane split="horizontal">
+          <div></div>
+          <div></div>
+      </SplitPane>
+  </SplitPane>
 ```
 
-### Primary pane
+## Props
 
+### primary
 By dragging 'draggable' surface you can change size of the first pane.
 The first pane keeps then its size while the second pane is resized by browser window.
 By default it is the left pane for 'vertical' SplitPane and the top pane for 'horizontal' SplitPane.
@@ -63,7 +70,25 @@ size of the 'resizable' pane in this case). This can be useful also in the full-
 ### step
 You can use the step prop to only allow resizing in fixed increments.
 
-### Persisting Positions
+### onDragStarted
+This callback is invoked when a drag starts.
+
+### onDragFinished
+This callback is invoked when a drag ends.
+
+### onChange
+This callback is invoked with the current drag during a drag event. It is recommended that it is wrapped in a debounce function.
+
+### Inline Styles
+
+You can also pass inline styles to the components via props. These are:
+
+ * `paneStyle` - Styling to be applied to both panes
+ * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
+ * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
+ * `resizerStyle` - Styling to be applied to the resizer bar
+
+## Persisting Positions
 
 Each SplitPane accepts an onChange function prop.  Used in conjunction with
 defaultSize and a persistence layer, you can ensure that your splitter choices
@@ -96,12 +121,7 @@ https://github.com/mozilla/localForage although hooking it up will be slightly
 more involved.  You are likely to be admired by all for judiciously avoiding
 use of localStorage.
 
-### Resizing callbacks
-
-If you need more control over resizing, SplitPane can notify you about when resizing started
-and when it ended through two callbacks: `onDragStarted` and `onDragFinished`.
-
-### Example styling
+## Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
 
@@ -161,23 +181,13 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
     }
 
  ```
-### Inline Styles
 
-You can also pass inline styles to the components via props. These are:
+## Contributing
 
- * `paneStyle` - Styling to be applied to both panes
- * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
- * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
- * `resizerStyle` - Styling to be applied to the resizer bar
-
-
-### Contributing
-
-I'm always happy to receive Pull Requests for contributions of any kind. 
+I'm always happy to receive Pull Requests for contributions of any kind.
 
 Please include tests and/or update the examples if possible.
-  
+
 **I'm working on an updated version of this library, and looking for help:** https://github.com/tomkp/react-split-pane/pull/240
-  
+
 Thanks, Tom  
-  
