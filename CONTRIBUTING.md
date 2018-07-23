@@ -24,7 +24,7 @@ Guidelines for bug reports:
 
 1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
 2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or development branch in the repository.
-3. **Isolate the problem** &mdash; create a [reduced test case](http://css-tricks.com/reduced-test-cases/) and a live example (using a site like [Plunker](http://plnkr.co/)).
+3. **Isolate the problem** &mdash; create a [reduced test case](http://css-tricks.com/reduced-test-cases/) and a live example (using a site like [CodeSandbox](https://codesandbox.io/)).
 
 A good bug report shouldn't leave others needing to chase you up for more information.
 Please try to be as detailed as possible in your report.
@@ -143,7 +143,7 @@ The local app will then be available at http://localhost:3000
 ## Running Tests
 
 All unit tests must pass before a pull request will be approved.
-You can run unit tests with NPM like so:
+You can run unit tests with yarn like so:
 
 ```bash
 cd <root>
