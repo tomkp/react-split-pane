@@ -4,25 +4,31 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
+#### Describe the bug
+
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+#### To Reproduce
+
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
 
-or 
+1.  Go to '...'
+2.  Click on '....'
+3.  Scroll down to '....'
+4.  See error
 
-Post a link to a [CodeSandbox](https://codesandbox.io/)
+or
 
-**Expected behavior**
+Post a link to a [CodeSandbox](https://codesandbox.io/). You can start by forking [this one](https://codesandbox.io/s/mz305w3yoy).
+
+#### Expected behavior
+
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+#### Screenshots
+
 If applicable, add screenshots to help explain your problem.
 
-**Additional context**
+#### Additional context
+
 Add any other context about the problem here.
