@@ -38,4 +38,3 @@ storiesOf('Horizontal', module)
       <Pane>This is a Pane</Pane>
     </SplitPane>
   );
-  
