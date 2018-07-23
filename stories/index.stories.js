@@ -4,8 +4,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import SplitPane from '../src/SplitPane';
-import Pane from "../src/Pane";
+import SplitPane from '../lib/SplitPane';
+import Pane from "../lib/Pane";
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -36,13 +36,6 @@ storiesOf('Horizontal', module)
     <SplitPane split="horizontal">
       <Pane>This is a Pane</Pane>
       <Pane>This is a Pane</Pane>
-    </SplitPane>
-  )
-  .add('with a null child', () => 
-    <SplitPane split="horizontal">
-      {false && <div>This is a div</div>}
-      <div>This is a div</div>
-      <div>This is a div</div>
     </SplitPane>
   );
   
