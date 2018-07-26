@@ -36,6 +36,9 @@ function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
   return minSize;
 }
 
+function removeNullChildren(children) {
+    return React.Children.toArray(children).filter(c => c);
+}
 class SplitPane extends React.Component {
   constructor(props) {
     super(props);
@@ -292,6 +295,8 @@ class SplitPane extends React.Component {
       ? `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}`
       : resizerClassName;
 
+    const notNullChildren = removeNullChildren(children);
+    
     const style = Object.assign(
       {},
       {
@@ -354,7 +359,7 @@ class SplitPane extends React.Component {
           split={split}
           style={pane1Style}
         >
-          {children[0]}
+          {notNullChildren[0]}
         </Pane>
         <Resizer
           className={disabledClass}
@@ -378,7 +383,7 @@ class SplitPane extends React.Component {
           split={split}
           style={pane2Style}
         >
-          {children[1]}
+          {notNullChildren[1]}
         </Pane>
       </div>
     );
