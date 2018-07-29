@@ -28,6 +28,8 @@ function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize })
       break;
     case '%':
     case 'px':
+    case 'vw':
+    case 'vh':
       style.flexGrow = 0;
       style[styleProp.size] = convertSizeToCssValue(value, resizersSize);
       break;

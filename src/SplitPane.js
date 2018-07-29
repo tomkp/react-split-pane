@@ -30,7 +30,7 @@ const RowStyle = glamorous.div({
 });
 
 function convert(str, size) {
-  const tokens = str.match(/([0-9]+)([px|%]*)/);
+  const tokens = str.match(/([0-9]+)([px|%|vw|vh]*)/);
   const value = tokens[1];
   const unit = tokens[2];
   return toPx(value, unit, size);
@@ -40,6 +40,10 @@ function toPx(value, unit = 'px', size) {
   switch (unit) {
     case '%': {
       return +(size * value / 100).toFixed(2);
+    }
+    case 'vw':
+    case 'vh': {
+      return +(getViewWidthAndHeight()[unit] * value);
     }
     default: {
       return +value;
@@ -52,15 +56,13 @@ function removeNullChildren(children) {
 }
 
 export function getUnit(size) {
-  if(size.endsWith('px')) {
-    return 'px';
-  }
-
-  if(size.endsWith('%')) {
-    return '%';
-  }
-
-  return 'ratio';
+  let res = 'ratio';
+  ['px', '%', 'vw', 'vh'].forEach((unit) => {
+    if (size.endsWith(unit)) {
+      res = unit;
+    }
+  });
+  return res;
 }
 
 export function convertSizeToCssValue(value, resizersSize) {
@@ -81,6 +83,13 @@ export function convertSizeToCssValue(value, resizersSize) {
   return `calc(${value} - ${resizersSize}px*${percent})`
 }
 
+function getViewWidthAndHeight () {
+  const w = window, d = document, e = d.documentElement, g = d.getElementsByTagName('body')[0],
+    x = w.innerWidth || e.clientWidth || g.clientWidth,
+    y = w.innerHeight || e.clientHeight || g.clientHeight;
+  return { vw: x / 100, vh: y / 100 };
+}
+
 function convertToUnit(size, unit, containerSize) {
   switch(unit) {
     case '%':
@@ -89,6 +98,9 @@ function convertToUnit(size, unit, containerSize) {
       return `${size.toFixed(2)}px`;
     case 'ratio':
       return (size * 100).toFixed(0);
+    case 'vh':
+    case 'vw':
+      return `${(size / getViewWidthAndHeight()[unit]).toFixed(2)}${unit}`;
   }
 }
 
@@ -216,7 +228,7 @@ class SplitPane extends Component {
       if (value === undefined) {
         return DEFAULT_PANE_SIZE;
       }
-      
+
       return String(value);
     });
   }
@@ -227,7 +239,7 @@ class SplitPane extends Component {
       if (value === undefined) {
         return key === 'maxSize' ? DEFAULT_PANE_MAX_SIZE : DEFAULT_PANE_MIN_SIZE;
       }
-      
+
       return value;
     });
   }
