@@ -5,24 +5,31 @@ import prefixAll from 'inline-style-prefixer/static';
 
 import { getUnit, convertSizeToCssValue } from './SplitPane';
 
-function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize }) {
+function PaneStyle({
+  split,
+  initialSize,
+  size,
+  minSize,
+  maxSize,
+  resizersSize,
+}) {
   const value = size || initialSize;
   const vertical = split === 'vertical';
   const styleProp = {
     minSize: vertical ? 'minWidth' : 'minHeight',
     maxSize: vertical ? 'maxWidth' : 'maxHeight',
-    size: vertical ? 'width' : 'height'
+    size: vertical ? 'width' : 'height',
   };
 
   let style = {
     display: 'flex',
-    outline: 'none'
+    outline: 'none',
   };
 
   style[styleProp.minSize] = convertSizeToCssValue(minSize, resizersSize);
   style[styleProp.maxSize] = convertSizeToCssValue(maxSize, resizersSize);
 
-  switch(getUnit(value)) {
+  switch (getUnit(value)) {
     case 'ratio':
       style.flex = value;
       break;
@@ -38,7 +45,6 @@ function PaneStyle({ split, initialSize, size, minSize, maxSize, resizersSize })
   return style;
 }
 
-
 class Pane extends PureComponent {
   setRef = element => {
     this.props.innerRef(this.props.index, element);
@@ -49,11 +55,7 @@ class Pane extends PureComponent {
     const prefixedStyle = prefixAll(PaneStyle(this.props));
 
     return (
-      <div
-        className={className}
-        style={prefixedStyle}
-        ref={this.setRef}
-      >
+      <div className={className} style={prefixedStyle} ref={this.setRef}>
         {children}
       </div>
     );
