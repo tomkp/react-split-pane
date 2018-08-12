@@ -12,6 +12,7 @@ export interface Props {
     defaultSize?: Size;
     size?: Size;
     split?: 'vertical' | 'horizontal';
+    reverse?: boolean;
     onDragStarted?: () => void;
     onDragFinished?: () => void;
     onChange?: (newSize: number) => void;
