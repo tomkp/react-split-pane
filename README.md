@@ -19,14 +19,14 @@ yarn add react-split-pane
 ```
 
 ## Example Usage
-```html
+```jsx
  <SplitPane split="vertical" minSize={50} defaultSize={100}>
      <div></div>
      <div></div>
  </SplitPane>
 ```
 
-```html
+```jsx
   <SplitPane split="vertical" minSize={50}>
       <div></div>
       <SplitPane split="horizontal">
@@ -51,7 +51,7 @@ You can also set the size of the pane using the `size` prop. Note that a size se
 
 In this example right pane keeps its width 200px while user is resizing browser window.
 
-```html
+```jsx
     <SplitPane split="vertical" defaultSize={200} primary="second">
         <div></div>
         <div></div>
@@ -97,7 +97,7 @@ survive a refresh of your app.
 For example, if you are comfortable with the trade-offs of localStorage, you
 could do something like the following:
 
-```html
+```jsx
     <SplitPane split="vertical" minSize={50}
                defaultSize={ parseInt(localStorage.getItem('splitPos'), 10) }
                onChange={ size => localStorage.setItem('splitPos', size) }>
