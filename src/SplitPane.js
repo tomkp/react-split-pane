@@ -37,7 +37,7 @@ function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
 }
 
 function removeNullChildren(children) {
-    return React.Children.toArray(children).filter(c => c);
+  return React.Children.toArray(children).filter(c => c);
 }
 class SplitPane extends React.Component {
   constructor(props) {
@@ -65,15 +65,6 @@ class SplitPane extends React.Component {
       resized: false,
       pane1Size: primary === 'first' ? initialSize : undefined,
       pane2Size: primary === 'second' ? initialSize : undefined,
-
-      // previous props that we need in static methods
-      instanceProps: {
-        primary,
-        size,
-        defaultSize,
-        minSize,
-        maxSize,
-      },
     };
   }
 
@@ -214,7 +205,6 @@ class SplitPane extends React.Component {
   // TODO: find a more elegant way to fix this. memoize calls to setSize?
   // we have to check values since gDSFP is called on every render
   static setSize(props, state) {
-    const { instanceProps } = state;
     const newState = {};
 
     const newSize =
@@ -227,43 +217,14 @@ class SplitPane extends React.Component {
             state.draggedSize
           );
 
-    const defaultSizeChanged =
-      props.defaultSize !== instanceProps.defaultSize ||
-      props.minSize !== instanceProps.minSize ||
-      props.maxSize !== instanceProps.maxSize;
-
-    const shouldUpdateSize =
-      props.size !== undefined
-        ? props.size !== instanceProps.size
-        : defaultSizeChanged;
-
-    if (
-      props.size !== undefined &&
-      props.size !== state.draggedSize &&
-      shouldUpdateSize
-    ) {
+    if (props.size !== undefined) {
       newState.draggedSize = newSize;
     }
 
     const isPanel1Primary = props.primary === 'first';
 
-    if (shouldUpdateSize || props.primary !== state.instanceProps.primary) {
-      newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
-    }
-
-    // unset the size on the non primary panel
-    if (props.primary !== state.instanceProps.primary) {
-      newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined;
-    }
-
-    // update the values in instanceProps
-    instanceProps.primary = props.primary;
-    instanceProps.size = props.size;
-    instanceProps.defaultSize = props.defaultSize;
-    instanceProps.minSize = props.minSize;
-    instanceProps.maxSize = props.maxSize;
-
-    newState.instanceProps = instanceProps;
+    newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
+    newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined;
 
     return newState;
   }
@@ -296,7 +257,7 @@ class SplitPane extends React.Component {
       : resizerClassName;
 
     const notNullChildren = removeNullChildren(children);
-    
+
     const style = Object.assign(
       {},
       {
