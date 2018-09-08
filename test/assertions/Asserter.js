@@ -217,5 +217,10 @@ export default (jsx, renderToDom = false) => {
       expect(primary.props.size).to.equal(undefined);
       expect(secondary.props.size).to.equal(50);
     },
+
+    assertPaneWidthChange(newJsx, expectedWidth, pane = 'first') {
+      updateComponent(newJsx);
+      return assertPaneStyles({ width: expectedWidth }, pane);
+    },
   };
 };

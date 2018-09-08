@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import chai from 'chai';
 import spies from 'chai-spies';
 
@@ -145,7 +145,6 @@ describe('Component updates', () => {
       <div>two</div>
     </SplitPane>
   );
-
   it('unsets the width on the non-primary panel when first', () => {
     asserter(splitPane1).assertPrimaryPanelChange(
       splitPane2,
@@ -159,6 +158,32 @@ describe('Component updates', () => {
       splitPane1,
       'second',
       'first'
+    );
+  });
+
+  it('updates the width of first panel when updating size, in strict mode (#309)', () => {
+    // For some reason StrictMode renders to null if it is the root of the jsx,
+    // and we also need the root to be a class-based component. So this is just a complicated
+    // way of getting around this problem.
+    class Div extends React.Component {
+      render() {
+        return <div>{this.props.children}</div>;
+      }
+    }
+    const paneWithWidth = size => (
+      <Div>
+        <StrictMode>
+          <SplitPane primary="first" size={size}>
+            <div>one</div>
+            <div>two</div>
+          </SplitPane>
+        </StrictMode>
+      </Div>
+    );
+
+    asserter(paneWithWidth(100)).assertPaneWidthChange(
+      paneWithWidth(200),
+      '200px'
     );
   });
 });
