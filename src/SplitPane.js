@@ -65,6 +65,11 @@ class SplitPane extends React.Component {
       resized: false,
       pane1Size: primary === 'first' ? initialSize : undefined,
       pane2Size: primary === 'second' ? initialSize : undefined,
+
+      // these are props that are needed in static functions. ie: gDSFP
+      instanceProps: {
+        size,
+      },
     };
   }
 
@@ -72,11 +77,11 @@ class SplitPane extends React.Component {
     document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('touchmove', this.onTouchMove);
-    this.setState(SplitPane.setSize(this.props, this.state));
+    this.setState(SplitPane.getSizeUpdate(this.props, this.state));
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    return SplitPane.setSize(nextProps, prevState);
+    return SplitPane.getSizeUpdate(nextProps, prevState);
   }
 
   componentWillUnmount() {
@@ -202,10 +207,14 @@ class SplitPane extends React.Component {
     }
   }
 
-  // TODO: find a more elegant way to fix this. memoize calls to setSize?
-  // we have to check values since gDSFP is called on every render
-  static setSize(props, state) {
+  // we have to check values since gDSFP is called on every render and more in StrictMode
+  static getSizeUpdate(props, state) {
     const newState = {};
+    const { instanceProps } = state;
+
+    if (instanceProps.size === props.size && props.size !== undefined) {
+      return {};
+    }
 
     const newSize =
       props.size !== undefined
@@ -225,6 +234,8 @@ class SplitPane extends React.Component {
 
     newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSize;
     newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined;
+
+    newState.instanceProps = { size: props.size };
 
     return newState;
   }
