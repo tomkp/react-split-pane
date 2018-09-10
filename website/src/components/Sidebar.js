@@ -82,7 +82,7 @@ export default class Sidebar extends React.Component {
           </a>
         </TitleArea>
         <Description>
-          A component that makes creating draggable and resizable UI a breeze 🤣
+          A component that makes creating draggable and resizable UI a breeze
         </Description>
         {sections.map(section => (
           <React.Fragment>
