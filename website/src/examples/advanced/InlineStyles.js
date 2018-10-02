@@ -6,6 +6,7 @@ export default () => {
   const styleB = { background: '#aaa4ba' };
   const styleC = { background: '#000' };
   const styleD = { padding: '2em', fontStyle: 'italic' };
+  const styleE = { border: 'solid 1px black' };
   return (
     <SplitPane
       split="vertical"
@@ -15,6 +16,7 @@ export default () => {
       className="primary"
       pane1Style={styleA}
       resizerStyle={styleC}
+      paneContainerStyle={styleE}
     >
       <div />
       <SplitPane split="horizontal" paneStyle={styleD} pane2Style={styleB}>
