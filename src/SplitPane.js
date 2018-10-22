@@ -304,7 +304,7 @@ class SplitPane extends React.Component {
       });
     }
 
-    style = Object.assign({}, style, paneContainerStyle || {});
+const style = { display: 'flex', ...paneContainerStyle };
 
     const classes = [
       'SplitPane',
