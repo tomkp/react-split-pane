@@ -259,7 +259,6 @@ class SplitPane extends React.Component {
       resizerClassName,
       resizerStyle,
       split,
-      style: styleProps,
     } = this.props;
 
     const { pane1Size, pane2Size } = this.state;
@@ -271,22 +270,7 @@ class SplitPane extends React.Component {
 
     const notNullChildren = removeNullChildren(children);
 
-    let style = Object.assign(
-      {},
-      {
-        display: 'flex',
-        flex: 1,
-        height: '100%',
-        position: 'absolute',
-        outline: 'none',
-        overflow: 'hidden',
-        MozUserSelect: 'text',
-        WebkitUserSelect: 'text',
-        msUserSelect: 'text',
-        userSelect: 'text',
-      },
-      styleProps || {}
-    );
+    const style = { display: 'flex', ...paneContainerStyle };
 
     if (split === 'vertical') {
       Object.assign(style, {
@@ -303,8 +287,6 @@ class SplitPane extends React.Component {
         width: '100%',
       });
     }
-
-const style = { display: 'flex', ...paneContainerStyle };
 
     const classes = [
       'SplitPane',
