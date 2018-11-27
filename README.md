@@ -83,6 +83,7 @@ This callback is invoked with the current drag during a drag event. It is recomm
 
 You can also pass inline styles to the components via props. These are:
 
+ * `style` - Styling to be applied to the main container.
  * `paneStyle` - Styling to be applied to both panes
  * `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
  * `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
