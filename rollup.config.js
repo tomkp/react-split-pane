@@ -16,13 +16,7 @@ export default {
       format: 'esm',
     },
   ],
-  external: [
-    'react',
-    'react-dom',
-    'prop-types',
-    'inline-style-prefixer',
-    'react-style-proptype',
-  ],
+  external: [...Object.keys(pkg.dependencies)],
   plugins: [
     babel({
       exclude: 'node_modules/**',

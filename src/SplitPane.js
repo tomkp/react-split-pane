@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 import { polyfill } from 'react-lifecycles-compat';
 
 import Pane from './Pane';
 import Resizer, { RESIZER_DEFAULT_CLASSNAME } from './Resizer';
-
-const DEFAULT_USER_AGENT =
-  'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
-const USER_AGENT =
-  typeof navigator !== 'undefined' ? navigator.userAgent : DEFAULT_USER_AGENT;
 
 function unFocus(document, window) {
   if (document.selection) {
@@ -253,7 +247,6 @@ class SplitPane extends React.Component {
       paneStyle,
       pane1Style: pane1StyleProps,
       pane2Style: pane2StyleProps,
-      prefixer,
       resizerClassName,
       resizerStyle,
       split,
@@ -269,22 +262,19 @@ class SplitPane extends React.Component {
 
     const notNullChildren = removeNullChildren(children);
 
-    const style = Object.assign(
-      {},
-      {
-        display: 'flex',
-        flex: 1,
-        height: '100%',
-        position: 'absolute',
-        outline: 'none',
-        overflow: 'hidden',
-        MozUserSelect: 'text',
-        WebkitUserSelect: 'text',
-        msUserSelect: 'text',
-        userSelect: 'text',
-      },
-      styleProps || {}
-    );
+    const style = {
+      display: 'flex',
+      flex: 1,
+      height: '100%',
+      position: 'absolute',
+      outline: 'none',
+      overflow: 'hidden',
+      MozUserSelect: 'text',
+      WebkitUserSelect: 'text',
+      msUserSelect: 'text',
+      userSelect: 'text',
+      ...styleProps,
+    };
 
     if (split === 'vertical') {
       Object.assign(style, {
@@ -303,12 +293,9 @@ class SplitPane extends React.Component {
     }
 
     const classes = ['SplitPane', className, split, disabledClass];
-    const pane1Style = prefixer.prefix(
-      Object.assign({}, paneStyle || {}, pane1StyleProps || {})
-    );
-    const pane2Style = prefixer.prefix(
-      Object.assign({}, paneStyle || {}, pane2StyleProps || {})
-    );
+
+    const pane1Style = { ...paneStyle, ...pane1StyleProps };
+    const pane2Style = { ...paneStyle, ...pane2StyleProps };
 
     const pane1Classes = ['Pane1', paneClassName, pane1ClassName].join(' ');
     const pane2Classes = ['Pane2', paneClassName, pane2ClassName].join(' ');
@@ -319,7 +306,7 @@ class SplitPane extends React.Component {
         ref={node => {
           this.splitPane = node;
         }}
-        style={prefixer.prefix(style)}
+        style={style}
       >
         <Pane
           className={pane1Classes}
@@ -378,7 +365,6 @@ SplitPane.propTypes = {
   onChange: PropTypes.func,
   onResizerClick: PropTypes.func,
   onResizerDoubleClick: PropTypes.func,
-  prefixer: PropTypes.instanceOf(Prefixer).isRequired,
   style: stylePropType,
   resizerStyle: stylePropType,
   paneClassName: PropTypes.string,
@@ -394,7 +380,6 @@ SplitPane.propTypes = {
 SplitPane.defaultProps = {
   allowResize: true,
   minSize: 50,
-  prefixer: new Prefixer({ userAgent: USER_AGENT }),
   primary: 'first',
   split: 'vertical',
   paneClassName: '',
