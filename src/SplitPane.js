@@ -33,6 +33,9 @@ function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
 function removeNullChildren(children) {
   return React.Children.toArray(children).filter(c => c);
 }
+
+const emptyObject = {};
+
 class SplitPane extends React.Component {
   constructor(props) {
     super(props);
@@ -65,6 +68,9 @@ class SplitPane extends React.Component {
         size,
       },
     };
+
+    this.setPane1 = (node) => this.pane1 = node;
+    this.setPane2 = (node) => this.pane2 = node;
   }
 
   componentDidMount() {
@@ -311,9 +317,7 @@ class SplitPane extends React.Component {
         <Pane
           className={pane1Classes}
           key="pane1"
-          eleRef={node => {
-            this.pane1 = node;
-          }}
+          eleRef={this.setPane1}
           size={pane1Size}
           split={split}
           style={pane1Style}
@@ -330,14 +334,12 @@ class SplitPane extends React.Component {
           key="resizer"
           resizerClassName={resizerClassNamesIncludingDefault}
           split={split}
-          style={resizerStyle || {}}
+          style={resizerStyle || emptyObject}
         />
         <Pane
           className={pane2Classes}
           key="pane2"
-          eleRef={node => {
-            this.pane2 = node;
-          }}
+          eleRef={this.setPane2}
           size={pane2Size}
           split={split}
           style={pane2Style}
