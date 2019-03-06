@@ -49,8 +49,6 @@
   },
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
     "react-lifecycles-compat": "^3.0.4",
     "react-style-proptype": "^3.0.0"
   },
