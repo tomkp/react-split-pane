@@ -69,8 +69,8 @@ class SplitPane extends React.Component {
       },
     };
 
-    this.setPane1 = (node) => this.pane1 = node;
-    this.setPane2 = (node) => this.pane2 = node;
+    this.setPane1 = node => (this.pane1 = node);
+    this.setPane2 = node => (this.pane2 = node);
   }
 
   componentDidMount() {
