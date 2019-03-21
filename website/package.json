@@ -2,9 +2,9 @@
   "name": "react-split-pane-docs",
   "homepage": "https://react-split-pane.surge.sh",
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "node scripts/build.js && cp now.json build",
     "predeploy": "yarn build",
-    "deploy": "surge build react-split-pane.surge.sh",
+    "deploy": "now build && now alias",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom"
   },
