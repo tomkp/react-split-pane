@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'react-emotion';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 
 import Sidebar from './components/Sidebar';
 
@@ -35,42 +35,52 @@ const Container = styled('div')`
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Wrapper>
         <Sidebar />
         <Container>
-          <Route
-            exact
-            path="/"
-            render={() => <Redirect to="/basic-horizontal" />}
-          />
-          <Route exact path="/basic-horizontal" component={BasicHorizontal} />
-          <Route exact path="/basic-vertical" component={BasicVertical} />
-          <Route exact path="/basic-step" component={BasicStep} />
-          <Route exact path="/basic-nested" component={BasicNested} />
-          <Route
-            exact
-            path="/percentage-vertical"
-            component={PercentageVertical}
-          />
-          <Route
-            exact
-            path="/percentage-horizontal"
-            component={PercentageHorizontal}
-          />
-          <Route exact path="/snap-position" component={SnapToPostion} />
-          <Route exact path="/inline-styles" component={InlineStyles} />
-          <Route exact path="/multiple-vertical" component={MultipleVertical} />
-          <Route
-            exact
-            path="/multiple-horizontal"
-            component={MultipleHorizontal}
-          />
-          <Route exact path="/nested-vertical" component={NestedVertical} />
-          <Route exact path="/nested-horizontal" component={NestedHorizontal} />
-          <Route exact path="/subcomponent" component={Subcomponent} />
+          <React.StrictMode>
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to="/basic-horizontal" />}
+            />
+            <Route exact path="/basic-horizontal" component={BasicHorizontal} />
+            <Route exact path="/basic-vertical" component={BasicVertical} />
+            <Route exact path="/basic-step" component={BasicStep} />
+            <Route exact path="/basic-nested" component={BasicNested} />
+            <Route
+              exact
+              path="/percentage-vertical"
+              component={PercentageVertical}
+            />
+            <Route
+              exact
+              path="/percentage-horizontal"
+              component={PercentageHorizontal}
+            />
+            <Route exact path="/snap-position" component={SnapToPostion} />
+            <Route exact path="/inline-styles" component={InlineStyles} />
+            <Route
+              exact
+              path="/multiple-vertical"
+              component={MultipleVertical}
+            />
+            <Route
+              exact
+              path="/multiple-horizontal"
+              component={MultipleHorizontal}
+            />
+            <Route exact path="/nested-vertical" component={NestedVertical} />
+            <Route
+              exact
+              path="/nested-horizontal"
+              component={NestedHorizontal}
+            />
+            <Route exact path="/subcomponent" component={Subcomponent} />
+          </React.StrictMode>
         </Container>
       </Wrapper>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
