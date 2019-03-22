@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
 
-Split-Pane React component, can be nested or split vertically or horizontally. Check out some demos [here](http://react-split-pane.surge.sh/)!
+Split-Pane React component, can be nested or split vertically or horizontally. Check out some demos [here](http://react-split-pane.now.sh/)!
 
 ## Installing
 ```sh
