@@ -1,11 +1,20 @@
 {
-    "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "strict": true
-    },
-    "exclude": [
-        "node_modules"
-    ]
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "alwaysStrict": true,
+    "noImplicitThis": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "declarationDir": "./types",
+    "declaration": true,
+    "noImplicitAny": true,
+    "strict": true
+  },
+  "include": ["./src/*.tsx"],
+  "exclude": ["node_modules"]
 }
