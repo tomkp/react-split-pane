@@ -57,7 +57,10 @@ describe('Vertical SplitPane', () => {
     });
 
     it('should maintain width after being unset', () => {
-      class PaneContainer extends Component {
+      class PaneContainer extends Component<
+        { className: string },
+        { size: number }
+      > {
         constructor(props) {
           super(props);
           this.state = {

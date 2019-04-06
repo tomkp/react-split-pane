@@ -14,24 +14,29 @@ chai.use(spies);
  * getBoundingClientRect() does not work correctly with ReactTestUtils.renderIntoDocument().
  * So for testing resizing we need  ReactDOM.render()
  */
-const renderComponent = (jsx, renderToDOM) => {
+function renderComponent(
+  jsx: React.DOMElement<any, any>,
+  renderToDOM: boolean = false
+) {
   if (renderToDOM) {
     const testDiv = document.createElement('div');
     document.body.appendChild(testDiv);
     return render(jsx, testDiv);
   }
   return ReactTestUtils.renderIntoDocument(jsx);
-};
+}
+
+const coerceFindDOMNode = (node: any) => findDOMNode(node) as HTMLElement;
 
 export default (jsx, renderToDom = false) => {
   const splitPane = renderComponent(jsx, renderToDom);
   const component = ReactTestUtils.findRenderedComponentWithType(
     splitPane,
-    SplitPane
+    SplitPane as any
   );
 
   const findPanes = () =>
-    ReactTestUtils.scryRenderedComponentsWithType(component, Pane);
+    ReactTestUtils.scryRenderedComponentsWithType(component, Pane as any);
 
   const findTopPane = () => findPanes()[0];
 
@@ -41,10 +46,10 @@ export default (jsx, renderToDom = false) => {
     paneString === 'first' ? findTopPane() : findBottomPane();
 
   const findResizer = () =>
-    ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer);
+    ReactTestUtils.scryRenderedComponentsWithType(splitPane, Resizer as any);
 
   const updateComponent = newJsx =>
-    render(newJsx, findDOMNode(splitPane).parentNode);
+    render(newJsx, coerceFindDOMNode(splitPane).parentNode as any);
 
   const assertStyles = (componentName, actualStyles, expectedStyles) => {
     Object.keys(expectedStyles).forEach(prop => {
@@ -64,7 +69,7 @@ export default (jsx, renderToDom = false) => {
     const pane = findPaneByOrder(paneString);
     return assertStyles(
       `${paneString} Pane`,
-      findDOMNode(pane).style,
+      coerceFindDOMNode(pane).style,
       expectedStyles
     );
   };
@@ -78,7 +83,7 @@ export default (jsx, renderToDom = false) => {
   };
 
   const getResizerPosition = () => {
-    const resizerNode = findDOMNode(findResizer()[0]);
+    const resizerNode = coerceFindDOMNode(findResizer()[0]);
     return resizerNode.getBoundingClientRect();
   };
 
@@ -120,7 +125,7 @@ export default (jsx, renderToDom = false) => {
   };
 
   const assertClass = (comp, expectedClassName) => {
-    expect(findDOMNode(comp).className).to.contain(
+    expect(coerceFindDOMNode(comp).className).to.contain(
       expectedClassName,
       'Incorrect className'
     );
@@ -129,7 +134,7 @@ export default (jsx, renderToDom = false) => {
 
   return {
     assertOrientation(expectedOrientation) {
-      expect(findDOMNode(component).className).to.contain(
+      expect(coerceFindDOMNode(component).className).to.contain(
         expectedOrientation,
         'Incorrect orientation'
       );
