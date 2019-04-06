@@ -8,6 +8,7 @@
     "alwaysStrict": true,
     "noImplicitThis": true,
     "esModuleInterop": true,
+    "sourceMap": true,
     "outDir": "./lib",
     "rootDir": "./src",
     "declarationDir": "./types",
