@@ -16,7 +16,10 @@ export default {
       format: 'esm',
     },
   ],
-  external: [...Object.keys(pkg.dependencies)],
+  external: [
+    ...Object.keys(pkg.dependencies),
+    ...Object.keys(pkg.peerDependencies),
+  ],
   plugins: [
     babel({
       exclude: 'node_modules/**',
