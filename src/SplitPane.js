@@ -85,10 +85,10 @@ class SplitPane extends React.Component {
   }
 
   onMouseDown(event) {
-    const eventWithTouches = Object.assign({}, event, {
-      touches: [{ clientX: event.clientX, clientY: event.clientY }],
+    Object.defineProperty(event, 'touches', {
+      get: () => [{ clientX: event.clientX, clientY: event.clientY }],
     });
-    this.onTouchStart(eventWithTouches);
+    this.onTouchStart(event);
   }
 
   onTouchStart(event) {
@@ -101,7 +101,7 @@ class SplitPane extends React.Component {
           : event.touches[0].clientY;
 
       if (typeof onDragStarted === 'function') {
-        onDragStarted();
+        onDragStarted(event);
       }
       this.setState({
         active: true,
@@ -111,10 +111,10 @@ class SplitPane extends React.Component {
   }
 
   onMouseMove(event) {
-    const eventWithTouches = Object.assign({}, event, {
-      touches: [{ clientX: event.clientX, clientY: event.clientY }],
+    Object.defineProperty(event, 'touches', {
+      get: () => [{ clientX: event.clientX, clientY: event.clientY }],
     });
-    this.onTouchMove(eventWithTouches);
+    this.onTouchMove(event);
   }
 
   onTouchMove(event) {
@@ -179,7 +179,7 @@ class SplitPane extends React.Component {
             });
           }
 
-          if (onChange) onChange(newSize);
+          if (onChange) onChange(newSize, event);
 
           this.setState({
             draggedSize: newSize,
@@ -195,7 +195,7 @@ class SplitPane extends React.Component {
     const { active, draggedSize } = this.state;
     if (allowResize && active) {
       if (typeof onDragFinished === 'function') {
-        onDragFinished(draggedSize);
+        onDragFinished(draggedSize, event);
       }
       this.setState({ active: false });
     }
