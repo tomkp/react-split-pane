@@ -15,11 +15,11 @@ class Pane extends React.PureComponent {
 
     const classes = ['Pane', split, className];
 
-    const style = Object.assign({}, styleProps || {}, {
+    let style = {
       flex: 1,
       position: 'relative',
       outline: 'none',
-    });
+    };
 
     if (size !== undefined) {
       if (split === 'vertical') {
@@ -30,6 +30,8 @@ class Pane extends React.PureComponent {
       }
       style.flex = 'none';
     }
+
+    style = Object.assign({}, style, styleProps || {});
 
     return (
       <div ref={eleRef} className={classes.join(' ')} style={style}>
