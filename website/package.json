@@ -109,6 +109,8 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@applitools/eyes-cypress": "^3.7.3",
+    "cypress": "^3.4.1",
     "language-babel": "https://github.com/gandm/language-babel",
     "surge": "^0.20.1"
   },

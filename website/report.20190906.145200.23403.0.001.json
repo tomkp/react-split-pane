@@ -1,0 +1,552 @@
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20190906.145200.23403.0.001.json",
+    "dumpEventTime": "2019-09-06T14:52:00Z",
+    "dumpEventTimeStamp": "1567803120837",
+    "processId": 23403,
+    "cwd": "/Users/raechelodom/Desktop/freelance/react-split-pane/website",
+    "commandLine": [
+      "/usr/local/Cellar/node/12.9.0/bin/node",
+      "scripts/start.js"
+    ],
+    "nodejsVersion": "v12.9.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "darwin",
+    "componentVersions": {
+      "node": "12.9.0",
+      "v8": "7.6.303.29-node.15",
+      "uv": "1.31.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.9.0/node-v12.9.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.9.0/node-v12.9.0.tar.gz"
+    },
+    "osName": "Darwin",
+    "osRelease": "18.6.0",
+    "osVersion": "Darwin Kernel Version 18.6.0: Thu Apr 25 23:16:27 PDT 2019; root:xnu-4903.261.4~2/RELEASE_X86_64",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+        "speed": 2300,
+        "user": 104842580,
+        "nice": 0,
+        "sys": 63509780,
+        "idle": 519887510,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+        "speed": 2300,
+        "user": 37713390,
+        "nice": 0,
+        "sys": 22534260,
+        "idle": 627899990,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+        "speed": 2300,
+        "user": 103581420,
+        "nice": 0,
+        "sys": 49212960,
+        "idle": 535355630,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+        "speed": 2300,
+        "user": 32703690,
+        "nice": 0,
+        "sys": 19396010,
+        "idle": 636047590,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "lo0",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::1",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 1
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "88:e9:fe:7b:b3:13",
+        "address": "fe80::86e:f55e:217a:b1da",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 6
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "88:e9:fe:7b:b3:13",
+        "address": "192.168.0.24",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "88:e9:fe:7b:b3:13",
+        "address": "2601:280:c77f:c430:466:ec63:7d76:fac5",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "en0",
+        "internal": false,
+        "mac": "88:e9:fe:7b:b3:13",
+        "address": "2601:280:c77f:c430:743d:df66:1a71:adde",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "awdl0",
+        "internal": false,
+        "mac": "86:b6:32:b9:7f:51",
+        "address": "fe80::84b6:32ff:feb9:7f51",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 8
+      },
+      {
+        "name": "utun0",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "fe80::2077:1476:32d1:9417",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 12
+      }
+    ],
+    "host": "Raechels-MacBook-Pro.local"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": ["Unavailable."]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x000000010014a31e",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, v8::Local<v8::String>) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x000000010007a4af",
+      "symbol": "node::OnFatalError(char const*, char const*) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x000000010016e2af",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x000000010016e25a",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x00000001002841db",
+      "symbol": "v8::internal::Heap::FatalProcessOutOfMemory(char const*) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000100285540",
+      "symbol": "v8::internal::Heap::MarkCompactPrologue() [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000100283123",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000100281b87",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x00000001002892fe",
+      "symbol": "v8::internal::Heap::AllocateRawWithLightRetry(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000100289348",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x0000000100268200",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x00000001004a78ca",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/usr/local/Cellar/node/12.9.0/bin/node]"
+    },
+    {
+      "pc": "0x00000001007172f9",
+      "symbol": "Builtins_CEntry_Return1_DontSaveFPRegs_ArgvOnStack_NoBuiltinExit [/usr/local/Cellar/node/12.9.0/bin/node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2160623616,
+    "totalCommittedMemory": 2159161600,
+    "usedMemory": 1763893952,
+    "availableMemory": 122910728,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 31744,
+        "capacity": 261832,
+        "used": 31432,
+        "available": 230400
+      },
+      "new_space": {
+        "memorySize": 33554432,
+        "committedMemory": 33554008,
+        "capacity": 16757248,
+        "used": 202848,
+        "available": 16554400
+      },
+      "old_space": {
+        "memorySize": 2031464448,
+        "committedMemory": 2030481472,
+        "capacity": 1722039488,
+        "used": 1669862488,
+        "available": 52177000
+      },
+      "code_space": {
+        "memorySize": 1474560,
+        "committedMemory": 1439968,
+        "capacity": 1165664,
+        "used": 1165664,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 2625536,
+        "committedMemory": 2411912,
+        "capacity": 1529200,
+        "used": 1529200,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 91193344,
+        "committedMemory": 91193344,
+        "capacity": 91098864,
+        "used": 91098864,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 3456,
+        "used": 3456,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 16757248,
+        "used": 0,
+        "available": 16757248
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 240.551,
+    "kernelCpuSeconds": 58.7469,
+    "cpuConsumptionPercent": 148.905,
+    "maxRss": 2425213681664,
+    "pageFaults": {
+      "IORequired": 106,
+      "IONotRequired": 2099401
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 0
+    }
+  },
+  "libuv": [],
+  "environmentVariables": {
+    "NVM_RC_VERSION": "",
+    "npm_package_dependencies_webpack_dev_server": "2.11.0",
+    "TERM_PROGRAM": "vscode",
+    "npm_package_babel_presets_0": "react-app",
+    "NODE": "/usr/local/Cellar/node/12.9.0/bin/node",
+    "npm_package_jest_testMatch_0": "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
+    "npm_package_dependencies_raf": "3.4.0",
+    "INIT_CWD": "/Users/raechelodom/Desktop/freelance/react-split-pane/website",
+    "NVM_CD_FLAGS": "",
+    "npm_package_jest_testEnvironment": "node",
+    "npm_package_jest_testMatch_1": "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}",
+    "npm_package_homepage": "https://react-split-pane.surge.sh/",
+    "npm_config_version_git_tag": "true",
+    "SHELL": "/bin/bash",
+    "TERM": "xterm-256color",
+    "npm_package_dependencies_eslint": "^4.19.1",
+    "TMPDIR": "/var/folders/ff/mypxwz4x46b6gm9_6tzyr6yw0000gn/T/",
+    "npm_package_dependencies_react_split_pane": "link:..",
+    "Apple_PubSub_Socket_Render": "/private/tmp/com.apple.launchd.GlAHS9hWzc/Render",
+    "CONDA_SHLVL": "1",
+    "npm_config_init_license": "MIT",
+    "TERM_PROGRAM_VERSION": "1.30.2",
+    "CONDA_PROMPT_MODIFIER": "(base) ",
+    "npm_package_devDependencies__applitools_eyes_cypress": "^3.7.3",
+    "npm_package_dependencies_react_emotion": "^9.2.4",
+    "npm_package_dependencies_extract_text_webpack_plugin": "3.0.2",
+    "TERM_SESSION_ID": "7B157D1F-ECB2-4818-81B2-CEDC8A886204",
+    "npm_package_devDependencies_surge": "^0.20.1",
+    "npm_package_dependencies_style_loader": "0.19.0",
+    "npm_package_private": "true",
+    "npm_config_registry": "https://registry.yarnpkg.com",
+    "npm_package_dependencies_react_dom": "^16.4.1",
+    "npm_package_dependencies_babel_loader": "8.0.0-beta.0",
+    "npm_package_readmeFilename": "README.md",
+    "USER": "raechelodom",
+    "NVM_DIR": "/Users/raechelodom/.nvm",
+    "npm_package_description": "Run the NPM \"build:watch\" command in the project root to watch for changes to `react-split-pane` and rebuild:",
+    "npm_config_python": "/usr/bin/python",
+    "npm_package_license": "MIT",
+    "npm_package_dependencies_eslint_config_react_app": "^2.1.0",
+    "npm_package_scripts_deploy": "now build && now alias",
+    "CONDA_EXE": "/Users/raechelodom/anaconda3/bin/conda",
+    "npm_package_browserslist_development_1": "last 2 firefox versions",
+    "npm_package_dependencies_whatwg_fetch": "2.0.3",
+    "npm_package_dependencies_promise": "8.0.1",
+    "npm_package_browserslist_development_0": "last 2 chrome versions",
+    "npm_package_dependencies_case_sensitive_paths_webpack_plugin": "2.1.1",
+    "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.Xw2uAr9Dxq/Listeners",
+    "npm_package_eslintConfig_extends": "react-app",
+    "npm_package_dependencies_url_loader": "0.6.2",
+    "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0",
+    "npm_package_browserslist_development_2": "last 2 edge versions",
+    "npm_package_dependencies_file_loader": "1.1.5",
+    "npm_execpath": "/usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js",
+    "npm_package_dependencies_babel_jest": "22.1.0",
+    "npm_package_scripts_predeploy": "yarn build",
+    "npm_package_dependencies_thread_loader": "1.1.2",
+    "_CE_CONDA": "",
+    "npm_package_dependencies_webpack_manifest_plugin": "1.3.2",
+    "npm_package_dependencies_prop_types": "^15.6.1",
+    "npm_package_dependencies_css_loader": "0.28.7",
+    "PATH": "/var/folders/ff/mypxwz4x46b6gm9_6tzyr6yw0000gn/T/yarn--1567802919811-0.12987095552205008:/Users/raechelodom/Desktop/freelance/react-split-pane/website/node_modules/.bin:/Users/raechelodom/.config/yarn/link/node_modules/.bin:/usr/local/Cellar/node/12.9.0/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/Cellar/node/12.9.0/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/Cellar/node/12.9.0/bin/node_modules/npm/bin/node-gyp-bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/raechelodom/anaconda3/bin:/Users/raechelodom/anaconda3/condabin",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"start\"],\"original\":[\"start\"]}",
+    "npm_package_dependencies__babel_runtime": "7.0.0-beta.44",
+    "npm_package_dependencies_webpack": "3.10.0",
+    "npm_package_dependencies__babel_core": "7.0.0-beta.44",
+    "_": "/var/folders/ff/mypxwz4x46b6gm9_6tzyr6yw0000gn/T/yarn--1567802919811-0.12987095552205008/node",
+    "NVM_NODEJS_ORG_MIRROR": "https://nodejs.org/dist",
+    "CONDA_PREFIX": "/Users/raechelodom/anaconda3",
+    "npm_package_browserslist_production_1": "last 4 versions",
+    "npm_package_dependencies_react_router_hash_link": "^1.2.0",
+    "npm_package_dependencies_babel_plugin_named_asset_import": "1.0.0-next.66cc7a90",
+    "PWD": "/Users/raechelodom/Desktop/freelance/react-split-pane/website",
+    "npm_package_browserslist_production_0": ">1%",
+    "npm_package_devDependencies_cypress": "^3.4.1",
+    "npm_package_browserslist_production_3": "not ie < 11",
+    "npm_lifecycle_event": "start",
+    "npm_package_browserslist_production_2": "Firefox ESR",
+    "npm_package_dependencies_resolve": "1.6.0",
+    "npm_package_dependencies_jest": "20.0.4",
+    "LANG": "en_US.UTF-8",
+    "npm_package_jest_transform______css_": "<rootDir>/config/jest/cssTransform.js",
+    "npm_package_name": "react-split-pane-docs",
+    "npm_package_dependencies_autoprefixer": "7.2.5",
+    "npm_package_scripts_start": "node scripts/start.js",
+    "npm_package_scripts_build": "node scripts/build.js && cp now.json build",
+    "npm_config_version_commit_hooks": "true",
+    "XPC_FLAGS": "0x0",
+    "npm_package_jest_transform_______js_jsx_mjs__": "<rootDir>/node_modules/babel-jest",
+    "npm_package_jest_collectCoverageFrom_0": "src/**/*.{js,jsx,mjs}",
+    "npm_package_dependencies_react_router_dom": "^4.3.1",
+    "npm_package_dependencies_babel_core": "7.0.0-bridge.0",
+    "npm_package_jest_transformIgnorePatterns_0": "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$",
+    "npm_package_dependencies_eslint_plugin_react": "7.4.0",
+    "npm_config_bin_links": "true",
+    "npm_package_jest_testURL": "http://localhost",
+    "npm_package_dependencies_classnames": "^2.2.5",
+    "npm_package_jest_moduleNameMapper__react_native_": "react-native-web",
+    "XPC_SERVICE_NAME": "0",
+    "_CE_M": "",
+    "npm_package_version": "0.0.0",
+    "npm_package_dependencies_react_dev_utils": "^6.0.0-next.66cc7a90",
+    "npm_package_dependencies_eslint_loader": "1.9.0",
+    "HOME": "/Users/raechelodom",
+    "SHLVL": "3",
+    "APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL": "true",
+    "npm_package_scripts_test": "node scripts/test.js --env=jsdom",
+    "npm_package_devDependencies_language_babel": "https://github.com/gandm/language-babel",
+    "npm_package_dependencies_postcss_flexbugs_fixes": "3.2.0",
+    "npm_package_dependencies_dotenv": "4.0.0",
+    "npm_package_dependencies_babel_preset_react_app": "4.0.0-next.66cc7a90",
+    "npm_config_save_prefix": "^",
+    "npm_config_strict_ssl": "true",
+    "npm_package_dependencies_object_assign": "4.1.1",
+    "npm_package_dependencies_eslint_plugin_import": "2.8.0",
+    "npm_config_version_git_message": "v%s",
+    "NPM_CONFIG_PYTHON": "/usr/bin/python",
+    "npm_package_jest_moduleFileExtensions_6": "mjs",
+    "npm_package_dependencies_sw_precache_webpack_plugin": "0.11.4",
+    "npm_package_dependencies_eslint_plugin_jsx_a11y": "5.1.1",
+    "npm_package_dependencies_babel_eslint": "8.2.2",
+    "npm_package_jest_moduleFileExtensions_5": "node",
+    "npm_package_dependencies_chalk": "1.1.3",
+    "LOGNAME": "raechelodom",
+    "YARN_WRAP_OUTPUT": "false",
+    "npm_package_jest_moduleFileExtensions_4": "jsx",
+    "npm_package_dependencies_react_scripts": "^2.0.0-next.66cc7a90",
+    "npm_package_dependencies_fs_extra": "3.0.1",
+    "PREFIX": "/usr/local",
+    "npm_lifecycle_script": "node scripts/start.js",
+    "npm_package_jest_moduleFileExtensions_3": "web.jsx",
+    "npm_package_dependencies_html_webpack_plugin": "2.29.0",
+    "npm_package_dependencies_emotion": "^9.2.4",
+    "npm_package_jest_moduleFileExtensions_2": "json",
+    "npm_package_jest_moduleFileExtensions_1": "js",
+    "npm_package_dependencies_react": "^16.4.1",
+    "npm_package_dependencies_dotenv_expand": "4.2.0",
+    "CONDA_DEFAULT_ENV": "base",
+    "npm_package_jest_moduleFileExtensions_0": "web.js",
+    "NVM_IOJS_ORG_MIRROR": "https://iojs.org/dist",
+    "npm_package_jest_transform__________js_jsx_mjs_css_json___": "<rootDir>/config/jest/fileTransform.js",
+    "npm_config_version_git_sign": "",
+    "npm_config_ignore_scripts": "",
+    "npm_config_user_agent": "yarn/1.17.3 npm/? node/v12.9.0 darwin x64",
+    "npm_package_dependencies_postcss_loader": "2.0.10",
+    "npm_package_jest_setupFiles_0": "<rootDir>/config/polyfills.js",
+    "npm_package_dependencies_eslint_plugin_flowtype": "2.39.1",
+    "npm_package_dependencies_codemirror": "^5.37.0",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_ignore_optional": "",
+    "npm_package_dependencies_react_router": "^4.3.1",
+    "npm_node_execpath": "/usr/local/Cellar/node/12.9.0/bin/node",
+    "npm_config_version_tag_prefix": "v",
+    "BABEL_ENV": "development",
+    "NODE_ENV": "development",
+    "NODE_PATH": ""
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 10240,
+      "hard": "unlimited"
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": 67104768
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 709,
+      "hard": 1064
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "/usr/local/Cellar/node/12.9.0/bin/node",
+    "/usr/local/opt/icu4c/lib/libicui18n.64.dylib",
+    "/usr/local/opt/icu4c/lib/libicuuc.64.dylib",
+    "/usr/local/opt/icu4c/lib/libicudata.64.dylib",
+    "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+    "/usr/lib/libSystem.B.dylib",
+    "/usr/lib/libc++.1.dylib",
+    "/usr/lib/system/libcache.dylib",
+    "/usr/lib/system/libcommonCrypto.dylib",
+    "/usr/lib/system/libcompiler_rt.dylib",
+    "/usr/lib/system/libcopyfile.dylib",
+    "/usr/lib/system/libcorecrypto.dylib",
+    "/usr/lib/system/libdispatch.dylib",
+    "/usr/lib/system/libdyld.dylib",
+    "/usr/lib/system/libkeymgr.dylib",
+    "/usr/lib/system/liblaunch.dylib",
+    "/usr/lib/system/libmacho.dylib",
+    "/usr/lib/system/libquarantine.dylib",
+    "/usr/lib/system/libremovefile.dylib",
+    "/usr/lib/system/libsystem_asl.dylib",
+    "/usr/lib/system/libsystem_blocks.dylib",
+    "/usr/lib/system/libsystem_c.dylib",
+    "/usr/lib/system/libsystem_configuration.dylib",
+    "/usr/lib/system/libsystem_coreservices.dylib",
+    "/usr/lib/system/libsystem_darwin.dylib",
+    "/usr/lib/system/libsystem_dnssd.dylib",
+    "/usr/lib/system/libsystem_info.dylib",
+    "/usr/lib/system/libsystem_m.dylib",
+    "/usr/lib/system/libsystem_malloc.dylib",
+    "/usr/lib/system/libsystem_networkextension.dylib",
+    "/usr/lib/system/libsystem_notify.dylib",
+    "/usr/lib/system/libsystem_sandbox.dylib",
+    "/usr/lib/system/libsystem_secinit.dylib",
+    "/usr/lib/system/libsystem_kernel.dylib",
+    "/usr/lib/system/libsystem_platform.dylib",
+    "/usr/lib/system/libsystem_pthread.dylib",
+    "/usr/lib/system/libsystem_symptoms.dylib",
+    "/usr/lib/system/libsystem_trace.dylib",
+    "/usr/lib/system/libunwind.dylib",
+    "/usr/lib/system/libxpc.dylib",
+    "/usr/lib/libobjc.A.dylib",
+    "/usr/lib/libc++abi.dylib",
+    "/usr/lib/libDiagnosticMessagesClient.dylib",
+    "/usr/lib/libicucore.A.dylib",
+    "/usr/lib/libz.1.dylib"
+  ]
+}
