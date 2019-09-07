@@ -28,7 +28,7 @@ describe('visual testing', () => {
       cy.eyesCheckWindow('Basic Horizontal');
     });
 
-    it('should be able to move the horizontal bar', () => {
+    it('should be able to interact with the horizontal bar', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
         testName: 'should be able to move the horizontal bar',
@@ -57,7 +57,7 @@ describe('visual testing', () => {
       cy.eyesCheckWindow('Basic Vertical');
     });
 
-    it('should be able to move the vertical bar', () => {
+    it('should be able to interact with the vertical bar', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
         testName: 'should be able to move the vertical bar',
@@ -86,7 +86,7 @@ describe('visual testing', () => {
       cy.eyesCheckWindow('Basic Step');
     });
 
-    it('should be able to move the step bar', () => {
+    it('should be able to interact with the step bar', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
         testName: 'should be able to move the step bar',
@@ -101,6 +101,31 @@ describe('visual testing', () => {
         'contain',
         'min: 200px, max: 1000px, step size: 50px'
       );
+      cy.eyesCheckWindow('Basic Step');
+    });
+  });
+
+  describe('Basic Nested', () => {
+    it('should click basic nested', () => {
+      cy.eyesOpen({
+        appName: 'React Split Pane',
+        testName: 'should be able to move the step bar',
+        browser: [{ width: 1024, height: 768, name: 'chrome' }],
+      });
+      cy.get('[href="#/basic-nested"]').click();
+      cy.wait(100);
+      cy.eyesCheckWindow('Basic Nested');
+    });
+
+    it('should be able to interact with the bars', () => {
+      cy.eyesOpen({
+        appName: 'React Split Pane',
+        testName: 'should be able to move the step bar',
+        browser: [{ width: 1024, height: 768, name: 'chrome' }],
+      });
+      cy.get('[href="#/basic-nested"]').click();
+      cy.wait(100);
+      cy.eyesCheckWindow('Basic Nested');
     });
   });
 });
