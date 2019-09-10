@@ -13,10 +13,10 @@ export interface Props {
   defaultSize?: Size;
   size?: Size;
   split?: 'vertical' | 'horizontal';
-  onDragStarted?: () => void;
-  onDragFinished?: (newSize: number) => void;
-  onChange?: (newSize: number) => void;
-  onResizerClick?: (event: MouseEvent) => void;
+  onDragStarted?: (evt: TouchEvent) => void;
+  onDragFinished?: (newSize: number, evt: TouchEvent) => void;
+  onChange?: (newSize: number, evt: MouseEvent | TouchEvent) => void;
+  onResizerClick?: (event: MouseEvent, evt: MouseEvent | TouchEvent) => void;
   onResizerDoubleClick?: (event: MouseEvent) => void;
   style?: React.CSSProperties;
   resizerStyle?: React.CSSProperties;
