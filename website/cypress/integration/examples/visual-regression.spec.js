@@ -16,7 +16,7 @@ describe('visual testing', () => {
     cy.eyesCheckWindow('Landing page');
   });
 
-  describe('basic horizontal', () => {
+  describe('Basic Horizontal', () => {
     it('should choose basic horizontal', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
@@ -45,7 +45,7 @@ describe('visual testing', () => {
     });
   });
 
-  describe('basic vertical', () => {
+  describe('Basic Vertical', () => {
     it('should choose basic vertical', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
@@ -74,7 +74,7 @@ describe('visual testing', () => {
     });
   });
 
-  describe('basics step', () => {
+  describe('Basic Step', () => {
     it('should choose basic step', () => {
       cy.eyesOpen({
         appName: 'React Split Pane',
