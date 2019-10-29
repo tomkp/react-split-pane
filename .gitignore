@@ -36,3 +36,4 @@ lcov.info
 
 dist
 build
+./website/report.*
