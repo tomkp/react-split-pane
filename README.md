@@ -183,12 +183,53 @@ Thanks to ```background-clip: padding-box;``` for making transparent borders pos
 
  ```
 
+## New Version
+
+**I'm working on an updated version of this library, and looking for help:**
+
+Demo
+
+http://react-split-pane-v2.surge.sh/
+
+Install
+
+```sh
+npm install react-split-pane@next
+
+# or if you use yarn
+
+yarn add react-split-pane@next
+```
+
+Usage
+
+```jsx
+import SplitPane from 'react-split-pane'
+import Pane from 'react-split-pane/lib/Pane'
+
+<SplitPane split="vertical">
+  <Pane initialSize="200px">You can use a Pane component</Pane>
+  <div>or you can use a plain old div</div>
+  <Pane initialSize="25%" minSize="10%" maxSize="500px">
+    Using a Pane allows you to specify any constraints directly
+  </Pane>
+</SplitPane>
+```
+
+Pull request
+
+https://github.com/tomkp/react-split-pane/pull/240
+
+More discussion
+
+https://github.com/tomkp/react-split-pane/issues/233
+
+
 ## Contributing
 
 I'm always happy to receive Pull Requests for contributions of any kind.
 
 Please include tests and/or update the examples if possible.
 
-**I'm working on an updated version of this library, and looking for help:** https://github.com/tomkp/react-split-pane/pull/240
-
 Thanks, Tom  
+
