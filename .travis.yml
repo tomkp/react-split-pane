@@ -3,11 +3,11 @@ sudo: required
 dist: trusty
 
 node_js:
-- stable
+  - stable
 
 script:
-- npm test
+  - yarn run test
 
 after_script:
-- npm run test:coverage
-- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && npm run demo:publish || false'
+  - yarn run test:coverage
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && yarn run demo:publish || false'

@@ -1,8 +1,0 @@
-{
-  "short_name": "react-split-pane",
-  "name": "react-split-pane",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}

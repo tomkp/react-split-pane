@@ -1,8 +1,8 @@
 import React from 'react';
-import SplitPane from 'react-split-pane';
+import SplitPane from '../../../src';
 
 export default () => (
-  <SplitPane split="horizontal">
+  <SplitPane split="vertical">
     <div>default min: 50px</div>
     <div />
   </SplitPane>
