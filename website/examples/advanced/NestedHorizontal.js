@@ -1,6 +1,6 @@
 import React from 'react';
-import SplitPane from 'react-split-pane';
-import styled from 'react-emotion';
+import SplitPane from '../../../src';
+import styled from '@emotion/styled';
 
 const Wrapper = styled('div')`
   flex: 1;

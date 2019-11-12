@@ -1,5 +1,5 @@
 import React from 'react';
-import SplitPane from 'react-split-pane';
+import SplitPane from '../../../src';
 
 export default class SnapToPositionExample extends React.Component {
   constructor(props) {

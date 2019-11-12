@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { HashRouter, Route, Redirect } from 'react-router-dom';
 
 import Sidebar from './components/Sidebar';
