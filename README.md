@@ -4,8 +4,8 @@
 ![NPM license](https://img.shields.io/npm/l/react-split-pane.svg?style=flat)
 [![NPM total downloads](https://img.shields.io/npm/dt/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
 [![NPM monthly downloads](https://img.shields.io/npm/dm/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
-[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat-square)](https://travis-ci.org/tomkp/react-split-pane)
-[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat-square)](https://coveralls.io/r/tomkp/react-split-pane)
+[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat)](https://travis-ci.org/tomkp/react-split-pane)
+[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat)](https://coveralls.io/r/tomkp/react-split-pane)
 
 Split-Pane React component, can be nested or split vertically or horizontally!
 
