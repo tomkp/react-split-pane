@@ -79,6 +79,7 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-relay": "^0.0.28",
+    "gh-pages": "^2.1.1",
     "husky": "^1.2.0",
     "mochify": "^5.8.0",
     "mochify-istanbul": "^2.4.2",
