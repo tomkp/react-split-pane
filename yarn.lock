@@ -3321,9 +3321,9 @@ eslint-plugin-react@^7.16.0:
     resolve "^1.12.0"
 
 eslint-plugin-relay@^1.3.12:
-  version "1.3.12"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-1.3.12.tgz#1e7d936386650ccc7709c8f6eeb0210e0e226527"
-  integrity sha512-276RrlyF0112Mz8PbaDvYKmqBGYEm0WBCfMNunnm6jHQ0aClUbPUmNctJXpFjfurcZfNEOz22Nx3VUMVDIGIkw==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-1.4.0.tgz#0827f15da77994774727b7f44f2d2fa9df455a86"
+  integrity sha512-+W6xQqGCWAKdv/zBKMf79XhBovJsieyuIBm64MRRG1vpoousl6Iznpwls42/W9XYhvkqm+JL434c/liqxmRqcQ==
   dependencies:
     graphql "^14.0.0"
 
