@@ -290,7 +290,7 @@ class SplitPane extends Component {
     if (primaryHasReachedLimit) {
       secondarySizePx = primary[sizeDim] + secondary[sizeDim] - primarySizePx;
     } else if (secondaryHasReachedLimit) {
-      primarySizePx = primary[sizeDim] + primary[sizeDim] - secondarySizePx;
+      primarySizePx = primary[sizeDim] + secondary[sizeDim] - secondarySizePx;
     }
 
     sizesPx[resizerIndex] = primarySizePx;
