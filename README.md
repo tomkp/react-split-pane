@@ -133,6 +133,21 @@ https://github.com/mozilla/localForage although hooking it up will be slightly
 more involved. You are likely to be admired by all for judiciously avoiding
 use of localStorage.
 
+## Resizer Children
+
+You can pass in any type of component to the resizer as a child node via the `resizerChildren`
+props.
+
+```jsx
+<SplitPane
+  split="vertical"
+  resizerChildren={<span className="child-class">child text</span>}
+>
+  <div />
+  <div />
+</SplitPane>
+```
+
 ## Example styling
 
 This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.

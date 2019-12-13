@@ -133,6 +133,10 @@ Sidebar.defaultProps = {
           title: 'Snap to Position',
           url: '/snap-position',
         },
+        {
+          title: 'Resizer Children',
+          url: '/resizer-children',
+        },
       ],
     },
     {
