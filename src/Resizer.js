@@ -64,6 +64,7 @@ Resizer.propTypes = {
   split: PropTypes.oneOf(['vertical', 'horizontal']),
   style: stylePropType,
   resizerClassName: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 Resizer.defaultProps = {
