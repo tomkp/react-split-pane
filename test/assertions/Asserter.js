@@ -9,7 +9,12 @@ import {
 import { findDOMNode } from 'react-dom';
 import chai from 'chai';
 
-import {calculatePointsBetween, getCentre, renderComponent, unmountComponent} from '../lib/utils';
+import {
+  calculatePointsBetween,
+  getCentre,
+  renderComponent,
+  unmountComponent,
+} from '../lib/utils';
 
 const expect = chai.expect;
 
@@ -19,12 +24,7 @@ const log = (...args) => {
   if (debug) console.log(...['Asserter', ...args]);
 };
 
-
-
-
-
 //.....
-
 
 const asserter = (jsx, dimensions = {}) => {
   const splitPane = renderComponent(jsx, dimensions);
@@ -33,22 +33,18 @@ const asserter = (jsx, dimensions = {}) => {
   const findPanes = () => {
     log(`findPanes`);
     const components = scryRenderedComponentsWithType(component, Pane);
-    components.forEach(_ =>
-      log(findDOMNode(_).getBoundingClientRect())
-    );
+    components.forEach(_ => log(findDOMNode(_).getBoundingClientRect()));
     return components;
   };
 
   const findResizers = () => {
     log(`findResizers`);
     const components = scryRenderedComponentsWithType(component, Resizer);
-    components.forEach(_ =>
-      log(findDOMNode(_).getBoundingClientRect())
-    );
+    components.forEach(_ => log(findDOMNode(_).getBoundingClientRect()));
     return components;
   };
 
-  const getResizerBoundingRect = (resizerIndex) => {
+  const getResizerBoundingRect = resizerIndex => {
     const resizerNode = findDOMNode(findResizers()[resizerIndex]);
     return resizerNode.getBoundingClientRect();
   };
@@ -117,7 +113,8 @@ const asserter = (jsx, dimensions = {}) => {
     assertSizesPx(expected) {
       const panes = scryRenderedComponentsWithType(component, Pane);
       const actualSizes = panes.map(_ => {
-        const sizeProp = component.props['split'] === 'vertical' ? 'width' : 'height';
+        const sizeProp =
+          component.props['split'] === 'vertical' ? 'width' : 'height';
         return findDOMNode(_).getBoundingClientRect()[sizeProp];
       });
       expect(actualSizes).to.eql(expected, 'Unexpected sizes in px');
@@ -144,17 +141,26 @@ const asserter = (jsx, dimensions = {}) => {
       expect(actualSizes).to.eql(expectedSizes, 'Unexpected flex sizes');
       return this;
     },
-    dragResizer(resizerIndex, mousePositionDifference, mouseRightClick = false) {
-      const coordinates = calculateMouseMove(resizerIndex, mousePositionDifference);
+    dragResizer(
+      resizerIndex,
+      mousePositionDifference,
+      mouseRightClick = false
+    ) {
+      const coordinates = calculateMouseMove(
+        resizerIndex,
+        mousePositionDifference
+      );
       const [startPosition, ...moveCoordinates] = coordinates;
       const event = {
-        preventDefault(){},
+        preventDefault() {},
         button: mouseRightClick ? 1 : 0,
-        ...startPosition
+        ...startPosition,
       };
 
       component.onMouseDown(event, resizerIndex);
-      moveCoordinates.forEach(coordinate => component.onMouseMove({...coordinate, preventDefault(){}}));
+      moveCoordinates.forEach(coordinate =>
+        component.onMouseMove({ ...coordinate, preventDefault() {} })
+      );
       component.onMouseUp(event);
       return this;
     },
