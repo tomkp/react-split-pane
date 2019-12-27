@@ -597,6 +597,35 @@ const MultipleHorizontalExample = () => {
   );
 };
 
+const ReverseOrderExample = () => {
+  return (
+    <section>
+
+      <pre className="source">
+        {`
+          <SplitPane reverse>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+          </SplitPane>
+        `}
+      </pre>
+
+      <div className="example">
+
+        <SplitPane reverse>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+        </SplitPane>
+
+      </div>
+    </section>
+  );
+};
+
 const SubComponentExample = () => {
   return (
     <section>
@@ -657,6 +686,7 @@ const examples = {
   BasicHorizontalExample,
   BasicVerticalExample,
   PanesAndDivsExample,
+  ReverseOrderExample,
 };
 
 

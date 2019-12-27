@@ -9,25 +9,25 @@ const DEFAULT_PANE_SIZE = '1';
 const DEFAULT_PANE_MIN_SIZE = '0';
 const DEFAULT_PANE_MAX_SIZE = '100%';
 
-const ColumnStyle = glamorous.div({
-  display: 'flex',
-  height: '100%',
-  flexDirection: 'column',
-  flex: 1,
-  outline: 'none',
-  overflow: 'hidden',
-  userSelect: 'text'
-});
+const SplitPaneStyle = glamorous.div(
+  {
+    display: 'flex',
+    height: '100%',
+    flex: 1,
+    outline: 'none',
+    overflow: 'hidden',
+    userSelect: 'text'
+  },
+  computeFlexDirection,
+);
 
-const RowStyle = glamorous.div({
-  display: 'flex',
-  height: '100%',
-  flexDirection: 'row',
-  flex: 1,
-  outline: 'none',
-  overflow: 'hidden',
-  userSelect: 'text'
-});
+function computeFlexDirection({ reverse, split }) {
+  const orientation = split === 'vertical' ? 'row' : 'column';
+  const order = reverse ? '-reverse' : '';
+  return {
+    flexDirection: orientation + order,
+  };
+}
 
 function convert(str, size) {
   const tokens = str.match(/([0-9]+)([px|%]*)/);
@@ -241,7 +241,7 @@ class SplitPane extends Component {
   }
 
   onMove(clientX, clientY) {
-    const { split, onChange } = this.props;
+    const { reverse, split, onChange } = this.props;
     const resizerIndex = this.resizerIndex;
     const {
       sizesPx,
@@ -261,9 +261,13 @@ class SplitPane extends Component {
     const primaryMaxSizePx = Math.min(maxSizesPx[resizerIndex], maxSize);
     const secondaryMaxSizePx = Math.min(maxSizesPx[resizerIndex + 1], maxSize);
 
-    const moveOffset = split === 'vertical'
+    let moveOffset = split === 'vertical'
       ? this.startClientX - clientX
-      : this.startClientY - clientY;
+      : this.startClientY - clientY
+
+    if (reverse) {
+      moveOffset *= -1;
+    }
 
     let primarySizePx = primary[sizeDim] - moveOffset;
     let secondarySizePx = secondary[sizeDim] + moveOffset;
@@ -347,7 +351,7 @@ class SplitPane extends Component {
   }
 
   render() {
-    const { children, className, split } = this.props;
+    const { children, className, reverse, split } = this.props;
     const notNullChildren = removeNullChildren(this.props.children)
     const sizes = this.getSizes();
     const resizersSize = this.getResizersSize(notNullChildren);
@@ -389,19 +393,19 @@ class SplitPane extends Component {
       }
     }, []);
 
-    const StyleComponent = split === 'vertical' ? RowStyle : ColumnStyle;
-
     return (
-      <StyleComponent
+      <SplitPaneStyle
         className={className}
         data-type='SplitPane'
         data-split={split}
         innerRef={el => {
           this.splitPane = el;
         }}
+        reverse={reverse}
+        split={split}
       >
         {elements}
-      </StyleComponent>
+      </SplitPaneStyle>
     );
   }
 }
@@ -410,6 +414,7 @@ SplitPane.propTypes = {
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
   className: PropTypes.string,
   split: PropTypes.oneOf(['vertical', 'horizontal']),
+  reverse: PropTypes.bool,
   resizerSize: PropTypes.number,
   onChange: PropTypes.func,
   onResizeStart: PropTypes.func,
@@ -418,6 +423,7 @@ SplitPane.propTypes = {
 
 SplitPane.defaultProps = {
   split: 'vertical',
+  reverse: false,
   resizerSize: 1,
   allowResize: true
 };
