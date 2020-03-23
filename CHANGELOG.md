@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.91](https://github.com/tomkp/react-split-pane/compare/v0.1.89...v0.1.91) (2020-03-23)
+
+
+### Bug Fixes
+
+* typescript typings ([ae3e41f](https://github.com/tomkp/react-split-pane/commit/ae3e41f0076903e02cc4c5011b31ea7eeadf2ac9))
+* Update site title ([f61efff](https://github.com/tomkp/react-split-pane/commit/f61efff1f7676059d6b049774f004c4e49cb1e1f))
+
 ### [0.1.90](https://github.com/tomkp/react-split-pane/compare/v0.1.89...v0.1.90) (2020-03-23)
 
 
