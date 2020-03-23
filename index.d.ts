@@ -2,9 +2,9 @@ import * as React from 'react';
 
 export type Size = string | number;
 
-type Partial<T> = { [P in keyof T]?: T[P] };
+export type Split = 'vertical' | 'horizontal';
 
-export interface Props {
+export type SplitPaneProps = {
   allowResize?: boolean;
   className?: string;
   primary?: 'first' | 'second';
@@ -25,14 +25,17 @@ export interface Props {
   pane2Style?: React.CSSProperties;
   resizerClassName?: string;
   step?: number;
-}
+};
 
-export interface State {
+export type SplitPaneState = {
   active: boolean;
   resized: boolean;
-}
+};
 
-declare class SplitPane extends React.Component<Props, State> {
+declare class SplitPane extends React.Component<
+  SplitPaneProps,
+  SplitPaneState
+> {
   constructor();
 
   onMouseDown(event: MouseEvent): void;
@@ -45,9 +48,24 @@ declare class SplitPane extends React.Component<Props, State> {
 
   onMouseUp(): void;
 
-  static getSizeUpdate(props: Props, state: State): Partial<State>;
+  static getSizeUpdate(
+    props: SplitPaneProps,
+    state: SplitPaneState
+  ): Partial<SplitPaneState>;
 
-  static defaultProps: Props;
+  static defaultProps: SplitPaneProps;
 }
 
 export default SplitPane;
+
+export type PaneProps = {
+  className?: string;
+  size?: Size;
+  split?: Split;
+  style?: React.CSSProperties;
+  eleRef?: (el: HTMLDivElement) => void;
+};
+
+declare class Pane extends React.PureComponent<PaneProps> {}
+
+export { Pane };
