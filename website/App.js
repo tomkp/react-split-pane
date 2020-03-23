@@ -12,6 +12,7 @@ import BasicVertical from './examples/basic/BasicVertical';
 import PercentageHorizontal from './examples/basic/PercentageHorizontal';
 import PercentageVertical from './examples/basic/PercentageVertical';
 import SnapToPostion from './examples/basic/SnapToPosition';
+import ResizerChildren from './examples/basic/ResizerChildren';
 
 // advanced examples
 import InlineStyles from './examples/advanced/InlineStyles';
@@ -60,6 +61,7 @@ export default function App() {
               component={PercentageHorizontal}
             />
             <Route exact path="/snap-position" component={SnapToPostion} />
+            <Route exact path="/resizer-children" component={ResizerChildren} />
             <Route exact path="/inline-styles" component={InlineStyles} />
             <Route
               exact

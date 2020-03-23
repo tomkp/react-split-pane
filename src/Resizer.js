@@ -16,36 +16,40 @@ class Resizer extends React.Component {
       resizerClassName,
       split,
       style,
+      children,
     } = this.props;
     const classes = [resizerClassName, split, className];
 
     return (
-      <span
-        role="presentation"
-        className={classes.join(' ')}
-        style={style}
-        onMouseDown={event => onMouseDown(event)}
-        onTouchStart={event => {
-          event.preventDefault();
-          onTouchStart(event);
-        }}
-        onTouchEnd={event => {
-          event.preventDefault();
-          onTouchEnd(event);
-        }}
-        onClick={event => {
-          if (onClick) {
+      <div className={classes.join(' ')}>
+        <span
+          role="presentation"
+          style={style}
+          onMouseDown={event => onMouseDown(event)}
+          onTouchStart={event => {
             event.preventDefault();
-            onClick(event);
-          }
-        }}
-        onDoubleClick={event => {
-          if (onDoubleClick) {
+            onTouchStart(event);
+          }}
+          onTouchEnd={event => {
             event.preventDefault();
-            onDoubleClick(event);
-          }
-        }}
-      />
+            onTouchEnd(event);
+          }}
+          onClick={event => {
+            if (onClick) {
+              event.preventDefault();
+              onClick(event);
+            }
+          }}
+          onDoubleClick={event => {
+            if (onDoubleClick) {
+              event.preventDefault();
+              onDoubleClick(event);
+            }
+          }}
+        >
+          {children}
+        </span>
+      </div>
     );
   }
 }
@@ -60,6 +64,7 @@ Resizer.propTypes = {
   split: PropTypes.oneOf(['vertical', 'horizontal']),
   style: stylePropType,
   resizerClassName: PropTypes.string.isRequired,
+  children: PropTypes.node,
 };
 
 Resizer.defaultProps = {
