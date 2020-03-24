@@ -4,8 +4,8 @@ import { create } from '@storybook/theming/create';
 addons.setConfig({
   theme: create({
     base: 'light',
-    brandTitle: 'React Sortable Tree',
-    brandUrl: 'https://github.com/frontend-collective/react-sortable-tree',
+    brandTitle: 'React Split Pane',
+    brandUrl: 'https://github.com/tomkp/react-split-pane',
     gridCellSize: 12,
   }),
 });

@@ -11,13 +11,12 @@ Split-Pane React component, can be nested or split vertically or horizontally!
 
 ## Installing
 
-```sh
+````sh
 npm install react-split-pane
 
 # or if you use yarn
 
 yarn add react-split-pane
-```
 
 ## Example Usage
 
@@ -26,7 +25,7 @@ yarn add react-split-pane
   <div />
   <div />
 </SplitPane>
-```
+````
 
 ```jsx
 <SplitPane split="vertical" minSize={50}>
