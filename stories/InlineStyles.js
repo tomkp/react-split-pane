@@ -1,5 +1,5 @@
 import React from 'react';
-import SplitPane from '../../../src';
+import SplitPane from '../src';
 
 export default () => {
   const styleA = { background: '#eee' };

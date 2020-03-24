@@ -5,20 +5,20 @@ import { HashRouter, Route, Redirect } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 
 // basic examples
-import BasicHorizontal from './examples/basic/BasicHorizontal';
+import BasicHorizontal from '../stories/BasicHorizontal';
 import BasicNested from './examples/basic/BasicNested';
-import BasicStep from './examples/basic/BasicStep';
-import BasicVertical from './examples/basic/BasicVertical';
-import PercentageHorizontal from './examples/basic/PercentageHorizontal';
-import PercentageVertical from './examples/basic/PercentageVertical';
+import BasicStep from '../stories/BasicStep';
+import BasicVertical from '../stories/BasicVertical';
+import PercentageHorizontal from '../stories/PercentageHorizontal';
+import PercentageVertical from '../stories/PercentageVertical';
 import SnapToPostion from './examples/basic/SnapToPosition';
 
 // advanced examples
-import InlineStyles from './examples/advanced/InlineStyles';
+import InlineStyles from '../stories/InlineStyles';
 import MultipleHorizontal from './examples/advanced/MultipleHorizontal';
-import MultipleVertical from './examples/advanced/MultipleVertical';
+import MultipleVertical from '../stories/MultipleVertical';
 import NestedHorizontal from './examples/advanced/NestedHorizontal';
-import NestedVertical from './examples/advanced/NestedVertical';
+import NestedVertical from '../stories/NestedVertical';
 import Subcomponent from './examples/advanced/Subcomponent';
 
 const Wrapper = styled('div')`
