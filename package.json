@@ -93,7 +93,7 @@
     "react-dom": "^16.0.0-0",
     "react-router-dom": "^5.1.2",
     "rimraf": "^3.0.0",
-    "rollup": "^1.26.5",
+    "rollup": "^2.3.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
