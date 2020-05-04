@@ -25,7 +25,7 @@ yarn add react-split-pane
   <div />
   <div />
 </SplitPane>
-````
+```
 
 ```jsx
 <SplitPane split="vertical" minSize={50}>
