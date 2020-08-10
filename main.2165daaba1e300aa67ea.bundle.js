@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{1269:function(t,e,n){"use strict";n.r(e);var i=n(130),a=n(412);i.addons.setConfig({theme:Object(a.create)({base:"light",brandTitle:"React Split Pane",brandUrl:"https://github.com/tomkp/react-split-pane",gridCellSize:12})})},413:function(t,e,n){n(414),n(588),t.exports=n(1269)},464:function(t,e){}},[[413,1,2]]]);
