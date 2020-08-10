@@ -4,14 +4,14 @@
 ![NPM license](https://img.shields.io/npm/l/react-split-pane.svg?style=flat)
 [![NPM total downloads](https://img.shields.io/npm/dt/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
 [![NPM monthly downloads](https://img.shields.io/npm/dm/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
-[![Build Status](https://img.shields.io/travis/tomkp/react-split-pane/master.svg?style=flat)](https://travis-ci.org/tomkp/react-split-pane)
+![Build Test](https://github.com/tomkp/react-split-pane/workflows/Build%20Test/badge.svg)
 [![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat)](https://coveralls.io/r/tomkp/react-split-pane)
 
 Split-Pane React component, can be nested or split vertically or horizontally!
 
 ## Installing
 
-```sh
+````sh
 npm install react-split-pane
 
 # or if you use yarn
@@ -25,7 +25,7 @@ yarn add react-split-pane
   <div />
   <div />
 </SplitPane>
-```
+````
 
 ```jsx
 <SplitPane split="vertical" minSize={50}>
@@ -110,7 +110,7 @@ could do something like the following:
   split="vertical"
   minSize={50}
   defaultSize={parseInt(localStorage.getItem('splitPos'), 10)}
-  onChange={size => localStorage.setItem('splitPos', size)}
+  onChange={(size) => localStorage.setItem('splitPos', size)}
 >
   <div />
   <div />
