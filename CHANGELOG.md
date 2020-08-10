@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.92](https://github.com/tomkp/react-split-pane/compare/v0.1.91...v0.1.92) (2020-08-10)
+
+
+### Features
+
+* add storybook ([3a8b6e6](https://github.com/tomkp/react-split-pane/commit/3a8b6e664d05e8daf3d0339eadfdcd69adde9d04))
+
+
+### Bug Fixes
+
+* no coverage for now ([a1ef084](https://github.com/tomkp/react-split-pane/commit/a1ef08488865cc1b4f35bb77a11865b07683f282))
+* typo ([2ab168d](https://github.com/tomkp/react-split-pane/commit/2ab168d0ed2137efe679ab0aacbfc5d439a634f0))
+
 ### [0.1.91](https://github.com/tomkp/react-split-pane/compare/v0.1.89...v0.1.91) (2020-03-23)
 
 
