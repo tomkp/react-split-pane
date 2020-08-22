@@ -253,7 +253,7 @@ class SplitPane extends React.Component {
       style: styleProps,
     } = this.props;
 
-    const { pane1Size, pane2Size } = this.state;
+    const { pane1Size, pane2Size, active } = this.state;
 
     const disabledClass = allowResize ? '' : 'disabled';
     const resizerClassNamesIncludingDefault = resizerClassName
@@ -294,8 +294,21 @@ class SplitPane extends React.Component {
 
     const classes = ['SplitPane', className, split, disabledClass];
 
-    const pane1Style = { ...paneStyle, ...pane1StyleProps };
-    const pane2Style = { ...paneStyle, ...pane2StyleProps };
+    // Prevent pointer from being captured by an iframe
+    const supportIframeStyle = {
+      pointerEvents: active ? 'none' : 'auto',
+    };
+
+    const pane1Style = {
+      ...paneStyle,
+      ...pane1StyleProps,
+      ...supportIframeStyle,
+    };
+    const pane2Style = {
+      ...paneStyle,
+      ...pane2StyleProps,
+      ...supportIframeStyle,
+    };
 
     const pane1Classes = ['Pane1', paneClassName, pane1ClassName].join(' ');
     const pane2Classes = ['Pane2', paneClassName, pane2ClassName].join(' ');
