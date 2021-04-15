@@ -1,4 +1,3 @@
-import * as Prefixer from 'inline-style-prefixer';
 import * as React from 'react';
 
 export type Size = string | number;
@@ -6,30 +5,15 @@ export type Size = string | number;
 export interface Props {
     allowResize?: boolean;
     className?: string;
-    primary?: 'first' | 'second';
-    minSize?: Size;
-    maxSize?: Size;
-    defaultSize?: Size;
-    size?: Size;
     split?: 'vertical' | 'horizontal';
-    onDragStarted?: () => void;
-    onDragFinished?: () => void;
+    resizerSize?: number;
     onChange?: (newSize: number) => void;
-    onResizerClick?: (event: MouseEvent) => void;
-    onResizerDoubleClick?: (event: MouseEvent) => void;
-    prefixer?: Prefixer;
-    style?: React.CSSProperties;
-    resizerStyle?: React.CSSProperties;
-    paneStyle?: React.CSSProperties;
-    pane1Style?: React.CSSProperties;
-    pane2Style?: React.CSSProperties;
-    resizerClassName?: string;
-    step?: number;
+    onResizeStart?: (newSize: Size) => void;
+    onResizeEnd?: (newSize: Size) => void;
 }
 
 export interface State {
-    active: boolean;
-    resized: boolean;
+    sizes: string;
 }
 
 declare class SplitPane extends React.Component<Props, State> {
@@ -44,8 +28,6 @@ declare class SplitPane extends React.Component<Props, State> {
     onTouchMove(event: TouchEvent): void;
 
     onMouseUp(): void;
-
-    setSize(props: Props, state: State): void;
 
     static defaultProps: Props;
 }
