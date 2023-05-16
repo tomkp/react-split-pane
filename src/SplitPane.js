@@ -101,7 +101,7 @@ class SplitPane extends React.Component {
           : event.touches[0].clientY;
 
       if (typeof onDragStarted === 'function') {
-        onDragStarted();
+        onDragStarted(event);
       }
       this.setState({
         active: true,
@@ -190,12 +190,12 @@ class SplitPane extends React.Component {
     }
   }
 
-  onMouseUp() {
+  onMouseUp(event) {
     const { allowResize, onDragFinished } = this.props;
     const { active, draggedSize } = this.state;
     if (allowResize && active) {
       if (typeof onDragFinished === 'function') {
-        onDragFinished(draggedSize);
+        onDragFinished(draggedSize, event);
       }
       this.setState({ active: false });
     }

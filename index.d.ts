@@ -13,8 +13,8 @@ export type SplitPaneProps = {
   defaultSize?: Size;
   size?: Size;
   split?: 'vertical' | 'horizontal';
-  onDragStarted?: () => void;
-  onDragFinished?: (newSize: number) => void;
+  onDragStarted?: (event: MouseEvent) => void;
+  onDragFinished?: (newSize: number, event: MouseEvent) => void;
   onChange?: (newSize: number) => void;
   onResizerClick?: (event: MouseEvent) => void;
   onResizerDoubleClick?: (event: MouseEvent) => void;
