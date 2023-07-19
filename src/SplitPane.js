@@ -31,7 +31,7 @@ function getDefaultSize(defaultSize, minSize, maxSize, draggedSize) {
 }
 
 function removeNullChildren(children) {
-  return React.Children.toArray(children).filter(c => c);
+  return React.Children.toArray(children).filter((c) => c);
 }
 class SplitPane extends React.Component {
   constructor(props) {
@@ -166,22 +166,26 @@ class SplitPane extends React.Component {
           }
 
           let newSize = size - sizeDelta;
-          const newPosition = position - positionDelta;
+          let newPosition = position - positionDelta;
 
           if (newSize < minSize) {
+            newPosition -= isPrimaryFirst
+              ? newSize - minSize
+              : minSize - newSize;
             newSize = minSize;
           } else if (maxSize !== undefined && newSize > newMaxSize) {
+            newPosition -= isPrimaryFirst
+              ? newSize - newMaxSize
+              : newMaxSize - newSize;
             newSize = newMaxSize;
           } else {
-            this.setState({
-              position: newPosition,
-              resized: true,
-            });
+            this.setState({ resized: true });
           }
 
           if (onChange) onChange(newSize);
 
           this.setState({
+            position: newPosition,
             draggedSize: newSize,
             [isPrimaryFirst ? 'pane1Size' : 'pane2Size']: newSize,
           });
@@ -303,7 +307,7 @@ class SplitPane extends React.Component {
     return (
       <div
         className={classes.join(' ')}
-        ref={node => {
+        ref={(node) => {
           this.splitPane = node;
         }}
         style={style}
@@ -311,7 +315,7 @@ class SplitPane extends React.Component {
         <Pane
           className={pane1Classes}
           key="pane1"
-          eleRef={node => {
+          eleRef={(node) => {
             this.pane1 = node;
           }}
           size={pane1Size}
@@ -335,7 +339,7 @@ class SplitPane extends React.Component {
         <Pane
           className={pane2Classes}
           key="pane2"
-          eleRef={node => {
+          eleRef={(node) => {
             this.pane2 = node;
           }}
           size={pane2Size}
