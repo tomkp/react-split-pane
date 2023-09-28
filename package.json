@@ -97,7 +97,7 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "standard-version": "^7.0.0"
+    "standard-version": "^8.0.1"
   },
   "peerDependencies": {
     "react": "^16.0.0-0",
