@@ -20,6 +20,9 @@ export type SplitPaneProps = {
   onResizerDoubleClick?: (event: MouseEvent) => void;
   style?: React.CSSProperties;
   resizerStyle?: React.CSSProperties;
+  paneClassName?: string;
+  pane1ClassName?: string;
+  pane2ClassName?: string;
   paneStyle?: React.CSSProperties;
   pane1Style?: React.CSSProperties;
   pane2Style?: React.CSSProperties;
