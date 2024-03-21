@@ -11,6 +11,8 @@ class Resizer extends React.Component {
       onClick,
       onDoubleClick,
       onMouseDown,
+      onMouseEnter,
+      onMouseLeave,
       onTouchEnd,
       onTouchStart,
       resizerClassName,
@@ -24,22 +26,24 @@ class Resizer extends React.Component {
         role="presentation"
         className={classes.join(' ')}
         style={style}
-        onMouseDown={event => onMouseDown(event)}
-        onTouchStart={event => {
+        onMouseDown={(event) => onMouseDown(event)}
+        onMouseEnter={(event) => onMouseEnter && onMouseEnter(event)}
+        onMouseLeave={(event) => onMouseLeave && onMouseLeave(event)}
+        onTouchStart={(event) => {
           event.preventDefault();
           onTouchStart(event);
         }}
-        onTouchEnd={event => {
+        onTouchEnd={(event) => {
           event.preventDefault();
           onTouchEnd(event);
         }}
-        onClick={event => {
+        onClick={(event) => {
           if (onClick) {
             event.preventDefault();
             onClick(event);
           }
         }}
-        onDoubleClick={event => {
+        onDoubleClick={(event) => {
           if (onDoubleClick) {
             event.preventDefault();
             onDoubleClick(event);
@@ -55,6 +59,8 @@ Resizer.propTypes = {
   onClick: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onMouseDown: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
   onTouchStart: PropTypes.func.isRequired,
   onTouchEnd: PropTypes.func.isRequired,
   split: PropTypes.oneOf(['vertical', 'horizontal']),

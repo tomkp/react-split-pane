@@ -18,6 +18,8 @@ export type SplitPaneProps = {
   onChange?: (newSize: number) => void;
   onResizerClick?: (event: MouseEvent) => void;
   onResizerDoubleClick?: (event: MouseEvent) => void;
+  onResizerMouseEnter?: (event: MouseEvent) => void;
+  onResizerMouseLeave?: (event: MouseEvent) => void;
   style?: React.CSSProperties;
   resizerStyle?: React.CSSProperties;
   paneStyle?: React.CSSProperties;
