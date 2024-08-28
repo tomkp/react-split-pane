@@ -1,11 +1,9 @@
 import React, { StrictMode } from 'react';
-import chai from 'chai';
-import spies from 'chai-spies';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import SplitPane from '../src/SplitPane';
 import asserter from './assertions/Asserter';
-
-chai.use(spies);
 
 describe('Default SplitPane', () => {
   const splitPane = (
@@ -42,8 +40,8 @@ describe('SplitPane can have a specific class', () => {
 });
 
 describe('SplitPane can have resizing callbacks', () => {
-  const onDragStartedCallback = chai.spy(() => {});
-  const onDragFinishedCallback = chai.spy(() => {});
+  const onDragStartedCallback = jest.fn();
+  const onDragFinishedCallback = jest.fn();
 
   const splitPane = (
     <SplitPane
@@ -162,15 +160,12 @@ describe('Component updates', () => {
   });
 
   it('updates the width of first panel when updating size, in strict mode (#309)', () => {
-    // For some reason StrictMode renders to null if it is the root of the jsx,
-    // and we also need the root to be a class-based component. So this is just a complicated
-    // way of getting around this problem.
     class Div extends React.Component {
       render() {
         return <div>{this.props.children}</div>;
       }
     }
-    const paneWithWidth = size => (
+    const paneWithWidth = (size) => (
       <Div>
         <StrictMode>
           <SplitPane primary="first" size={size}>
