@@ -22,11 +22,12 @@ import '@testing-library/jest-dom';
           right: 1024,
           x: 0,
           y: 0,
+          toJSON: () => ({}),
         },
         borderBoxSize: [],
         contentBoxSize: [],
         devicePixelContentBoxSize: [],
-      } as ResizeObserverEntry;
+      } as unknown as ResizeObserverEntry;
 
       // Call callback with mock data
       this.callback([mockEntry], this);
