@@ -54,5 +54,3 @@ export function usePersistence(
 
   return [sizes, setSizes];
 }
-
-export type { Storage };

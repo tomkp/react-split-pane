@@ -8,10 +8,10 @@ export interface UseKeyboardResizeOptions {
   sizes: number[];
   minSizes: number[];
   maxSizes: number[];
-  step?: number;
-  largeStep?: number;
-  onResize?: (sizes: number[], event: ResizeEvent) => void;
-  onResizeEnd?: (sizes: number[], event: ResizeEvent) => void;
+  step?: number | undefined;
+  largeStep?: number | undefined;
+  onResize?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
+  onResizeEnd?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
 }
 
 const DEFAULT_STEP = 10;
@@ -65,14 +65,14 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
           // Minimize left/top pane
           newSizes[dividerIndex] = minSizes[dividerIndex] ?? 0;
           newSizes[dividerIndex + 1] =
-            sizes[dividerIndex] + sizes[dividerIndex + 1] - newSizes[dividerIndex];
+            (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0) - newSizes[dividerIndex];
           break;
 
         case 'End':
           // Maximize left/top pane
           const maxLeft = maxSizes[dividerIndex] ?? Infinity;
           const minRight = minSizes[dividerIndex + 1] ?? 0;
-          const totalSize = sizes[dividerIndex] + sizes[dividerIndex + 1];
+          const totalSize = (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0);
 
           newSizes[dividerIndex] = Math.min(maxLeft, totalSize - minRight);
           newSizes[dividerIndex + 1] = totalSize - newSizes[dividerIndex];

@@ -7,12 +7,12 @@ export interface UseResizerOptions {
   sizes: number[];
   minSizes: number[];
   maxSizes: number[];
-  snapPoints?: number[];
-  snapTolerance?: number;
-  step?: number;
-  onResizeStart?: (event: ResizeEvent) => void;
-  onResize?: (sizes: number[], event: ResizeEvent) => void;
-  onResizeEnd?: (sizes: number[], event: ResizeEvent) => void;
+  snapPoints?: number[] | undefined;
+  snapTolerance?: number | undefined;
+  step?: number | undefined;
+  onResizeStart?: ((event: ResizeEvent) => void) | undefined;
+  onResize?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
+  onResizeEnd?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
 }
 
 export interface UseResizerResult {

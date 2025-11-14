@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { SplitPane } from './SplitPane';
 import { Pane } from './Pane';
 
 describe('SplitPane', () => {
-  it('renders children panes', () => {
+  it('renders children panes', async () => {
     render(
       <SplitPane>
         <Pane>
@@ -16,11 +16,13 @@ describe('SplitPane', () => {
       </SplitPane>
     );
 
-    expect(screen.getByText('Pane 1')).toBeInTheDocument();
-    expect(screen.getByText('Pane 2')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Pane 1')).toBeInTheDocument();
+      expect(screen.getByText('Pane 2')).toBeInTheDocument();
+    });
   });
 
-  it('renders divider between panes', () => {
+  it('renders divider between panes', async () => {
     const { container } = render(
       <SplitPane>
         <Pane>Pane 1</Pane>
@@ -28,8 +30,10 @@ describe('SplitPane', () => {
       </SplitPane>
     );
 
-    const divider = container.querySelector('[role="separator"]');
-    expect(divider).toBeInTheDocument();
+    await waitFor(() => {
+      const divider = container.querySelector('[role="separator"]');
+      expect(divider).toBeInTheDocument();
+    });
   });
 
   it('applies horizontal direction class by default', () => {
@@ -68,7 +72,7 @@ describe('SplitPane', () => {
     expect(splitPane).toHaveClass('custom-class');
   });
 
-  it('renders correct number of dividers for multiple panes', () => {
+  it('renders correct number of dividers for multiple panes', async () => {
     const { container } = render(
       <SplitPane>
         <Pane>Pane 1</Pane>
@@ -77,7 +81,9 @@ describe('SplitPane', () => {
       </SplitPane>
     );
 
-    const dividers = container.querySelectorAll('[role="separator"]');
-    expect(dividers).toHaveLength(2); // n-1 dividers for n panes
+    await waitFor(() => {
+      const dividers = container.querySelectorAll('[role="separator"]');
+      expect(dividers).toHaveLength(2); // n-1 dividers for n panes
+    });
   });
 });

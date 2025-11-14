@@ -112,18 +112,18 @@ export interface DividerProps {
   onKeyDown: (e: React.KeyboardEvent) => void;
 
   /** CSS class name */
-  className?: string;
+  className?: string | undefined;
 
   /** Inline styles */
-  style?: CSSProperties;
+  style?: CSSProperties | undefined;
 
   /** Current size values for ARIA */
-  currentSize?: number;
-  minSize?: number;
-  maxSize?: number;
+  currentSize?: number | undefined;
+  minSize?: number | undefined;
+  maxSize?: number | undefined;
 
   /** Custom content */
-  children?: ReactNode;
+  children?: ReactNode | undefined;
 }
 
 export interface PaneState {

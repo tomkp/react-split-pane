@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Size } from '../types';
 import { convertToPixels } from '../utils/calculations';
 
@@ -46,12 +46,6 @@ export function usePaneSize(options: UsePaneSizeOptions): UsePaneSizeResult {
       setInternalSize(newDefaultSize);
     }
   }, [defaultSize, containerSize, isControlled]);
-
-  const updateSize = useCallback((newSize: number) => {
-    if (!isControlled) {
-      setInternalSize(newSize);
-    }
-  }, [isControlled]);
 
   return {
     pixelSize,

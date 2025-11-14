@@ -81,32 +81,30 @@ export function calculateDraggedSizes(
 ): number[] {
   const newSizes = [...sizes];
 
-  // Calculate new sizes for the two panes around the divider
-  let newLeftSize = clamp(
-    sizes[dividerIndex] + delta,
-    minSizes[dividerIndex] ?? 0,
-    maxSizes[dividerIndex] ?? Infinity
-  );
+  const leftSize = sizes[dividerIndex] ?? 0;
+  const rightSize = sizes[dividerIndex + 1] ?? 0;
+  const leftMin = minSizes[dividerIndex] ?? 0;
+  const leftMax = maxSizes[dividerIndex] ?? Infinity;
+  const rightMin = minSizes[dividerIndex + 1] ?? 0;
+  const rightMax = maxSizes[dividerIndex + 1] ?? Infinity;
 
-  let newRightSize = clamp(
-    sizes[dividerIndex + 1] - delta,
-    minSizes[dividerIndex + 1] ?? 0,
-    maxSizes[dividerIndex + 1] ?? Infinity
-  );
+  // Calculate new sizes for the two panes around the divider
+  let newLeftSize = clamp(leftSize + delta, leftMin, leftMax);
+  let newRightSize = clamp(rightSize - delta, rightMin, rightMax);
 
   // Check if we hit constraints
-  const leftDelta = newLeftSize - sizes[dividerIndex];
-  const rightDelta = sizes[dividerIndex + 1] - newRightSize;
+  const leftDelta = newLeftSize - leftSize;
+  const rightDelta = rightSize - newRightSize;
 
   // Use the smaller delta to ensure both panes respect constraints
   const actualDelta = Math.min(Math.abs(leftDelta), Math.abs(rightDelta));
 
   if (delta > 0) {
-    newLeftSize = sizes[dividerIndex] + actualDelta;
-    newRightSize = sizes[dividerIndex + 1] - actualDelta;
+    newLeftSize = leftSize + actualDelta;
+    newRightSize = rightSize - actualDelta;
   } else {
-    newLeftSize = sizes[dividerIndex] - actualDelta;
-    newRightSize = sizes[dividerIndex + 1] + actualDelta;
+    newLeftSize = leftSize - actualDelta;
+    newRightSize = rightSize + actualDelta;
   }
 
   newSizes[dividerIndex] = newLeftSize;

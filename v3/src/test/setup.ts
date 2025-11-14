@@ -1,23 +1,52 @@
 import '@testing-library/jest-dom';
 
-// Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  observe() {
-    // Mock implementation
+// Mock ResizeObserver with callback support
+(globalThis as any).ResizeObserver = class ResizeObserver {
+  private callback: ResizeObserverCallback;
+
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
   }
+
+  observe(target: Element) {
+    // Call callback async to simulate real ResizeObserver behavior
+    setTimeout(() => {
+      const mockEntry = {
+        target,
+        contentRect: {
+          width: 1024,
+          height: 768,
+          top: 0,
+          left: 0,
+          bottom: 768,
+          right: 1024,
+          x: 0,
+          y: 0,
+        },
+        borderBoxSize: [],
+        contentBoxSize: [],
+        devicePixelContentBoxSize: [],
+      } as ResizeObserverEntry;
+
+      // Call callback with mock data
+      this.callback([mockEntry], this);
+    }, 0);
+  }
+
   unobserve() {
     // Mock implementation
   }
+
   disconnect() {
     // Mock implementation
   }
 };
 
 // Mock requestAnimationFrame
-global.requestAnimationFrame = (callback: FrameRequestCallback) => {
+(globalThis as any).requestAnimationFrame = (callback: FrameRequestCallback) => {
   return setTimeout(callback, 0) as unknown as number;
 };
 
-global.cancelAnimationFrame = (id: number) => {
+(globalThis as any).cancelAnimationFrame = (id: number) => {
   clearTimeout(id);
 };
