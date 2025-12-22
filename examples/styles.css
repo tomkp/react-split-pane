@@ -98,27 +98,46 @@ body {
   font-family: monospace;
 }
 
-/* Split pane divider styles */
+/* Split pane divider styles - expanded hover area pattern */
 .split-pane-divider {
   background: #0f3460;
-  transition: background 0.2s;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  transition: all 0.2s ease;
 }
 
-.split-pane-divider:hover,
 .split-pane-divider:focus {
-  background: #e94560;
+  outline: 2px solid #e94560;
+  outline-offset: -2px;
 }
 
 .split-pane-divider.horizontal {
-  width: 4px !important;
-  margin-left: -2px !important;
-  margin-right: -2px !important;
+  width: 11px !important;
+  margin-left: -5px !important;
+  margin-right: -5px !important;
+  border-left: 5px solid rgba(0, 0, 0, 0);
+  border-right: 5px solid rgba(0, 0, 0, 0);
+  cursor: col-resize;
+}
+
+.split-pane-divider.horizontal:hover {
+  border-left: 5px solid rgba(233, 69, 96, 0.5);
+  border-right: 5px solid rgba(233, 69, 96, 0.5);
 }
 
 .split-pane-divider.vertical {
-  height: 4px !important;
-  margin-top: -2px !important;
-  margin-bottom: -2px !important;
+  height: 11px !important;
+  margin-top: -5px !important;
+  margin-bottom: -5px !important;
+  border-top: 5px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  cursor: row-resize;
+}
+
+.split-pane-divider.vertical:hover {
+  border-top: 5px solid rgba(233, 69, 96, 0.5);
+  border-bottom: 5px solid rgba(233, 69, 96, 0.5);
 }
 
 /* Example specific styles */
