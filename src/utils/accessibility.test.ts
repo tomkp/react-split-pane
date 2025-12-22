@@ -37,7 +37,9 @@ describe('announce', () => {
   it('positions element off-screen for screen readers only', () => {
     announce('Hidden message');
 
-    const announcement = document.querySelector('[role="status"]') as HTMLElement;
+    const announcement = document.querySelector(
+      '[role="status"]'
+    ) as HTMLElement;
     expect(announcement.style.position).toBe('absolute');
     expect(announcement.style.left).toBe('-10000px');
     expect(announcement.style.width).toBe('1px');

@@ -1,5 +1,12 @@
 import type { CSSProperties, ReactElement } from 'react';
-import { Children, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Children,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { SplitPaneProps, PaneProps, ResizeEvent } from '../types';
 import { Pane } from './Pane';
 import { Divider } from './Divider';

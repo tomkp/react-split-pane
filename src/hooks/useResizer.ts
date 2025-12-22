@@ -83,7 +83,11 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   onResizeEndRef.current = onResizeEnd;
 
   // Update current sizes when prop sizes change (only when not dragging)
-  if (!isDragging && sizes !== currentSizes && JSON.stringify(sizes) !== JSON.stringify(currentSizes)) {
+  if (
+    !isDragging &&
+    sizes !== currentSizes &&
+    JSON.stringify(sizes) !== JSON.stringify(currentSizes)
+  ) {
     setCurrentSizes(sizes);
   }
 
