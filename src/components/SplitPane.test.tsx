@@ -3,6 +3,10 @@ import { render, screen, act } from '@testing-library/react';
 import { SplitPane } from './SplitPane';
 import { Pane } from './Pane';
 
+// These match the mock in test/setup.ts
+const CONTAINER_WIDTH = 1024;
+const CONTAINER_HEIGHT = 768;
+
 describe('SplitPane', () => {
   it('renders children panes', async () => {
     render(
@@ -92,5 +96,143 @@ describe('SplitPane', () => {
 
     const dividers = container.querySelectorAll('[role="separator"]');
     expect(dividers).toHaveLength(2); // n-1 dividers for n panes
+  });
+});
+
+describe('SplitPane initial size calculation', () => {
+  // Uses ResizeObserver mock from test/setup.ts with 1024x768 dimensions
+
+  it('distributes remaining space to panes without defaultSize', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane defaultSize="30%">Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+
+    // First pane: 30% of 1024 = 307.2px
+    expect(panes[0]).toHaveStyle({ width: `${CONTAINER_WIDTH * 0.3}px` });
+    // Second pane: remaining 70% = 716.8px
+    expect(panes[1]).toHaveStyle({ width: `${CONTAINER_WIDTH * 0.7}px` });
+  });
+
+  it('distributes remaining space equally among multiple auto-sized panes', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane defaultSize={200}>Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+        <Pane>Pane 3</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(3);
+
+    // First pane: 200px fixed
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    // Remaining (1024 - 200) = 824px split equally: 412px each
+    const remainingEach = (CONTAINER_WIDTH - 200) / 2;
+    expect(panes[1]).toHaveStyle({ width: `${remainingEach}px` });
+    expect(panes[2]).toHaveStyle({ width: `${remainingEach}px` });
+  });
+
+  it('distributes space equally when no panes have defaultSize', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane>Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+
+    // Each pane gets 50% = 512px
+    const halfWidth = CONTAINER_WIDTH / 2;
+    expect(panes[0]).toHaveStyle({ width: `${halfWidth}px` });
+    expect(panes[1]).toHaveStyle({ width: `${halfWidth}px` });
+  });
+
+  it('handles percentage defaultSize correctly', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane defaultSize="25%">Pane 1</Pane>
+        <Pane defaultSize="25%">Pane 2</Pane>
+        <Pane>Pane 3</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(3);
+
+    // First two panes: 25% each = 256px
+    const quarterWidth = CONTAINER_WIDTH * 0.25;
+    expect(panes[0]).toHaveStyle({ width: `${quarterWidth}px` });
+    expect(panes[1]).toHaveStyle({ width: `${quarterWidth}px` });
+    // Third pane: remaining 50% = 512px
+    expect(panes[2]).toHaveStyle({ width: `${CONTAINER_WIDTH * 0.5}px` });
+  });
+
+  it('handles vertical direction correctly', async () => {
+    const { container } = render(
+      <SplitPane direction="vertical">
+        <Pane defaultSize="25%">Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+
+    // First pane: 25% of 768 = 192px
+    expect(panes[0]).toHaveStyle({ height: `${CONTAINER_HEIGHT * 0.25}px` });
+    // Second pane: remaining 75% = 576px
+    expect(panes[1]).toHaveStyle({ height: `${CONTAINER_HEIGHT * 0.75}px` });
+  });
+
+  it('respects controlled size prop over defaultSize', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane size={400} defaultSize="30%">
+          Pane 1
+        </Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+
+    // First pane: controlled size of 400px (not 30%)
+    expect(panes[0]).toHaveStyle({ width: '400px' });
+    // Second pane: remaining 624px
+    expect(panes[1]).toHaveStyle({ width: `${CONTAINER_WIDTH - 400}px` });
   });
 });
