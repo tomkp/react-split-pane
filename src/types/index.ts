@@ -67,15 +67,6 @@ export interface PaneProps {
   /** Maximum size */
   maxSize?: Size;
 
-  /** Whether this pane can collapse */
-  collapsible?: boolean;
-
-  /** Whether pane is collapsed (controlled) */
-  collapsed?: boolean;
-
-  /** Called when collapse state changes */
-  onCollapse?: (collapsed: boolean) => void;
-
   /** CSS class name */
   className?: string;
 
@@ -131,6 +122,4 @@ export interface PaneState {
   minSize: number;
   maxSize: number;
   defaultSize: number;
-  collapsible: boolean;
-  collapsed: boolean;
 }

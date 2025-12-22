@@ -39,9 +39,6 @@ export const Pane = forwardRef<HTMLDivElement, PaneProps>(
       size: _size,
       minSize: _minSize,
       maxSize: _maxSize,
-      collapsible: _collapsible,
-      collapsed: _collapsed,
-      onCollapse: _onCollapse,
       ...rest
     } = props;
 

@@ -21,10 +21,12 @@
       "types": "./dist/persistence.d.ts",
       "import": "./dist/persistence.js",
       "require": "./dist/persistence.cjs"
-    }
+    },
+    "./styles.css": "./styles.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "styles.css"
   ],
   "sideEffects": false,
   "scripts": {

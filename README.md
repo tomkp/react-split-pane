@@ -232,6 +232,27 @@ The divider is fully keyboard accessible:
 
 ## Styling
 
+### Default Stylesheet
+
+Import the optional default styles with CSS custom properties:
+
+```tsx
+import 'react-split-pane/styles.css';
+```
+
+Customize via CSS variables:
+
+```css
+.my-split-pane {
+  --split-pane-divider-size: 8px;
+  --split-pane-divider-color: #e0e0e0;
+  --split-pane-divider-color-hover: #b0b0b0;
+  --split-pane-focus-color: #2196f3;
+}
+```
+
+The default styles include dark mode support via `prefers-color-scheme`.
+
 ### Basic Styles
 
 ```css
