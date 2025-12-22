@@ -78,7 +78,13 @@ describe('calculateDraggedSizes', () => {
 
   it('respects minimum constraints', () => {
     const sizes = [300, 700];
-    const result = calculateDraggedSizes(sizes, 0, -250, [100, 100], [500, 900]);
+    const result = calculateDraggedSizes(
+      sizes,
+      0,
+      -250,
+      [100, 100],
+      [500, 900]
+    );
 
     expect(result[0]).toBe(100); // Cannot go below min
     expect(result[1]).toBe(900);

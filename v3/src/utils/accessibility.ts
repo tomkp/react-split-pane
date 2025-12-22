@@ -1,7 +1,10 @@
 /**
  * Announce a message to screen readers
  */
-export function announce(message: string, priority: 'polite' | 'assertive' = 'polite'): void {
+export function announce(
+  message: string,
+  priority: 'polite' | 'assertive' = 'polite'
+): void {
   const announcement = document.createElement('div');
   announcement.setAttribute('role', 'status');
   announcement.setAttribute('aria-live', priority);
@@ -45,10 +48,13 @@ export function getDividerLabel(
 /**
  * Get keyboard instructions for divider
  */
-export function getKeyboardInstructions(direction: 'horizontal' | 'vertical'): string {
-  const keys = direction === 'horizontal'
-    ? 'left and right arrow keys'
-    : 'up and down arrow keys';
+export function getKeyboardInstructions(
+  direction: 'horizontal' | 'vertical'
+): string {
+  const keys =
+    direction === 'horizontal'
+      ? 'left and right arrow keys'
+      : 'up and down arrow keys';
 
   return `Use ${keys} to resize. Hold Shift for larger steps. Press Home or End to minimize or maximize.`;
 }

@@ -1,4 +1,21 @@
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
+
+// Use fake timers globally
+vi.useFakeTimers();
+
+// Mock getBoundingClientRect to return proper dimensions
+Element.prototype.getBoundingClientRect = vi.fn(() => ({
+  width: 1024,
+  height: 768,
+  top: 0,
+  left: 0,
+  bottom: 768,
+  right: 1024,
+  x: 0,
+  y: 0,
+  toJSON: () => ({}),
+}));
 
 // Mock ResizeObserver with callback support
 ((globalThis as unknown) as {
@@ -11,29 +28,27 @@ import '@testing-library/jest-dom';
   }
 
   observe(target: Element) {
-    // Call callback async to simulate real ResizeObserver behavior
-    setTimeout(() => {
-      const mockEntry = ({
-        target,
-        contentRect: {
-          width: 1024,
-          height: 768,
-          top: 0,
-          left: 0,
-          bottom: 768,
-          right: 1024,
-          x: 0,
-          y: 0,
-          toJSON: () => ({}),
-        },
-        borderBoxSize: [],
-        contentBoxSize: [],
-        devicePixelContentBoxSize: [],
-      } as unknown) as ResizeObserverEntry;
+    // Call callback synchronously for predictable testing
+    const mockEntry = ({
+      target,
+      contentRect: {
+        width: 1024,
+        height: 768,
+        top: 0,
+        left: 0,
+        bottom: 768,
+        right: 1024,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      },
+      borderBoxSize: [],
+      contentBoxSize: [],
+      devicePixelContentBoxSize: [],
+    } as unknown) as ResizeObserverEntry;
 
-      // Call callback with mock data
-      this.callback([mockEntry], this);
-    }, 0);
+    // Call callback synchronously
+    this.callback([mockEntry], this);
   }
 
   unobserve() {
@@ -43,17 +58,4 @@ import '@testing-library/jest-dom';
   disconnect() {
     // Mock implementation
   }
-};
-
-// Mock requestAnimationFrame
-((globalThis as unknown) as {
-  requestAnimationFrame: typeof requestAnimationFrame;
-}).requestAnimationFrame = (callback: FrameRequestCallback) => {
-  return (setTimeout(callback, 0) as unknown) as number;
-};
-
-((globalThis as unknown) as {
-  cancelAnimationFrame: typeof cancelAnimationFrame;
-}).cancelAnimationFrame = (id: number) => {
-  clearTimeout(id);
 };
