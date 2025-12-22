@@ -1,106 +1,98 @@
 {
   "name": "react-split-pane",
-  "description": "React split-pane component",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "source": "src/index.js",
-  "types": "index.d.ts",
+  "version": "3.0.0",
+  "description": "React split-pane component with hooks and TypeScript",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./keyboard": {
+      "types": "./dist/keyboard.d.ts",
+      "import": "./dist/keyboard.js",
+      "require": "./dist/keyboard.cjs"
+    },
+    "./persistence": {
+      "types": "./dist/persistence.d.ts",
+      "import": "./dist/persistence.js",
+      "require": "./dist/persistence.cjs"
+    },
+    "./styles.css": "./styles.css"
+  },
   "files": [
     "dist",
-    "index.d.ts"
+    "styles.css"
   ],
-  "version": "0.1.92",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src",
+    "format": "prettier --write src examples",
+    "format:check": "prettier --check src examples",
+    "typecheck": "tsc --noEmit",
+    "examples": "vite --config examples/vite.config.ts",
+    "examples:build": "vite build --config examples/vite.config.ts",
+    "prepublishOnly": "npm run test && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tomkp/react-split-pane"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tomkp/react-split-pane"
-  },
-  "homepage": "https://github.com/tomkp/react-split-pane",
-  "author": "tomkp <tom@tomkp.com>",
   "keywords": [
     "react",
     "react-component",
     "split-pane",
     "react-split-pane",
-    "es6"
+    "typescript",
+    "hooks",
+    "resizable",
+    "panes",
+    "layout",
+    "accessibility"
   ],
-  "scripts": {
-    "start": "parcel website/index.html",
-    "prebuild": "yarn run clean",
-    "build": "rollup -c",
-    "build:watch": "rollup -c --watch",
-    "clean": "rimraf dist",
-    "test": "BABEL_ENV=test mochify -R spec --transform babelify",
-    "test:watch": "BABEL_ENV=test mochify -R spec --watch --transform babelify",
-    "test:coverage": "BABEL_ENV=test mochify --plugin [ mochify-istanbul --exclude '**/test/**' --report lcovonly ] --transform babelify && cat lcov.info | coveralls && rm lcov.info",
-    "prettier": "prettier --write '{src,test}/**/*.js'",
-    "lint": "eslint src test",
-    "release": "standard-version",
-    "build:storybook": "build-storybook -o build",
-    "storybook": "start-storybook -p ${PORT:-3001} -h 0.0.0.0",
-    "deploy": "gh-pages -d build",
-    "prepublishOnly": "yarn run test && yarn run build"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
-  "dependencies": {
-    "prop-types": "^15.7.2",
-    "react-lifecycles-compat": "^3.0.4",
-    "react-style-proptype": "^3.2.2"
+  "author": "tomkp <tom@tomkp.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-transform-modules-commonjs": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
-    "@emotion/core": "^10.0.22",
-    "@emotion/styled": "^10.0.23",
-    "@storybook/addons": "^5.3.17",
-    "@storybook/react": "^5.3.17",
-    "@storybook/theming": "^5.3.17",
-    "@types/react": "^16.9.11",
-    "babel-eslint": "^10.0.3",
-    "babel-loader": "^8.0.0-beta.6",
-    "babelify": "^10.0.0",
-    "chai": "^4.2.0",
-    "chai-spies": "^1.0.0",
-    "coveralls": "^3.0.7",
-    "cross-env": "^7.0.0",
-    "eslint": "^6.6.0",
-    "eslint-config-fbjs": "^3.1.1",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-config-react": "^1.1.7",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-flowtype": "^4.3.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-relay": "^1.3.12",
-    "gh-pages": "^2.1.1",
-    "husky": "^4.2.3",
-    "mochify": "^6.6.0",
-    "mochify-istanbul": "^2.4.2",
-    "parcel-bundler": "^1.12.4",
-    "prettier": "2.0.5",
-    "pretty-quick": "^2.0.1",
-    "react": ">=15",
-    "react-dom": "^16.0.0-0",
-    "react-router-dom": "^5.1.2",
-    "rimraf": "^3.0.0",
-    "rollup": "^2.3.4",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "standard-version": "^7.0.0"
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^4.0.16",
+    "eslint": "^9.39.2",
+    "globals": "^16.2.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.7.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rollup": "^4.54.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.50.0",
+    "vite": "^6.3.5",
+    "vitest": "^4.0.16"
   },
-  "peerDependencies": {
-    "react": "^16.0.0-0",
-    "react-dom": "^16.0.0-0"
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

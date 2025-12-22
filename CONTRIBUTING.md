@@ -1,155 +1,253 @@
-[Bug Reports](#bugs) | [Features Requests](#features) | [Submitting Pull Requests](#pull-requests) | [Running Local Demo](#running-local-demo) | [Running Tests](#running-tests)
+# Contributing to React Split Pane
 
-# Contributing to this project
+[Bug Reports](#bugs) | [Feature Requests](#features) | [Pull Requests](#pull-requests) | [Development Setup](#development-setup) | [Running Tests](#running-tests)
 
-Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
+Thank you for considering contributing to React Split Pane! Please take a moment to review this document to make the contribution process easy and effective.
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project.
-In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
+## Using the Issue Tracker
 
-## Using the issue tracker
+The issue tracker is the preferred channel for bug reports and feature requests. Please respect these guidelines:
 
-The issue tracker is the preferred channel for bug reports but please respect the following restrictions:
-
-- Please **do not** use the issue tracker for personal support requests.
-- Please **do not** derail or troll issues. Keep the discussion on topic and respect the opinions of others.
+- **Do not** use the issue tracker for personal support requests.
+- **Do not** derail or troll issues. Keep discussions on topic.
 
 <a name="bugs"></a>
 
-## Bug reports
+## Bug Reports
 
-A bug is a _demonstrable problem_ that is caused by the code in the repository.
-Good bug reports are extremely helpful - thank you!
+A bug is a _demonstrable problem_ caused by the code in the repository. Good bug reports are extremely helpful!
 
 Guidelines for bug reports:
 
-1. **Use the GitHub issue search** &mdash; check if the issue has already been reported.
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or development branch in the repository.
-3. **Isolate the problem** &mdash; create a [reduced test case](http://css-tricks.com/reduced-test-cases/) and a live example (using a site like [CodeSandbox](https://codesandbox.io/)).
+1. **Search first** — Check if the issue has already been reported.
+2. **Test latest** — Try to reproduce it using the latest `v3` branch.
+3. **Isolate** — Create a minimal reproduction using [CodeSandbox](https://codesandbox.io/) or [StackBlitz](https://stackblitz.com/).
 
-A good bug report shouldn't leave others needing to chase you up for more information.
-Please try to be as detailed as possible in your report.
-Which versions of react-virtualized and react are you using?
-What steps will reproduce the issue? What browser(s) and OS experience the problem?
-What would you expect to be the outcome?
-All these details will help people to fix any potential bugs.
+A good bug report includes:
 
-Example:
-
-> Short and descriptive example bug report title
->
-> A summary of the issue and the browser/OS environment in which it occurs.
-> If suitable, include the steps required to reproduce the bug.
->
-> 1. This is the first step
-> 2. This is the second step
-> 3. Further steps, etc.
->
-> `<url>` - a link to the reduced test case
->
-> Any other information you want to share that is relevant to the issue being reported.
-> This might include the lines of code that you have identified as causing the bug,
-> and potential solutions (and your opinions on their merits).
+- React Split Pane version
+- React version
+- Browser and OS
+- Steps to reproduce
+- Expected vs actual behavior
+- Link to reproduction
 
 <a name="features"></a>
 
-## Feature requests
+## Feature Requests
 
-Feature requests are welcome.
-But take a moment to find out whether your idea fits with the scope and aims of the project.
-It's up to _you_ to make a strong case to convince the project's developers of the merits of this feature.
-Please provide as much detail and context as possible.
+Feature requests are welcome! Please provide:
+
+- Clear use case
+- Why existing features don't solve your problem
+- API suggestions (if applicable)
+- Examples from similar libraries (if applicable)
 
 <a name="pull-requests"></a>
 
-## Pull requests
+## Pull Requests
 
-Good pull requests - patches, improvements, new features - are a fantastic help.
-They should remain focused in scope and avoid containing unrelated commits.
+Good pull requests are a fantastic help! They should remain focused and avoid unrelated changes.
 
-**Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code, porting to a different language),
-otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
+**Please ask first** before starting significant work (new features, major refactoring). Open an issue to discuss your idea.
 
-Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (such as test coverage).
+### Pull Request Process
 
-Follow this process if you'd like your work considered for inclusion in the project:
-
-1. [Fork](http://help.github.com/fork-a-repo/) the project, clone your fork, and configure the remotes:
+1. Fork and clone the repository:
 
    ```bash
-   # Clone your fork of the repo into the current directory
    git clone https://github.com/<your-username>/react-split-pane
-   # Navigate to the newly cloned directory
    cd react-split-pane
-   # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/tomkp/react-split-pane
    ```
 
-2. If you cloned a while ago, get the latest changes from upstream:
+2. Create a branch from `v3`:
 
    ```bash
-   git checkout master
-   git pull upstream master
+   git checkout v3
+   git pull upstream v3
+   git checkout -b my-feature
    ```
 
-3. Install/update dependencies:
+3. Install dependencies:
 
    ```bash
-   yarn install
+   npm install
    ```
 
-4. Create a new topic branch (off the main project development branch) to
-   contain your feature, change, or fix:
+4. Make your changes, following the [code style](#code-style).
+
+5. Add tests for new functionality.
+
+6. Ensure all tests pass:
 
    ```bash
-   git checkout -b <topic-branch-name>
+   npm test
    ```
 
-5. Commit your changes in logical chunks.
-   Please adhere to these [git commit message guidelines](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
-   or your code is unlikely be merged into the main project.
-   Use Git's [interactive rebase](https://help.github.com/articles/interactive-rebase)
-   feature to tidy up your commits before making them public.
-
-6. Locally merge (or rebase) the upstream development branch into your topic branch:
+7. Ensure code passes linting:
 
    ```bash
-   git pull [--rebase] upstream master
+   npm run lint
    ```
 
-7. Push your topic branch up to your fork:
+8. Commit with a clear message:
 
    ```bash
-   git push origin <topic-branch-name>
+   git commit -m "feat: add new feature"
    ```
 
-8. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
-   with a clear title and description.
+9. Push and open a pull request against `v3`:
 
-**IMPORTANT**: By submitting a patch, you agree to allow the project owner to license your work under the same license as that used by this project (MIT).
+   ```bash
+   git push origin my-feature
+   ```
 
-<a name="running-local-demo"></a>
+### Commit Message Format
 
-## Running Local Demo
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-You can run the local demo with yarn like so:
+- `feat:` — New feature
+- `fix:` — Bug fix
+- `docs:` — Documentation only
+- `style:` — Formatting, no code change
+- `refactor:` — Code change that neither fixes a bug nor adds a feature
+- `test:` — Adding or fixing tests
+- `chore:` — Build process or auxiliary tools
+
+<a name="development-setup"></a>
+
+## Development Setup
+
+### Prerequisites
+
+- Node.js 20+
+- npm 9+
+
+### Setup
 
 ```bash
-cd <root>
-yarn build
-yarn website:start
+# Clone the repository
+git clone https://github.com/tomkp/react-split-pane
+cd react-split-pane
+
+# Install dependencies
+npm install
+
+# Start the development server (examples)
+npm run dev
 ```
 
-The local app will then be available at http://localhost:3000
+The examples will be available at http://localhost:5173
+
+### Project Structure
+
+```
+src/
+├── components/       # React components (SplitPane, Pane, Divider)
+├── hooks/           # React hooks (useResizer, useKeyboardResize)
+├── types/           # TypeScript type definitions
+├── utils/           # Utility functions
+├── test/            # Test setup
+└── index.ts         # Main entry point
+
+examples/            # Example applications
+```
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start examples dev server |
+| `npm test` | Run tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | Run ESLint |
+| `npm run build` | Build for production |
+| `npm run typecheck` | Run TypeScript type checking |
 
 <a name="running-tests"></a>
 
 ## Running Tests
 
-All unit tests must pass before a pull request will be approved.
-You can run unit tests with yarn like so:
+All tests must pass before a pull request will be merged.
 
 ```bash
-cd <root>
-yarn test
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
 ```
+
+### Writing Tests
+
+- Place tests next to the code they test (e.g., `useResizer.test.ts`)
+- Use descriptive test names
+- Test both success and error cases
+- For hooks, use `@testing-library/react` and `renderHook`
+
+Example:
+
+```typescript
+import { describe, it, expect } from 'vitest';
+import { renderHook } from '@testing-library/react';
+import { useResizer } from './useResizer';
+
+describe('useResizer', () => {
+  it('initializes with provided sizes', () => {
+    const { result } = renderHook(() =>
+      useResizer({
+        direction: 'horizontal',
+        sizes: [300, 700],
+        minSizes: [100, 100],
+        maxSizes: [500, 900],
+      })
+    );
+
+    expect(result.current.currentSizes).toEqual([300, 700]);
+  });
+});
+```
+
+<a name="code-style"></a>
+
+## Code Style
+
+- **TypeScript** — All code must be typed
+- **ESLint** — Run `npm run lint` before committing
+- **Prettier** — Code is auto-formatted
+- **No `any`** — Avoid `any` types; use `unknown` if necessary
+- **Functional** — Prefer functional components and hooks
+- **Comments** — Add JSDoc comments to exported functions
+
+### Example Component
+
+```typescript
+import type { CSSProperties } from 'react';
+
+interface MyComponentProps {
+  /** Description of the prop */
+  value: string;
+  /** Optional prop with default */
+  size?: number;
+}
+
+/**
+ * Description of the component.
+ *
+ * @example
+ * ```tsx
+ * <MyComponent value="hello" />
+ * ```
+ */
+export function MyComponent({ value, size = 10 }: MyComponentProps) {
+  // Implementation
+}
+```
+
+## License
+
+By contributing, you agree to license your work under the [MIT License](./LICENSE).

@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/tomkp/react-split-pane/compare/v0.1.92...v3.0.0) (2025-12-22)
+
+### ⚠ BREAKING CHANGES
+
+* Complete rewrite with modern React patterns
+* Children must now be wrapped in `<Pane>` components
+* `split` prop renamed to `direction` (and meanings swapped to align with CSS flex)
+* Size constraints (`minSize`, `maxSize`, `defaultSize`) moved to `<Pane>` component
+* Callback props renamed: `onDragStarted` → `onResizeStart`, `onChange` → `onResize`, `onDragFinished` → `onResizeEnd`
+* Callback signatures changed to include event metadata
+* `primary` prop removed (use controlled mode instead)
+* `allowResize` renamed to `resizable`
+* CSS class names changed: `SplitPane` → `split-pane`, `Resizer` → `split-pane-divider`
+* IE11 no longer supported
+
+### Features
+
+* **Hooks-based architecture**: Complete rewrite using modern React hooks
+* **TypeScript**: Full TypeScript support with strict mode
+* **Accessibility**: Full keyboard navigation (arrow keys, Home, End) and ARIA attributes
+* **Touch support**: Built-in touch event handling for mobile devices
+* **Snap points**: Optional snap-to positions during resize
+* **Multiple panes**: Native support for 2+ panes without nesting
+* **Persistence hook**: `usePersistence` hook for localStorage/sessionStorage
+* **Custom dividers**: Pass custom divider components via `divider` prop
+* **RAF-throttled**: Smooth resize performance with requestAnimationFrame throttling
+* **Smaller bundle**: < 5KB gzipped
+
+### Migration
+
+See [MIGRATION.md](./MIGRATION.md) for detailed upgrade instructions from v0.1.x.
+
 ### [0.1.92](https://github.com/tomkp/react-split-pane/compare/v0.1.91...v0.1.92) (2020-08-10)
 
 

@@ -1,0 +1,106 @@
+/**
+ * Default styles for react-split-pane v3
+ *
+ * You can import these styles or create your own.
+ *
+ * Customize by overriding CSS custom properties:
+ *
+ *   .my-split-pane {
+ *     --split-pane-divider-size: 8px;
+ *     --split-pane-divider-color: #e0e0e0;
+ *     --split-pane-focus-color: #ff5722;
+ *   }
+ */
+
+:root {
+  /* Divider dimensions */
+  --split-pane-divider-size: 11px;
+  --split-pane-divider-hit-area: 5px;
+
+  /* Divider colors */
+  --split-pane-divider-color: rgba(0, 0, 0, 0.05);
+  --split-pane-divider-color-hover: rgba(0, 0, 0, 0.15);
+
+  /* Focus state */
+  --split-pane-focus-color: #2196f3;
+  --split-pane-focus-bg: rgba(33, 150, 243, 0.1);
+
+  /* Animation */
+  --split-pane-transition-duration: 0.2s;
+}
+
+/* Dark theme defaults */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --split-pane-divider-color: rgba(255, 255, 255, 0.05);
+    --split-pane-divider-color-hover: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.split-pane {
+  position: relative;
+  overflow: hidden;
+}
+
+.split-pane-pane {
+  position: relative;
+  overflow: auto;
+}
+
+.split-pane-divider {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
+  background-color: var(--split-pane-divider-color);
+  transition: background-color var(--split-pane-transition-duration) ease;
+}
+
+.split-pane-divider:hover {
+  background-color: var(--split-pane-divider-color-hover);
+}
+
+.split-pane-divider:focus {
+  outline: 2px solid var(--split-pane-focus-color);
+  outline-offset: -2px;
+  background-color: var(--split-pane-focus-bg);
+}
+
+.split-pane-divider:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Horizontal layout (vertical divider) */
+.split-pane-divider.horizontal {
+  width: var(--split-pane-divider-size);
+  margin: 0 calc(var(--split-pane-divider-hit-area) * -1);
+  border-left: var(--split-pane-divider-hit-area) solid transparent;
+  border-right: var(--split-pane-divider-hit-area) solid transparent;
+  cursor: col-resize;
+}
+
+
+/* Vertical layout (horizontal divider) */
+.split-pane-divider.vertical {
+  height: var(--split-pane-divider-size);
+  margin: calc(var(--split-pane-divider-hit-area) * -1) 0;
+  border-top: var(--split-pane-divider-hit-area) solid transparent;
+  border-bottom: var(--split-pane-divider-hit-area) solid transparent;
+  cursor: row-resize;
+}
+
+
+/* Minimal theme (1px divider) */
+.split-pane-divider.minimal {
+  --split-pane-divider-size: 1px;
+  --split-pane-divider-hit-area: 0px;
+  --split-pane-divider-color: rgba(0, 0, 0, 0.12);
+  border: none;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .split-pane-divider.minimal {
+    --split-pane-divider-color: rgba(255, 255, 255, 0.12);
+  }
+}
