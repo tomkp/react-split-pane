@@ -11,8 +11,8 @@ on:
       - v3
 
 jobs:
-  build-test-v3:
-    name: Build and Test v3
+  build-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -24,45 +24,20 @@ jobs:
         with:
           node-version: 22.x
 
-      - name: Install v3 dependencies
-        working-directory: ./v3
+      - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck v3
-        working-directory: ./v3
+      - name: Typecheck
         run: npm run typecheck
 
-      - name: Lint v3
-        working-directory: ./v3
+      - name: Lint
         run: npm run lint
 
-      - name: Run v3 tests
-        working-directory: ./v3
+      - name: Format check
+        run: npm run format:check
+
+      - name: Run tests
         run: npm test
 
-      - name: Build v3
-        working-directory: ./v3
-        run: npm run build
-
-  build-test-legacy:
-    name: Build and Test Legacy (v0.1.x)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-
       - name: Build
-        run: yarn build
-
-      - name: Test
-        run: yarn test
+        run: npm run build

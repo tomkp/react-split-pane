@@ -1,240 +1,295 @@
-# React Split Pane
+# React Split Pane v3
+
+Modern, accessible, TypeScript-first split pane component for React.
 
 [![NPM version](https://img.shields.io/npm/v/react-split-pane.svg?style=flat)](https://www.npmjs.com/package/react-split-pane)
 ![NPM license](https://img.shields.io/npm/l/react-split-pane.svg?style=flat)
-[![NPM total downloads](https://img.shields.io/npm/dt/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
-[![NPM monthly downloads](https://img.shields.io/npm/dm/react-split-pane.svg?style=flat)](https://npmcharts.com/compare/react-split-pane?minimal=true)
-![Build Test](https://github.com/tomkp/react-split-pane/workflows/Build%20Test/badge.svg)
-[![Coverage Status](https://img.shields.io/coveralls/tomkp/react-split-pane/master.svg?style=flat)](https://coveralls.io/r/tomkp/react-split-pane)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/react-split-pane)](https://bundlephobia.com/package/react-split-pane)
 
-Split-Pane React component, can be nested or split vertically or horizontally!
+## ✨ Features
 
-## Installing
+- 🪝 **Hooks-based** - Built with modern React patterns
+- 📘 **TypeScript** - Full type safety out of the box
+- ♿ **Accessible** - Keyboard navigation, ARIA attributes, screen reader support
+- 📱 **Touch-friendly** - Full mobile/tablet support
+- 🎯 **Flexible** - Controlled/uncontrolled modes, nested layouts, 2+ panes
+- 🪶 **Lightweight** - < 5KB gzipped
+- ⚡ **Performant** - RAF-throttled resize, optimized renders
+- 🎨 **Customizable** - Full styling control
 
-```sh
-npm install react-split-pane
+## Installation
 
-# or if you use yarn
+```bash
+npm install react-split-pane@next
 
-yarn add react-split-pane
+# or
+yarn add react-split-pane@next
+
+# or
+pnpm add react-split-pane@next
 ```
 
-## Example Usage
+## Quick Start
 
-```jsx
-<SplitPane split="vertical" minSize={50} defaultSize={100}>
-  <div />
-  <div />
+```tsx
+import { SplitPane, Pane } from 'react-split-pane';
+
+function App() {
+  return (
+    <SplitPane direction="horizontal">
+      <Pane minSize="200px" defaultSize="300px">
+        <Sidebar />
+      </Pane>
+      <Pane>
+        <MainContent />
+      </Pane>
+    </SplitPane>
+  );
+}
+```
+
+## Basic Usage
+
+### Horizontal Split (Side-by-Side)
+
+```tsx
+<SplitPane direction="horizontal">
+  <Pane defaultSize="25%">
+    <LeftPanel />
+  </Pane>
+  <Pane>
+    <RightPanel />
+  </Pane>
 </SplitPane>
 ```
 
-```jsx
-<SplitPane split="vertical" minSize={50}>
-  <div />
-  <SplitPane split="horizontal">
-    <div />
-    <div />
+### Vertical Split (Top-Bottom)
+
+```tsx
+<SplitPane direction="vertical">
+  <Pane defaultSize="100px">
+    <Header />
+  </Pane>
+  <Pane>
+    <Content />
+  </Pane>
+</SplitPane>
+```
+
+### Controlled Mode
+
+```tsx
+function App() {
+  const [sizes, setSizes] = useState([300, 500]);
+
+  return (
+    <SplitPane onResize={setSizes}>
+      <Pane size={sizes[0]} minSize="200px">
+        <Sidebar />
+      </Pane>
+      <Pane size={sizes[1]}>
+        <Main />
+      </Pane>
+    </SplitPane>
+  );
+}
+```
+
+### Nested Layouts
+
+```tsx
+<SplitPane direction="vertical">
+  <Pane defaultSize="60px">
+    <Header />
+  </Pane>
+
+  <SplitPane direction="horizontal">
+    <Pane defaultSize="250px" minSize="150px">
+      <Sidebar />
+    </Pane>
+
+    <SplitPane direction="vertical">
+      <Pane>
+        <Editor />
+      </Pane>
+      <Pane defaultSize="200px">
+        <Console />
+      </Pane>
+    </SplitPane>
   </SplitPane>
 </SplitPane>
 ```
 
-## Props
+## Advanced Features
 
-### primary
+### Persistence
 
-By dragging 'draggable' surface you can change size of the first pane.
-The first pane keeps then its size while the second pane is resized by browser window.
-By default it is the left pane for 'vertical' SplitPane and the top pane for 'horizontal' SplitPane.
-If you want to keep size of the second pane and let the first pane to shrink or grow by browser window dimensions,
-set SplitPane prop `primary` to `second`. In case of 'horizontal' SplitPane the height of bottom pane remains the same.
+Save pane sizes to localStorage:
 
-Resizing can be disabled by passing the `allowResize` prop as `false` (`allowResize={false}`). Resizing is enabled by default.
+```tsx
+import { usePersistence } from 'react-split-pane/persistence';
 
-You can also set the size of the pane using the `size` prop. Note that a size set through props ignores the `defaultSize` and `minSize` properties.
+function App() {
+  const [sizes, setSizes] = usePersistence({ key: 'my-layout' });
 
-In this example right pane keeps its width 200px while user is resizing browser window.
-
-```jsx
-<SplitPane split="vertical" defaultSize={200} primary="second">
-  <div />
-  <div />
-</SplitPane>
+  return (
+    <SplitPane onResize={setSizes}>
+      <Pane size={sizes[0] || 300}>
+        <Sidebar />
+      </Pane>
+      <Pane size={sizes[1]}>
+        <Main />
+      </Pane>
+    </SplitPane>
+  );
+}
 ```
 
-### maxSize
+### Snap Points
 
-You can limit the maximal size of the 'fixed' pane using the maxSize parameter with a positive value (measured in pixels but state just a number).
-If you wrap the SplitPane into a container component (yes you can, just remember the container has to have the relative or absolute positioning),
-then you'll need to limit the movement of the splitter (resizer) at the end of the SplitPane (otherwise it can be dragged outside the SplitPane
-and you don't catch it never more). For this purpose use the maxSize parameter with value 0. When dragged the splitter/resizer will stop at the border
-of the SplitPane component and think this you'll be able to pick it again and drag it back then.
-And more: if you set the maxSize to negative value (e.g. -200), then the splitter stops 200px before the border (in other words it sets the minimal
-size of the 'resizable' pane in this case). This can be useful also in the full-screen case of use.
-
-### step
-
-You can use the step prop to only allow resizing in fixed increments.
-
-### onDragStarted
-
-This callback is invoked when a drag starts.
-
-### onDragFinished
-
-This callback is invoked when a drag ends.
-
-### onChange
-
-This callback is invoked with the current drag during a drag event. It is recommended that it is wrapped in a debounce function.
-
-### Inline Styles
-
-You can also pass inline styles to the components via props. These are:
-
-- `style` - Styling to be applied to the main container.
-- `paneStyle` - Styling to be applied to both panes
-- `pane1Style` - Styling to be applied to the first pane, with precedence over `paneStyle`
-- `pane2Style` - Styling to be applied to the second pane, with precedence over `paneStyle`
-- `resizerStyle` - Styling to be applied to the resizer bar
-
-## Persisting Positions
-
-Each SplitPane accepts an onChange function prop. Used in conjunction with
-defaultSize and a persistence layer, you can ensure that your splitter choices
-survive a refresh of your app.
-
-For example, if you are comfortable with the trade-offs of localStorage, you
-could do something like the following:
-
-```jsx
+```tsx
 <SplitPane
-  split="vertical"
-  minSize={50}
-  defaultSize={parseInt(localStorage.getItem('splitPos'), 10)}
-  onChange={(size) => localStorage.setItem('splitPos', size)}
+  snapPoints={[200, 400, 600]}
+  snapTolerance={20}
 >
-  <div />
-  <div />
+  {/* panes */}
 </SplitPane>
 ```
 
-Disclaimer: localStorage has a variety of performance trade-offs. Browsers such
-as Firefox have now optimized localStorage use so that they will asynchronously
-initiate a read of all saved localStorage data for an origin once they know the
-page will load. If the data has not fully loaded by the time code accesses
-localStorage, the code will cause the page's main thread to block until the
-database load completes. When the main thread is blocked, no other JS code will
-run or layout will occur. In multiprocess browsers and for users with fast
-disk storage, this will be less of a problem. You _are_ likely to get yelled at
-if you use localStorage.
+### Custom Divider
 
-A potentially better idea is to use something like
-https://github.com/mozilla/localForage although hooking it up will be slightly
-more involved. You are likely to be admired by all for judiciously avoiding
-use of localStorage.
+```tsx
+function CustomDivider(props) {
+  return (
+    <div {...props} style={{ ...props.style, background: 'blue' }}>
+      <GripIcon />
+    </div>
+  );
+}
 
-## Example styling
+<SplitPane divider={CustomDivider}>
+  {/* panes */}
+</SplitPane>
+```
 
-This gives a single pixel wide divider, but with a 'grabbable' surface of 11 pixels.
+## Keyboard Navigation
 
-Thanks to `background-clip: padding-box;` for making transparent borders possible.
+The divider is fully keyboard accessible:
+
+- **Arrow Keys**: Resize by `step` pixels (default: 10px)
+- **Shift + Arrow**: Resize by larger step (default: 50px)
+- **Home**: Minimize left/top pane
+- **End**: Maximize left/top pane
+- **Tab**: Navigate between dividers
+
+## API Reference
+
+### SplitPane Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction |
+| `resizable` | `boolean` | `true` | Whether panes can be resized |
+| `snapPoints` | `number[]` | `[]` | Snap points in pixels |
+| `snapTolerance` | `number` | `10` | Snap tolerance in pixels |
+| `step` | `number` | `10` | Keyboard resize step |
+| `onResizeStart` | `(event) => void` | - | Called when resize starts |
+| `onResize` | `(sizes, event) => void` | - | Called during resize |
+| `onResizeEnd` | `(sizes, event) => void` | - | Called when resize ends |
+| `className` | `string` | - | CSS class name |
+| `style` | `CSSProperties` | - | Inline styles |
+| `divider` | `ComponentType` | - | Custom divider component |
+| `dividerClassName` | `string` | - | Divider class name |
+| `dividerStyle` | `CSSProperties` | - | Divider inline styles |
+
+### Pane Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultSize` | `string \| number` | `'50%'` | Initial size (uncontrolled) |
+| `size` | `string \| number` | - | Controlled size |
+| `minSize` | `string \| number` | `0` | Minimum size |
+| `maxSize` | `string \| number` | `Infinity` | Maximum size |
+| `className` | `string` | - | CSS class name |
+| `style` | `CSSProperties` | - | Inline styles |
+
+## Styling
+
+### Basic Styles
 
 ```css
-.Resizer {
-  background: #000;
-  opacity: 0.2;
-  z-index: 1;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -moz-background-clip: padding;
-  -webkit-background-clip: padding;
-  background-clip: padding-box;
+.split-pane {
+  height: 100vh;
 }
 
-.Resizer:hover {
-  -webkit-transition: all 2s ease;
-  transition: all 2s ease;
+.split-pane-divider {
+  background: #e0e0e0;
+  transition: background 0.2s;
 }
 
-.Resizer.horizontal {
-  height: 11px;
-  margin: -5px 0;
-  border-top: 5px solid rgba(255, 255, 255, 0);
-  border-bottom: 5px solid rgba(255, 255, 255, 0);
-  cursor: row-resize;
-  width: 100%;
+.split-pane-divider:hover {
+  background: #b0b0b0;
 }
 
-.Resizer.horizontal:hover {
-  border-top: 5px solid rgba(0, 0, 0, 0.5);
-  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
-}
-
-.Resizer.vertical {
-  width: 11px;
-  margin: 0 -5px;
-  border-left: 5px solid rgba(255, 255, 255, 0);
-  border-right: 5px solid rgba(255, 255, 255, 0);
-  cursor: col-resize;
-}
-
-.Resizer.vertical:hover {
-  border-left: 5px solid rgba(0, 0, 0, 0.5);
-  border-right: 5px solid rgba(0, 0, 0, 0.5);
-}
-.Resizer.disabled {
-  cursor: not-allowed;
-}
-.Resizer.disabled:hover {
-  border-color: transparent;
+.split-pane-divider:focus {
+  outline: 2px solid #2196f3;
+  outline-offset: -2px;
 }
 ```
 
-## New Version
+### Custom Divider Styles
 
-**I'm working on an updated version of this library, and looking for help:**
+```css
+.split-pane-divider.horizontal {
+  width: 1px;
+  margin: 0;
+  background: linear-gradient(to right, transparent, #ccc, transparent);
+}
 
-Demo
-
-http://react-split-pane-v2.surge.sh/
-
-Install
-
-```sh
-npm install react-split-pane@next
-
-# or if you use yarn
-
-yarn add react-split-pane@next
+.split-pane-divider.vertical {
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(to bottom, transparent, #ccc, transparent);
+}
 ```
 
-Usage
+## Migration from v0.1.x
 
-```jsx
-import SplitPane, { Pane } from 'react-split-pane';
+See [MIGRATION.md](./MIGRATION.md) for detailed migration guide.
 
-<SplitPane split="vertical">
-  <Pane initialSize="200px">You can use a Pane component</Pane>
-  <div>or you can use a plain old div</div>
-  <Pane initialSize="25%" minSize="10%" maxSize="500px">
-    Using a Pane allows you to specify any constraints directly
+**Quick changes:**
+
+```tsx
+// v0.1.x
+<SplitPane split="vertical" minSize={50} defaultSize={100}>
+  <div>Pane 1</div>
+  <div>Pane 2</div>
+</SplitPane>
+
+// v3
+<SplitPane direction="horizontal">
+  <Pane minSize="50px" defaultSize="100px">
+    <div>Pane 1</div>
   </Pane>
-</SplitPane>;
+  <Pane>
+    <div>Pane 2</div>
+  </Pane>
+</SplitPane>
 ```
 
-Pull request
+## Browser Support
 
-https://github.com/tomkp/react-split-pane/pull/240
+- Chrome/Edge (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Mobile browsers (iOS Safari, Chrome Android)
 
-More discussion
-
-https://github.com/tomkp/react-split-pane/issues/233
+**Note:** IE11 is not supported. Use v0.1.x for IE11 compatibility.
 
 ## Contributing
 
-I'm always happy to receive Pull Requests for contributions of any kind.
+Contributions are welcome! Please see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
-Please include tests and/or update the examples if possible.
+## License
 
-Thanks, Tom
+MIT © [tomkp](https://github.com/tomkp)
