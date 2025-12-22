@@ -244,6 +244,8 @@ body {
 
 .code-block code {
   color: #8be9fd;
+  white-space: pre;
+  display: block;
 }
 
 /* Snap points example */
