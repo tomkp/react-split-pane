@@ -116,10 +116,26 @@ export function SplitPane(props: SplitPaneProps) {
         return new Array(paneCount).fill(0);
       }
 
-      return paneConfigs.map((config) => {
-        const paneSize = config.size ?? config.defaultSize ?? containerSz / paneCount;
-        return convertToPixels(paneSize, containerSz);
+      // First pass: calculate sizes for panes with explicit sizes
+      const sizes: (number | null)[] = paneConfigs.map((config) => {
+        const paneSize = config.size ?? config.defaultSize;
+        if (paneSize !== undefined) {
+          return convertToPixels(paneSize, containerSz);
+        }
+        return null; // Mark as needing auto-size
       });
+
+      // Calculate remaining space and distribute to auto-sized panes
+      const explicitTotal = sizes.reduce<number>(
+        (sum, size) => sum + (size ?? 0),
+        0
+      );
+      const autoSizedCount = sizes.filter((s) => s === null).length;
+      const remainingSpace = containerSz - explicitTotal;
+      const autoSize = autoSizedCount > 0 ? remainingSpace / autoSizedCount : 0;
+
+      // Second pass: fill in auto-sized panes
+      return sizes.map((size) => (size === null ? autoSize : size));
     },
     [paneCount, paneConfigs]
   );
@@ -167,16 +183,20 @@ export function SplitPane(props: SplitPaneProps) {
     const container = containerRef.current;
     if (!container) return;
 
-    const updateSize = () => {
-      const rect = container.getBoundingClientRect();
+    const updateSizeFromRect = (rect: { width: number; height: number }) => {
       const size = direction === 'horizontal' ? rect.width : rect.height;
-      setContainerSize(size);
-      handleContainerSizeChange(size);
+      if (size > 0) {
+        setContainerSize(size);
+        handleContainerSizeChange(size);
+      }
     };
 
-    updateSize();
-
-    const resizeObserver = new ResizeObserver(updateSize);
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (entry) {
+        updateSizeFromRect(entry.contentRect);
+      }
+    });
     resizeObserver.observe(container);
 
     return () => {
