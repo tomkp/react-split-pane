@@ -9,6 +9,32 @@ import { convertToPixels, distributeSizes } from '../utils/calculations';
 
 const DEFAULT_CLASSNAME = 'split-pane';
 
+/**
+ * A flexible split pane component that allows resizable pane layouts.
+ *
+ * Supports horizontal (side-by-side) and vertical (stacked) layouts with
+ * mouse, touch, and keyboard interactions. Fully accessible with ARIA attributes.
+ *
+ * @example
+ * ```tsx
+ * // Basic horizontal split
+ * <SplitPane direction="horizontal">
+ *   <Pane minSize="200px" defaultSize="300px">
+ *     <Sidebar />
+ *   </Pane>
+ *   <Pane>
+ *     <MainContent />
+ *   </Pane>
+ * </SplitPane>
+ *
+ * // Controlled mode with state
+ * const [sizes, setSizes] = useState([300, 500]);
+ * <SplitPane onResize={setSizes}>
+ *   <Pane size={sizes[0]}>Left</Pane>
+ *   <Pane size={sizes[1]}>Right</Pane>
+ * </SplitPane>
+ * ```
+ */
 export function SplitPane(props: SplitPaneProps) {
   const {
     direction = 'horizontal',

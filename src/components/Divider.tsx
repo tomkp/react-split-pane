@@ -7,6 +7,34 @@ import {
 
 const DEFAULT_CLASSNAME = 'split-pane-divider';
 
+/**
+ * The divider component that separates panes and handles resize interactions.
+ *
+ * This component is automatically rendered between panes by SplitPane.
+ * You can provide a custom divider via the `divider` prop on SplitPane.
+ *
+ * Features:
+ * - Keyboard accessible (arrow keys, Home, End)
+ * - Touch-friendly for mobile devices
+ * - ARIA attributes for screen readers
+ *
+ * @example
+ * ```tsx
+ * // Custom divider component
+ * function CustomDivider(props: DividerProps) {
+ *   return (
+ *     <div {...props} className="my-divider">
+ *       <GripIcon />
+ *     </div>
+ *   );
+ * }
+ *
+ * <SplitPane divider={CustomDivider}>
+ *   <Pane>Left</Pane>
+ *   <Pane>Right</Pane>
+ * </SplitPane>
+ * ```
+ */
 export function Divider(props: DividerProps) {
   const {
     direction,

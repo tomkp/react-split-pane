@@ -20,7 +20,6 @@
   /* Divider colors */
   --split-pane-divider-color: rgba(0, 0, 0, 0.05);
   --split-pane-divider-color-hover: rgba(0, 0, 0, 0.15);
-  --split-pane-divider-border-hover: rgba(0, 0, 0, 0.1);
 
   /* Focus state */
   --split-pane-focus-color: #2196f3;
@@ -35,7 +34,6 @@
   :root {
     --split-pane-divider-color: rgba(255, 255, 255, 0.05);
     --split-pane-divider-color-hover: rgba(255, 255, 255, 0.15);
-    --split-pane-divider-border-hover: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -81,10 +79,6 @@
   cursor: col-resize;
 }
 
-.split-pane-divider.horizontal:hover {
-  border-left-color: var(--split-pane-divider-border-hover);
-  border-right-color: var(--split-pane-divider-border-hover);
-}
 
 /* Vertical layout (horizontal divider) */
 .split-pane-divider.vertical {
@@ -95,10 +89,6 @@
   cursor: row-resize;
 }
 
-.split-pane-divider.vertical:hover {
-  border-top-color: var(--split-pane-divider-border-hover);
-  border-bottom-color: var(--split-pane-divider-border-hover);
-}
 
 /* Minimal theme (1px divider) */
 .split-pane-divider.minimal {

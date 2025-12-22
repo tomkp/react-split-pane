@@ -226,3 +226,129 @@ body {
 .code-block code {
   color: #8be9fd;
 }
+
+/* Snap points example */
+.snap-indicator {
+  display: inline-block;
+  background: #0f3460;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin-right: 0.25rem;
+}
+
+.snap-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.snap-list li {
+  padding: 0.5rem;
+  font-family: monospace;
+  border-left: 3px solid #0f3460;
+  margin-bottom: 0.25rem;
+  transition: all 0.2s;
+}
+
+.snap-list li.active {
+  border-color: #e94560;
+  background: rgba(233, 69, 96, 0.1);
+  color: #e94560;
+}
+
+.snapped-badge {
+  display: inline-block;
+  background: #e94560;
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.tip {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(139, 233, 253, 0.1);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #8be9fd;
+}
+
+/* Touch example */
+.touch-example .split-pane-divider {
+  background: #e94560;
+}
+
+.touch-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.touch-instructions {
+  margin-top: 1rem;
+}
+
+.touch-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.touch-instructions ul {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.touch-instructions li {
+  padding: 0.25rem 0;
+  color: #8be9fd;
+}
+
+.resize-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  text-align: left;
+  width: 100%;
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: #0f3460;
+  border-radius: 4px;
+}
+
+.method-icon {
+  font-size: 1.5rem;
+}
+
+.method-name {
+  font-weight: bold;
+  color: #e94560;
+  min-width: 80px;
+}
+
+.method-desc {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.source-mouse {
+  color: #8be9fd;
+}
+
+.source-touch {
+  color: #50fa7b;
+}
+
+.source-keyboard {
+  color: #ffb86c;
+}

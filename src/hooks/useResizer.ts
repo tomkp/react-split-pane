@@ -6,6 +6,9 @@ import {
   applyStep,
 } from '../utils/calculations';
 
+/**
+ * Options for the useResizer hook.
+ */
 export interface UseResizerOptions {
   direction: Direction;
   sizes: number[];
@@ -19,6 +22,9 @@ export interface UseResizerOptions {
   onResizeEnd?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
 }
 
+/**
+ * Return type for the useResizer hook.
+ */
 export interface UseResizerResult {
   isDragging: boolean;
   currentSizes: number[];
@@ -27,6 +33,22 @@ export interface UseResizerResult {
   handleTouchEnd: (e: React.TouchEvent) => void;
 }
 
+/**
+ * Hook that handles mouse and touch-based resizing of panes.
+ *
+ * This is a low-level hook used internally by SplitPane. For most use cases,
+ * you should use the SplitPane component directly.
+ *
+ * Features:
+ * - Mouse drag support
+ * - Touch support for mobile
+ * - RAF-throttled updates for smooth performance
+ * - Snap points support
+ * - Step-based resizing
+ *
+ * @param options - Configuration options for the resizer
+ * @returns Handlers and state for resize interactions
+ */
 export function useResizer(options: UseResizerOptions): UseResizerResult {
   const {
     direction,

@@ -3,6 +3,9 @@ import type { Direction, ResizeEvent } from '../types';
 import { calculateDraggedSizes, clamp } from '../utils/calculations';
 import { announce, formatSizeForAnnouncement } from '../utils/accessibility';
 
+/**
+ * Options for the useKeyboardResize hook.
+ */
 export interface UseKeyboardResizeOptions {
   direction: Direction;
   sizes: number[];
@@ -17,6 +20,21 @@ export interface UseKeyboardResizeOptions {
 const DEFAULT_STEP = 10;
 const DEFAULT_LARGE_STEP = 50;
 
+/**
+ * Hook that handles keyboard-based resizing of panes.
+ *
+ * This is a low-level hook used internally by SplitPane. For most use cases,
+ * you should use the SplitPane component directly.
+ *
+ * Supported keys:
+ * - Arrow keys: Resize by step (default 10px)
+ * - Shift + Arrow: Resize by large step (default 50px)
+ * - Home: Minimize the left/top pane to its minimum size
+ * - End: Maximize the left/top pane to its maximum size
+ *
+ * @param options - Configuration options for keyboard resize
+ * @returns Handler for keyboard events
+ */
 export function useKeyboardResize(options: UseKeyboardResizeOptions) {
   const {
     direction,

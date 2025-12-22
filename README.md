@@ -124,7 +124,7 @@ function App() {
 
 ### Persistence
 
-Save pane sizes to localStorage:
+The `usePersistence` hook saves and restores pane sizes to localStorage (or sessionStorage):
 
 ```tsx
 import { usePersistence } from 'react-split-pane/persistence';
@@ -143,6 +143,23 @@ function App() {
     </SplitPane>
   );
 }
+```
+
+#### usePersistence Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `key` | `string` | Required | Storage key for persisting sizes |
+| `storage` | `Storage` | `localStorage` | Storage backend (localStorage or sessionStorage) |
+| `debounce` | `number` | `300` | Debounce delay in ms before saving |
+
+```tsx
+// Use sessionStorage instead of localStorage
+const [sizes, setSizes] = usePersistence({
+  key: 'my-layout',
+  storage: sessionStorage,
+  debounce: 500,
+});
 ```
 
 ### Snap Points
@@ -288,7 +305,7 @@ See [MIGRATION.md](./MIGRATION.md) for detailed migration guide.
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 

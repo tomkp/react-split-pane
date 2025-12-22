@@ -4,6 +4,30 @@ import type { PaneProps } from '../types';
 
 const DEFAULT_CLASSNAME = 'split-pane-pane';
 
+/**
+ * A pane component that must be used as a direct child of SplitPane.
+ *
+ * Panes can have size constraints and can be either controlled (with `size`)
+ * or uncontrolled (with `defaultSize`).
+ *
+ * @example
+ * ```tsx
+ * // Uncontrolled with constraints
+ * <Pane minSize="100px" maxSize="500px" defaultSize="300px">
+ *   Content here
+ * </Pane>
+ *
+ * // Controlled
+ * <Pane size={sizes[0]} minSize={100}>
+ *   Content here
+ * </Pane>
+ *
+ * // Percentage-based sizing
+ * <Pane defaultSize="25%" minSize="10%">
+ *   Sidebar
+ * </Pane>
+ * ```
+ */
 export const Pane = forwardRef<HTMLDivElement, PaneProps>(
   function Pane(props, ref) {
     const {

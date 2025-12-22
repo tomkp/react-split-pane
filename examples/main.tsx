@@ -4,9 +4,11 @@ import { BasicExample } from './BasicExample';
 import { NestedExample } from './NestedExample';
 import { ControlledExample } from './ControlledExample';
 import { StyledExample } from './StyledExample';
+import { SnapPointsExample } from './SnapPointsExample';
+import { TouchExample } from './TouchExample';
 import './styles.css';
 
-type Example = 'basic' | 'nested' | 'controlled' | 'styled';
+type Example = 'basic' | 'nested' | 'controlled' | 'styled' | 'snap' | 'touch';
 
 function App() {
   const [example, setExample] = useState<Example>('basic');
@@ -40,6 +42,18 @@ function App() {
           >
             Styled
           </button>
+          <button
+            className={example === 'snap' ? 'active' : ''}
+            onClick={() => setExample('snap')}
+          >
+            Snap Points
+          </button>
+          <button
+            className={example === 'touch' ? 'active' : ''}
+            onClick={() => setExample('touch')}
+          >
+            Touch
+          </button>
         </div>
       </nav>
 
@@ -48,6 +62,8 @@ function App() {
         {example === 'nested' && <NestedExample />}
         {example === 'controlled' && <ControlledExample />}
         {example === 'styled' && <StyledExample />}
+        {example === 'snap' && <SnapPointsExample />}
+        {example === 'touch' && <TouchExample />}
       </main>
     </div>
   );
