@@ -12,13 +12,14 @@ describe('useKeyboardResize', () => {
   const createKeyboardEvent = (
     key: string,
     options: Partial<React.KeyboardEvent> = {}
-  ): React.KeyboardEvent => ({
-    key,
-    shiftKey: false,
-    preventDefault: vi.fn(),
-    nativeEvent: new KeyboardEvent('keydown', { key }),
-    ...options,
-  } as unknown as React.KeyboardEvent);
+  ): React.KeyboardEvent =>
+    ({
+      key,
+      shiftKey: false,
+      preventDefault: vi.fn(),
+      nativeEvent: new KeyboardEvent('keydown', { key }),
+      ...options,
+    }) as unknown as React.KeyboardEvent;
 
   beforeEach(() => {
     vi.clearAllMocks();
