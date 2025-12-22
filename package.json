@@ -35,9 +35,10 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "format": "prettier --write src examples",
+    "format:check": "prettier --check src examples",
     "typecheck": "tsc --noEmit",
+    "examples": "vite --config examples/vite.config.ts",
     "prepublishOnly": "npm run test && npm run build"
   },
   "repository": {

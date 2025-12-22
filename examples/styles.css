@@ -1,0 +1,228 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #16213e;
+  border-bottom: 1px solid #0f3460;
+}
+
+.nav h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e94560;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-buttons button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #0f3460;
+  border-radius: 4px;
+  background: transparent;
+  color: #eee;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-buttons button:hover {
+  background: #0f3460;
+}
+
+.nav-buttons button.active {
+  background: #e94560;
+  border-color: #e94560;
+}
+
+.main {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Pane content styles */
+.pane-content {
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-content h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #e94560;
+}
+
+.pane-content p {
+  font-size: 0.875rem;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.pane-content.sidebar {
+  background: #16213e;
+}
+
+.pane-content.editor {
+  background: #1a1a2e;
+}
+
+.pane-content.preview {
+  background: #0f3460;
+}
+
+.pane-content.console {
+  background: #111;
+  font-family: monospace;
+}
+
+/* Split pane divider styles */
+.split-pane-divider {
+  background: #0f3460;
+  transition: background 0.2s;
+}
+
+.split-pane-divider:hover,
+.split-pane-divider:focus {
+  background: #e94560;
+}
+
+.split-pane-divider.horizontal {
+  width: 4px !important;
+  margin-left: -2px !important;
+  margin-right: -2px !important;
+}
+
+.split-pane-divider.vertical {
+  height: 4px !important;
+  margin-top: -2px !important;
+  margin-bottom: -2px !important;
+}
+
+/* Example specific styles */
+.example-container {
+  height: 100%;
+}
+
+.example-info {
+  padding: 1rem;
+  background: #16213e;
+  border-bottom: 1px solid #0f3460;
+}
+
+.example-info h2 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.example-info p {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.example-content {
+  height: calc(100% - 60px);
+}
+
+/* Controlled example */
+.size-display {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #e94560;
+  margin-top: 0.5rem;
+}
+
+/* Styled example - custom divider */
+.custom-divider {
+  background: linear-gradient(to bottom, #e94560, #0f3460);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-divider.horizontal {
+  width: 8px !important;
+  margin-left: -4px !important;
+  margin-right: -4px !important;
+}
+
+.custom-divider.vertical {
+  height: 8px !important;
+  margin-top: -4px !important;
+  margin-bottom: -4px !important;
+}
+
+.custom-divider::after {
+  content: '···';
+  color: white;
+  font-size: 10px;
+  writing-mode: vertical-rl;
+}
+
+.custom-divider.vertical::after {
+  writing-mode: horizontal-tb;
+}
+
+/* File tree styles */
+.file-tree {
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+.file-tree-item {
+  padding: 0.25rem 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.file-tree-item:hover {
+  color: #e94560;
+}
+
+.file-tree-item.folder::before {
+  content: '📁';
+}
+
+.file-tree-item.file::before {
+  content: '📄';
+}
+
+/* Code block */
+.code-block {
+  background: #0a0a0a;
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+  overflow: auto;
+  flex: 1;
+  margin-top: 0.5rem;
+}
+
+.code-block code {
+  color: #8be9fd;
+}
