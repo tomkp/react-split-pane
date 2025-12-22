@@ -4,7 +4,9 @@ import { SplitPane, Pane } from '../src';
 export function TouchExample() {
   const [resizeSource, setResizeSource] = useState<string | null>(null);
   const [sizes, setSizes] = useState<number[]>([]);
-  const [direction, setDirection] = useState<'horizontal' | 'vertical'>('horizontal');
+  const [direction, setDirection] = useState<'horizontal' | 'vertical'>(
+    'horizontal'
+  );
 
   // Use vertical layout on mobile for better touch experience
   useEffect(() => {
@@ -18,12 +20,11 @@ export function TouchExample() {
     <div className="example-container">
       <div className="example-info">
         <h2>Touch Support</h2>
-        <p>
-          Full touch support for mobile. Drag the divider with your finger!
-        </p>
+        <p>Full touch support for mobile. Drag the divider with your finger!</p>
         {resizeSource && (
           <p className="size-display">
-            Via: <strong className={`source-${resizeSource}`}>{resizeSource}</strong>
+            Via:{' '}
+            <strong className={`source-${resizeSource}`}>{resizeSource}</strong>
             {sizes.length > 0 && (
               <span> | {sizes.map((s) => Math.round(s)).join('/')}px</span>
             )}

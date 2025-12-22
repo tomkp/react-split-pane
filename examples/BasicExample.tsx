@@ -43,12 +43,13 @@ export function BasicExample() {
       </div>
       <div className="example-content">
         <SplitPane direction={direction}>
-          <Pane minSize={80} defaultSize={direction === 'vertical' ? '40%' : '30%'}>
+          <Pane
+            minSize={80}
+            defaultSize={direction === 'vertical' ? '40%' : '30%'}
+          >
             <div className="pane-content sidebar">
               <h2>Sidebar</h2>
-              <p>
-                Min size: 80px. Drag the divider to resize.
-              </p>
+              <p>Min size: 80px. Drag the divider to resize.</p>
               <div className="file-tree">
                 <div className="file-tree-item folder">src</div>
                 <div
@@ -71,9 +72,7 @@ export function BasicExample() {
           <Pane minSize={100}>
             <div className="pane-content editor">
               <h2>Main Content</h2>
-              <p>
-                Use arrow keys when focused for keyboard control.
-              </p>
+              <p>Use arrow keys when focused for keyboard control.</p>
               <div className="code-block">
                 <code>
                   {`import { SplitPane, Pane } from 'react-split-pane';

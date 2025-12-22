@@ -12,9 +12,7 @@ export function NestedExample() {
     <div className="example-container">
       <div className="example-info">
         <h2>Nested Split Panes</h2>
-        <p>
-          Create complex layouts by nesting split panes. IDE-style layout.
-        </p>
+        <p>Create complex layouts by nesting split panes. IDE-style layout.</p>
       </div>
       <div className="example-content">
         <SplitPane direction={isMobile ? 'vertical' : 'horizontal'}>
