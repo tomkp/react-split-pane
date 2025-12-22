@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "start": "parcel website/index.html",
-    "prebuild": "yarn run clean",
+    "prebuild": "npm run clean",
     "build": "rollup -c",
     "build:watch": "rollup -c --watch",
     "clean": "rimraf dist",
@@ -42,7 +42,7 @@
     "build:storybook": "build-storybook -o build",
     "storybook": "start-storybook -p ${PORT:-3001} -h 0.0.0.0",
     "deploy": "gh-pages -d build",
-    "prepublishOnly": "yarn run test && yarn run build"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "husky": {
     "hooks": {
