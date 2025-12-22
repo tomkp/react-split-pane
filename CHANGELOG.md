@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.0.0](https://github.com/tomkp/react-split-pane/compare/v0.1.92...v3.0.0) (2024-12-22)
+## [3.0.0](https://github.com/tomkp/react-split-pane/compare/v0.1.92...v3.0.0) (2025-12-22)
 
 ### ⚠ BREAKING CHANGES
 

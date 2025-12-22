@@ -300,14 +300,11 @@ import { SplitPane, Pane } from 'react-split-pane';
 import { usePersistence } from 'react-split-pane/persistence';
 
 function App() {
-  const [sizes, setSizes] = usePersistence({
-    key: 'splitPos',
-    defaultSizes: [200],
-  });
+  const [sizes, setSizes] = usePersistence({ key: 'splitPos' });
 
   return (
     <SplitPane onResize={setSizes}>
-      <Pane size={sizes[0]}>Pane 1</Pane>
+      <Pane size={sizes[0] || 200}>Pane 1</Pane>
       <Pane>Pane 2</Pane>
     </SplitPane>
   );

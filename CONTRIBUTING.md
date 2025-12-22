@@ -121,7 +121,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - npm 9+
 
 ### Setup
