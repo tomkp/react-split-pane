@@ -2,7 +2,42 @@
  * Default styles for react-split-pane v3
  *
  * You can import these styles or create your own.
+ *
+ * Customize by overriding CSS custom properties:
+ *
+ *   .my-split-pane {
+ *     --split-pane-divider-size: 8px;
+ *     --split-pane-divider-color: #e0e0e0;
+ *     --split-pane-focus-color: #ff5722;
+ *   }
  */
+
+:root {
+  /* Divider dimensions */
+  --split-pane-divider-size: 11px;
+  --split-pane-divider-hit-area: 5px;
+
+  /* Divider colors */
+  --split-pane-divider-color: rgba(0, 0, 0, 0.05);
+  --split-pane-divider-color-hover: rgba(0, 0, 0, 0.15);
+  --split-pane-divider-border-hover: rgba(0, 0, 0, 0.1);
+
+  /* Focus state */
+  --split-pane-focus-color: #2196f3;
+  --split-pane-focus-bg: rgba(33, 150, 243, 0.1);
+
+  /* Animation */
+  --split-pane-transition-duration: 0.2s;
+}
+
+/* Dark theme defaults */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --split-pane-divider-color: rgba(255, 255, 255, 0.05);
+    --split-pane-divider-color-hover: rgba(255, 255, 255, 0.15);
+    --split-pane-divider-border-hover: rgba(255, 255, 255, 0.1);
+  }
+}
 
 .split-pane {
   position: relative;
@@ -19,99 +54,63 @@
   z-index: 1;
   box-sizing: border-box;
   background-clip: padding-box;
-  transition: background-color 0.2s ease;
+  background-color: var(--split-pane-divider-color);
+  transition: background-color var(--split-pane-transition-duration) ease;
 }
 
-/* Horizontal layout (vertical divider) */
-.split-pane-divider.horizontal {
-  width: 11px;
-  margin: 0 -5px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  cursor: col-resize;
-  background-color: rgba(0, 0, 0, 0.05);
+.split-pane-divider:hover {
+  background-color: var(--split-pane-divider-color-hover);
 }
 
-.split-pane-divider.horizontal:hover {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-left-color: rgba(0, 0, 0, 0.1);
-  border-right-color: rgba(0, 0, 0, 0.1);
-}
-
-.split-pane-divider.horizontal:focus {
-  outline: 2px solid #2196f3;
+.split-pane-divider:focus {
+  outline: 2px solid var(--split-pane-focus-color);
   outline-offset: -2px;
-  background-color: rgba(33, 150, 243, 0.1);
+  background-color: var(--split-pane-focus-bg);
 }
 
-/* Vertical layout (horizontal divider) */
-.split-pane-divider.vertical {
-  height: 11px;
-  margin: -5px 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  cursor: row-resize;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.split-pane-divider.vertical:hover {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-top-color: rgba(0, 0, 0, 0.1);
-  border-bottom-color: rgba(0, 0, 0, 0.1);
-}
-
-.split-pane-divider.vertical:focus {
-  outline: 2px solid #2196f3;
-  outline-offset: -2px;
-  background-color: rgba(33, 150, 243, 0.1);
-}
-
-/* Disabled state */
 .split-pane-divider:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Dark theme support */
-@media (prefers-color-scheme: dark) {
-  .split-pane-divider.horizontal,
-  .split-pane-divider.vertical {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
+/* Horizontal layout (vertical divider) */
+.split-pane-divider.horizontal {
+  width: var(--split-pane-divider-size);
+  margin: 0 calc(var(--split-pane-divider-hit-area) * -1);
+  border-left: var(--split-pane-divider-hit-area) solid transparent;
+  border-right: var(--split-pane-divider-hit-area) solid transparent;
+  cursor: col-resize;
+}
 
-  .split-pane-divider.horizontal:hover,
-  .split-pane-divider.vertical:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
+.split-pane-divider.horizontal:hover {
+  border-left-color: var(--split-pane-divider-border-hover);
+  border-right-color: var(--split-pane-divider-border-hover);
+}
 
-  .split-pane-divider.horizontal:hover {
-    border-left-color: rgba(255, 255, 255, 0.1);
-    border-right-color: rgba(255, 255, 255, 0.1);
-  }
+/* Vertical layout (horizontal divider) */
+.split-pane-divider.vertical {
+  height: var(--split-pane-divider-size);
+  margin: calc(var(--split-pane-divider-hit-area) * -1) 0;
+  border-top: var(--split-pane-divider-hit-area) solid transparent;
+  border-bottom: var(--split-pane-divider-hit-area) solid transparent;
+  cursor: row-resize;
+}
 
-  .split-pane-divider.vertical:hover {
-    border-top-color: rgba(255, 255, 255, 0.1);
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-  }
+.split-pane-divider.vertical:hover {
+  border-top-color: var(--split-pane-divider-border-hover);
+  border-bottom-color: var(--split-pane-divider-border-hover);
 }
 
 /* Minimal theme (1px divider) */
-.split-pane-divider.minimal.horizontal {
-  width: 1px;
-  margin: 0;
+.split-pane-divider.minimal {
+  --split-pane-divider-size: 1px;
+  --split-pane-divider-hit-area: 0px;
+  --split-pane-divider-color: rgba(0, 0, 0, 0.12);
   border: none;
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.split-pane-divider.minimal.vertical {
-  height: 1px;
   margin: 0;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
-  .split-pane-divider.minimal.horizontal,
-  .split-pane-divider.minimal.vertical {
-    background-color: rgba(255, 255, 255, 0.12);
+  .split-pane-divider.minimal {
+    --split-pane-divider-color: rgba(255, 255, 255, 0.12);
   }
 }
