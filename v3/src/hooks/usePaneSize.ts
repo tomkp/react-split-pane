@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Size } from '../types';
+import type { Size } from '../types';
 import { convertToPixels } from '../utils/calculations';
 
 export interface UsePaneSizeOptions {
@@ -18,7 +18,13 @@ export interface UsePaneSizeResult {
 }
 
 export function usePaneSize(options: UsePaneSizeOptions): UsePaneSizeResult {
-  const { defaultSize, size, minSize = 0, maxSize = Infinity, containerSize } = options;
+  const {
+    defaultSize,
+    size,
+    minSize = 0,
+    maxSize = Infinity,
+    containerSize,
+  } = options;
 
   const isControlled = size !== undefined;
 

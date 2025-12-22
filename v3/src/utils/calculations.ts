@@ -1,4 +1,4 @@
-import { Size } from '../types';
+import type { Size } from '../types';
 
 /**
  * Convert a size value (string or number) to pixels

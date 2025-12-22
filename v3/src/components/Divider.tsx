@@ -1,6 +1,9 @@
-import { CSSProperties } from 'react';
-import { DividerProps } from '../types';
-import { getDividerLabel, getKeyboardInstructions } from '../utils/accessibility';
+import type { CSSProperties } from 'react';
+import type { DividerProps } from '../types';
+import {
+  getDividerLabel,
+  getKeyboardInstructions,
+} from '../utils/accessibility';
 
 const DEFAULT_CLASSNAME = 'split-pane-divider';
 

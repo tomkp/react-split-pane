@@ -1,13 +1,6 @@
-import {
-  Children,
-  CSSProperties,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { SplitPaneProps, PaneProps, ResizeEvent } from '../types';
+import type { CSSProperties, ReactElement } from 'react';
+import { Children, useCallback, useEffect, useRef, useState } from 'react';
+import type { SplitPaneProps, PaneProps, ResizeEvent } from '../types';
 import { Pane } from './Pane';
 import { Divider } from './Divider';
 import { useResizer } from '../hooks/useResizer';
@@ -67,7 +60,9 @@ export function SplitPane(props: SplitPaneProps) {
       sizes.push(convertToPixels(paneSize, containerSize));
       minSizes.push(convertToPixels(minSize, containerSize));
       maxSizes.push(
-        maxSize === Infinity ? Infinity : convertToPixels(maxSize, containerSize)
+        maxSize === Infinity
+          ? Infinity
+          : convertToPixels(maxSize, containerSize)
       );
     });
 
@@ -85,7 +80,7 @@ export function SplitPane(props: SplitPaneProps) {
     const { sizes } = getPaneSizes();
 
     // Only update if we don't have valid sizes yet
-    if (paneSizes.every(s => s === 0) || paneSizes.length !== sizes.length) {
+    if (paneSizes.every((s) => s === 0) || paneSizes.length !== sizes.length) {
       setPaneSizes(sizes);
     } else {
       // Distribute existing sizes proportionally
@@ -119,25 +114,30 @@ export function SplitPane(props: SplitPaneProps) {
   }, [direction]);
 
   // Resizer hook
-  const { isDragging, currentSizes, handleMouseDown, handleTouchStart, handleTouchEnd } =
-    useResizer({
-      direction,
-      sizes: paneSizes,
-      minSizes,
-      maxSizes,
-      snapPoints,
-      snapTolerance,
-      step,
-      onResizeStart,
-      onResize: useCallback(
-        (newSizes: number[], event: ResizeEvent) => {
-          setPaneSizes(newSizes);
-          onResize?.(newSizes, event);
-        },
-        [onResize]
-      ),
-      onResizeEnd,
-    });
+  const {
+    isDragging,
+    currentSizes,
+    handleMouseDown,
+    handleTouchStart,
+    handleTouchEnd,
+  } = useResizer({
+    direction,
+    sizes: paneSizes,
+    minSizes,
+    maxSizes,
+    snapPoints,
+    snapTolerance,
+    step,
+    onResizeStart,
+    onResize: useCallback(
+      (newSizes: number[], event: ResizeEvent) => {
+        setPaneSizes(newSizes);
+        onResize?.(newSizes, event);
+      },
+      [onResize]
+    ),
+    onResizeEnd,
+  });
 
   // Keyboard resize hook
   const { handleKeyDown } = useKeyboardResize({
@@ -221,7 +221,11 @@ export function SplitPane(props: SplitPaneProps) {
   };
 
   return (
-    <div ref={containerRef} className={containerClassName} style={containerStyle}>
+    <div
+      ref={containerRef}
+      className={containerClassName}
+      style={containerStyle}
+    >
       {containerSize > 0 && renderChildren()}
     </div>
   );

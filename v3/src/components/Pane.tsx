@@ -1,21 +1,25 @@
-import { CSSProperties, forwardRef } from 'react';
-import { PaneProps } from '../types';
+import type { CSSProperties } from 'react';
+import { forwardRef } from 'react';
+import type { PaneProps } from '../types';
 
 const DEFAULT_CLASSNAME = 'split-pane-pane';
 
-export const Pane = forwardRef<HTMLDivElement, PaneProps>(function Pane(props, ref) {
+export const Pane = forwardRef<HTMLDivElement, PaneProps>(function Pane(
+  props,
+  ref
+) {
   const {
     className,
     style,
     children,
     // These props are extracted but used by parent SplitPane
-    defaultSize,
-    size,
-    minSize,
-    maxSize,
-    collapsible,
-    collapsed,
-    onCollapse,
+    defaultSize: _defaultSize,
+    size: _size,
+    minSize: _minSize,
+    maxSize: _maxSize,
+    collapsible: _collapsible,
+    collapsed: _collapsed,
+    onCollapse: _onCollapse,
     ...rest
   } = props;
 

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Direction, ResizeEvent } from '../types';
+import type { Direction, ResizeEvent } from '../types';
 import { calculateDraggedSizes, clamp } from '../utils/calculations';
 import { announce, formatSizeForAnnouncement } from '../utils/accessibility';
 
@@ -65,18 +65,22 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
           // Minimize left/top pane
           newSizes[dividerIndex] = minSizes[dividerIndex] ?? 0;
           newSizes[dividerIndex + 1] =
-            (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0) - newSizes[dividerIndex];
+            (sizes[dividerIndex] ?? 0) +
+            (sizes[dividerIndex + 1] ?? 0) -
+            newSizes[dividerIndex];
           break;
 
-        case 'End':
+        case 'End': {
           // Maximize left/top pane
           const maxLeft = maxSizes[dividerIndex] ?? Infinity;
           const minRight = minSizes[dividerIndex + 1] ?? 0;
-          const totalSize = (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0);
+          const totalSize =
+            (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0);
 
           newSizes[dividerIndex] = Math.min(maxLeft, totalSize - minRight);
           newSizes[dividerIndex + 1] = totalSize - newSizes[dividerIndex];
           break;
+        }
 
         case 'Escape':
           // Could restore original size if we track it

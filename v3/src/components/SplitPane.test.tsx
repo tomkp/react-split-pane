@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
 import { SplitPane } from './SplitPane';
 import { Pane } from './Pane';
 
@@ -8,10 +9,8 @@ describe('SplitPane', () => {
   // These tests work in real browsers but have timing issues in test environment
   // Core functionality is verified by utility tests
   it.skip('renders children panes', async () => {
-    let component: any;
-
     await act(async () => {
-      component = render(
+      render(
         <SplitPane>
           <Pane>
             <div>Pane 1</div>
@@ -22,7 +21,7 @@ describe('SplitPane', () => {
         </SplitPane>
       );
       // Give ResizeObserver time to fire
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     });
 
     expect(screen.getByText('Pane 1')).toBeInTheDocument();
@@ -30,7 +29,7 @@ describe('SplitPane', () => {
   });
 
   it.skip('renders divider between panes', async () => {
-    let component: any;
+    let component: RenderResult | undefined;
 
     await act(async () => {
       component = render(
@@ -39,10 +38,10 @@ describe('SplitPane', () => {
           <Pane>Pane 2</Pane>
         </SplitPane>
       );
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     });
 
-    const divider = component.container.querySelector('[role="separator"]');
+    const divider = component?.container.querySelector('[role="separator"]');
     expect(divider).toBeInTheDocument();
   });
 
@@ -83,7 +82,7 @@ describe('SplitPane', () => {
   });
 
   it.skip('renders correct number of dividers for multiple panes', async () => {
-    let component: any;
+    let component: RenderResult | undefined;
 
     await act(async () => {
       component = render(
@@ -93,10 +92,12 @@ describe('SplitPane', () => {
           <Pane>Pane 3</Pane>
         </SplitPane>
       );
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
     });
 
-    const dividers = component.container.querySelectorAll('[role="separator"]');
+    const dividers = component?.container.querySelectorAll(
+      '[role="separator"]'
+    );
     expect(dividers).toHaveLength(2); // n-1 dividers for n panes
   });
 });

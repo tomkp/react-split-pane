@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Direction, ResizeEvent } from '../types';
-import { calculateDraggedSizes, snapToPoint, applyStep } from '../utils/calculations';
+import type { Direction, ResizeEvent } from '../types';
+import {
+  calculateDraggedSizes,
+  snapToPoint,
+  applyStep,
+} from '../utils/calculations';
 
 export interface UseResizerOptions {
   direction: Direction;
@@ -179,7 +183,8 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       const touch = e.touches[0];
       if (!touch) return;
 
-      const startPosition = direction === 'horizontal' ? touch.clientX : touch.clientY;
+      const startPosition =
+        direction === 'horizontal' ? touch.clientX : touch.clientY;
 
       dragStateRef.current = {
         dividerIndex,
