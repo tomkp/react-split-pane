@@ -254,7 +254,53 @@ The divider is fully keyboard accessible:
 }
 ```
 
-### Custom Divider Styles
+### Expanded Hover Area
+
+This classic pattern creates a thin visible divider with a larger grabbable area that reveals on hover:
+
+```css
+.split-pane-divider {
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  box-sizing: border-box;
+  background-clip: padding-box;
+}
+
+.split-pane-divider:hover {
+  transition: all 0.2s ease;
+}
+
+.split-pane-divider.horizontal {
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.split-pane-divider.horizontal:hover {
+  border-left: 5px solid rgba(0, 0, 0, 0.5);
+  border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.split-pane-divider.vertical {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+}
+
+.split-pane-divider.vertical:hover {
+  border-top: 5px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+```
+
+### Minimal Divider
+
+A subtle single-pixel divider:
 
 ```css
 .split-pane-divider.horizontal {
