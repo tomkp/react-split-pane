@@ -73,17 +73,35 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   } | null>(null);
 
   const rafRef = useRef<number | null>(null);
+  const mountedRef = useRef(true);
 
-  // Update current sizes when prop sizes change
+  // Use refs to avoid stale closures in event handlers
+  const currentSizesRef = useRef(currentSizes);
+  currentSizesRef.current = currentSizes;
+
+  const onResizeEndRef = useRef(onResizeEnd);
+  onResizeEndRef.current = onResizeEnd;
+
+  // Update current sizes when prop sizes change (only when not dragging)
+  if (!isDragging && sizes !== currentSizes && JSON.stringify(sizes) !== JSON.stringify(currentSizes)) {
+    setCurrentSizes(sizes);
+  }
+
+  // Track mounted state for RAF cleanup
   useEffect(() => {
-    if (!isDragging) {
-      setCurrentSizes(sizes);
-    }
-  }, [sizes, isDragging]);
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, []);
 
   const handleDrag = useCallback(
     (clientX: number, clientY: number) => {
-      if (!dragStateRef.current) return;
+      if (!dragStateRef.current || !mountedRef.current) return;
 
       const { dividerIndex, startPosition, startSizes } = dragStateRef.current;
       const currentPosition = direction === 'horizontal' ? clientX : clientY;
@@ -130,8 +148,10 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       if (rafRef.current) return;
 
       rafRef.current = requestAnimationFrame(() => {
-        handleDrag(e.clientX, e.clientY);
         rafRef.current = null;
+        if (mountedRef.current) {
+          handleDrag(e.clientX, e.clientY);
+        }
       });
     },
     [handleDrag]
@@ -144,11 +164,13 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       if (rafRef.current) return;
 
       rafRef.current = requestAnimationFrame(() => {
-        const touch = e.touches[0];
-        if (touch) {
-          handleDrag(touch.clientX, touch.clientY);
-        }
         rafRef.current = null;
+        if (mountedRef.current) {
+          const touch = e.touches[0];
+          if (touch) {
+            handleDrag(touch.clientX, touch.clientY);
+          }
+        }
       });
     },
     [handleDrag]
@@ -157,23 +179,27 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   const handleMouseUp = useCallback(() => {
     if (!dragStateRef.current) return;
 
-    setIsDragging(false);
-
-    if (onResizeEnd) {
-      onResizeEnd(currentSizes, {
-        sizes: currentSizes,
-        source: 'mouse',
-      });
-    }
-
-    dragStateRef.current = null;
-
     // Cancel any pending RAF
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-  }, [currentSizes, onResizeEnd]);
+
+    setIsDragging(false);
+
+    // Use refs to get latest values and avoid stale closure
+    const latestSizes = currentSizesRef.current;
+    const latestOnResizeEnd = onResizeEndRef.current;
+
+    if (latestOnResizeEnd) {
+      latestOnResizeEnd(latestSizes, {
+        sizes: latestSizes,
+        source: 'mouse',
+      });
+    }
+
+    dragStateRef.current = null;
+  }, []);
 
   const handleMouseDown = useCallback(
     (dividerIndex: number) => (e: React.MouseEvent) => {

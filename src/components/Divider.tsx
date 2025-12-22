@@ -90,6 +90,10 @@ export function Divider(props: DividerProps) {
   const label = getDividerLabel(index, direction);
   const instructions = getKeyboardInstructions(direction);
 
+  // Don't pass Infinity to ARIA attributes - screen readers can't handle it
+  const ariaValueMax =
+    maxSize === undefined || maxSize === Infinity ? undefined : maxSize;
+
   return (
     <div
       role="separator"
@@ -97,7 +101,7 @@ export function Divider(props: DividerProps) {
       aria-label={label}
       aria-valuenow={currentSize}
       aria-valuemin={minSize}
-      aria-valuemax={maxSize}
+      aria-valuemax={ariaValueMax}
       aria-description={instructions}
       tabIndex={disabled ? -1 : 0}
       className={combinedClassName}

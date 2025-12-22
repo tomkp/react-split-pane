@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactElement } from 'react';
-import { Children, useCallback, useEffect, useRef, useState } from 'react';
+import { Children, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { SplitPaneProps, PaneProps, ResizeEvent } from '../types';
 import { Pane } from './Pane';
 import { Divider } from './Divider';
@@ -8,6 +8,7 @@ import { useKeyboardResize } from '../hooks/useKeyboardResize';
 import { convertToPixels, distributeSizes } from '../utils/calculations';
 
 const DEFAULT_CLASSNAME = 'split-pane';
+const MIN_PANES = 2;
 
 /**
  * A flexible split pane component that allows resizable pane layouts.
@@ -55,70 +56,113 @@ export function SplitPane(props: SplitPaneProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState(0);
+  const prevContainerSizeRef = useRef(0);
 
-  // Extract pane configuration from children
-  const paneElements = Children.toArray(children).filter(
-    (child): child is ReactElement<PaneProps> =>
-      typeof child === 'object' && child !== null && 'props' in child
-  );
+  // Extract pane configuration from children - memoized to avoid recreating on every render
+  const paneConfigs = useMemo(() => {
+    const paneElements = Children.toArray(children).filter(
+      (child): child is ReactElement<PaneProps> =>
+        typeof child === 'object' && child !== null && 'props' in child
+    );
 
-  const paneCount = paneElements.length;
+    return paneElements.map((pane) => ({
+      props: pane.props,
+      size: pane.props.size,
+      defaultSize: pane.props.defaultSize,
+      minSize: pane.props.minSize ?? 0,
+      maxSize: pane.props.maxSize ?? Infinity,
+    }));
+  }, [children]);
 
-  // Calculate initial sizes, minSizes, and maxSizes
-  const getPaneSizes = useCallback(() => {
+  const paneCount = paneConfigs.length;
+  const warnedRef = useRef(false);
+
+  // Warn once if fewer than 2 panes
+  if (paneCount < MIN_PANES && !warnedRef.current) {
+    warnedRef.current = true;
+    console.warn(
+      `SplitPane requires at least ${MIN_PANES} Pane children. Received ${paneCount}.`
+    );
+  }
+
+  // Calculate min/max sizes from pane configs
+  const { minSizes, maxSizes } = useMemo(() => {
     if (containerSize === 0) {
       return {
-        sizes: new Array(paneCount).fill(0),
         minSizes: new Array(paneCount).fill(0),
         maxSizes: new Array(paneCount).fill(Infinity),
       };
     }
 
-    const sizes: number[] = [];
-    const minSizes: number[] = [];
-    const maxSizes: number[] = [];
+    const mins: number[] = [];
+    const maxs: number[] = [];
 
-    paneElements.forEach((pane) => {
-      const { size, defaultSize, minSize = 0, maxSize = Infinity } = pane.props;
-
-      // Use controlled size if available, otherwise defaultSize, otherwise equal distribution
-      const paneSize = size ?? defaultSize ?? containerSize / paneCount;
-      sizes.push(convertToPixels(paneSize, containerSize));
-      minSizes.push(convertToPixels(minSize, containerSize));
-      maxSizes.push(
-        maxSize === Infinity
+    paneConfigs.forEach((config) => {
+      mins.push(convertToPixels(config.minSize, containerSize));
+      maxs.push(
+        config.maxSize === Infinity
           ? Infinity
-          : convertToPixels(maxSize, containerSize)
+          : convertToPixels(config.maxSize, containerSize)
       );
     });
 
-    return { sizes, minSizes, maxSizes };
-  }, [containerSize, paneCount, paneElements]);
+    return { minSizes: mins, maxSizes: maxs };
+  }, [containerSize, paneCount, paneConfigs]);
 
-  const { sizes: initialSizes, minSizes, maxSizes } = getPaneSizes();
-
-  const [paneSizes, setPaneSizes] = useState(initialSizes);
-
-  // Update sizes when container size changes
-  useEffect(() => {
-    if (containerSize === 0) return;
-
-    const { sizes } = getPaneSizes();
-
-    // Only update if we don't have valid sizes yet
-    if (paneSizes.every((s) => s === 0) || paneSizes.length !== sizes.length) {
-      setPaneSizes(sizes);
-    } else {
-      // Distribute existing sizes proportionally
-      const totalPaneSize = paneSizes.reduce((sum, s) => sum + s, 0);
-      if (totalPaneSize !== containerSize && totalPaneSize > 0) {
-        const distributed = distributeSizes(paneSizes, containerSize);
-        setPaneSizes(distributed);
+  // Calculate initial sizes from pane configs
+  const calculateInitialSizes = useCallback(
+    (containerSz: number): number[] => {
+      if (containerSz === 0) {
+        return new Array(paneCount).fill(0);
       }
-    }
-  }, [containerSize, getPaneSizes, paneSizes]);
 
-  // Measure container size
+      return paneConfigs.map((config) => {
+        const paneSize = config.size ?? config.defaultSize ?? containerSz / paneCount;
+        return convertToPixels(paneSize, containerSz);
+      });
+    },
+    [paneCount, paneConfigs]
+  );
+
+  const [paneSizes, setPaneSizes] = useState<number[]>(() =>
+    calculateInitialSizes(containerSize)
+  );
+
+  // Handle container size changes - update sizes proportionally
+  // Using a ref comparison to avoid effect dependency issues
+  const handleContainerSizeChange = useCallback(
+    (newContainerSize: number) => {
+      const prevSize = prevContainerSizeRef.current;
+      prevContainerSizeRef.current = newContainerSize;
+
+      if (newContainerSize === 0) return;
+
+      setPaneSizes((currentSizes) => {
+        // If sizes are uninitialized or pane count changed
+        if (
+          currentSizes.every((s) => s === 0) ||
+          currentSizes.length !== paneCount
+        ) {
+          return calculateInitialSizes(newContainerSize);
+        }
+
+        // If container size changed, distribute proportionally
+        if (prevSize > 0 && prevSize !== newContainerSize) {
+          return distributeSizes(currentSizes, newContainerSize);
+        }
+
+        // First measurement - use initial sizes
+        if (prevSize === 0) {
+          return calculateInitialSizes(newContainerSize);
+        }
+
+        return currentSizes;
+      });
+    },
+    [paneCount, calculateInitialSizes]
+  );
+
+  // Measure container size with ResizeObserver
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -127,6 +171,7 @@ export function SplitPane(props: SplitPaneProps) {
       const rect = container.getBoundingClientRect();
       const size = direction === 'horizontal' ? rect.width : rect.height;
       setContainerSize(size);
+      handleContainerSizeChange(size);
     };
 
     updateSize();
@@ -137,7 +182,16 @@ export function SplitPane(props: SplitPaneProps) {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [direction]);
+  }, [direction, handleContainerSizeChange]);
+
+  // Handle resize callback
+  const handleResize = useCallback(
+    (newSizes: number[], event: ResizeEvent) => {
+      setPaneSizes(newSizes);
+      onResize?.(newSizes, event);
+    },
+    [onResize]
+  );
 
   // Resizer hook
   const {
@@ -155,13 +209,7 @@ export function SplitPane(props: SplitPaneProps) {
     snapTolerance,
     step,
     onResizeStart,
-    onResize: useCallback(
-      (newSizes: number[], event: ResizeEvent) => {
-        setPaneSizes(newSizes);
-        onResize?.(newSizes, event);
-      },
-      [onResize]
-    ),
+    onResize: handleResize,
     onResizeEnd,
   });
 
@@ -172,13 +220,7 @@ export function SplitPane(props: SplitPaneProps) {
     minSizes,
     maxSizes,
     step,
-    onResize: useCallback(
-      (newSizes: number[], event: ResizeEvent) => {
-        setPaneSizes(newSizes);
-        onResize?.(newSizes, event);
-      },
-      [onResize]
-    ),
+    onResize: handleResize,
     onResizeEnd,
   });
 
@@ -199,28 +241,34 @@ export function SplitPane(props: SplitPaneProps) {
 
   // Render panes and dividers
   const renderChildren = () => {
+    if (paneCount < MIN_PANES) {
+      return null;
+    }
+
     const elements: JSX.Element[] = [];
 
-    paneElements.forEach((pane, index) => {
+    paneConfigs.forEach((config, index) => {
       const paneSize = currentSizes[index] ?? 0;
 
       const paneStyle: CSSProperties = {
         ...(direction === 'horizontal'
           ? { width: `${paneSize}px`, height: '100%' }
           : { height: `${paneSize}px`, width: '100%' }),
-        ...pane.props.style,
+        ...config.props.style,
       };
 
       // Render pane
       elements.push(
-        <Pane key={`pane-${index}`} {...pane.props} style={paneStyle}>
-          {pane.props.children}
+        <Pane key={`pane-${index}`} {...config.props} style={paneStyle}>
+          {config.props.children}
         </Pane>
       );
 
       // Render divider (except after last pane)
       if (index < paneCount - 1) {
         const DividerComponent = CustomDivider ?? Divider;
+        const dividerMinSize = minSizes[index];
+        const dividerMaxSize = maxSizes[index];
 
         elements.push(
           <DividerComponent
@@ -236,8 +284,8 @@ export function SplitPane(props: SplitPaneProps) {
             className={dividerClassName}
             style={dividerStyle}
             currentSize={paneSize}
-            minSize={minSizes[index]}
-            maxSize={maxSizes[index]}
+            minSize={dividerMinSize}
+            maxSize={dividerMaxSize === Infinity ? undefined : dividerMaxSize}
           />
         );
       }

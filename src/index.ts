@@ -14,4 +14,5 @@ export type {
 
 // Re-export hooks for advanced usage
 export { useResizer } from './hooks/useResizer';
-export { usePaneSize } from './hooks/usePaneSize';
+export { useKeyboardResize } from './hooks/useKeyboardResize';
+export { usePersistence } from './persistence';

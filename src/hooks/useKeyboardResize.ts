@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import type { Direction, ResizeEvent } from '../types';
 import { calculateDraggedSizes, clamp } from '../utils/calculations';
 import { announce, formatSizeForAnnouncement } from '../utils/accessibility';
@@ -31,6 +31,7 @@ const DEFAULT_LARGE_STEP = 50;
  * - Shift + Arrow: Resize by large step (default 50px)
  * - Home: Minimize the left/top pane to its minimum size
  * - End: Maximize the left/top pane to its maximum size
+ * - Escape: Restore pane sizes to what they were when keyboard interaction started
  *
  * @param options - Configuration options for keyboard resize
  * @returns Handler for keyboard events
@@ -46,6 +47,9 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
     onResize,
     onResizeEnd,
   } = options;
+
+  // Track sizes at start of keyboard interaction for Escape to restore
+  const initialSizesRef = useRef<number[] | null>(null);
 
   const handleKeyDown = useCallback(
     (dividerIndex: number) => (e: React.KeyboardEvent) => {
@@ -65,8 +69,41 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
 
       e.preventDefault();
 
+      // Handle Escape - restore to initial sizes
+      if (e.key === 'Escape') {
+        if (initialSizesRef.current) {
+          const restoredSizes = initialSizesRef.current;
+          initialSizesRef.current = null;
+
+          if (onResize) {
+            onResize(restoredSizes, {
+              sizes: restoredSizes,
+              source: 'keyboard',
+              originalEvent: e.nativeEvent,
+            });
+          }
+
+          if (onResizeEnd) {
+            onResizeEnd(restoredSizes, {
+              sizes: restoredSizes,
+              source: 'keyboard',
+              originalEvent: e.nativeEvent,
+            });
+          }
+
+          announce('Pane sizes restored');
+        }
+        return;
+      }
+
+      // Store initial sizes on first keyboard interaction
+      if (initialSizesRef.current === null) {
+        initialSizesRef.current = [...sizes];
+      }
+
       let delta = 0;
       let newSizes = [...sizes];
+      let announcementKey: 'home' | 'end' | 'arrow' = 'arrow';
 
       switch (e.key) {
         case 'ArrowLeft':
@@ -79,30 +116,34 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
           delta = e.shiftKey ? largeStep : step;
           break;
 
-        case 'Home':
+        case 'Home': {
           // Minimize left/top pane
-          newSizes[dividerIndex] = minSizes[dividerIndex] ?? 0;
-          newSizes[dividerIndex + 1] =
-            (sizes[dividerIndex] ?? 0) +
-            (sizes[dividerIndex + 1] ?? 0) -
-            newSizes[dividerIndex];
-          break;
-
-        case 'End': {
-          // Maximize left/top pane
-          const maxLeft = maxSizes[dividerIndex] ?? Infinity;
-          const minRight = minSizes[dividerIndex + 1] ?? 0;
+          announcementKey = 'home';
+          const leftPaneIndex = dividerIndex;
+          const rightPaneIndex = dividerIndex + 1;
+          const minLeft = minSizes[leftPaneIndex] ?? 0;
           const totalSize =
-            (sizes[dividerIndex] ?? 0) + (sizes[dividerIndex + 1] ?? 0);
+            (sizes[leftPaneIndex] ?? 0) + (sizes[rightPaneIndex] ?? 0);
 
-          newSizes[dividerIndex] = Math.min(maxLeft, totalSize - minRight);
-          newSizes[dividerIndex + 1] = totalSize - newSizes[dividerIndex];
+          newSizes[leftPaneIndex] = minLeft;
+          newSizes[rightPaneIndex] = totalSize - minLeft;
           break;
         }
 
-        case 'Escape':
-          // Could restore original size if we track it
-          return;
+        case 'End': {
+          // Maximize left/top pane
+          announcementKey = 'end';
+          const leftPaneIndex = dividerIndex;
+          const rightPaneIndex = dividerIndex + 1;
+          const maxLeft = maxSizes[leftPaneIndex] ?? Infinity;
+          const minRight = minSizes[rightPaneIndex] ?? 0;
+          const totalSize =
+            (sizes[leftPaneIndex] ?? 0) + (sizes[rightPaneIndex] ?? 0);
+
+          newSizes[leftPaneIndex] = Math.min(maxLeft, totalSize - minRight);
+          newSizes[rightPaneIndex] = totalSize - newSizes[leftPaneIndex];
+          break;
+        }
       }
 
       if (delta !== 0) {
@@ -137,12 +178,27 @@ export function useKeyboardResize(options: UseKeyboardResizeOptions) {
       }
 
       // Announce change to screen readers
-      const changedPaneIndex = delta > 0 ? dividerIndex : dividerIndex + 1;
-      announce(
-        `Pane ${changedPaneIndex + 1} resized to ${formatSizeForAnnouncement(
-          newSizes[changedPaneIndex] ?? 0
-        )}`
-      );
+      if (announcementKey === 'home') {
+        announce(
+          `Pane ${dividerIndex + 1} minimized to ${formatSizeForAnnouncement(
+            newSizes[dividerIndex] ?? 0
+          )}`
+        );
+      } else if (announcementKey === 'end') {
+        announce(
+          `Pane ${dividerIndex + 1} maximized to ${formatSizeForAnnouncement(
+            newSizes[dividerIndex] ?? 0
+          )}`
+        );
+      } else {
+        // Arrow key - announce the pane that changed
+        const changedPaneIndex = delta > 0 ? dividerIndex : dividerIndex + 1;
+        announce(
+          `Pane ${changedPaneIndex + 1} resized to ${formatSizeForAnnouncement(
+            newSizes[changedPaneIndex] ?? 0
+          )}`
+        );
+      }
     },
     [
       direction,
