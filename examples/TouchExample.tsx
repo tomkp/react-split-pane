@@ -1,38 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SplitPane, Pane } from '../src';
 
 export function TouchExample() {
   const [resizeSource, setResizeSource] = useState<string | null>(null);
   const [sizes, setSizes] = useState<number[]>([]);
+  const [direction, setDirection] = useState<'horizontal' | 'vertical'>('horizontal');
+
+  // Use vertical layout on mobile for better touch experience
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      setDirection('vertical');
+    }
+  }, []);
 
   return (
     <div className="example-container">
       <div className="example-info">
         <h2>Touch Support</h2>
         <p>
-          Full touch support for mobile and tablet devices. Try dragging the
-          divider with your finger on a touch device.
+          Full touch support for mobile. Drag the divider with your finger!
         </p>
         {resizeSource && (
           <p className="size-display">
-            Last resize via:{' '}
-            <strong className={`source-${resizeSource}`}>{resizeSource}</strong>
+            Via: <strong className={`source-${resizeSource}`}>{resizeSource}</strong>
             {sizes.length > 0 && (
-              <span>
-                {' '}
-                | Sizes: {sizes.map((s) => Math.round(s)).join(' / ')}px
-              </span>
+              <span> | {sizes.map((s) => Math.round(s)).join('/')}px</span>
             )}
           </p>
         )}
       </div>
       <div className="example-content touch-example">
         <SplitPane
-          direction="horizontal"
+          direction={direction}
           onResizeStart={(event) => setResizeSource(event.source)}
           onResize={(newSizes) => setSizes(newSizes)}
         >
-          <Pane minSize={80} defaultSize="40%">
+          <Pane minSize={60} defaultSize="40%">
             <div className="pane-content touch-pane">
               <h2>Touch Here</h2>
               <div className="touch-instructions">
@@ -50,7 +54,7 @@ export function TouchExample() {
               </div>
             </div>
           </Pane>
-          <Pane minSize={80}>
+          <Pane minSize={60}>
             <div className="pane-content touch-pane">
               <h2>Resize Methods</h2>
               <div className="resize-methods">
@@ -72,18 +76,16 @@ export function TouchExample() {
               </div>
               <div className="code-block">
                 <code>
-                  {`// Touch events are handled automatically
+                  {`// Touch events handled automatically
 <SplitPane
-  onResizeStart={(event) => {
-    // event.source: 'mouse' | 'touch' | 'keyboard'
-    console.log('Resize via:', event.source);
+  onResizeStart={(e) => {
+    // e.source: 'mouse' | 'touch' | 'keyboard'
   }}
-  onResize={(sizes, event) => {
-    console.log('New sizes:', sizes);
+  onResize={(sizes) => {
+    console.log('Sizes:', sizes);
   }}
 >
-  <Pane>...</Pane>
-  <Pane>...</Pane>
+  ...
 </SplitPane>`}
                 </code>
               </div>

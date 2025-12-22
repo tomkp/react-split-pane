@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SplitPane, Pane } from '../src';
 
 export function NestedExample() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+  }, []);
+
   return (
     <div className="example-container">
       <div className="example-info">
         <h2>Nested Split Panes</h2>
         <p>
-          Create complex layouts by nesting split panes. This shows a typical
-          IDE layout.
+          Create complex layouts by nesting split panes. IDE-style layout.
         </p>
       </div>
       <div className="example-content">
-        <SplitPane direction="horizontal">
-          <Pane minSize={150} defaultSize={200}>
+        <SplitPane direction={isMobile ? 'vertical' : 'horizontal'}>
+          <Pane minSize={80} defaultSize={isMobile ? '30%' : 200}>
             <div className="pane-content sidebar">
               <h2>Explorer</h2>
               <div className="file-tree">
@@ -42,55 +47,24 @@ export function NestedExample() {
                 >
                   Pane.tsx
                 </div>
-                <div
-                  className="file-tree-item folder"
-                  style={{ marginLeft: '1rem' }}
-                >
-                  examples
-                </div>
-                <div
-                  className="file-tree-item file"
-                  style={{ marginLeft: '2rem' }}
-                >
-                  BasicExample.tsx
-                </div>
-                <div
-                  className="file-tree-item file"
-                  style={{ marginLeft: '2rem' }}
-                >
-                  NestedExample.tsx
-                </div>
-                <div
-                  className="file-tree-item file"
-                  style={{ marginLeft: '1rem' }}
-                >
-                  package.json
-                </div>
-                <div
-                  className="file-tree-item file"
-                  style={{ marginLeft: '1rem' }}
-                >
-                  README.md
-                </div>
               </div>
             </div>
           </Pane>
-          <Pane>
+          <Pane minSize={100}>
             <SplitPane direction="vertical">
-              <Pane minSize={100}>
+              <Pane minSize={60}>
                 <div className="pane-content editor">
-                  <h2>Editor - SplitPane.tsx</h2>
+                  <h2>Editor</h2>
                   <div className="code-block">
                     <code>
-                      {`export function SplitPane(props: SplitPaneProps) {
+                      {`export function SplitPane(props) {
   const {
     direction = 'horizontal',
-    resizable = true,
     children,
   } = props;
 
   return (
-    <div className={containerClassName}>
+    <div className={className}>
       {renderChildren()}
     </div>
   );
@@ -99,37 +73,16 @@ export function NestedExample() {
                   </div>
                 </div>
               </Pane>
-              <Pane minSize={80} defaultSize={150}>
+              <Pane minSize={50} defaultSize={isMobile ? 80 : 150}>
                 <div className="pane-content console">
                   <h2>Terminal</h2>
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.8rem' }}>
+                  <div style={{ marginTop: '0.5rem', fontSize: '0.75rem' }}>
                     <div style={{ color: '#50fa7b' }}>$ npm test</div>
                     <div style={{ color: '#888', marginTop: '0.25rem' }}>
-                      ✓ src/utils/calculations.test.ts (14 tests)
-                    </div>
-                    <div style={{ color: '#888' }}>
-                      ✓ src/components/SplitPane.test.tsx (6 tests)
+                      ✓ 14 tests passed
                     </div>
                     <div style={{ color: '#50fa7b', marginTop: '0.25rem' }}>
-                      Tests: 20 passed
-                    </div>
-                    <div
-                      style={{
-                        color: '#888',
-                        marginTop: '0.5rem',
-                        animation: 'blink 1s infinite',
-                      }}
-                    >
-                      $
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          width: '8px',
-                          height: '14px',
-                          background: '#50fa7b',
-                          marginLeft: '4px',
-                        }}
-                      />
+                      All tests passed
                     </div>
                   </div>
                 </div>

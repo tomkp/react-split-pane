@@ -10,50 +10,34 @@ import './styles.css';
 
 type Example = 'basic' | 'nested' | 'controlled' | 'styled' | 'snap' | 'touch';
 
+const examples: { id: Example; label: string; shortLabel: string }[] = [
+  { id: 'basic', label: 'Basic', shortLabel: 'Basic' },
+  { id: 'nested', label: 'Nested', shortLabel: 'Nest' },
+  { id: 'controlled', label: 'Controlled', shortLabel: 'Ctrl' },
+  { id: 'styled', label: 'Styled', shortLabel: 'Style' },
+  { id: 'snap', label: 'Snap Points', shortLabel: 'Snap' },
+  { id: 'touch', label: 'Touch', shortLabel: 'Touch' },
+];
+
 function App() {
-  const [example, setExample] = useState<Example>('basic');
+  const [example, setExample] = useState<Example>('touch');
 
   return (
     <div className="app">
       <nav className="nav">
         <h1>React Split Pane</h1>
         <div className="nav-buttons">
-          <button
-            className={example === 'basic' ? 'active' : ''}
-            onClick={() => setExample('basic')}
-          >
-            Basic
-          </button>
-          <button
-            className={example === 'nested' ? 'active' : ''}
-            onClick={() => setExample('nested')}
-          >
-            Nested
-          </button>
-          <button
-            className={example === 'controlled' ? 'active' : ''}
-            onClick={() => setExample('controlled')}
-          >
-            Controlled
-          </button>
-          <button
-            className={example === 'styled' ? 'active' : ''}
-            onClick={() => setExample('styled')}
-          >
-            Styled
-          </button>
-          <button
-            className={example === 'snap' ? 'active' : ''}
-            onClick={() => setExample('snap')}
-          >
-            Snap Points
-          </button>
-          <button
-            className={example === 'touch' ? 'active' : ''}
-            onClick={() => setExample('touch')}
-          >
-            Touch
-          </button>
+          {examples.map(({ id, label, shortLabel }) => (
+            <button
+              key={id}
+              className={example === id ? 'active' : ''}
+              onClick={() => setExample(id)}
+              aria-label={label}
+            >
+              <span className="label-full">{label}</span>
+              <span className="label-short">{shortLabel}</span>
+            </button>
+          ))}
         </div>
       </nav>
 

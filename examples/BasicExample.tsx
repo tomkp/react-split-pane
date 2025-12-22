@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SplitPane, Pane } from '../src';
 
 export function BasicExample() {
@@ -6,12 +6,20 @@ export function BasicExample() {
     'horizontal'
   );
 
+  // Default to vertical on mobile for better usability
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      setDirection('vertical');
+    }
+  }, []);
+
   return (
     <div className="example-container">
       <div className="example-info">
         <h2>Basic Split Pane</h2>
         <p>
-          A simple two-pane layout. Click to toggle direction.{' '}
+          A simple two-pane layout.{' '}
           <button
             onClick={() =>
               setDirection((d) =>
@@ -26,6 +34,7 @@ export function BasicExample() {
               borderRadius: '4px',
               color: 'white',
               cursor: 'pointer',
+              minHeight: '32px',
             }}
           >
             {direction}
@@ -34,11 +43,11 @@ export function BasicExample() {
       </div>
       <div className="example-content">
         <SplitPane direction={direction}>
-          <Pane minSize={100} defaultSize="30%">
+          <Pane minSize={80} defaultSize={direction === 'vertical' ? '40%' : '30%'}>
             <div className="pane-content sidebar">
               <h2>Sidebar</h2>
               <p>
-                This pane has a minimum size of 100px and starts at 30% width.
+                Min size: 80px. Drag the divider to resize.
               </p>
               <div className="file-tree">
                 <div className="file-tree-item folder">src</div>
@@ -59,29 +68,24 @@ export function BasicExample() {
               </div>
             </div>
           </Pane>
-          <Pane minSize={200}>
+          <Pane minSize={100}>
             <div className="pane-content editor">
               <h2>Main Content</h2>
               <p>
-                Drag the divider to resize. Use arrow keys when focused for
-                keyboard control.
+                Use arrow keys when focused for keyboard control.
               </p>
               <div className="code-block">
                 <code>
                   {`import { SplitPane, Pane } from 'react-split-pane';
 
-function App() {
-  return (
-    <SplitPane direction="horizontal">
-      <Pane minSize={100}>
-        Sidebar
-      </Pane>
-      <Pane>
-        Main Content
-      </Pane>
-    </SplitPane>
-  );
-}`}
+<SplitPane direction="${direction}">
+  <Pane minSize={80}>
+    Sidebar
+  </Pane>
+  <Pane>
+    Main Content
+  </Pane>
+</SplitPane>`}
                 </code>
               </div>
             </div>

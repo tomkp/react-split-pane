@@ -2,12 +2,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body,
 #root {
   height: 100%;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior: none;
 }
 
 body {
@@ -15,6 +18,14 @@ body {
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #1a1a2e;
   color: #eee;
+  /* Prevent text selection during drag on mobile */
+  -webkit-user-select: none;
+  user-select: none;
+  /* Safe area support for iPhone notch */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .app {
@@ -31,6 +42,7 @@ body {
   padding: 1rem 2rem;
   background: #16213e;
   border-bottom: 1px solid #0f3460;
+  flex-shrink: 0;
 }
 
 .nav h1 {
@@ -42,6 +54,7 @@ body {
 .nav-buttons {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .nav-buttons button {
@@ -52,6 +65,9 @@ body {
   color: #eee;
   cursor: pointer;
   transition: all 0.2s;
+  /* Minimum touch target size (44px recommended by Apple) */
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .nav-buttons button:hover {
@@ -61,6 +77,65 @@ body {
 .nav-buttons button.active {
   background: #e94560;
   border-color: #e94560;
+}
+
+/* Label visibility for responsive buttons */
+.nav-buttons .label-short {
+  display: none;
+}
+
+.nav-buttons .label-full {
+  display: inline;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .nav h1 {
+    font-size: 1.1rem;
+  }
+
+  .nav-buttons {
+    width: 100%;
+    justify-content: center;
+    gap: 0.375rem;
+  }
+
+  .nav-buttons button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    flex: 1;
+    min-width: unset;
+  }
+}
+
+/* iPhone SE and small phones */
+@media (max-width: 480px) {
+  .nav-buttons .label-short {
+    display: inline;
+  }
+
+  .nav-buttons .label-full {
+    display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .nav-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.25rem;
+  }
+
+  .nav-buttons button {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.7rem;
+  }
 }
 
 .main {
@@ -74,6 +149,8 @@ body {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pane-content h2 {
@@ -103,6 +180,21 @@ body {
 .pane-content.console {
   background: #111;
   font-family: monospace;
+}
+
+/* Mobile pane content adjustments */
+@media (max-width: 768px) {
+  .pane-content {
+    padding: 0.75rem;
+  }
+
+  .pane-content h2 {
+    font-size: 0.9rem;
+  }
+
+  .pane-content p {
+    font-size: 0.8rem;
+  }
 }
 
 /* Split pane divider styles - expanded hover area pattern */
@@ -147,6 +239,54 @@ body {
   border-bottom: 5px solid rgba(233, 69, 96, 0.5);
 }
 
+/* Mobile/touch-friendly divider sizes */
+@media (max-width: 768px) {
+  .split-pane-divider.horizontal {
+    width: 20px !important;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    border-left: 10px solid rgba(0, 0, 0, 0);
+    border-right: 10px solid rgba(0, 0, 0, 0);
+  }
+
+  .split-pane-divider.vertical {
+    height: 20px !important;
+    margin-top: -10px !important;
+    margin-bottom: -10px !important;
+    border-top: 10px solid rgba(0, 0, 0, 0);
+    border-bottom: 10px solid rgba(0, 0, 0, 0);
+  }
+}
+
+/* Touch device detection - even larger targets */
+@media (hover: none) and (pointer: coarse) {
+  .split-pane-divider.horizontal {
+    width: 24px !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    border-left: 12px solid rgba(0, 0, 0, 0);
+    border-right: 12px solid rgba(0, 0, 0, 0);
+  }
+
+  .split-pane-divider.horizontal:active {
+    border-left: 12px solid rgba(233, 69, 96, 0.7);
+    border-right: 12px solid rgba(233, 69, 96, 0.7);
+  }
+
+  .split-pane-divider.vertical {
+    height: 24px !important;
+    margin-top: -12px !important;
+    margin-bottom: -12px !important;
+    border-top: 12px solid rgba(0, 0, 0, 0);
+    border-bottom: 12px solid rgba(0, 0, 0, 0);
+  }
+
+  .split-pane-divider.vertical:active {
+    border-top: 12px solid rgba(233, 69, 96, 0.7);
+    border-bottom: 12px solid rgba(233, 69, 96, 0.7);
+  }
+}
+
 /* Example specific styles */
 .example-container {
   height: 100%;
@@ -174,6 +314,21 @@ body {
 .example-content {
   flex: 1;
   min-height: 0;
+}
+
+/* Mobile example info */
+@media (max-width: 768px) {
+  .example-info {
+    padding: 0.75rem;
+  }
+
+  .example-info h2 {
+    font-size: 0.9rem;
+  }
+
+  .example-info p {
+    font-size: 0.75rem;
+  }
 }
 
 /* Controlled example */
@@ -251,12 +406,41 @@ body {
   overflow: auto;
   flex: 1;
   margin-top: 0.5rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 .code-block code {
   color: #8be9fd;
   white-space: pre;
   display: block;
+}
+
+/* Mobile file tree and code blocks */
+@media (max-width: 768px) {
+  .file-tree {
+    font-size: 0.75rem;
+  }
+
+  .file-tree-item {
+    padding: 0.375rem 0;
+  }
+
+  .code-block {
+    padding: 0.75rem;
+    font-size: 0.65rem;
+  }
+}
+
+/* Very small screens - hide code blocks or make them scrollable */
+@media (max-width: 375px) {
+  .code-block {
+    font-size: 0.6rem;
+    padding: 0.5rem;
+  }
+
+  .code-block code {
+    font-size: inherit;
+  }
 }
 
 /* Snap points example */
@@ -383,4 +567,62 @@ body {
 
 .source-keyboard {
   color: #ffb86c;
+}
+
+/* Mobile touch example */
+@media (max-width: 768px) {
+  .touch-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .touch-instructions {
+    margin-top: 0.5rem;
+  }
+
+  .touch-instructions li {
+    font-size: 0.8rem;
+  }
+
+  .method {
+    gap: 0.5rem;
+    padding: 0.375rem;
+  }
+
+  .method-icon {
+    font-size: 1.25rem;
+  }
+
+  .method-name {
+    font-size: 0.8rem;
+    min-width: 60px;
+  }
+
+  .method-desc {
+    font-size: 0.7rem;
+  }
+
+  .resize-methods {
+    margin: 0.5rem 0;
+  }
+}
+
+/* iPhone SE and very small screens */
+@media (max-width: 375px) {
+  .touch-pane h2 {
+    font-size: 0.85rem;
+  }
+
+  .touch-icon {
+    font-size: 1.5rem;
+  }
+
+  .method {
+    flex-wrap: wrap;
+  }
+
+  .method-desc {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
 }
