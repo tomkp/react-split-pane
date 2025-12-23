@@ -7,7 +7,18 @@ Modern, accessible, TypeScript-first split pane component for React.
 [![NPM downloads](https://img.shields.io/npm/dm/react-split-pane.svg?style=flat)](https://www.npmjs.com/package/react-split-pane)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/react-split-pane)](https://bundlephobia.com/package/react-split-pane)
 
+[![React Split Pane Demo](docs/images/demo-thumbnail.png)](docs/images/demo.mp4)
+
+*Click the image above to watch the demo video*
+
 **[Live Examples](https://tomkp.github.io/react-split-pane)**
+
+<details>
+<summary>Screenshot: Nested IDE-like Layout</summary>
+
+![Nested Layout Example](docs/images/nested-layout.png)
+
+</details>
 
 ## ✨ Features
 
