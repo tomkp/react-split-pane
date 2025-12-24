@@ -20,7 +20,7 @@ A bug is a _demonstrable problem_ caused by the code in the repository. Good bug
 Guidelines for bug reports:
 
 1. **Search first** — Check if the issue has already been reported.
-2. **Test latest** — Try to reproduce it using the latest `v3` branch.
+2. **Test latest** — Try to reproduce it using the latest `master` branch.
 3. **Isolate** — Create a minimal reproduction using [CodeSandbox](https://codesandbox.io/) or [StackBlitz](https://stackblitz.com/).
 
 A good bug report includes:
@@ -61,11 +61,11 @@ Good pull requests are a fantastic help! They should remain focused and avoid un
    git remote add upstream https://github.com/tomkp/react-split-pane
    ```
 
-2. Create a branch from `v3`:
+2. Create a branch from `master`:
 
    ```bash
-   git checkout v3
-   git pull upstream v3
+   git checkout master
+   git pull upstream master
    git checkout -b my-feature
    ```
 
@@ -97,7 +97,7 @@ Good pull requests are a fantastic help! They should remain focused and avoid un
    git commit -m "feat: add new feature"
    ```
 
-9. Push and open a pull request against `v3`:
+9. Push and open a pull request against `master`:
 
    ```bash
    git push origin my-feature
