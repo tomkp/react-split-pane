@@ -8,7 +8,13 @@ import { SnapPointsExample } from './SnapPointsExample';
 import { PercentageExample } from './PercentageExample';
 import './styles.css';
 
-type Example = 'basic' | 'nested' | 'controlled' | 'styled' | 'snap' | 'percent';
+type Example =
+  | 'basic'
+  | 'nested'
+  | 'controlled'
+  | 'styled'
+  | 'snap'
+  | 'percent';
 
 const examples: { id: Example; label: string; shortLabel: string }[] = [
   { id: 'basic', label: 'Basic', shortLabel: 'Basic' },

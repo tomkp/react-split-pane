@@ -40,6 +40,7 @@
     "format": "prettier --write src examples",
     "format:check": "prettier --check src examples",
     "typecheck": "tsc --noEmit",
+    "checks": "npm run typecheck && npm run lint && npm run format && npm run test",
     "examples": "vite --config examples/vite.config.ts",
     "examples:build": "vite build --config examples/vite.config.ts",
     "prepublishOnly": "npm run test && npm run build"
