@@ -2,37 +2,25 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body,
 #root {
   height: 100%;
-  /* Prevent pull-to-refresh on mobile */
-  overscroll-behavior: none;
 }
 
 body {
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #1a1a2e;
-  color: #eee;
-  /* Prevent text selection during drag on mobile */
-  -webkit-user-select: none;
-  user-select: none;
-  /* Safe area support for iPhone notch */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  background: #fff;
+  color: #333;
 }
 
 .app {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
 }
 
 .nav {
@@ -40,55 +28,42 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: #16213e;
-  border-bottom: 1px solid #0f3460;
-  flex-shrink: 0;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
 .nav h1 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #e94560;
 }
 
 .nav-buttons {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
 }
 
 .nav-buttons button {
   padding: 0.5rem 1rem;
-  border: 1px solid #0f3460;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  background: transparent;
-  color: #eee;
+  background: #fff;
   cursor: pointer;
-  transition: all 0.2s;
-  /* Minimum touch target size (44px recommended by Apple) */
-  min-height: 44px;
-  min-width: 44px;
 }
 
 .nav-buttons button:hover {
-  background: #0f3460;
+  background: #f5f5f5;
 }
 
 .nav-buttons button.active {
-  background: #e94560;
-  border-color: #e94560;
+  background: #333;
+  border-color: #333;
+  color: #fff;
 }
 
-/* Label visibility for responsive buttons */
 .nav-buttons .label-short {
   display: none;
 }
 
-.nav-buttons .label-full {
-  display: inline;
-}
-
-/* Mobile navigation */
 @media (max-width: 768px) {
   .nav {
     flex-direction: column;
@@ -96,26 +71,16 @@ body {
     padding: 0.75rem 1rem;
   }
 
-  .nav h1 {
-    font-size: 1.1rem;
-  }
-
   .nav-buttons {
-    width: 100%;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.375rem;
   }
 
   .nav-buttons button {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
-    flex: 1;
-    min-width: unset;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.875rem;
   }
-}
 
-/* iPhone SE and small phones */
-@media (max-width: 480px) {
   .nav-buttons .label-short {
     display: inline;
   }
@@ -125,190 +90,77 @@ body {
   }
 }
 
-@media (max-width: 375px) {
-  .nav-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.25rem;
-  }
-
-  .nav-buttons button {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.7rem;
-  }
-}
-
 .main {
   flex: 1;
   overflow: hidden;
 }
 
-/* Pane content styles */
-.pane-content {
-  height: 100%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.pane-content h2 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #e94560;
-}
-
-.pane-content p {
-  font-size: 0.875rem;
-  color: #aaa;
-  line-height: 1.5;
-}
-
-.pane-content.sidebar {
-  background: #16213e;
-}
-
-.pane-content.editor {
-  background: #1a1a2e;
-}
-
-.pane-content.preview {
-  background: #0f3460;
-}
-
-.pane-content.console {
-  background: #111;
-  font-family: monospace;
-}
-
-/* Mobile pane content adjustments */
-@media (max-width: 768px) {
-  .pane-content {
-    padding: 0.75rem;
-  }
-
-  .pane-content h2 {
-    font-size: 0.9rem;
-  }
-
-  .pane-content p {
-    font-size: 0.8rem;
-  }
-}
-
-/* Split pane divider styles - expanded hover area pattern */
+/* Split pane divider - 1px line with expanded hit area */
 .split-pane-divider {
-  background: #0f3460;
-  z-index: 1;
-  box-sizing: border-box;
-  background-clip: padding-box;
-  transition: all 0.2s ease;
+  background: #ddd;
+  position: relative;
+}
+
+.split-pane-divider::before {
+  content: '';
+  position: absolute;
+  background: transparent;
+}
+
+.split-pane-divider:hover::before,
+.split-pane-divider.dragging::before {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .split-pane-divider:focus {
-  outline: 2px solid #e94560;
-  outline-offset: -2px;
+  outline: 2px solid #0066cc;
+  outline-offset: -1px;
 }
 
 .split-pane-divider.horizontal {
-  width: 11px !important;
-  margin-left: -5px !important;
-  margin-right: -5px !important;
-  border-left: 5px solid rgba(0, 0, 0, 0);
-  border-right: 5px solid rgba(0, 0, 0, 0);
+  width: 1px;
   cursor: col-resize;
 }
 
-.split-pane-divider.horizontal:hover {
-  border-left: 5px solid rgba(233, 69, 96, 0.5);
-  border-right: 5px solid rgba(233, 69, 96, 0.5);
+.split-pane-divider.horizontal::before {
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
 }
 
 .split-pane-divider.vertical {
-  height: 11px !important;
-  margin-top: -5px !important;
-  margin-bottom: -5px !important;
-  border-top: 5px solid rgba(0, 0, 0, 0);
-  border-bottom: 5px solid rgba(0, 0, 0, 0);
+  height: 1px;
   cursor: row-resize;
 }
 
-.split-pane-divider.vertical:hover {
-  border-top: 5px solid rgba(233, 69, 96, 0.5);
-  border-bottom: 5px solid rgba(233, 69, 96, 0.5);
+.split-pane-divider.vertical::before {
+  left: 0;
+  right: 0;
+  top: -4px;
+  bottom: -4px;
 }
 
-/* Mobile/touch-friendly divider sizes */
-@media (max-width: 768px) {
-  .split-pane-divider.horizontal {
-    width: 20px !important;
-    margin-left: -10px !important;
-    margin-right: -10px !important;
-    border-left: 10px solid rgba(0, 0, 0, 0);
-    border-right: 10px solid rgba(0, 0, 0, 0);
-  }
-
-  .split-pane-divider.vertical {
-    height: 20px !important;
-    margin-top: -10px !important;
-    margin-bottom: -10px !important;
-    border-top: 10px solid rgba(0, 0, 0, 0);
-    border-bottom: 10px solid rgba(0, 0, 0, 0);
-  }
-}
-
-/* Touch device detection - even larger targets */
-@media (hover: none) and (pointer: coarse) {
-  .split-pane-divider.horizontal {
-    width: 24px !important;
-    margin-left: -12px !important;
-    margin-right: -12px !important;
-    border-left: 12px solid rgba(0, 0, 0, 0);
-    border-right: 12px solid rgba(0, 0, 0, 0);
-  }
-
-  .split-pane-divider.horizontal:active {
-    border-left: 12px solid rgba(233, 69, 96, 0.7);
-    border-right: 12px solid rgba(233, 69, 96, 0.7);
-  }
-
-  .split-pane-divider.vertical {
-    height: 24px !important;
-    margin-top: -12px !important;
-    margin-bottom: -12px !important;
-    border-top: 12px solid rgba(0, 0, 0, 0);
-    border-bottom: 12px solid rgba(0, 0, 0, 0);
-  }
-
-  .split-pane-divider.vertical:active {
-    border-top: 12px solid rgba(233, 69, 96, 0.7);
-    border-bottom: 12px solid rgba(233, 69, 96, 0.7);
-  }
-}
-
-/* Example specific styles */
+/* Example layout */
 .example-container {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.example-info {
+.example-header {
   padding: 1rem;
-  background: #16213e;
-  border-bottom: 1px solid #0f3460;
-  flex-shrink: 0;
+  border-bottom: 1px solid #ddd;
 }
 
-.example-info h2 {
+.example-header h2 {
   font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
-.example-info p {
-  font-size: 0.8rem;
-  color: #888;
+.example-header p {
+  font-size: 0.875rem;
+  color: #666;
 }
 
 .example-content {
@@ -316,53 +168,103 @@ body {
   min-height: 0;
 }
 
-/* Mobile example info */
-@media (max-width: 768px) {
-  .example-info {
-    padding: 0.75rem;
-  }
-
-  .example-info h2 {
-    font-size: 0.9rem;
-  }
-
-  .example-info p {
-    font-size: 0.75rem;
-  }
+/* Pane content */
+.pane {
+  height: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Controlled example */
-.size-display {
+.pane h3 {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.pane p {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.pane.gray {
+  background: #f5f5f5;
+}
+
+/* Code block */
+.code {
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 1rem;
   font-family: monospace;
-  font-size: 0.75rem;
-  color: #e94560;
+  font-size: 0.8rem;
+  overflow: auto;
   margin-top: 0.5rem;
 }
 
-/* Styled example - custom divider */
+.code code {
+  white-space: pre;
+  display: block;
+}
+
+/* Styled example */
+.styled-pane {
+  color: #fff;
+}
+
+.styled-pane h3 {
+  color: #fff;
+}
+
+.styled-pane.purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.styled-pane.pink {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.styled-pane.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.code.dark {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.code.dark code {
+  color: #fff;
+}
+
+/* Custom divider - gradient with grip dots */
 .custom-divider {
   background: linear-gradient(to bottom, #e94560, #0f3460);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: col-resize;
+  transition: opacity 0.15s;
+}
+
+.custom-divider:hover,
+.custom-divider.dragging {
+  opacity: 0.8;
 }
 
 .custom-divider.horizontal {
-  width: 8px !important;
-  margin-left: -4px !important;
-  margin-right: -4px !important;
+  width: 8px;
 }
 
 .custom-divider.vertical {
-  height: 8px !important;
-  margin-top: -4px !important;
-  margin-bottom: -4px !important;
+  height: 8px;
+  cursor: row-resize;
 }
 
 .custom-divider::after {
   content: '···';
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 10px;
+  letter-spacing: 1px;
   writing-mode: vertical-rl;
 }
 
@@ -370,259 +272,44 @@ body {
   writing-mode: horizontal-tb;
 }
 
-/* File tree styles */
-.file-tree {
-  font-size: 0.8rem;
-  margin-top: 1rem;
-}
-
-.file-tree-item {
-  padding: 0.25rem 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.file-tree-item:hover {
-  color: #e94560;
-}
-
-.file-tree-item.folder::before {
-  content: '📁';
-}
-
-.file-tree-item.file::before {
-  content: '📄';
-}
-
-/* Code block */
-.code-block {
-  background: #0a0a0a;
-  border-radius: 4px;
-  padding: 1rem;
-  font-family: monospace;
-  font-size: 0.8rem;
-  overflow: auto;
-  flex: 1;
-  margin-top: 0.5rem;
-  -webkit-overflow-scrolling: touch;
-}
-
-.code-block code {
-  color: #8be9fd;
-  white-space: pre;
-  display: block;
-}
-
-/* Mobile file tree and code blocks */
-@media (max-width: 768px) {
-  .file-tree {
-    font-size: 0.75rem;
-  }
-
-  .file-tree-item {
-    padding: 0.375rem 0;
-  }
-
-  .code-block {
-    padding: 0.75rem;
-    font-size: 0.65rem;
-  }
-}
-
-/* Very small screens - hide code blocks or make them scrollable */
-@media (max-width: 375px) {
-  .code-block {
-    font-size: 0.6rem;
-    padding: 0.5rem;
-  }
-
-  .code-block code {
-    font-size: inherit;
-  }
-}
-
-/* Snap points example */
-.snap-indicator {
-  display: inline-block;
-  background: #0f3460;
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.75rem;
-  margin-right: 0.25rem;
-}
-
+/* Snap points */
 .snap-list {
   list-style: none;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .snap-list li {
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   font-family: monospace;
-  border-left: 3px solid #0f3460;
+  font-size: 0.8rem;
+  border-left: 2px solid #ddd;
   margin-bottom: 0.25rem;
-  transition: all 0.2s;
 }
 
 .snap-list li.active {
-  border-color: #e94560;
-  background: rgba(233, 69, 96, 0.1);
-  color: #e94560;
+  border-color: #0066cc;
+  background: #f0f7ff;
 }
 
-.snapped-badge {
-  display: inline-block;
-  background: #e94560;
-  color: white;
-  padding: 0.125rem 0.5rem;
+/* Size display */
+.size-display {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Button */
+.btn {
+  padding: 0.25rem 0.5rem;
+  background: #333;
+  border: none;
   border-radius: 4px;
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-}
-
-.tip {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  background: rgba(139, 233, 253, 0.1);
-  border-radius: 4px;
-  font-size: 0.75rem;
-  color: #8be9fd;
-}
-
-/* Touch example */
-.touch-example .split-pane-divider {
-  background: #e94560;
-}
-
-.touch-pane {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.touch-instructions {
-  margin-top: 1rem;
-}
-
-.touch-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.touch-instructions ul {
-  list-style: none;
-  margin-top: 1rem;
-}
-
-.touch-instructions li {
-  padding: 0.25rem 0;
-  color: #8be9fd;
-}
-
-.resize-methods {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 1rem 0;
-  text-align: left;
-  width: 100%;
-}
-
-.method {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem;
-  background: #0f3460;
-  border-radius: 4px;
-}
-
-.method-icon {
-  font-size: 1.5rem;
-}
-
-.method-name {
-  font-weight: bold;
-  color: #e94560;
-  min-width: 80px;
-}
-
-.method-desc {
-  color: #aaa;
+  color: #fff;
+  cursor: pointer;
   font-size: 0.8rem;
 }
 
-.source-mouse {
-  color: #8be9fd;
-}
-
-.source-touch {
-  color: #50fa7b;
-}
-
-.source-keyboard {
-  color: #ffb86c;
-}
-
-/* Mobile touch example */
-@media (max-width: 768px) {
-  .touch-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .touch-instructions {
-    margin-top: 0.5rem;
-  }
-
-  .touch-instructions li {
-    font-size: 0.8rem;
-  }
-
-  .method {
-    gap: 0.5rem;
-    padding: 0.375rem;
-  }
-
-  .method-icon {
-    font-size: 1.25rem;
-  }
-
-  .method-name {
-    font-size: 0.8rem;
-    min-width: 60px;
-  }
-
-  .method-desc {
-    font-size: 0.7rem;
-  }
-
-  .resize-methods {
-    margin: 0.5rem 0;
-  }
-}
-
-/* iPhone SE and very small screens */
-@media (max-width: 375px) {
-  .touch-pane h2 {
-    font-size: 0.85rem;
-  }
-
-  .touch-icon {
-    font-size: 1.5rem;
-  }
-
-  .method {
-    flex-wrap: wrap;
-  }
-
-  .method-desc {
-    width: 100%;
-    margin-top: 0.25rem;
-  }
+.btn:hover {
+  background: #555;
 }

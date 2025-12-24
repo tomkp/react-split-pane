@@ -5,10 +5,10 @@ import { NestedExample } from './NestedExample';
 import { ControlledExample } from './ControlledExample';
 import { StyledExample } from './StyledExample';
 import { SnapPointsExample } from './SnapPointsExample';
-import { TouchExample } from './TouchExample';
+import { PercentageExample } from './PercentageExample';
 import './styles.css';
 
-type Example = 'basic' | 'nested' | 'controlled' | 'styled' | 'snap' | 'touch';
+type Example = 'basic' | 'nested' | 'controlled' | 'styled' | 'snap' | 'percent';
 
 const examples: { id: Example; label: string; shortLabel: string }[] = [
   { id: 'basic', label: 'Basic', shortLabel: 'Basic' },
@@ -16,11 +16,11 @@ const examples: { id: Example; label: string; shortLabel: string }[] = [
   { id: 'controlled', label: 'Controlled', shortLabel: 'Ctrl' },
   { id: 'styled', label: 'Styled', shortLabel: 'Style' },
   { id: 'snap', label: 'Snap Points', shortLabel: 'Snap' },
-  { id: 'touch', label: 'Touch', shortLabel: 'Touch' },
+  { id: 'percent', label: 'Percentage', shortLabel: '%' },
 ];
 
 function App() {
-  const [example, setExample] = useState<Example>('touch');
+  const [example, setExample] = useState<Example>('basic');
 
   return (
     <div className="app">
@@ -32,7 +32,6 @@ function App() {
               key={id}
               className={example === id ? 'active' : ''}
               onClick={() => setExample(id)}
-              aria-label={label}
             >
               <span className="label-full">{label}</span>
               <span className="label-short">{shortLabel}</span>
@@ -47,7 +46,7 @@ function App() {
         {example === 'controlled' && <ControlledExample />}
         {example === 'styled' && <StyledExample />}
         {example === 'snap' && <SnapPointsExample />}
-        {example === 'touch' && <TouchExample />}
+        {example === 'percent' && <PercentageExample />}
       </main>
     </div>
   );
