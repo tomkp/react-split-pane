@@ -1,6 +1,6 @@
 {
   "name": "react-split-pane",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "React split-pane component with hooks and TypeScript",
   "type": "module",
   "main": "./dist/index.cjs",
