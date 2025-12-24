@@ -1,94 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SplitPane, Pane } from '../src';
 
-const STORAGE_KEY = 'split-pane-sizes';
-
 export function ControlledExample() {
-  const [sizes, setSizes] = useState<number[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [300, 500];
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sizes));
-  }, [sizes]);
-
-  const handleResize = (newSizes: number[]) => {
-    setSizes(newSizes);
-  };
-
-  const handleReset = () => {
-    setSizes([300, 500]);
-  };
+  const [sizes, setSizes] = useState<number[]>([200, 400]);
 
   return (
     <div className="example-container">
-      <div className="example-info">
-        <h2>Controlled + Persistent</h2>
+      <div className="example-header">
+        <h2>Controlled</h2>
         <p>
-          Sizes are controlled via state and persisted to localStorage. Refresh
-          to see persistence.
-          <button
-            onClick={handleReset}
-            style={{
-              padding: '0.25rem 0.5rem',
-              marginLeft: '0.5rem',
-              background: '#e94560',
-              border: 'none',
-              borderRadius: '4px',
-              color: 'white',
-              cursor: 'pointer',
-            }}
-          >
+          Sizes are controlled via state.{' '}
+          <button className="btn" onClick={() => setSizes([200, 400])}>
             Reset
           </button>
         </p>
       </div>
       <div className="example-content">
-        <SplitPane direction="horizontal" onResize={handleResize}>
-          <Pane size={sizes[0]} minSize={150}>
-            <div className="pane-content sidebar">
-              <h2>Panel A</h2>
-              <p>This pane's size is controlled.</p>
-              <div className="size-display">
-                Width: {Math.round(sizes[0])}px
-              </div>
-              <div className="code-block" style={{ marginTop: '1rem' }}>
-                <code>
-                  {`const [sizes, setSizes] = useState([300, 500]);
-
-<SplitPane onResize={setSizes}>
-  <Pane size={sizes[0]}>
-    Panel A
-  </Pane>
-  <Pane size={sizes[1]}>
-    Panel B
-  </Pane>
-</SplitPane>`}
-                </code>
-              </div>
+        <SplitPane direction="horizontal" onResize={setSizes}>
+          <Pane size={sizes[0]} minSize={100}>
+            <div className="pane gray">
+              <h3>Panel A</h3>
+              <p className="size-display">{Math.round(sizes[0])}px</p>
             </div>
           </Pane>
-          <Pane size={sizes[1]} minSize={200}>
-            <div className="pane-content editor">
-              <h2>Panel B</h2>
-              <p>Sizes are saved to localStorage on every change.</p>
-              <div className="size-display">
-                Width: {Math.round(sizes[1])}px
-              </div>
-              <div
-                style={{
-                  marginTop: '1rem',
-                  padding: '1rem',
-                  background: '#16213e',
-                  borderRadius: '4px',
-                }}
-              >
-                <h3 style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-                  localStorage
-                </h3>
-                <code style={{ fontSize: '0.8rem', color: '#8be9fd' }}>
-                  {STORAGE_KEY}: {JSON.stringify(sizes.map(Math.round))}
+          <Pane size={sizes[1]} minSize={100}>
+            <div className="pane">
+              <h3>Panel B</h3>
+              <p className="size-display">{Math.round(sizes[1])}px</p>
+              <div className="code">
+                <code>
+                  {`const [sizes, setSizes] = useState([200, 400]);
+
+<SplitPane onResize={setSizes}>
+  <Pane size={sizes[0]}>A</Pane>
+  <Pane size={sizes[1]}>B</Pane>
+</SplitPane>`}
                 </code>
               </div>
             </div>

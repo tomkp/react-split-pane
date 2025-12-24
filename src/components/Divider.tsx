@@ -62,16 +62,12 @@ export function Divider(props: DividerProps) {
     touchAction: 'none',
     ...(direction === 'horizontal'
       ? {
-          width: '11px',
+          width: '1px',
           cursor: disabled ? 'default' : 'col-resize',
-          marginLeft: '-5px',
-          marginRight: '-5px',
         }
       : {
-          height: '11px',
+          height: '1px',
           cursor: disabled ? 'default' : 'row-resize',
-          marginTop: '-5px',
-          marginBottom: '-5px',
         }),
     ...(isDragging && {
       cursor: direction === 'horizontal' ? 'col-resize' : 'row-resize',
@@ -83,7 +79,12 @@ export function Divider(props: DividerProps) {
     ...style,
   };
 
-  const combinedClassName = [DEFAULT_CLASSNAME, direction, className]
+  const combinedClassName = [
+    DEFAULT_CLASSNAME,
+    direction,
+    isDragging && 'dragging',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
