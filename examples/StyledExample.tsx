@@ -3,7 +3,15 @@ import { SplitPane, Pane } from '../src';
 import type { DividerProps } from '../src/types';
 
 function CustomDivider(props: DividerProps) {
-  const { direction, isDragging, disabled, onMouseDown, onTouchStart, onTouchEnd, onKeyDown } = props;
+  const {
+    direction,
+    isDragging,
+    disabled,
+    onMouseDown,
+    onTouchStart,
+    onTouchEnd,
+    onKeyDown,
+  } = props;
 
   return (
     <div
