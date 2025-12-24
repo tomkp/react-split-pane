@@ -4,6 +4,7 @@ import {
   getDividerLabel,
   getKeyboardInstructions,
 } from '../utils/accessibility';
+import { cn } from '../utils/classNames';
 
 const DEFAULT_CLASSNAME = 'split-pane-divider';
 
@@ -79,14 +80,12 @@ export function Divider(props: DividerProps) {
     ...style,
   };
 
-  const combinedClassName = [
+  const combinedClassName = cn(
     DEFAULT_CLASSNAME,
     direction,
     isDragging && 'dragging',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   const label = getDividerLabel(index, direction);
   const instructions = getKeyboardInstructions(direction);

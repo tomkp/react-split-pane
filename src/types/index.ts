@@ -116,10 +116,3 @@ export interface DividerProps {
   /** Custom content */
   children?: ReactNode | undefined;
 }
-
-export interface PaneState {
-  size: number;
-  minSize: number;
-  maxSize: number;
-  defaultSize: number;
-}
