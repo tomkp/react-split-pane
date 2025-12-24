@@ -17,6 +17,20 @@ describe('announce', () => {
     document.body.innerHTML = '';
   });
 
+  it('is SSR-safe and does nothing when document is undefined', () => {
+    const originalDocument = globalThis.document;
+
+    // Simulate SSR environment
+    // @ts-expect-error - Intentionally setting document to undefined for SSR test
+    delete globalThis.document;
+
+    // Should not throw
+    expect(() => announce('Test message')).not.toThrow();
+
+    // Restore document
+    globalThis.document = originalDocument;
+  });
+
   it('creates an announcement element with correct attributes', () => {
     announce('Test message');
 

@@ -1,10 +1,16 @@
 /**
- * Announce a message to screen readers
+ * Announce a message to screen readers.
+ * SSR-safe: no-op when document is not available.
  */
 export function announce(
   message: string,
   priority: 'polite' | 'assertive' = 'polite'
 ): void {
+  // SSR safety check
+  if (typeof document === 'undefined') {
+    return;
+  }
+
   const announcement = document.createElement('div');
   announcement.setAttribute('role', 'status');
   announcement.setAttribute('aria-live', priority);

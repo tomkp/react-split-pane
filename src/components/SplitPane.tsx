@@ -13,6 +13,7 @@ import { Divider } from './Divider';
 import { useResizer } from '../hooks/useResizer';
 import { useKeyboardResize } from '../hooks/useKeyboardResize';
 import { convertToPixels, distributeSizes } from '../utils/calculations';
+import { cn } from '../utils/classNames';
 
 const DEFAULT_CLASSNAME = 'split-pane';
 const MIN_PANES = 2;
@@ -262,9 +263,7 @@ export function SplitPane(props: SplitPaneProps) {
     ...style,
   };
 
-  const containerClassName = [DEFAULT_CLASSNAME, direction, className]
-    .filter(Boolean)
-    .join(' ');
+  const containerClassName = cn(DEFAULT_CLASSNAME, direction, className);
 
   // Render panes and dividers
   const renderChildren = () => {

@@ -9,7 +9,6 @@ export type {
   Direction,
   Size,
   ResizeEvent,
-  PaneState,
 } from './types';
 
 // Re-export hooks for advanced usage

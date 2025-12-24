@@ -83,14 +83,17 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   const onResizeEndRef = useRef(onResizeEnd);
   onResizeEndRef.current = onResizeEnd;
 
-  // Update current sizes when prop sizes change (only when not dragging)
-  if (
-    !isDragging &&
-    sizes !== currentSizes &&
-    JSON.stringify(sizes) !== JSON.stringify(currentSizes)
-  ) {
-    setCurrentSizes(sizes);
-  }
+  // Sync sizes from props when not dragging (React 19 compatible)
+  const sizesRef = useRef(sizes);
+  useEffect(() => {
+    if (
+      !isDragging &&
+      JSON.stringify(sizes) !== JSON.stringify(sizesRef.current)
+    ) {
+      sizesRef.current = sizes;
+      setCurrentSizes(sizes);
+    }
+  }, [sizes, isDragging]);
 
   // Track mounted state for RAF cleanup
   useEffect(() => {

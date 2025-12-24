@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { forwardRef } from 'react';
 import type { PaneProps } from '../types';
+import { cn } from '../utils/classNames';
 
 const DEFAULT_CLASSNAME = 'split-pane-pane';
 
@@ -54,9 +55,7 @@ export const Pane = forwardRef<HTMLDivElement, PaneProps>(
       ...style,
     };
 
-    const combinedClassName = [DEFAULT_CLASSNAME, className]
-      .filter(Boolean)
-      .join(' ');
+    const combinedClassName = cn(DEFAULT_CLASSNAME, className);
 
     return (
       <div
