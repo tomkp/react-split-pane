@@ -560,6 +560,101 @@ describe('useResizer', () => {
     });
   });
 
+  describe('RAF throttling uses latest position', () => {
+    it('uses the latest mouse position when multiple moves occur before RAF fires', () => {
+      const onResize = vi.fn();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+          onResize,
+        })
+      );
+
+      // Start drag
+      act(() => {
+        const mouseDown = result.current.handleMouseDown(0);
+        mouseDown({
+          preventDefault: vi.fn(),
+          clientX: 300,
+          clientY: 0,
+          nativeEvent: new MouseEvent('mousedown'),
+        } as unknown as React.MouseEvent);
+      });
+
+      // Simulate multiple rapid mouse moves BEFORE RAF fires
+      // This simulates what happens when mouse events fire faster than 60fps
+      act(() => {
+        // First move - schedules RAF
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 320, clientY: 0 })
+        );
+        // Second move - should be captured but RAF already pending
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 350, clientY: 0 })
+        );
+        // Third move - the latest position
+        document.dispatchEvent(
+          new MouseEvent('mousemove', { clientX: 400, clientY: 0 })
+        );
+
+        // Now RAF fires - should use position 400, not 320
+        vi.runAllTimers();
+      });
+
+      // Should use the LATEST position (400), not the first one (320)
+      expect(result.current.currentSizes[0]).toBe(400);
+      expect(result.current.currentSizes[1]).toBe(600);
+    });
+
+    it('uses the latest touch position when multiple moves occur before RAF fires', () => {
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+        })
+      );
+
+      // Start touch
+      act(() => {
+        const touchStart = result.current.handleTouchStart(0);
+        touchStart({
+          touches: [{ clientX: 300, clientY: 0 }],
+          nativeEvent: new TouchEvent('touchstart'),
+        } as unknown as React.TouchEvent);
+      });
+
+      // Simulate multiple rapid touch moves BEFORE RAF fires
+      act(() => {
+        document.dispatchEvent(
+          new TouchEvent('touchmove', {
+            touches: [{ clientX: 320, clientY: 0 } as Touch],
+          })
+        );
+        document.dispatchEvent(
+          new TouchEvent('touchmove', {
+            touches: [{ clientX: 350, clientY: 0 } as Touch],
+          })
+        );
+        document.dispatchEvent(
+          new TouchEvent('touchmove', {
+            touches: [{ clientX: 400, clientY: 0 } as Touch],
+          })
+        );
+
+        vi.runAllTimers();
+      });
+
+      // Should use the LATEST position (400)
+      expect(result.current.currentSizes[0]).toBe(400);
+      expect(result.current.currentSizes[1]).toBe(600);
+    });
+  });
+
   describe('event cleanup', () => {
     it('cleans up event listeners when drag ends', () => {
       const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');

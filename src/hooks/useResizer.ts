@@ -74,6 +74,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
 
   const rafRef = useRef<number | null>(null);
   const mountedRef = useRef(true);
+  const lastPositionRef = useRef<{ x: number; y: number } | null>(null);
 
   // Use refs to avoid stale closures in event handlers
   const currentSizesRef = useRef(currentSizes);
@@ -148,13 +149,16 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     (e: MouseEvent) => {
       e.preventDefault();
 
+      // Always store the latest position to avoid stale closure in RAF callback
+      lastPositionRef.current = { x: e.clientX, y: e.clientY };
+
       // Use RAF to throttle updates
       if (rafRef.current) return;
 
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
-        if (mountedRef.current) {
-          handleDrag(e.clientX, e.clientY);
+        if (mountedRef.current && lastPositionRef.current) {
+          handleDrag(lastPositionRef.current.x, lastPositionRef.current.y);
         }
       });
     },
@@ -165,15 +169,18 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     (e: TouchEvent) => {
       e.preventDefault();
 
+      const touch = e.touches[0];
+      if (!touch) return;
+
+      // Always store the latest position to avoid stale closure in RAF callback
+      lastPositionRef.current = { x: touch.clientX, y: touch.clientY };
+
       if (rafRef.current) return;
 
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
-        if (mountedRef.current) {
-          const touch = e.touches[0];
-          if (touch) {
-            handleDrag(touch.clientX, touch.clientY);
-          }
+        if (mountedRef.current && lastPositionRef.current) {
+          handleDrag(lastPositionRef.current.x, lastPositionRef.current.y);
         }
       });
     },
