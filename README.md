@@ -23,13 +23,13 @@ Modern, accessible, TypeScript-first split pane component for React.
 ## Installation
 
 ```bash
-npm install react-split-pane@next
+npm install react-split-pane
 
 # or
-yarn add react-split-pane@next
+yarn add react-split-pane
 
 # or
-pnpm add react-split-pane@next
+pnpm add react-split-pane
 ```
 
 ## Quick Start
