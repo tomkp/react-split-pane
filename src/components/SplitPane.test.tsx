@@ -235,4 +235,47 @@ describe('SplitPane initial size calculation', () => {
     // Second pane: remaining 624px
     expect(panes[1]).toHaveStyle({ width: `${CONTAINER_WIDTH - 400}px` });
   });
+
+  it('updates pane sizes when controlled size prop changes', async () => {
+    const ControlledComponent = ({ sizes }: { sizes: number[] }) => (
+      <SplitPane direction="horizontal">
+        <Pane size={sizes[0]}>Pane 1</Pane>
+        <Pane size={sizes[1]}>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    const { container, rerender } = render(
+      <ControlledComponent sizes={[200, 400]} />
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    expect(panes[1]).toHaveStyle({ width: '400px' });
+
+    // Change sizes (simulates parent state update after drag)
+    rerender(<ControlledComponent sizes={[300, 300]} />);
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    expect(panes[0]).toHaveStyle({ width: '300px' });
+    expect(panes[1]).toHaveStyle({ width: '300px' });
+
+    // Reset to initial values (simulates clicking "Reset" button)
+    rerender(<ControlledComponent sizes={[200, 400]} />);
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    // This is the bug: sizes should update to [200, 400]
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    expect(panes[1]).toHaveStyle({ width: '400px' });
+  });
 });

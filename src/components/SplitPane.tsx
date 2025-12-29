@@ -152,6 +152,30 @@ export function SplitPane(props: SplitPaneProps) {
     calculateInitialSizes(containerSize)
   );
 
+  // Sync paneSizes with controlled size props when they change
+  // This handles the case where parent state is reset (e.g., clicking a "Reset" button)
+  useEffect(() => {
+    if (containerSize === 0) return;
+
+    // Check if any pane has a controlled size prop
+    const hasControlledSizes = paneConfigs.some(
+      (config) => config.size !== undefined
+    );
+    if (!hasControlledSizes) return;
+
+    // Calculate what sizes should be based on current props
+    const expectedSizes = calculateInitialSizes(containerSize);
+
+    // Only update if sizes actually differ (avoid unnecessary re-renders)
+    setPaneSizes((currentSizes) => {
+      const sizesMatch =
+        currentSizes.length === expectedSizes.length &&
+        currentSizes.every((size, i) => size === expectedSizes[i]);
+
+      return sizesMatch ? currentSizes : expectedSizes;
+    });
+  }, [containerSize, paneConfigs, calculateInitialSizes]);
+
   // Handle container size changes - update sizes proportionally
   // Using a ref comparison to avoid effect dependency issues
   const handleContainerSizeChange = useCallback(
