@@ -345,7 +345,7 @@ A subtle single-pixel divider:
 
 React Split Pane works seamlessly with Tailwind CSS and shadcn/ui. See [TAILWIND.md](./TAILWIND.md) for detailed integration examples including custom dividers and CSS variable overrides.
 
-## Migration from v0.1.x
+## Migration from v0.1.x or v2.x
 
 See [MIGRATION.md](./MIGRATION.md) for detailed migration guide.
 

@@ -32,7 +32,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Migration
 
-See [MIGRATION.md](./MIGRATION.md) for detailed upgrade instructions from v0.1.x.
+See [MIGRATION.md](./MIGRATION.md) for detailed upgrade instructions from v0.1.x or v2.x.
 
 ### [0.1.92](https://github.com/tomkp/react-split-pane/compare/v0.1.91...v0.1.92) (2020-08-10)
 

@@ -1,10 +1,12 @@
-# Migration Guide: v0.1.x to v3.0.0
+# Migration Guide to v3.0.0
 
-This guide will help you migrate from react-split-pane v0.1.x to v3.0.0. Version 3 is a complete rewrite with modern React patterns, TypeScript support, and improved accessibility.
+This guide will help you migrate to react-split-pane v3.0.0. Version 3 is a complete rewrite with modern React patterns, TypeScript support, and improved accessibility.
 
-## Overview of Changes
+## Migrating from v0.1.x
 
-v3.0.0 introduces several breaking changes:
+### Overview of Changes
+
+v3.0.0 introduces several breaking changes from v0.1.x:
 
 - **Component structure**: Children must be wrapped in `<Pane>` components
 - **Props renamed**: `split` → `direction`, callback names changed
@@ -13,9 +15,9 @@ v3.0.0 introduces several breaking changes:
 - **New features**: Keyboard navigation, ARIA attributes, touch support, snap points
 - **Removed**: `primary` prop, `allowResize` per-pane, `Resizer` class names
 
-## Quick Migration
+### Quick Migration
 
-### Before (v0.1.x)
+#### Before (v0.1.x)
 
 ```jsx
 import SplitPane from 'react-split-pane';
@@ -26,7 +28,7 @@ import SplitPane from 'react-split-pane';
 </SplitPane>
 ```
 
-### After (v3)
+#### After (v3)
 
 ```jsx
 import { SplitPane, Pane } from 'react-split-pane';
@@ -41,9 +43,9 @@ import { SplitPane, Pane } from 'react-split-pane';
 </SplitPane>
 ```
 
-## Detailed Changes
+### Detailed Changes
 
-### 1. Import Changes
+#### 1. Import Changes
 
 ```jsx
 // v0.1.x
@@ -53,7 +55,7 @@ import SplitPane from 'react-split-pane';
 import { SplitPane, Pane } from 'react-split-pane';
 ```
 
-### 2. Children Must Be Wrapped in `<Pane>`
+#### 2. Children Must Be Wrapped in `<Pane>`
 
 In v0.1.x, you could use any element as children. In v3, all children must be `<Pane>` components:
 
@@ -75,7 +77,7 @@ In v0.1.x, you could use any element as children. In v3, all children must be `<
 </SplitPane>
 ```
 
-### 3. Direction Terminology Changed
+#### 3. Direction Terminology Changed
 
 The meaning of `vertical` and `horizontal` has been **swapped** to align with CSS flexbox terminology:
 
@@ -104,7 +106,7 @@ In v3, `direction` describes the flex direction:
 <SplitPane direction="vertical">
 ```
 
-### 4. Size Props Moved to `<Pane>`
+#### 4. Size Props Moved to `<Pane>`
 
 Size constraints have moved from `<SplitPane>` to individual `<Pane>` components:
 
@@ -126,7 +128,7 @@ Size constraints have moved from `<SplitPane>` to individual `<Pane>` components
 </SplitPane>
 ```
 
-### 5. Size Values Accept Strings
+#### 5. Size Values Accept Strings
 
 v3 accepts both numbers (pixels) and strings with units:
 
@@ -140,7 +142,7 @@ v3 accepts both numbers (pixels) and strings with units:
 <Pane minSize="10%" defaultSize="25%">       // percentages
 ```
 
-### 6. Callback Props Renamed
+#### 6. Callback Props Renamed
 
 | v0.1.x | v3 | Notes |
 |--------|-----|-------|
@@ -169,7 +171,7 @@ The `ResizeEvent` object includes:
 - `source`: `'mouse'` | `'touch'` | `'keyboard'`
 - `originalEvent`: The original DOM event
 
-### 7. `primary` Prop Removed
+#### 7. `primary` Prop Removed
 
 The `primary` prop has been removed. In v3, sizes are distributed proportionally when the container resizes. For controlled sizing, use the `size` prop on each `<Pane>`:
 
@@ -190,7 +192,7 @@ function App() {
 }
 ```
 
-### 8. `allowResize` Renamed to `resizable`
+#### 8. `allowResize` Renamed to `resizable`
 
 ```jsx
 // v0.1.x
@@ -200,7 +202,7 @@ function App() {
 <SplitPane resizable={false}>
 ```
 
-### 9. `step` Prop
+#### 9. `step` Prop
 
 The `step` prop now applies to keyboard navigation. Use `snapPoints` for drag snapping:
 
@@ -216,9 +218,9 @@ The `step` prop now applies to keyboard navigation. Use `snapPoints` for drag sn
 >
 ```
 
-### 10. Styling Changes
+#### 10. Styling Changes
 
-#### CSS Class Names Changed
+##### CSS Class Names Changed
 
 | v0.1.x | v3 |
 |--------|-----|
@@ -226,7 +228,7 @@ The `step` prop now applies to keyboard navigation. Use `snapPoints` for drag sn
 | `Resizer` | `split-pane-divider` |
 | `Pane1`, `Pane2` | `split-pane-pane` |
 
-#### Inline Style Props Changed
+##### Inline Style Props Changed
 
 | v0.1.x | v3 |
 |--------|-----|
@@ -262,7 +264,7 @@ The `step` prop now applies to keyboard navigation. Use `snapPoints` for drag sn
 </SplitPane>
 ```
 
-#### Custom Resizer → Custom Divider
+##### Custom Resizer → Custom Divider
 
 ```jsx
 // v0.1.x - CSS class customization
@@ -283,7 +285,7 @@ function CustomDivider(props) {
 <SplitPane divider={CustomDivider}>
 ```
 
-### 11. Persistence Pattern Updated
+#### 11. Persistence Pattern Updated
 
 ```jsx
 // v0.1.x
@@ -311,7 +313,7 @@ function App() {
 }
 ```
 
-### 12. Multiple Panes
+#### 12. Multiple Panes
 
 v3 supports 2+ panes natively (no nesting required):
 
@@ -332,6 +334,88 @@ v3 supports 2+ panes natively (no nesting required):
   <Pane>Pane 3</Pane>
 </SplitPane>
 ```
+
+---
+
+## Migrating from v2.x
+
+v2.x had a different API than v0.1.x. It already used `<Pane>` components but with different prop names.
+
+### Quick Migration
+
+#### Before (v2.x)
+
+```jsx
+import SplitPane from 'react-split-pane';
+import Pane from 'react-split-pane/lib/Pane';
+
+<SplitPane split="vertical" onChange={handleChange}>
+  <Pane initialSize="200px" minSize="100px" maxSize="500px">
+    <div>Left</div>
+  </Pane>
+  <Pane>
+    <div>Right</div>
+  </Pane>
+</SplitPane>
+```
+
+#### After (v3)
+
+```jsx
+import { SplitPane, Pane } from 'react-split-pane';
+
+<SplitPane direction="horizontal" onResize={handleChange}>
+  <Pane defaultSize="200px" minSize="100px" maxSize="500px">
+    <div>Left</div>
+  </Pane>
+  <Pane>
+    <div>Right</div>
+  </Pane>
+</SplitPane>
+```
+
+### Key Differences from v2.x
+
+| v2.x | v3 | Notes |
+|------|-----|-------|
+| `split="vertical"` | `direction="horizontal"` | Terminology swapped |
+| `split="horizontal"` | `direction="vertical"` | Terminology swapped |
+| `initialSize` | `defaultSize` | Prop renamed |
+| `onChange` | `onResize` | Callback renamed, signature changed |
+| `onResizeStart` | `onResizeStart` | Same name, different signature |
+| `onResizeEnd` | `onResizeEnd` | Same name, different signature |
+| `resizerSize` | N/A | Use CSS to style divider width |
+
+### Import Changes
+
+```jsx
+// v2.x
+import SplitPane from 'react-split-pane';
+import Pane from 'react-split-pane/lib/Pane';
+
+// v3
+import { SplitPane, Pane } from 'react-split-pane';
+```
+
+### Callback Signature Changes
+
+```jsx
+// v2.x
+<SplitPane
+  onChange={(sizes) => console.log(sizes)}
+  onResizeStart={() => console.log('started')}
+  onResizeEnd={(sizes) => console.log('ended', sizes)}
+>
+
+// v3
+<SplitPane
+  onResize={(sizes, event) => console.log(sizes, event.source)}
+  onResizeStart={(event) => console.log('started', event.source)}
+  onResizeEnd={(sizes, event) => console.log('ended', sizes)}
+>
+```
+
+---
 
 ## New Features in v3
 
