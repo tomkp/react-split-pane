@@ -51,6 +51,8 @@ function App() {
 }
 ```
 
+> **Note:** SplitPane requires its container to have explicit dimensions. The component uses `width: 100%` and `height: 100%`, so the parent element must have a defined size. For vertical splits, ensure the parent has an explicit height (e.g., `height: 100vh`). See [Container Sizing](#container-sizing) for details.
+
 ## Basic Usage
 
 ### Horizontal Split (Side-by-Side)
@@ -233,6 +235,58 @@ The divider is fully keyboard accessible:
 | `maxSize` | `string \| number` | `Infinity` | Maximum size |
 | `className` | `string` | - | CSS class name |
 | `style` | `CSSProperties` | - | Inline styles |
+
+## Container Sizing
+
+SplitPane uses `width: 100%` and `height: 100%` and measures its container via ResizeObserver. **The parent container must have explicit dimensions** for panes to render correctly.
+
+### Common Issue: Invisible Panes
+
+If your pane content doesn't appear, the most common cause is a missing height on the parent container. This is especially true for vertical splits:
+
+```tsx
+// ❌ Won't work - parent has no height
+function App() {
+  return (
+    <div>
+      <SplitPane direction="vertical">
+        <Pane><div>Top</div></Pane>
+        <Pane><div>Bottom</div></Pane>
+      </SplitPane>
+    </div>
+  );
+}
+
+// ✅ Works - parent has explicit height
+function App() {
+  return (
+    <div style={{ height: '100vh' }}>
+      <SplitPane direction="vertical">
+        <Pane><div>Top</div></Pane>
+        <Pane><div>Bottom</div></Pane>
+      </SplitPane>
+    </div>
+  );
+}
+```
+
+### Solutions
+
+1. **Set explicit height on parent** (recommended for most cases):
+   ```css
+   .container { height: 100vh; }
+   ```
+
+2. **Use absolute positioning**:
+   ```css
+   .container { position: absolute; inset: 0; }
+   ```
+
+3. **Use flexbox with flex-grow**:
+   ```css
+   .parent { display: flex; flex-direction: column; height: 100vh; }
+   .container { flex: 1; }
+   ```
 
 ## Styling
 
