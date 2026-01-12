@@ -176,14 +176,20 @@ export function SplitPane(props: SplitPaneProps) {
     });
   }, [containerSize, paneConfigs, calculateInitialSizes]);
 
-  // Handle container size changes - update sizes proportionally
-  // Using a ref comparison to avoid effect dependency issues
+  // Handle container size changes
+  // For controlled panes: maintain fixed pixel sizes from props
+  // For uncontrolled panes: distribute proportionally
   const handleContainerSizeChange = useCallback(
     (newContainerSize: number) => {
       const prevSize = prevContainerSizeRef.current;
       prevContainerSizeRef.current = newContainerSize;
 
       if (newContainerSize === 0) return;
+
+      // Check if any pane has a controlled size prop
+      const hasControlledSizes = paneConfigs.some(
+        (config) => config.size !== undefined
+      );
 
       setPaneSizes((currentSizes) => {
         // If sizes are uninitialized or pane count changed
@@ -194,8 +200,13 @@ export function SplitPane(props: SplitPaneProps) {
           return calculateInitialSizes(newContainerSize);
         }
 
-        // If container size changed, distribute proportionally
+        // If container size changed
         if (prevSize > 0 && prevSize !== newContainerSize) {
+          // For controlled panes, recalculate from props to maintain fixed sizes
+          if (hasControlledSizes) {
+            return calculateInitialSizes(newContainerSize);
+          }
+          // For uncontrolled panes, distribute proportionally
           return distributeSizes(currentSizes, newContainerSize);
         }
 
@@ -207,7 +218,7 @@ export function SplitPane(props: SplitPaneProps) {
         return currentSizes;
       });
     },
-    [paneCount, calculateInitialSizes]
+    [paneCount, paneConfigs, calculateInitialSizes]
   );
 
   // Measure container size with ResizeObserver

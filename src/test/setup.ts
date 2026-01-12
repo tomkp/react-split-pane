@@ -17,6 +17,44 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
   toJSON: () => ({}),
 }));
 
+// Store observers to allow triggering resize events in tests
+type ObserverEntry = {
+  callback: ResizeObserverCallback;
+  observer: ResizeObserver;
+  target: Element;
+};
+const resizeObservers: ObserverEntry[] = [];
+
+// Helper to trigger resize on observed elements
+export function triggerResize(width: number, height: number) {
+  resizeObservers.forEach(({ callback, observer, target }) => {
+    const mockEntry = {
+      target,
+      contentRect: {
+        width,
+        height,
+        top: 0,
+        left: 0,
+        bottom: height,
+        right: width,
+        x: 0,
+        y: 0,
+        toJSON: () => ({}),
+      },
+      borderBoxSize: [],
+      contentBoxSize: [],
+      devicePixelContentBoxSize: [],
+    } as unknown as ResizeObserverEntry;
+
+    callback([mockEntry], observer);
+  });
+}
+
+// Clear observers between tests
+export function clearResizeObservers() {
+  resizeObservers.length = 0;
+}
+
 // Mock ResizeObserver with callback support
 (
   globalThis as unknown as {
@@ -30,6 +68,13 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
   }
 
   observe(target: Element) {
+    // Store for later triggering
+    resizeObservers.push({
+      callback: this.callback,
+      observer: this,
+      target,
+    });
+
     // Call callback synchronously for predictable testing
     const mockEntry = {
       target,
@@ -58,6 +103,10 @@ Element.prototype.getBoundingClientRect = vi.fn(() => ({
   }
 
   disconnect() {
-    // Mock implementation
+    // Remove from tracked observers
+    const index = resizeObservers.findIndex((o) => o.observer === this);
+    if (index !== -1) {
+      resizeObservers.splice(index, 1);
+    }
   }
 };

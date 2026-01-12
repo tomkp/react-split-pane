@@ -1,13 +1,18 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { SplitPane } from './SplitPane';
 import { Pane } from './Pane';
+import { triggerResize, clearResizeObservers } from '../test/setup';
 
 // These match the mock in test/setup.ts
 const CONTAINER_WIDTH = 1024;
 const CONTAINER_HEIGHT = 768;
 
 describe('SplitPane', () => {
+  beforeEach(() => {
+    clearResizeObservers();
+  });
+
   it('renders children panes', async () => {
     render(
       <SplitPane>
@@ -277,5 +282,119 @@ describe('SplitPane initial size calculation', () => {
     // This is the bug: sizes should update to [200, 400]
     expect(panes[0]).toHaveStyle({ width: '200px' });
     expect(panes[1]).toHaveStyle({ width: '400px' });
+  });
+});
+
+describe('SplitPane container resize behavior', () => {
+  beforeEach(() => {
+    clearResizeObservers();
+  });
+
+  it('maintains controlled pixel sizes when container resizes', async () => {
+    const onResize = vi.fn();
+    const sizesAfterResize: number[][] = [];
+
+    // Custom SplitPane wrapper to capture intermediate sizes
+    const CapturingSplitPane = () => {
+      return (
+        <SplitPane
+          direction="horizontal"
+          onResize={(sizes) => {
+            sizesAfterResize.push([...sizes]);
+            onResize(sizes);
+          }}
+        >
+          <Pane size={200}>Pane 1</Pane>
+          <Pane size={400}>Pane 2</Pane>
+        </SplitPane>
+      );
+    };
+
+    const { container } = render(<CapturingSplitPane />);
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    expect(panes).toHaveLength(2);
+
+    // Initial sizes should be respected
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    expect(panes[1]).toHaveStyle({ width: '400px' });
+
+    // Simulate container resize (window resize)
+    act(() => {
+      triggerResize(1200, 768);
+    });
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    // After all updates, sizes should be maintained
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    expect(panes[1]).toHaveStyle({ width: '400px' });
+
+    // onResize should NOT be called for container resize (only for user drag)
+    // If onResize was called, it means distributeSizes was incorrectly applied
+    expect(onResize).not.toHaveBeenCalled();
+  });
+
+  it('distributes uncontrolled panes proportionally on container resize', async () => {
+    const { container } = render(
+      <SplitPane direction="horizontal">
+        <Pane defaultSize={200}>Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+
+    // Initial: 200px + 824px = 1024px
+    expect(panes[0]).toHaveStyle({ width: '200px' });
+    expect(panes[1]).toHaveStyle({ width: `${CONTAINER_WIDTH - 200}px` });
+
+    // Simulate container resize to 2048px (double)
+    await act(async () => {
+      triggerResize(2048, 768);
+      await vi.runAllTimersAsync();
+    });
+
+    // Uncontrolled panes should scale proportionally
+    expect(panes[0]).toHaveStyle({ width: '400px' });
+    expect(panes[1]).toHaveStyle({ width: `${2048 - 400}px` });
+  });
+
+  it('maintains controlled sizes in vertical direction on container resize', async () => {
+    const { container } = render(
+      <SplitPane direction="vertical">
+        <Pane size={200}>Pane 1</Pane>
+        <Pane size={300}>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+
+    expect(panes[0]).toHaveStyle({ height: '200px' });
+    expect(panes[1]).toHaveStyle({ height: '300px' });
+
+    // Simulate container resize
+    await act(async () => {
+      triggerResize(1024, 1000);
+      await vi.runAllTimersAsync();
+    });
+
+    // Controlled sizes should be maintained
+    expect(panes[0]).toHaveStyle({ height: '200px' });
+    expect(panes[1]).toHaveStyle({ height: '300px' });
   });
 });
