@@ -80,10 +80,8 @@ function ThemedDivider(props: DividerProps) {
         isDragging && 'bg-primary',
         disabled && 'cursor-not-allowed opacity-50'
       )}
-    >
-      &nbsp;
-    </div>
-  )
+    />
+  );
 }
 
 <SplitPane divider={ThemedDivider}>
