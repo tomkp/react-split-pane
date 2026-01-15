@@ -53,8 +53,12 @@ export function snapToPoint(
  */
 export function distributeSizes(
   currentSizes: number[],
-  newContainerSize: number
+  newContainerSize: number,
+  dividersTotalSize: number = 0
 ): number[] {
+  // Subtract space for dividers
+  newContainerSize -= dividersTotalSize;
+
   const totalCurrentSize = currentSizes.reduce((sum, size) => sum + size, 0);
 
   if (totalCurrentSize === 0) {

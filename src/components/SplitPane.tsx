@@ -118,6 +118,16 @@ export function SplitPane(props: SplitPaneProps) {
     return { minSizes: mins, maxSizes: maxs };
   }, [containerSize, paneCount, paneConfigs]);
 
+  // Caluclate space for dividers
+  const calculateDividersTotalSize = useCallback(
+    (containerSz: number) => {
+      return (
+        (paneCount - 1) * convertToPixels(dividerSize ?? '0px', containerSz)
+      );
+    },
+    [paneCount, dividerSize]
+  );
+
   // Calculate initial sizes from pane configs
   const calculateInitialSizes = useCallback(
     (containerSz: number): number[] => {
@@ -125,11 +135,8 @@ export function SplitPane(props: SplitPaneProps) {
         return new Array(paneCount).fill(0);
       }
 
-      // Caluclate space for dividers
-      const dividerSpace =
-        (paneConfigs.length - 1) *
-        convertToPixels(dividerSize ?? '0px', containerSz);
-      containerSz -= dividerSpace;
+      // Subtract space for dividers
+      containerSz -= calculateDividersTotalSize(containerSz);
 
       // First pass: calculate sizes for panes with explicit sizes
       const sizes: (number | null)[] = paneConfigs.map((config) => {
@@ -214,7 +221,11 @@ export function SplitPane(props: SplitPaneProps) {
             return calculateInitialSizes(newContainerSize);
           }
           // For uncontrolled panes, distribute proportionally
-          return distributeSizes(currentSizes, newContainerSize);
+          return distributeSizes(
+            currentSizes,
+            newContainerSize,
+            calculateDividersTotalSize(newContainerSize)
+          );
         }
 
         // First measurement - use initial sizes
