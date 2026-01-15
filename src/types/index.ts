@@ -44,6 +44,9 @@ export interface SplitPaneProps {
   /** Custom divider component */
   divider?: React.ComponentType<DividerProps>;
 
+  /** Custom divider size */
+  dividerSize?: Size;
+
   /** Custom divider styles */
   dividerStyle?: CSSProperties;
 

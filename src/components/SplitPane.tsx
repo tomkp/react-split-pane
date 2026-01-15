@@ -57,6 +57,7 @@ export function SplitPane(props: SplitPaneProps) {
     className,
     style,
     divider: CustomDivider,
+    dividerSize,
     dividerStyle,
     dividerClassName,
     children,
@@ -124,6 +125,12 @@ export function SplitPane(props: SplitPaneProps) {
         return new Array(paneCount).fill(0);
       }
 
+      // Caluclate space for dividers
+      const dividerSpace =
+        (paneConfigs.length - 1) *
+        convertToPixels(dividerSize ?? '1px', containerSz);
+      containerSz -= dividerSpace;
+
       // First pass: calculate sizes for panes with explicit sizes
       const sizes: (number | null)[] = paneConfigs.map((config) => {
         const paneSize = config.size ?? config.defaultSize;
@@ -145,7 +152,7 @@ export function SplitPane(props: SplitPaneProps) {
       // Second pass: fill in auto-sized panes
       return sizes.map((size) => (size === null ? autoSize : size));
     },
-    [paneCount, paneConfigs]
+    [paneCount, paneConfigs, dividerSize]
   );
 
   const [paneSizes, setPaneSizes] = useState<number[]>(() =>

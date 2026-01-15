@@ -35,7 +35,11 @@ export function StyledExample() {
         <p>Use a custom divider component for different styles.</p>
       </div>
       <div className="example-content">
-        <SplitPane direction="horizontal" divider={CustomDivider}>
+        <SplitPane
+          direction="horizontal"
+          divider={CustomDivider}
+          dividerSize="8px"
+        >
           <Pane defaultSize="33%">
             <div className="pane styled-pane purple">
               <h3>Panel 1</h3>
