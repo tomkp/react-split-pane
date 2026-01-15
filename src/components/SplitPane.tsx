@@ -230,14 +230,21 @@ export function SplitPane(props: SplitPaneProps) {
     [paneCount, paneConfigs, calculateInitialSizes, dividerSize]
   );
 
+  // Track the last observed container size to detect meaningful changes
+  const lastObservedSizeRef = useRef(0);
+
   // Measure container size with ResizeObserver
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const updateSizeFromRect = (rect: { width: number; height: number }) => {
-      const size = direction === 'horizontal' ? rect.width : rect.height;
-      if (size > 0) {
+      const rawSize = direction === 'horizontal' ? rect.width : rect.height;
+      // Round to nearest integer to prevent sub-pixel variations from causing
+      // resize feedback loops (fixes #873)
+      const size = Math.round(rawSize);
+      if (size > 0 && size !== lastObservedSizeRef.current) {
+        lastObservedSizeRef.current = size;
         setContainerSize(size);
         handleContainerSizeChange(size);
       }
