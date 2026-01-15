@@ -37,6 +37,12 @@ body {
   font-weight: 600;
 }
 
+.nav h1 .version {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #888;
+}
+
 .nav-buttons {
   display: flex;
   gap: 0.5rem;
