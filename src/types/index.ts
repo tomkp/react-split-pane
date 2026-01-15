@@ -50,6 +50,9 @@ export interface SplitPaneProps {
   /** Custom divider class name */
   dividerClassName?: string;
 
+  /** Size of the divider in pixels (used for accurate pane size calculations) */
+  dividerSize?: number;
+
   /** Pane children */
   children: ReactNode;
 }
