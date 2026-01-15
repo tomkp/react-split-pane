@@ -519,3 +519,83 @@ describe('SplitPane divider size accounting', () => {
     expect(totalPaneWidth).toBeCloseTo(expectedTotal, 0);
   });
 });
+
+describe('SplitPane resize stability', () => {
+  beforeEach(() => {
+    clearResizeObservers();
+  });
+
+  it('ignores sub-pixel size changes to prevent resize loops', async () => {
+    const onResize = vi.fn();
+    const { container } = render(
+      <SplitPane direction="vertical" onResize={onResize}>
+        <Pane defaultSize="50%">Pane 1</Pane>
+        <Pane defaultSize="50%">Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+    const initialHeight1 = (panes[0] as HTMLElement).style.height;
+
+    // Simulate multiple resize events with sub-pixel variations
+    // This mimics the feedback loop scenario where content causes tiny size changes
+    await act(async () => {
+      triggerResize(1024, 768.2);
+      await vi.runAllTimersAsync();
+    });
+
+    await act(async () => {
+      triggerResize(1024, 768.4);
+      await vi.runAllTimersAsync();
+    });
+
+    await act(async () => {
+      triggerResize(1024, 768.1);
+      await vi.runAllTimersAsync();
+    });
+
+    // Pane sizes should remain stable - sub-pixel changes shouldn't cause updates
+    const finalHeight1 = (panes[0] as HTMLElement).style.height;
+    expect(finalHeight1).toBe(initialHeight1);
+
+    // onResize should NOT be called for container resize (only user drag)
+    expect(onResize).not.toHaveBeenCalled();
+  });
+
+  it('still responds to significant size changes', async () => {
+    const { container } = render(
+      <SplitPane direction="vertical">
+        <Pane defaultSize="50%">Pane 1</Pane>
+        <Pane defaultSize="50%">Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const panes = container.querySelectorAll('[data-pane="true"]');
+
+    // Initial height with 768px container (minus 1px divider = 767px available)
+    const initialHeight1 = parseFloat(
+      (panes[0] as HTMLElement).style.height.replace('px', '')
+    );
+    expect(initialHeight1).toBeCloseTo(383.5, 1); // 50% of 767
+
+    // Simulate significant resize (double the height)
+    await act(async () => {
+      triggerResize(1024, 1536);
+      await vi.runAllTimersAsync();
+    });
+
+    // Should respond to significant change (1536 - 1 = 1535 available)
+    const newHeight1 = parseFloat(
+      (panes[0] as HTMLElement).style.height.replace('px', '')
+    );
+    expect(newHeight1).toBeCloseTo(767.5, 1); // 50% of 1535
+  });
+});
