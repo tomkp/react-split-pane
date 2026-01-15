@@ -51,9 +51,26 @@ Create a themed divider component using shadcn's `cn` utility:
 import { cn } from '@/lib/utils';
 import type { DividerProps } from 'react-split-pane';
 
-function ThemedDivider({ direction, isDragging, disabled, ...props }: DividerProps) {
+function ThemedDivider(props: DividerProps) {
+  const {
+    direction,
+    isDragging,
+    disabled,
+    onMouseDown,
+    onTouchStart,
+    onTouchEnd,
+    onKeyDown,
+  } = props;
+
   return (
     <div
+      role="separator"
+      aria-orientation={direction === 'horizontal' ? 'vertical' : 'horizontal'}
+      tabIndex={disabled ? -1 : 0}
+      onMouseDown={disabled ? undefined : onMouseDown}
+      onTouchStart={disabled ? undefined : onTouchStart}
+      onTouchEnd={disabled ? undefined : onTouchEnd}
+      onKeyDown={disabled ? undefined : onKeyDown}
       className={cn(
         'flex items-center justify-center transition-colors',
         'bg-border hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring',
@@ -63,7 +80,6 @@ function ThemedDivider({ direction, isDragging, disabled, ...props }: DividerPro
         isDragging && 'bg-primary',
         disabled && 'cursor-not-allowed opacity-50'
       )}
-      {...props}
     />
   );
 }
