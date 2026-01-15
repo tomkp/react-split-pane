@@ -128,7 +128,7 @@ export function SplitPane(props: SplitPaneProps) {
       // Caluclate space for dividers
       const dividerSpace =
         (paneConfigs.length - 1) *
-        convertToPixels(dividerSize ?? '1px', containerSz);
+        convertToPixels(dividerSize ?? '0px', containerSz);
       containerSz -= dividerSpace;
 
       // First pass: calculate sizes for panes with explicit sizes
