@@ -32,7 +32,9 @@ function App() {
   return (
     <div className="app">
       <nav className="nav">
-        <h1>React Split Pane <span className="version">v{version}</span></h1>
+        <h1>
+          React Split Pane <span className="version">v{version}</span>
+        </h1>
         <div className="nav-buttons">
           {examples.map(({ id, label, shortLabel }) => (
             <button
