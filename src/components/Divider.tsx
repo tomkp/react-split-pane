@@ -42,9 +42,7 @@ export function Divider(props: DividerProps) {
     index,
     isDragging,
     disabled,
-    onMouseDown,
-    onTouchStart,
-    onTouchEnd,
+    onPointerDown,
     onKeyDown,
     className,
     style,
@@ -106,9 +104,7 @@ export function Divider(props: DividerProps) {
       tabIndex={disabled ? -1 : 0}
       className={combinedClassName}
       style={combinedStyle}
-      onMouseDown={disabled ? undefined : onMouseDown}
-      onTouchStart={disabled ? undefined : onTouchStart}
-      onTouchEnd={disabled ? undefined : onTouchEnd}
+      onPointerDown={disabled ? undefined : onPointerDown}
       onKeyDown={disabled ? undefined : onKeyDown}
       data-divider-index={index}
     >

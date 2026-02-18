@@ -6,8 +6,8 @@ export type Size = string | number;
 
 export interface ResizeEvent {
   sizes: number[];
-  source: 'mouse' | 'touch' | 'keyboard';
-  originalEvent?: MouseEvent | TouchEvent | KeyboardEvent;
+  source: 'pointer' | 'keyboard';
+  originalEvent?: PointerEvent | KeyboardEvent;
 }
 
 export interface SplitPaneProps {
@@ -93,14 +93,8 @@ export interface DividerProps {
   /** Whether divider can be interacted with */
   disabled: boolean;
 
-  /** Mouse down handler */
-  onMouseDown: (e: React.MouseEvent) => void;
-
-  /** Touch start handler */
-  onTouchStart: (e: React.TouchEvent) => void;
-
-  /** Touch end handler */
-  onTouchEnd: (e: React.TouchEvent) => void;
+  /** Pointer down handler (handles mouse, touch, and pen input) */
+  onPointerDown: (e: React.PointerEvent) => void;
 
   /** Keyboard handler */
   onKeyDown: (e: React.KeyboardEvent) => void;

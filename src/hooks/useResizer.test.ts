@@ -2,6 +2,57 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useResizer } from './useResizer';
 
+// Helper to create a mock element with pointer capture methods
+function createMockElement(): HTMLDivElement {
+  const element = document.createElement('div');
+  element.setPointerCapture = vi.fn();
+  element.releasePointerCapture = vi.fn();
+  element.hasPointerCapture = vi.fn().mockReturnValue(true);
+  return element;
+}
+
+// Helper to create a PointerEvent with required properties
+function createPointerEvent(
+  type: string,
+  options: { clientX?: number; clientY?: number; pointerId?: number } = {}
+): PointerEvent {
+  return new PointerEvent(type, {
+    clientX: options.clientX ?? 0,
+    clientY: options.clientY ?? 0,
+    pointerId: options.pointerId ?? 1,
+    bubbles: true,
+  });
+}
+
+// Helper to create a mock React PointerEvent with nativeEvent
+function createMockReactPointerEvent(
+  mockElement: HTMLDivElement,
+  options: {
+    clientX?: number;
+    clientY?: number;
+    pointerId?: number;
+    pointerType?: string;
+  } = {}
+): React.PointerEvent {
+  const nativeEvent = new PointerEvent('pointerdown', {
+    clientX: options.clientX ?? 0,
+    clientY: options.clientY ?? 0,
+    pointerId: options.pointerId ?? 1,
+    pointerType: options.pointerType ?? 'mouse',
+    bubbles: true,
+  });
+
+  return {
+    preventDefault: vi.fn(),
+    clientX: options.clientX ?? 0,
+    clientY: options.clientY ?? 0,
+    pointerId: options.pointerId ?? 1,
+    pointerType: options.pointerType ?? 'mouse',
+    currentTarget: mockElement,
+    nativeEvent,
+  } as unknown as React.PointerEvent;
+}
+
 describe('useResizer', () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -46,6 +97,7 @@ describe('useResizer', () => {
     });
 
     it('does not update sizes while dragging', () => {
+      const mockElement = createMockElement();
       const { result, rerender } = renderHook(
         ({ sizes }) =>
           useResizer({
@@ -57,15 +109,16 @@ describe('useResizer', () => {
         { initialProps: { sizes: [300, 700] } }
       );
 
-      // Start a drag
+      // Start a drag using pointer events
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       expect(result.current.isDragging).toBe(true);
@@ -78,8 +131,9 @@ describe('useResizer', () => {
     });
   });
 
-  describe('mouse drag interactions', () => {
-    it('starts dragging on mouseDown', () => {
+  describe('pointer drag interactions', () => {
+    it('starts dragging on pointerDown and captures pointer', () => {
+      const mockElement = createMockElement();
       const onResizeStart = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -92,24 +146,26 @@ describe('useResizer', () => {
       );
 
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        pointerDown(event);
       });
 
       expect(result.current.isDragging).toBe(true);
+      expect(mockElement.setPointerCapture).toHaveBeenCalledWith(1);
       expect(onResizeStart).toHaveBeenCalledWith({
         sizes: [300, 700],
-        source: 'mouse',
-        originalEvent: expect.any(MouseEvent),
+        source: 'pointer',
+        originalEvent: expect.any(PointerEvent),
       });
     });
 
     it('updates sizes during horizontal drag', () => {
+      const mockElement = createMockElement();
       const onResize = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -123,22 +179,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
-      // Simulate mouse move (document level event)
+      // Simulate pointer move (document level event)
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 350,
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers(); // RAF is mocked with timers
       });
 
@@ -148,6 +206,7 @@ describe('useResizer', () => {
     });
 
     it('updates sizes during vertical drag', () => {
+      const mockElement = createMockElement();
       const onResize = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -161,22 +220,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 0,
           clientY: 300,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
-      // Simulate vertical mouse move
+      // Simulate vertical pointer move
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 0,
           clientY: 350,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -184,7 +245,8 @@ describe('useResizer', () => {
       expect(result.current.currentSizes[1]).toBe(450);
     });
 
-    it('ends drag on mouseUp', () => {
+    it('ends drag on pointerUp and releases pointer capture', () => {
+      const mockElement = createMockElement();
       const onResizeEnd = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -198,30 +260,74 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       expect(result.current.isDragging).toBe(true);
 
       // End drag
       act(() => {
-        document.dispatchEvent(new MouseEvent('mouseup'));
+        const pointerUpEvent = createPointerEvent('pointerup', {
+          pointerId: 1,
+        });
+        document.dispatchEvent(pointerUpEvent);
       });
 
       expect(result.current.isDragging).toBe(false);
       expect(onResizeEnd).toHaveBeenCalledWith([300, 700], {
         sizes: [300, 700],
-        source: 'mouse',
+        source: 'pointer',
       });
     });
 
+    it('ends drag on pointerCancel and releases pointer capture', () => {
+      const mockElement = createMockElement();
+      const onResizeEnd = vi.fn();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+          onResizeEnd,
+        })
+      );
+
+      // Start drag
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      expect(result.current.isDragging).toBe(true);
+
+      // Cancel drag
+      act(() => {
+        const pointerCancelEvent = createPointerEvent('pointercancel', {
+          pointerId: 1,
+        });
+        document.dispatchEvent(pointerCancelEvent);
+      });
+
+      expect(result.current.isDragging).toBe(false);
+      expect(onResizeEnd).toHaveBeenCalled();
+    });
+
     it('respects minimum size constraints', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -233,22 +339,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Try to drag past minimum
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 50, // Would make first pane 50px
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -257,6 +365,7 @@ describe('useResizer', () => {
     });
 
     it('respects maximum size constraints', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -268,22 +377,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Try to drag past maximum
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 600, // Would make first pane 600px
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -294,6 +405,7 @@ describe('useResizer', () => {
 
   describe('snap points', () => {
     it('snaps to nearby snap points', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -307,22 +419,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Drag to position near snap point (395 should snap to 400)
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 395,
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -330,6 +444,7 @@ describe('useResizer', () => {
     });
 
     it('does not snap when outside tolerance', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -343,22 +458,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Drag to position outside snap tolerance (350 is 50 away from 400)
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 350,
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -368,6 +485,7 @@ describe('useResizer', () => {
 
   describe('step-based resizing', () => {
     it('applies step to drag movements', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -380,22 +498,24 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Drag 73 pixels (should be rounded to 50)
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 373,
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -405,6 +525,7 @@ describe('useResizer', () => {
 
   describe('multiple panes', () => {
     it('handles drag on middle divider (3 panes)', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -416,22 +537,24 @@ describe('useResizer', () => {
 
       // Drag middle divider (index 1)
       act(() => {
-        const mouseDown = result.current.handleMouseDown(1);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(1);
+        const event = createPointerEvent('pointerdown', {
           clientX: 700, // Start at divider 1 position (300 + 400)
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // Drag right by 50px
       act(() => {
-        const mouseMoveEvent = new MouseEvent('mousemove', {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
           clientX: 750,
           clientY: 0,
+          pointerId: 1,
         });
-        document.dispatchEvent(mouseMoveEvent);
+        document.dispatchEvent(pointerMoveEvent);
         vi.runAllTimers();
       });
 
@@ -441,8 +564,34 @@ describe('useResizer', () => {
     });
   });
 
-  describe('touch interactions', () => {
-    it('starts dragging on touchStart', () => {
+  describe('pointer capture', () => {
+    it('captures pointer on drag start', () => {
+      const mockElement = createMockElement();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 42,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      expect(mockElement.setPointerCapture).toHaveBeenCalledWith(42);
+    });
+
+    it('handles touch input via pointer events', () => {
+      const mockElement = createMockElement();
       const onResizeStart = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -454,23 +603,28 @@ describe('useResizer', () => {
         })
       );
 
+      // Touch generates pointer events with pointerType="touch"
       act(() => {
-        const touchStart = result.current.handleTouchStart(0);
-        touchStart({
-          touches: [{ clientX: 300, clientY: 0 }],
-          nativeEvent: new TouchEvent('touchstart'),
-        } as unknown as React.TouchEvent);
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+          pointerType: 'touch',
+        });
+        pointerDown(event);
       });
 
       expect(result.current.isDragging).toBe(true);
       expect(onResizeStart).toHaveBeenCalledWith({
         sizes: [300, 700],
-        source: 'touch',
-        originalEvent: expect.any(TouchEvent),
+        source: 'pointer',
+        originalEvent: expect.any(PointerEvent),
       });
     });
 
-    it('updates sizes during touch move', () => {
+    it('handles pen input via pointer events', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -480,63 +634,80 @@ describe('useResizer', () => {
         })
       );
 
-      // Start touch
+      // Pen generates pointer events with pointerType="pen"
       act(() => {
-        const touchStart = result.current.handleTouchStart(0);
-        touchStart({
-          touches: [{ clientX: 300, clientY: 0 }],
-          nativeEvent: new TouchEvent('touchstart'),
-        } as unknown as React.TouchEvent);
-      });
-
-      // Simulate touch move
-      act(() => {
-        const touchMoveEvent = new TouchEvent('touchmove', {
-          touches: [{ clientX: 350, clientY: 0 } as Touch],
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+          pointerType: 'pen',
         });
-        document.dispatchEvent(touchMoveEvent);
-        vi.runAllTimers();
+        pointerDown(event);
       });
 
-      expect(result.current.currentSizes[0]).toBe(350);
-      expect(result.current.currentSizes[1]).toBe(650);
+      expect(result.current.isDragging).toBe(true);
     });
 
-    it('ends drag on touchEnd', () => {
-      const onResizeEnd = vi.fn();
+    it('ignores pointer events from non-captured pointers (multi-touch)', () => {
+      const mockElement = createMockElement();
+      const onResize = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
           sizes: [300, 700],
           minSizes: [100, 100],
           maxSizes: [500, 900],
-          onResizeEnd,
+          onResize,
         })
       );
 
-      // Start touch
+      // Start drag with pointer ID 1
       act(() => {
-        const touchStart = result.current.handleTouchStart(0);
-        touchStart({
-          touches: [{ clientX: 300, clientY: 0 }],
-          nativeEvent: new TouchEvent('touchstart'),
-        } as unknown as React.TouchEvent);
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+        });
+        pointerDown(event);
       });
 
       expect(result.current.isDragging).toBe(true);
 
-      // End touch via handleTouchEnd
+      // Simulate a second touch with different pointer ID (should be ignored)
       act(() => {
-        result.current.handleTouchEnd({
-          preventDefault: vi.fn(),
-        } as unknown as React.TouchEvent);
+        const pointerMoveEvent = createPointerEvent('pointermove', {
+          clientX: 500, // Would be a big move if processed
+          clientY: 0,
+          pointerId: 2, // Different pointer ID
+        });
+        document.dispatchEvent(pointerMoveEvent);
+        vi.runAllTimers();
       });
 
-      expect(result.current.isDragging).toBe(false);
-      expect(onResizeEnd).toHaveBeenCalled();
+      // Sizes should NOT change because pointer ID 2 is not captured
+      expect(result.current.currentSizes).toEqual([300, 700]);
+      expect(onResize).not.toHaveBeenCalled();
+
+      // Now move with the correct pointer ID
+      act(() => {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
+          clientX: 350,
+          clientY: 0,
+          pointerId: 1, // Correct pointer ID
+        });
+        document.dispatchEvent(pointerMoveEvent);
+        vi.runAllTimers();
+      });
+
+      // Sizes should change now
+      expect(result.current.currentSizes[0]).toBe(350);
+      expect(onResize).toHaveBeenCalled();
     });
 
-    it('handles touch with no touches gracefully', () => {
+    it('releases pointer capture on drag end', () => {
+      const mockElement = createMockElement();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
@@ -546,22 +717,33 @@ describe('useResizer', () => {
         })
       );
 
-      // Touch start with no touches
       act(() => {
-        const touchStart = result.current.handleTouchStart(0);
-        touchStart({
-          touches: [],
-          nativeEvent: new TouchEvent('touchstart'),
-        } as unknown as React.TouchEvent);
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 42,
+        });
+        pointerDown(event);
       });
 
-      // Should not start dragging
+      expect(mockElement.setPointerCapture).toHaveBeenCalledWith(42);
+
+      // End drag
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointerup', { pointerId: 42 })
+        );
+      });
+
+      expect(mockElement.releasePointerCapture).toHaveBeenCalledWith(42);
       expect(result.current.isDragging).toBe(false);
     });
   });
 
   describe('RAF throttling uses latest position', () => {
-    it('uses the latest mouse position when multiple moves occur before RAF fires', () => {
+    it('uses the latest pointer position when multiple moves occur before RAF fires', () => {
+      const mockElement = createMockElement();
       const onResize = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
@@ -575,29 +757,42 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
-      // Simulate multiple rapid mouse moves BEFORE RAF fires
-      // This simulates what happens when mouse events fire faster than 60fps
+      // Simulate multiple rapid pointer moves BEFORE RAF fires
+      // This simulates what happens when pointer events fire faster than 60fps
       act(() => {
         // First move - schedules RAF
         document.dispatchEvent(
-          new MouseEvent('mousemove', { clientX: 320, clientY: 0 })
+          createPointerEvent('pointermove', {
+            clientX: 320,
+            clientY: 0,
+            pointerId: 1,
+          })
         );
         // Second move - should be captured but RAF already pending
         document.dispatchEvent(
-          new MouseEvent('mousemove', { clientX: 350, clientY: 0 })
+          createPointerEvent('pointermove', {
+            clientX: 350,
+            clientY: 0,
+            pointerId: 1,
+          })
         );
         // Third move - the latest position
         document.dispatchEvent(
-          new MouseEvent('mousemove', { clientX: 400, clientY: 0 })
+          createPointerEvent('pointermove', {
+            clientX: 400,
+            clientY: 0,
+            pointerId: 1,
+          })
         );
 
         // Now RAF fires - should use position 400, not 320
@@ -608,55 +803,11 @@ describe('useResizer', () => {
       expect(result.current.currentSizes[0]).toBe(400);
       expect(result.current.currentSizes[1]).toBe(600);
     });
-
-    it('uses the latest touch position when multiple moves occur before RAF fires', () => {
-      const { result } = renderHook(() =>
-        useResizer({
-          direction: 'horizontal',
-          sizes: [300, 700],
-          minSizes: [100, 100],
-          maxSizes: [500, 900],
-        })
-      );
-
-      // Start touch
-      act(() => {
-        const touchStart = result.current.handleTouchStart(0);
-        touchStart({
-          touches: [{ clientX: 300, clientY: 0 }],
-          nativeEvent: new TouchEvent('touchstart'),
-        } as unknown as React.TouchEvent);
-      });
-
-      // Simulate multiple rapid touch moves BEFORE RAF fires
-      act(() => {
-        document.dispatchEvent(
-          new TouchEvent('touchmove', {
-            touches: [{ clientX: 320, clientY: 0 } as Touch],
-          })
-        );
-        document.dispatchEvent(
-          new TouchEvent('touchmove', {
-            touches: [{ clientX: 350, clientY: 0 } as Touch],
-          })
-        );
-        document.dispatchEvent(
-          new TouchEvent('touchmove', {
-            touches: [{ clientX: 400, clientY: 0 } as Touch],
-          })
-        );
-
-        vi.runAllTimers();
-      });
-
-      // Should use the LATEST position (400)
-      expect(result.current.currentSizes[0]).toBe(400);
-      expect(result.current.currentSizes[1]).toBe(600);
-    });
   });
 
   describe('event cleanup', () => {
     it('cleans up event listeners when drag ends', () => {
+      const mockElement = createMockElement();
       const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');
 
       const { result } = renderHook(() =>
@@ -670,26 +821,29 @@ describe('useResizer', () => {
 
       // Start drag
       act(() => {
-        const mouseDown = result.current.handleMouseDown(0);
-        mouseDown({
-          preventDefault: vi.fn(),
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
           clientX: 300,
           clientY: 0,
-          nativeEvent: new MouseEvent('mousedown'),
-        } as unknown as React.MouseEvent);
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
       });
 
       // End drag
       act(() => {
-        document.dispatchEvent(new MouseEvent('mouseup'));
+        document.dispatchEvent(
+          createPointerEvent('pointerup', { pointerId: 1 })
+        );
       });
 
       expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'mousemove',
+        'pointermove',
         expect.any(Function)
       );
       expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'mouseup',
+        'pointerup',
         expect.any(Function)
       );
 
