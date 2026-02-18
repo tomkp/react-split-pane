@@ -28,20 +28,18 @@ export interface UseResizerOptions {
 export interface UseResizerResult {
   isDragging: boolean;
   currentSizes: number[];
-  handleMouseDown: (dividerIndex: number) => (e: React.MouseEvent) => void;
-  handleTouchStart: (dividerIndex: number) => (e: React.TouchEvent) => void;
-  handleTouchEnd: (e: React.TouchEvent) => void;
+  handlePointerDown: (dividerIndex: number) => (e: React.PointerEvent) => void;
 }
 
 /**
- * Hook that handles mouse and touch-based resizing of panes.
+ * Hook that handles pointer-based resizing of panes.
  *
  * This is a low-level hook used internally by SplitPane. For most use cases,
  * you should use the SplitPane component directly.
  *
  * Features:
- * - Mouse drag support
- * - Touch support for mobile
+ * - Unified pointer events (handles mouse, touch, and pen input)
+ * - Pointer capture for reliable drag behavior
  * - RAF-throttled updates for smooth performance
  * - Snap points support
  * - Step-based resizing
@@ -70,6 +68,8 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     dividerIndex: number;
     startPosition: number;
     startSizes: number[];
+    pointerId: number;
+    element: HTMLElement | null;
   } | null>(null);
 
   const rafRef = useRef<number | null>(null);
@@ -141,15 +141,15 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       if (onResize) {
         onResize(newSizes, {
           sizes: newSizes,
-          source: 'mouse',
+          source: 'pointer',
         });
       }
     },
     [direction, step, minSizes, maxSizes, snapPoints, snapTolerance, onResize]
   );
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
+  const handlePointerMove = useCallback(
+    (e: PointerEvent) => {
       e.preventDefault();
 
       // Always store the latest position to avoid stale closure in RAF callback
@@ -168,29 +168,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     [handleDrag]
   );
 
-  const handleTouchMove = useCallback(
-    (e: TouchEvent) => {
-      e.preventDefault();
-
-      const touch = e.touches[0];
-      if (!touch) return;
-
-      // Always store the latest position to avoid stale closure in RAF callback
-      lastPositionRef.current = { x: touch.clientX, y: touch.clientY };
-
-      if (rafRef.current) return;
-
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = null;
-        if (mountedRef.current && lastPositionRef.current) {
-          handleDrag(lastPositionRef.current.x, lastPositionRef.current.y);
-        }
-      });
-    },
-    [handleDrag]
-  );
-
-  const handleMouseUp = useCallback(() => {
+  const handlePointerUp = useCallback(() => {
     if (!dragStateRef.current) return;
 
     // Cancel any pending RAF
@@ -208,23 +186,29 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     if (latestOnResizeEnd) {
       latestOnResizeEnd(latestSizes, {
         sizes: latestSizes,
-        source: 'mouse',
+        source: 'pointer',
       });
     }
 
     dragStateRef.current = null;
   }, []);
 
-  const handleMouseDown = useCallback(
-    (dividerIndex: number) => (e: React.MouseEvent) => {
+  const handlePointerDown = useCallback(
+    (dividerIndex: number) => (e: React.PointerEvent) => {
       e.preventDefault();
 
       const startPosition = direction === 'horizontal' ? e.clientX : e.clientY;
+      const element = e.currentTarget as HTMLElement;
+
+      // Capture the pointer to receive all pointer events even if pointer leaves element
+      element.setPointerCapture(e.pointerId);
 
       dragStateRef.current = {
         dividerIndex,
         startPosition,
         startSizes: currentSizes,
+        pointerId: e.pointerId,
+        element,
       };
 
       setIsDragging(true);
@@ -232,7 +216,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       if (onResizeStart) {
         onResizeStart({
           sizes: currentSizes,
-          source: 'mouse',
+          source: 'pointer',
           originalEvent: e.nativeEvent,
         });
       }
@@ -240,63 +224,24 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     [direction, currentSizes, onResizeStart]
   );
 
-  const handleTouchStart = useCallback(
-    (dividerIndex: number) => (e: React.TouchEvent) => {
-      const touch = e.touches[0];
-      if (!touch) return;
-
-      const startPosition =
-        direction === 'horizontal' ? touch.clientX : touch.clientY;
-
-      dragStateRef.current = {
-        dividerIndex,
-        startPosition,
-        startSizes: currentSizes,
-      };
-
-      setIsDragging(true);
-
-      if (onResizeStart) {
-        onResizeStart({
-          sizes: currentSizes,
-          source: 'touch',
-          originalEvent: e.nativeEvent,
-        });
-      }
-    },
-    [direction, currentSizes, onResizeStart]
-  );
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      e.preventDefault();
-      handleMouseUp();
-    },
-    [handleMouseUp]
-  );
-
-  // Set up global event listeners
+  // Set up global event listeners for pointer events
   useEffect(() => {
     if (!isDragging) return;
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleMouseUp);
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleMouseUp);
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('pointercancel', handlePointerUp);
     };
-  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
+  }, [isDragging, handlePointerMove, handlePointerUp]);
 
   return {
     isDragging,
     currentSizes,
-    handleMouseDown,
-    handleTouchStart,
-    handleTouchEnd,
+    handlePointerDown,
   };
 }

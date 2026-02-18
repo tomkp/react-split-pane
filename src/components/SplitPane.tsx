@@ -273,13 +273,7 @@ export function SplitPane(props: SplitPaneProps) {
   );
 
   // Resizer hook
-  const {
-    isDragging,
-    currentSizes,
-    handleMouseDown,
-    handleTouchStart,
-    handleTouchEnd,
-  } = useResizer({
+  const { isDragging, currentSizes, handlePointerDown } = useResizer({
     direction,
     sizes: paneSizes,
     minSizes,
@@ -354,9 +348,7 @@ export function SplitPane(props: SplitPaneProps) {
             index={index}
             isDragging={isDragging}
             disabled={!resizable}
-            onMouseDown={handleMouseDown(index)}
-            onTouchStart={handleTouchStart(index)}
-            onTouchEnd={handleTouchEnd}
+            onPointerDown={handlePointerDown(index)}
             onKeyDown={handleKeyDown(index)}
             className={dividerClassName}
             style={dividerStyle}

@@ -4,6 +4,45 @@ import { vi } from 'vitest';
 // Use fake timers globally
 vi.useFakeTimers();
 
+// Polyfill PointerEvent for jsdom (which doesn't include it)
+class MockPointerEvent extends MouseEvent {
+  readonly pointerId: number;
+  readonly pointerType: string;
+  readonly width: number;
+  readonly height: number;
+  readonly pressure: number;
+  readonly tangentialPressure: number;
+  readonly tiltX: number;
+  readonly tiltY: number;
+  readonly twist: number;
+  readonly isPrimary: boolean;
+
+  constructor(type: string, init?: PointerEventInit) {
+    super(type, init);
+    this.pointerId = init?.pointerId ?? 0;
+    this.pointerType = init?.pointerType ?? 'mouse';
+    this.width = init?.width ?? 1;
+    this.height = init?.height ?? 1;
+    this.pressure = init?.pressure ?? 0;
+    this.tangentialPressure = init?.tangentialPressure ?? 0;
+    this.tiltX = init?.tiltX ?? 0;
+    this.tiltY = init?.tiltY ?? 0;
+    this.twist = init?.twist ?? 0;
+    this.isPrimary = init?.isPrimary ?? true;
+  }
+
+  getCoalescedEvents(): PointerEvent[] {
+    return [];
+  }
+
+  getPredictedEvents(): PointerEvent[] {
+    return [];
+  }
+}
+
+(globalThis as unknown as { PointerEvent: typeof PointerEvent }).PointerEvent =
+  MockPointerEvent as unknown as typeof PointerEvent;
+
 // Mock getBoundingClientRect to return proper dimensions
 Element.prototype.getBoundingClientRect = vi.fn(() => ({
   width: 1024,
