@@ -150,6 +150,14 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
 
   const handlePointerMove = useCallback(
     (e: PointerEvent) => {
+      // Only handle events from the captured pointer
+      if (
+        !dragStateRef.current ||
+        e.pointerId !== dragStateRef.current.pointerId
+      ) {
+        return;
+      }
+
       e.preventDefault();
 
       // Always store the latest position to avoid stale closure in RAF callback
@@ -168,8 +176,20 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     [handleDrag]
   );
 
-  const handlePointerUp = useCallback(() => {
-    if (!dragStateRef.current) return;
+  const handlePointerUp = useCallback((e: PointerEvent) => {
+    // Only handle events from the captured pointer
+    if (
+      !dragStateRef.current ||
+      e.pointerId !== dragStateRef.current.pointerId
+    ) {
+      return;
+    }
+
+    // Release pointer capture
+    const { element, pointerId } = dragStateRef.current;
+    if (element?.hasPointerCapture?.(pointerId)) {
+      element.releasePointerCapture(pointerId);
+    }
 
     // Cancel any pending RAF
     if (rafRef.current) {

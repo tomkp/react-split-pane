@@ -648,6 +648,97 @@ describe('useResizer', () => {
 
       expect(result.current.isDragging).toBe(true);
     });
+
+    it('ignores pointer events from non-captured pointers (multi-touch)', () => {
+      const mockElement = createMockElement();
+      const onResize = vi.fn();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+          onResize,
+        })
+      );
+
+      // Start drag with pointer ID 1
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+        });
+        pointerDown(event);
+      });
+
+      expect(result.current.isDragging).toBe(true);
+
+      // Simulate a second touch with different pointer ID (should be ignored)
+      act(() => {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
+          clientX: 500, // Would be a big move if processed
+          clientY: 0,
+          pointerId: 2, // Different pointer ID
+        });
+        document.dispatchEvent(pointerMoveEvent);
+        vi.runAllTimers();
+      });
+
+      // Sizes should NOT change because pointer ID 2 is not captured
+      expect(result.current.currentSizes).toEqual([300, 700]);
+      expect(onResize).not.toHaveBeenCalled();
+
+      // Now move with the correct pointer ID
+      act(() => {
+        const pointerMoveEvent = createPointerEvent('pointermove', {
+          clientX: 350,
+          clientY: 0,
+          pointerId: 1, // Correct pointer ID
+        });
+        document.dispatchEvent(pointerMoveEvent);
+        vi.runAllTimers();
+      });
+
+      // Sizes should change now
+      expect(result.current.currentSizes[0]).toBe(350);
+      expect(onResize).toHaveBeenCalled();
+    });
+
+    it('releases pointer capture on drag end', () => {
+      const mockElement = createMockElement();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 42,
+        });
+        pointerDown(event);
+      });
+
+      expect(mockElement.setPointerCapture).toHaveBeenCalledWith(42);
+
+      // End drag
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointerup', { pointerId: 42 })
+        );
+      });
+
+      expect(mockElement.releasePointerCapture).toHaveBeenCalledWith(42);
+      expect(result.current.isDragging).toBe(false);
+    });
   });
 
   describe('RAF throttling uses latest position', () => {
