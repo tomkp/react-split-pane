@@ -297,6 +297,45 @@ export function SplitPane(props: SplitPaneProps) {
     onResizeEnd,
   });
 
+  // Deprecated handlers for backwards compatibility
+  // These delegate to the pointer handler so custom dividers using old props still work
+  const createMouseDownHandler = useCallback(
+    (index: number) => (e: React.MouseEvent) => {
+      // Create a synthetic pointer event from the mouse event
+      const pointerEvent = {
+        ...e,
+        pointerId: 1,
+        pointerType: 'mouse',
+        nativeEvent: e.nativeEvent,
+      } as unknown as React.PointerEvent;
+      handlePointerDown(index)(pointerEvent);
+    },
+    [handlePointerDown]
+  );
+
+  const createTouchStartHandler = useCallback(
+    (index: number) => (e: React.TouchEvent) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      // Create a synthetic pointer event from the touch event
+      const pointerEvent = {
+        ...e,
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        pointerId: touch.identifier,
+        pointerType: 'touch',
+        nativeEvent: e.nativeEvent,
+      } as unknown as React.PointerEvent;
+      handlePointerDown(index)(pointerEvent);
+    },
+    [handlePointerDown]
+  );
+
+  // Touch end is now a no-op since pointer events handle cleanup
+  const handleTouchEnd = useCallback(() => {
+    // No-op - pointer events handle the end of drag
+  }, []);
+
   // Container styles
   const containerStyle: CSSProperties = {
     display: 'flex',
@@ -349,6 +388,9 @@ export function SplitPane(props: SplitPaneProps) {
             isDragging={isDragging}
             disabled={!resizable}
             onPointerDown={handlePointerDown(index)}
+            onMouseDown={createMouseDownHandler(index)}
+            onTouchStart={createTouchStartHandler(index)}
+            onTouchEnd={handleTouchEnd}
             onKeyDown={handleKeyDown(index)}
             className={dividerClassName}
             style={dividerStyle}

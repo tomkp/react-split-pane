@@ -96,6 +96,24 @@ export interface DividerProps {
   /** Pointer down handler (handles mouse, touch, and pen input) */
   onPointerDown: (e: React.PointerEvent) => void;
 
+  /**
+   * Mouse down handler
+   * @deprecated Use onPointerDown instead. This is provided for backwards compatibility.
+   */
+  onMouseDown?: (e: React.MouseEvent) => void;
+
+  /**
+   * Touch start handler
+   * @deprecated Use onPointerDown instead. This is provided for backwards compatibility.
+   */
+  onTouchStart?: (e: React.TouchEvent) => void;
+
+  /**
+   * Touch end handler
+   * @deprecated Use onPointerDown instead. This is provided for backwards compatibility.
+   */
+  onTouchEnd?: (e: React.TouchEvent) => void;
+
   /** Keyboard handler */
   onKeyDown: (e: React.KeyboardEvent) => void;
 
