@@ -69,6 +69,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     startPosition: number;
     startSizes: number[];
     pointerId: number;
+    pointerType: 'mouse' | 'touch' | 'pen';
     element: HTMLElement | null;
   } | null>(null);
 
@@ -111,7 +112,8 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     (clientX: number, clientY: number) => {
       if (!dragStateRef.current || !mountedRef.current) return;
 
-      const { dividerIndex, startPosition, startSizes } = dragStateRef.current;
+      const { dividerIndex, startPosition, startSizes, pointerType } =
+        dragStateRef.current;
       const currentPosition = direction === 'horizontal' ? clientX : clientY;
 
       let delta = currentPosition - startPosition;
@@ -142,6 +144,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         onResize(newSizes, {
           sizes: newSizes,
           source: 'pointer',
+          pointerType,
         });
       }
     },
@@ -186,7 +189,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     }
 
     // Release pointer capture
-    const { element, pointerId } = dragStateRef.current;
+    const { element, pointerId, pointerType } = dragStateRef.current;
     if (element?.hasPointerCapture?.(pointerId)) {
       element.releasePointerCapture(pointerId);
     }
@@ -207,6 +210,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       latestOnResizeEnd(latestSizes, {
         sizes: latestSizes,
         source: 'pointer',
+        pointerType,
       });
     }
 
@@ -223,11 +227,14 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       // Capture the pointer to receive all pointer events even if pointer leaves element
       element.setPointerCapture(e.pointerId);
 
+      const pointerType = e.pointerType as 'mouse' | 'touch' | 'pen';
+
       dragStateRef.current = {
         dividerIndex,
         startPosition,
         startSizes: currentSizes,
         pointerId: e.pointerId,
+        pointerType,
         element,
       };
 
@@ -237,6 +244,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         onResizeStart({
           sizes: currentSizes,
           source: 'pointer',
+          pointerType,
           originalEvent: e.nativeEvent,
         });
       }

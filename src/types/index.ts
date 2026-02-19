@@ -7,6 +7,8 @@ export type Size = string | number;
 export interface ResizeEvent {
   sizes: number[];
   source: 'pointer' | 'keyboard';
+  /** The type of pointer that initiated the resize (mouse, touch, or pen) */
+  pointerType?: 'mouse' | 'touch' | 'pen';
   originalEvent?: PointerEvent | KeyboardEvent;
 }
 

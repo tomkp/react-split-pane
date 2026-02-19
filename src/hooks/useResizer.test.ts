@@ -14,12 +14,18 @@ function createMockElement(): HTMLDivElement {
 // Helper to create a PointerEvent with required properties
 function createPointerEvent(
   type: string,
-  options: { clientX?: number; clientY?: number; pointerId?: number } = {}
+  options: {
+    clientX?: number;
+    clientY?: number;
+    pointerId?: number;
+    pointerType?: string;
+  } = {}
 ): PointerEvent {
   return new PointerEvent(type, {
     clientX: options.clientX ?? 0,
     clientY: options.clientY ?? 0,
     pointerId: options.pointerId ?? 1,
+    pointerType: options.pointerType ?? 'mouse',
     bubbles: true,
   });
 }
@@ -160,6 +166,7 @@ describe('useResizer', () => {
       expect(onResizeStart).toHaveBeenCalledWith({
         sizes: [300, 700],
         source: 'pointer',
+        pointerType: 'mouse',
         originalEvent: expect.any(PointerEvent),
       });
     });
@@ -284,6 +291,7 @@ describe('useResizer', () => {
       expect(onResizeEnd).toHaveBeenCalledWith([300, 700], {
         sizes: [300, 700],
         source: 'pointer',
+        pointerType: 'mouse',
       });
     });
 
@@ -590,7 +598,7 @@ describe('useResizer', () => {
       expect(mockElement.setPointerCapture).toHaveBeenCalledWith(42);
     });
 
-    it('handles touch input via pointer events', () => {
+    it('handles touch input via pointer events and passes pointerType', () => {
       const mockElement = createMockElement();
       const onResizeStart = vi.fn();
       const { result } = renderHook(() =>
@@ -619,18 +627,21 @@ describe('useResizer', () => {
       expect(onResizeStart).toHaveBeenCalledWith({
         sizes: [300, 700],
         source: 'pointer',
+        pointerType: 'touch',
         originalEvent: expect.any(PointerEvent),
       });
     });
 
-    it('handles pen input via pointer events', () => {
+    it('handles pen input via pointer events and passes pointerType', () => {
       const mockElement = createMockElement();
+      const onResizeStart = vi.fn();
       const { result } = renderHook(() =>
         useResizer({
           direction: 'horizontal',
           sizes: [300, 700],
           minSizes: [100, 100],
           maxSizes: [500, 900],
+          onResizeStart,
         })
       );
 
@@ -647,6 +658,44 @@ describe('useResizer', () => {
       });
 
       expect(result.current.isDragging).toBe(true);
+      expect(onResizeStart).toHaveBeenCalledWith({
+        sizes: [300, 700],
+        source: 'pointer',
+        pointerType: 'pen',
+        originalEvent: expect.any(PointerEvent),
+      });
+    });
+
+    it('passes mouse pointerType by default', () => {
+      const mockElement = createMockElement();
+      const onResizeStart = vi.fn();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [500, 900],
+          onResizeStart,
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createMockReactPointerEvent(mockElement, {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+          pointerType: 'mouse',
+        });
+        pointerDown(event);
+      });
+
+      expect(onResizeStart).toHaveBeenCalledWith({
+        sizes: [300, 700],
+        source: 'pointer',
+        pointerType: 'mouse',
+        originalEvent: expect.any(PointerEvent),
+      });
     });
 
     it('ignores pointer events from non-captured pointers (multi-touch)', () => {
