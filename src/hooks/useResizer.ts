@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Direction, ResizeEvent } from '../types';
 import {
   calculateDraggedSizes,
-  snapToPoint,
+  snapToPoint as defaultSnapToPoint,
   applyStep,
 } from '../utils/calculations';
 
@@ -16,6 +16,9 @@ export interface UseResizerOptions {
   maxSizes: number[];
   snapPoints?: number[] | undefined;
   snapTolerance?: number | undefined;
+  snapToPoint?:
+    | ((value: number, snapPoints: number[], snapTolerance: number) => number)
+    | undefined;
   step?: number | undefined;
   onResizeStart?: ((event: ResizeEvent) => void) | undefined;
   onResize?: ((sizes: number[], event: ResizeEvent) => void) | undefined;
@@ -55,6 +58,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
     maxSizes,
     snapPoints = [],
     snapTolerance = 10,
+    snapToPoint = defaultSnapToPoint,
     step,
     onResizeStart,
     onResize,
@@ -148,7 +152,16 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         });
       }
     },
-    [direction, step, minSizes, maxSizes, snapPoints, snapTolerance, onResize]
+    [
+      direction,
+      step,
+      minSizes,
+      maxSizes,
+      snapPoints,
+      snapTolerance,
+      snapToPoint,
+      onResize,
+    ]
   );
 
   const handlePointerMove = useCallback(
