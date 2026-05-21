@@ -178,6 +178,26 @@ const [sizes, setSizes] = usePersistence({
 </SplitPane>
 ```
 
+#### With custom snap logic:
+
+```tsx
+<SplitPane
+  snapPoints={[0, 200]}
+  snapTolerance={20}
+  snapToPoint={(value, points, tolerance) => {
+      // only snap if between the first and last point
+      if (value <= Math.min(...points) || value >= Math.max(...points)) return value;
+      // default logic
+      for (const p of points) {
+        if (Math.abs(value - p) <= tolerance) return p;
+      }
+      return value;
+  }}
+>
+  {/* panes */}
+</SplitPane>
+```
+
 ### Custom Divider
 
 ```tsx
@@ -215,6 +235,7 @@ The divider is fully keyboard accessible:
 | `resizable` | `boolean` | `true` | Whether panes can be resized |
 | `snapPoints` | `number[]` | `[]` | Snap points in pixels |
 | `snapTolerance` | `number` | `10` | Snap tolerance in pixels |
+| `snapToPoint` | `(value, snapPoints, snapTolerance) => number` | - | Custom snap function — overrides the built-in behavior (only invoked when `snapPoints` is non-empty) |
 | `step` | `number` | `10` | Keyboard resize step |
 | `onResizeStart` | `(event) => void` | - | Called when resize starts |
 | `onResize` | `(sizes, event) => void` | - | Called during resize |

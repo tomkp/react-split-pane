@@ -25,6 +25,13 @@ export interface SplitPaneProps {
   /** Snap tolerance in pixels */
   snapTolerance?: number;
 
+  /** Custom snap function — overrides the built-in snap behavior. */
+  snapToPoint?: (
+    value: number,
+    snapPoints: number[],
+    snapTolerance: number
+  ) => number;
+
   /** Step size for keyboard resize in pixels */
   step?: number;
 

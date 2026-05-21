@@ -520,6 +520,145 @@ describe('SplitPane divider size accounting', () => {
   });
 });
 
+describe('SplitPane snapToPoint prop', () => {
+  beforeEach(() => {
+    clearResizeObservers();
+  });
+
+  it('example usage: snaps inside the snap-point range only', async () => {
+    // Custom snap: only snaps when value is strictly between the smallest
+    // and largest snap point — outside that range, drag is fluent.
+    const rangeGatedSnap = (
+      value: number,
+      points: number[],
+      tolerance: number
+    ) => {
+      const lo = Math.min(...points);
+      const hi = Math.max(...points);
+      if (value <= lo || value >= hi) return value;
+      for (const p of points) {
+        if (Math.abs(value - p) <= tolerance) return p;
+      }
+      return value;
+    };
+
+    const { container } = render(
+      <SplitPane
+        direction="horizontal"
+        snapPoints={[200, 400, 600]}
+        snapTolerance={100}
+        snapToPoint={rangeGatedSnap}
+      >
+        <Pane minSize={50} maxSize={950} defaultSize={200}>
+          Pane 1
+        </Pane>
+        <Pane minSize={50} maxSize={950}>
+          Pane 2
+        </Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const divider = container.querySelector(
+      '[role="separator"]'
+    ) as HTMLElement;
+    // jsdom doesn't implement pointer capture
+    divider.setPointerCapture = vi.fn();
+    divider.releasePointerCapture = vi.fn();
+    divider.hasPointerCapture = vi.fn().mockReturnValue(true);
+
+    // Start drag from divider position (pane 1 width = 300)
+    await act(async () => {
+      divider.dispatchEvent(
+        new PointerEvent('pointerdown', {
+          clientX: 200,
+          clientY: 0,
+          pointerId: 1,
+          pointerType: 'mouse',
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+
+    const pane1 = () =>
+      container.querySelectorAll('[data-pane="true"]')[0] as HTMLElement;
+
+    // Below the smallest snap point — drag is fluent (no snap).
+    await act(async () => {
+      document.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 150,
+          clientY: 0,
+          pointerId: 1,
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+    expect(pane1()).toHaveStyle({ width: '150px' });
+
+    // Inside the range and within tolerance of 200 — snaps to 200.
+    await act(async () => {
+      document.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 250,
+          clientY: 0,
+          pointerId: 1,
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+    expect(pane1()).toHaveStyle({ width: '200px' });
+
+    // Inside the range and within tolerance of 400 — snaps to 400.
+    await act(async () => {
+      document.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 395,
+          clientY: 0,
+          pointerId: 1,
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+    expect(pane1()).toHaveStyle({ width: '400px' });
+
+    // Inside the range and within tolerance of 600 — snaps to 600.
+    await act(async () => {
+      document.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 550,
+          clientY: 0,
+          pointerId: 1,
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+    expect(pane1()).toHaveStyle({ width: '600px' });
+
+    // Above the largest snap point — drag is fluent (no snap).
+    await act(async () => {
+      document.dispatchEvent(
+        new PointerEvent('pointermove', {
+          clientX: 650,
+          clientY: 0,
+          pointerId: 1,
+          bubbles: true,
+        })
+      );
+      await vi.runAllTimersAsync();
+    });
+    expect(pane1()).toHaveStyle({ width: '650px' });
+  });
+});
+
 describe('SplitPane resize stability', () => {
   beforeEach(() => {
     clearResizeObservers();
