@@ -5,6 +5,7 @@ import {
   snapToPoint,
   applyStep,
 } from '../utils/calculations';
+import { useIsomorphicLayoutEffect } from '../utils/useIsomorphicLayoutEffect';
 
 /**
  * Options for the useResizer hook.
@@ -85,8 +86,10 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   onResizeEndRef.current = onResizeEnd;
 
   // Sync sizes from props when not dragging (React 19 compatible)
+  // Layout effect so an external size change (e.g. a controlled pane collapsing)
+  // updates the rendered width in lockstep with consumer content.
   const sizesRef = useRef(sizes);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (
       !isDragging &&
       JSON.stringify(sizes) !== JSON.stringify(sizesRef.current)
