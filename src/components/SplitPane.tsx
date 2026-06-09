@@ -302,11 +302,15 @@ export function SplitPane(props: SplitPaneProps) {
   const createMouseDownHandler = useCallback(
     (index: number) => (e: React.MouseEvent) => {
       // Create a synthetic pointer event from the mouse event
+      // Spreading a SyntheticEvent only copies own properties,
+      // so preventDefault and stopPropagation must be re-bound.
       const pointerEvent = {
         ...e,
         pointerId: 1,
         pointerType: 'mouse',
         nativeEvent: e.nativeEvent,
+        preventDefault: e.preventDefault.bind(e),
+        stopPropagation: e.stopPropagation.bind(e),
       } as unknown as React.PointerEvent;
       handlePointerDown(index)(pointerEvent);
     },
@@ -318,6 +322,7 @@ export function SplitPane(props: SplitPaneProps) {
       const touch = e.touches[0];
       if (!touch) return;
       // Create a synthetic pointer event from the touch event
+      // See createMouseDownHandler for why preventDefault/stopPropagation are re-bound.
       const pointerEvent = {
         ...e,
         clientX: touch.clientX,
@@ -325,6 +330,8 @@ export function SplitPane(props: SplitPaneProps) {
         pointerId: touch.identifier,
         pointerType: 'touch',
         nativeEvent: e.nativeEvent,
+        preventDefault: e.preventDefault.bind(e),
+        stopPropagation: e.stopPropagation.bind(e),
       } as unknown as React.PointerEvent;
       handlePointerDown(index)(pointerEvent);
     },

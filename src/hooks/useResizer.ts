@@ -225,7 +225,11 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
       const element = e.currentTarget as HTMLElement;
 
       // Capture the pointer to receive all pointer events even if pointer leaves element
-      element.setPointerCapture(e.pointerId);
+      try {
+        element.setPointerCapture(e.pointerId);
+      } catch {
+        // Maybe a synthesized event, so ignore.
+      }
 
       const pointerType = e.pointerType as 'mouse' | 'touch' | 'pen';
 
