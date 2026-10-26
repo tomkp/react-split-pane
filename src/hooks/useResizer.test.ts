@@ -451,6 +451,69 @@ describe('useResizer', () => {
       expect(result.current.currentSizes[0]).toBe(400); // Snapped
     });
 
+    it('preserves the sum invariant when the trailing pane is outside any snap window', () => {
+      // Regression: previously each pane size was snapped independently via
+      // `newSizes.map(snapToPoint)`. When the leading pane snapped but the
+      // trailing pane was nowhere near any snap point (the common case for an
+      // outer SplitPane snapping the docs panel closed), the trailing pane
+      // was not adjusted to compensate, leaving sum(newSizes) !== container.
+      const mockElement = createMockElement();
+      const containerWidth = 1500;
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [0, containerWidth],
+          minSizes: [0, 0],
+          maxSizes: [432, Infinity],
+          snapPoints: [0, 240],
+          snapTolerance: 120,
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 0,
+          clientY: 0,
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      // Drag right by 50px — the leading pane (size 50) is within snap
+      // tolerance of 0 and snaps back to 0. The trailing pane (size 1450)
+      // is far outside any snap window. After snapping, the sum must still
+      // equal the container width.
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 50,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      expect(result.current.currentSizes).toEqual([0, containerWidth]);
+
+      // And drag right by 200px — the leading pane snaps to 240. The trailing
+      // pane should absorb the full delta, not stay at startRight - 200.
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 200,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      expect(result.current.currentSizes).toEqual([240, containerWidth - 240]);
+    });
+
     it('does not snap when outside tolerance', () => {
       const mockElement = createMockElement();
       const { result } = renderHook(() =>
