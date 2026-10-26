@@ -551,10 +551,11 @@ describe('useResizer', () => {
         vi.runAllTimers();
       });
 
-      // Called once per pane size with (value, snapPoints, snapTolerance)
+      // Called for the pane before the dragged divider with
+      // (value, snapPoints, snapTolerance); the next pane absorbs the snap
+      expect(snapToPoint).toHaveBeenCalledTimes(1);
       expect(snapToPoint).toHaveBeenCalledWith(350, [200, 400], 15);
-      expect(snapToPoint).toHaveBeenCalledWith(650, [200, 400], 15);
-      expect(result.current.currentSizes[0]).toBe(123);
+      expect(result.current.currentSizes).toEqual([123, 877]);
     });
 
     it('skips the custom snapToPoint when snapPoints is empty', () => {
