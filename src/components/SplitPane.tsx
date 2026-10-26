@@ -14,6 +14,7 @@ import { useResizer } from '../hooks/useResizer';
 import { useKeyboardResize } from '../hooks/useKeyboardResize';
 import { convertToPixels, distributeSizes } from '../utils/calculations';
 import { cn } from '../utils/classNames';
+import { useIsomorphicLayoutEffect } from '../utils/useIsomorphicLayoutEffect';
 
 const DEFAULT_CLASSNAME = 'split-pane';
 const MIN_PANES = 2;
@@ -158,8 +159,9 @@ export function SplitPane(props: SplitPaneProps) {
   );
 
   // Sync paneSizes with controlled size props when they change
-  // This handles the case where parent state is reset (e.g., clicking a "Reset" button)
-  useEffect(() => {
+  // This handles the case where parent state is reset (e.g., clicking a "Reset" button).
+  // Runs in a layout effect so the new width is committed in the same paint as possible content changes.
+  useIsomorphicLayoutEffect(() => {
     if (containerSize === 0) return;
 
     // Check if any pane has a controlled size prop
