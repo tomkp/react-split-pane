@@ -31,6 +31,33 @@ export interface UseResizerResult {
   handlePointerDown: (dividerIndex: number) => (e: React.PointerEvent) => void;
 }
 
+interface DragState {
+  dividerIndex: number;
+  startPosition: number;
+  startSizes: number[];
+  /** null until known, for drags started by the legacy mouse/touch handlers */
+  pointerId: number | null;
+  pointerType: 'mouse' | 'touch' | 'pen';
+  element: HTMLElement | null;
+}
+
+/**
+ * Check whether a document pointer event belongs to the drag in progress.
+ * A drag started by the legacy mouse/touch handlers has no pointerId, so it
+ * adopts the first primary pointer that follows, whatever its type (browsers
+ * also fire compatibility mouse events for pen input).
+ */
+function isDragPointer(
+  dragState: DragState | null,
+  e: PointerEvent
+): dragState is DragState {
+  if (!dragState) return false;
+  if (dragState.pointerId === null && e.isPrimary) {
+    dragState.pointerId = e.pointerId;
+  }
+  return e.pointerId === dragState.pointerId;
+}
+
 /**
  * Hook that handles pointer-based resizing of panes.
  *
@@ -64,14 +91,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   const [isDragging, setIsDragging] = useState(false);
   const [currentSizes, setCurrentSizes] = useState(sizes);
 
-  const dragStateRef = useRef<{
-    dividerIndex: number;
-    startPosition: number;
-    startSizes: number[];
-    pointerId: number;
-    pointerType: 'mouse' | 'touch' | 'pen';
-    element: HTMLElement | null;
-  } | null>(null);
+  const dragStateRef = useRef<DragState | null>(null);
 
   const rafRef = useRef<number | null>(null);
   const mountedRef = useRef(true);
@@ -154,10 +174,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
   const handlePointerMove = useCallback(
     (e: PointerEvent) => {
       // Only handle events from the captured pointer
-      if (
-        !dragStateRef.current ||
-        e.pointerId !== dragStateRef.current.pointerId
-      ) {
+      if (!isDragPointer(dragStateRef.current, e)) {
         return;
       }
 
@@ -181,17 +198,14 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
 
   const handlePointerUp = useCallback((e: PointerEvent) => {
     // Only handle events from the captured pointer
-    if (
-      !dragStateRef.current ||
-      e.pointerId !== dragStateRef.current.pointerId
-    ) {
+    if (!isDragPointer(dragStateRef.current, e)) {
       return;
     }
 
     // Release pointer capture
-    const { element, pointerId, pointerType } = dragStateRef.current;
-    if (element?.hasPointerCapture?.(pointerId)) {
-      element.releasePointerCapture(pointerId);
+    const { element, pointerType } = dragStateRef.current;
+    if (element?.hasPointerCapture?.(e.pointerId)) {
+      element.releasePointerCapture(e.pointerId);
     }
 
     // Cancel any pending RAF
@@ -219,16 +233,20 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
 
   const handlePointerDown = useCallback(
     (dividerIndex: number) => (e: React.PointerEvent) => {
+      // A divider wired to both onPointerDown and a legacy handler gets two
+      // starts per gesture (e.g. pointerdown then touchstart), so keep the first
+      if (dragStateRef.current) return;
+
       e.preventDefault();
 
       const startPosition = direction === 'horizontal' ? e.clientX : e.clientY;
       const element = e.currentTarget as HTMLElement;
+      // Events from the legacy mouse/touch handlers have no pointerId
+      const pointerId = e.pointerId ?? null;
 
       // Capture the pointer to receive all pointer events even if pointer leaves element
-      try {
-        element.setPointerCapture(e.pointerId);
-      } catch {
-        // Maybe a synthesized event, so ignore.
+      if (pointerId !== null) {
+        element.setPointerCapture(pointerId);
       }
 
       const pointerType = e.pointerType as 'mouse' | 'touch' | 'pen';
@@ -237,7 +255,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         dividerIndex,
         startPosition,
         startSizes: currentSizes,
-        pointerId: e.pointerId,
+        pointerId,
         pointerType,
         element,
       };
