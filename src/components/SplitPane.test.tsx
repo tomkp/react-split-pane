@@ -1,8 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import { SplitPane } from './SplitPane';
 import { Pane } from './Pane';
 import { triggerResize, clearResizeObservers } from '../test/setup';
+import type { DividerProps } from '../types';
 
 // These match the mock in test/setup.ts
 const CONTAINER_WIDTH = 1024;
@@ -597,5 +598,132 @@ describe('SplitPane resize stability', () => {
       (panes[0] as HTMLElement).style.height.replace('px', '')
     );
     expect(newHeight1).toBeCloseTo(767.5, 1); // 50% of 1535
+  });
+});
+
+describe('SplitPane legacy divider handlers', () => {
+  beforeEach(() => {
+    clearResizeObservers();
+  });
+
+  async function renderWithDivider(
+    CustomDivider: (props: DividerProps) => JSX.Element
+  ) {
+    const onResizeStart = vi.fn();
+    const onResizeEnd = vi.fn();
+    const { container } = render(
+      <SplitPane
+        direction="horizontal"
+        divider={CustomDivider}
+        onResizeStart={onResizeStart}
+        onResizeEnd={onResizeEnd}
+      >
+        <Pane defaultSize={300}>Pane 1</Pane>
+        <Pane>Pane 2</Pane>
+      </SplitPane>
+    );
+
+    await act(async () => {
+      await vi.runAllTimersAsync();
+    });
+
+    const divider = container.querySelector(
+      '[role="separator"]'
+    ) as HTMLElement;
+    // jsdom doesn't implement pointer capture
+    divider.setPointerCapture = vi.fn();
+    divider.releasePointerCapture = vi.fn();
+    divider.hasPointerCapture = vi.fn().mockReturnValue(true);
+
+    const pane1 = container.querySelectorAll(
+      '[data-pane="true"]'
+    )[0] as HTMLElement;
+
+    return { divider, pane1, onResizeStart, onResizeEnd };
+  }
+
+  async function dispatchPointer(
+    target: EventTarget,
+    type: string,
+    init: PointerEventInit
+  ) {
+    await act(async () => {
+      target.dispatchEvent(new PointerEvent(type, { bubbles: true, ...init }));
+      await vi.runAllTimersAsync();
+    });
+  }
+
+  async function touchStart(divider: HTMLElement, clientX: number) {
+    await act(async () => {
+      fireEvent.touchStart(divider, {
+        touches: [{ identifier: 0, clientX, clientY: 0 }],
+      });
+    });
+  }
+
+  // The drag must not assume which pointerId the browser gives the mouse
+  it.each([0, 1])(
+    'drags with an onMouseDown divider (mouse pointerId %i)',
+    async (pointerId) => {
+      const MouseDivider = ({ onMouseDown }: DividerProps) => (
+        <div role="separator" onMouseDown={onMouseDown} />
+      );
+      const { divider, pane1, onResizeEnd } =
+        await renderWithDivider(MouseDivider);
+
+      await act(async () => {
+        fireEvent.mouseDown(divider, { clientX: 300, clientY: 0 });
+      });
+      await dispatchPointer(document, 'pointermove', {
+        clientX: 400,
+        pointerId,
+      });
+      expect(pane1).toHaveStyle({ width: '400px' });
+
+      await dispatchPointer(document, 'pointerup', { clientX: 400, pointerId });
+      expect(onResizeEnd).toHaveBeenCalledTimes(1);
+    }
+  );
+
+  it('drags with an onTouchStart divider', async () => {
+    const TouchDivider = ({ onTouchStart }: DividerProps) => (
+      <div role="separator" onTouchStart={onTouchStart} />
+    );
+    const { divider, pane1, onResizeEnd } =
+      await renderWithDivider(TouchDivider);
+    const touch = { pointerId: 7, pointerType: 'touch' };
+
+    await touchStart(divider, 300);
+    await dispatchPointer(document, 'pointermove', { ...touch, clientX: 400 });
+    expect(pane1).toHaveStyle({ width: '400px' });
+
+    await dispatchPointer(document, 'pointerup', { ...touch, clientX: 400 });
+    expect(onResizeEnd).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores the touchstart that follows pointerdown on a divider wired to both', async () => {
+    // The handlers a `<div {...props}>` custom divider ends up with
+    const SpreadDivider = ({ onPointerDown, onTouchStart }: DividerProps) => (
+      <div
+        role="separator"
+        onPointerDown={onPointerDown}
+        onTouchStart={onTouchStart}
+      />
+    );
+    const { divider, pane1, onResizeStart, onResizeEnd } =
+      await renderWithDivider(SpreadDivider);
+    const touch = { pointerId: 7, pointerType: 'touch' };
+
+    // A finger fires pointerdown, then touchstart
+    await dispatchPointer(divider, 'pointerdown', { ...touch, clientX: 300 });
+    await touchStart(divider, 300);
+    expect(onResizeStart).toHaveBeenCalledTimes(1);
+    expect(divider.setPointerCapture).toHaveBeenCalledWith(7);
+
+    await dispatchPointer(document, 'pointermove', { ...touch, clientX: 400 });
+    expect(pane1).toHaveStyle({ width: '400px' });
+
+    await dispatchPointer(document, 'pointerup', { ...touch, clientX: 400 });
+    expect(onResizeEnd).toHaveBeenCalledTimes(1);
   });
 });

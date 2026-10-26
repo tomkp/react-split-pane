@@ -818,6 +818,58 @@ describe('useResizer', () => {
       expect(onResize).toHaveBeenCalled();
     });
 
+    it('adopts the first primary pointer when the drag starts without a pointerId', () => {
+      const mockElement = createMockElement();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [900, 900],
+        })
+      );
+
+      // As sent by SplitPane's legacy onTouchStart handler
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        pointerDown({
+          preventDefault: vi.fn(),
+          clientX: 300,
+          clientY: 0,
+          pointerType: 'touch',
+          currentTarget: mockElement,
+          nativeEvent: new Event('touchstart'),
+        } as unknown as React.PointerEvent);
+      });
+
+      expect(result.current.isDragging).toBe(true);
+      expect(mockElement.setPointerCapture).not.toHaveBeenCalled();
+
+      const move = (clientX: number, pointerId: number, isPrimary: boolean) =>
+        act(() => {
+          document.dispatchEvent(
+            new PointerEvent('pointermove', {
+              clientX,
+              pointerId,
+              pointerType: 'touch',
+              isPrimary,
+              bubbles: true,
+            })
+          );
+          vi.runAllTimers();
+        });
+
+      // A second finger is not adopted
+      move(600, 8, false);
+      expect(result.current.currentSizes).toEqual([300, 700]);
+
+      // The primary pointer is, and the drag then follows only that pointer
+      move(350, 7, true);
+      expect(result.current.currentSizes).toEqual([350, 650]);
+      move(600, 9, true);
+      expect(result.current.currentSizes).toEqual([350, 650]);
+    });
+
     it('releases pointer capture on drag end', () => {
       const mockElement = createMockElement();
       const { result } = renderHook(() =>
