@@ -451,6 +451,69 @@ describe('useResizer', () => {
       expect(result.current.currentSizes[0]).toBe(400); // Snapped
     });
 
+    it('preserves the sum invariant when the trailing pane is outside any snap window', () => {
+      // Regression: previously each pane size was snapped independently via
+      // `newSizes.map(snapToPoint)`. When the leading pane snapped but the
+      // trailing pane was nowhere near any snap point (the common case for an
+      // outer SplitPane snapping the docs panel closed), the trailing pane
+      // was not adjusted to compensate, leaving sum(newSizes) !== container.
+      const mockElement = createMockElement();
+      const containerWidth = 1500;
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [0, containerWidth],
+          minSizes: [0, 0],
+          maxSizes: [432, Infinity],
+          snapPoints: [0, 240],
+          snapTolerance: 120,
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 0,
+          clientY: 0,
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      // Drag right by 50px — the leading pane (size 50) is within snap
+      // tolerance of 0 and snaps back to 0. The trailing pane (size 1450)
+      // is far outside any snap window. After snapping, the sum must still
+      // equal the container width.
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 50,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      expect(result.current.currentSizes).toEqual([0, containerWidth]);
+
+      // And drag right by 200px — the leading pane snaps to 240. The trailing
+      // pane should absorb the full delta, not stay at startRight - 200.
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 200,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      expect(result.current.currentSizes).toEqual([240, containerWidth - 240]);
+    });
+
     it('uses a custom snapToPoint when provided', () => {
       const mockElement = createMockElement();
       const snapToPoint = vi.fn((_value, _points, _tolerance) => 123);
@@ -835,6 +898,58 @@ describe('useResizer', () => {
       // Sizes should change now
       expect(result.current.currentSizes[0]).toBe(350);
       expect(onResize).toHaveBeenCalled();
+    });
+
+    it('adopts the first primary pointer when the drag starts without a pointerId', () => {
+      const mockElement = createMockElement();
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [900, 900],
+        })
+      );
+
+      // As sent by SplitPane's legacy onTouchStart handler
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        pointerDown({
+          preventDefault: vi.fn(),
+          clientX: 300,
+          clientY: 0,
+          pointerType: 'touch',
+          currentTarget: mockElement,
+          nativeEvent: new Event('touchstart'),
+        } as unknown as React.PointerEvent);
+      });
+
+      expect(result.current.isDragging).toBe(true);
+      expect(mockElement.setPointerCapture).not.toHaveBeenCalled();
+
+      const move = (clientX: number, pointerId: number, isPrimary: boolean) =>
+        act(() => {
+          document.dispatchEvent(
+            new PointerEvent('pointermove', {
+              clientX,
+              pointerId,
+              pointerType: 'touch',
+              isPrimary,
+              bubbles: true,
+            })
+          );
+          vi.runAllTimers();
+        });
+
+      // A second finger is not adopted
+      move(600, 8, false);
+      expect(result.current.currentSizes).toEqual([300, 700]);
+
+      // The primary pointer is, and the drag then follows only that pointer
+      move(350, 7, true);
+      expect(result.current.currentSizes).toEqual([350, 650]);
+      move(600, 9, true);
+      expect(result.current.currentSizes).toEqual([350, 650]);
     });
 
     it('releases pointer capture on drag end', () => {

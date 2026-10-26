@@ -14,6 +14,7 @@ import { useResizer } from '../hooks/useResizer';
 import { useKeyboardResize } from '../hooks/useKeyboardResize';
 import { convertToPixels, distributeSizes } from '../utils/calculations';
 import { cn } from '../utils/classNames';
+import { useIsomorphicLayoutEffect } from '../utils/useIsomorphicLayoutEffect';
 
 const DEFAULT_CLASSNAME = 'split-pane';
 const MIN_PANES = 2;
@@ -159,8 +160,9 @@ export function SplitPane(props: SplitPaneProps) {
   );
 
   // Sync paneSizes with controlled size props when they change
-  // This handles the case where parent state is reset (e.g., clicking a "Reset" button)
-  useEffect(() => {
+  // This handles the case where parent state is reset (e.g., clicking a "Reset" button).
+  // Runs in a layout effect so the new width is committed in the same paint as possible content changes.
+  useIsomorphicLayoutEffect(() => {
     if (containerSize === 0) return;
 
     // Check if any pane has a controlled size prop
@@ -304,11 +306,15 @@ export function SplitPane(props: SplitPaneProps) {
   const createMouseDownHandler = useCallback(
     (index: number) => (e: React.MouseEvent) => {
       // Create a synthetic pointer event from the mouse event
+      // Spreading a SyntheticEvent only copies own properties,
+      // so preventDefault and stopPropagation must be re-bound.
+      // There is no pointerId: the resizer adopts the pointer that follows.
       const pointerEvent = {
         ...e,
-        pointerId: 1,
         pointerType: 'mouse',
         nativeEvent: e.nativeEvent,
+        preventDefault: e.preventDefault.bind(e),
+        stopPropagation: e.stopPropagation.bind(e),
       } as unknown as React.PointerEvent;
       handlePointerDown(index)(pointerEvent);
     },
@@ -320,13 +326,16 @@ export function SplitPane(props: SplitPaneProps) {
       const touch = e.touches[0];
       if (!touch) return;
       // Create a synthetic pointer event from the touch event
+      // See createMouseDownHandler for why preventDefault/stopPropagation are
+      // re-bound, and why there is no pointerId (touch.identifier is not one).
       const pointerEvent = {
         ...e,
         clientX: touch.clientX,
         clientY: touch.clientY,
-        pointerId: touch.identifier,
         pointerType: 'touch',
         nativeEvent: e.nativeEvent,
+        preventDefault: e.preventDefault.bind(e),
+        stopPropagation: e.stopPropagation.bind(e),
       } as unknown as React.PointerEvent;
       handlePointerDown(index)(pointerEvent);
     },
