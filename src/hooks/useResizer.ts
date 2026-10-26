@@ -123,7 +123,7 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         delta = applyStep(delta, step);
       }
 
-      let newSizes = calculateDraggedSizes(
+      const newSizes = calculateDraggedSizes(
         startSizes,
         dividerIndex,
         delta,
@@ -131,11 +131,17 @@ export function useResizer(options: UseResizerOptions): UseResizerResult {
         maxSizes
       );
 
-      // Apply snap points
+      // Apply snap points to the dragged divider. The trailing pane absorbs
+      // the opposite delta so the total width is preserved.
       if (snapPoints.length > 0) {
-        newSizes = newSizes.map((size) =>
-          snapToPoint(size, snapPoints, snapTolerance)
-        );
+        const target = newSizes[dividerIndex] ?? 0;
+        const snapped = snapToPoint(target, snapPoints, snapTolerance);
+        if (snapped !== target) {
+          const delta = snapped - target;
+          newSizes[dividerIndex] = snapped;
+          newSizes[dividerIndex + 1] =
+            (newSizes[dividerIndex + 1] ?? 0) - delta;
+        }
       }
 
       setCurrentSizes(newSizes);
