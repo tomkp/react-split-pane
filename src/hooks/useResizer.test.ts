@@ -514,6 +514,89 @@ describe('useResizer', () => {
       expect(result.current.currentSizes).toEqual([240, containerWidth - 240]);
     });
 
+    it('uses a custom snapToPoint when provided', () => {
+      const mockElement = createMockElement();
+      const snapToPoint = vi.fn((_value, _points, _tolerance) => 123);
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [600, 900],
+          snapPoints: [200, 400],
+          snapTolerance: 15,
+          snapToPoint,
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 350,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      // Called for the pane before the dragged divider with
+      // (value, snapPoints, snapTolerance); the next pane absorbs the snap
+      expect(snapToPoint).toHaveBeenCalledTimes(1);
+      expect(snapToPoint).toHaveBeenCalledWith(350, [200, 400], 15);
+      expect(result.current.currentSizes).toEqual([123, 877]);
+    });
+
+    it('skips the custom snapToPoint when snapPoints is empty', () => {
+      const mockElement = createMockElement();
+      const snapToPoint = vi.fn(() => 0);
+      const { result } = renderHook(() =>
+        useResizer({
+          direction: 'horizontal',
+          sizes: [300, 700],
+          minSizes: [100, 100],
+          maxSizes: [600, 900],
+          snapToPoint,
+        })
+      );
+
+      act(() => {
+        const pointerDown = result.current.handlePointerDown(0);
+        const event = createPointerEvent('pointerdown', {
+          clientX: 300,
+          clientY: 0,
+          pointerId: 1,
+        });
+        Object.defineProperty(event, 'currentTarget', { value: mockElement });
+        pointerDown(event as unknown as React.PointerEvent);
+      });
+
+      act(() => {
+        document.dispatchEvent(
+          createPointerEvent('pointermove', {
+            clientX: 350,
+            clientY: 0,
+            pointerId: 1,
+          })
+        );
+        vi.runAllTimers();
+      });
+
+      expect(snapToPoint).not.toHaveBeenCalled();
+      expect(result.current.currentSizes[0]).toBe(350);
+    });
+
     it('does not snap when outside tolerance', () => {
       const mockElement = createMockElement();
       const { result } = renderHook(() =>
